@@ -15,7 +15,7 @@ Matching pieces combine into supported larger pieces or their original full
 block. Wooden walls, terrain smoothing and materials from other biome mods
 are not included.
 
-Automatic replacement of installed BuildingBricks content uses the core's
+Optional replacement of installed BuildingBricks content uses the core's
 `compat.forceReplaceBuildingBricksPieces=false` setting. Enabling it also
 covers supported BOP pieces, with separate BOP progress and totals.
 Back up worlds before enabling replacement. Adding this mod can process BOP

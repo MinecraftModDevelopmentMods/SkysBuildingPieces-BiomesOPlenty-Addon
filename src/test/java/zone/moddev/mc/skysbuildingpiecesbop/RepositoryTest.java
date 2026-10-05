@@ -6,6 +6,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RepositoryTest {
+    @Test void runtimeHarnessDoesNotClaimTheNormalMinecraftPort() throws Exception {
+        String build=text("build.gradle");
+        assertTrue(build.contains("server-ip=127.0.0.1"));assertTrue(build.contains("server-port=0"));
+    }
+    @Test void documentationSupportFilesUsePortableLineEndings() throws Exception {
+        String build=text("build.gradle");
+        assertTrue(build.contains("'.css'"));assertTrue(build.contains("'.js'"));
+        assertTrue(build.contains("Non-portable archive line endings"));
+    }
     @Test void localMaterialIsIgnoredAndNoCoreClassesAreVendored() throws Exception {
         for(String name:new String[]{"AGENTS.md","agent-notes/result.json",".codex/local",".claude/local","run/world","build/dependencies/core"}) {
             Process p=new ProcessBuilder("git","check-ignore","-q",name).start();assertEquals(0,p.waitFor(),name);
