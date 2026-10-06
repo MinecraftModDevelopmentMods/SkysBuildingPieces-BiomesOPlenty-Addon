@@ -7,7 +7,7 @@ import zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue;
 
 /** BOP material definitions; placement, crafting and recovery belong to the core. */
 @Mod(modid=SkysBuildingPiecesBop.ID,name="Sky's Building Pieces - Biomes O Plenty",version=SkysBuildingPiecesBop.VERSION,
-    acceptedMinecraftVersions="[1.10.2]",dependencies="required-after:skysbuildingpieces@[0.2.0.110021,0.3);required-after:BiomesOPlenty@[5.0.0,6.0);before:buildingbricks")
+    acceptedMinecraftVersions="[1.10.2]",dependencies="required-after:skysbuildingpieces@[0.3.0.110021,0.4);required-after:BiomesOPlenty@[5.0.0,6.0);before:buildingbricks")
 public final class SkysBuildingPiecesBop {
     public static final String ID="skysbuildingpiecesbop", VERSION="0.1.0.110021";
     @Mod.EventHandler public void preInit(FMLPreInitializationEvent event) {

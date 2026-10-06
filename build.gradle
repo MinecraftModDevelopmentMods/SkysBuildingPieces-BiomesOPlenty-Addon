@@ -221,7 +221,11 @@ repositories {
 def coreLock = new Properties()
 file('gradle/core-dependency.properties').withInputStream { coreLock.load(it) }
 def coreDirectory = file(providers.gradleProperty('buildingPiecesCoreDir').getOrElse('build/dependencies/core'))
-def coreDevelopmentJar = new File(coreDirectory, "build/libs-dev/SkysBuildingPieces-${coreLock.version}-deobf.jar")
+def localCoreVersion = providers.gradleProperty('buildingPiecesCoreVersion')
+if (localCoreVersion.isPresent() && (System.getenv('CI') == 'true' || !providers.gradleProperty('buildingPiecesCoreDir').isPresent()))
+    throw new GradleException('The core-version override is local only and requires an explicit core directory; it is not permitted in CI.')
+def effectiveCoreVersion = localCoreVersion.getOrElse(coreLock.version)
+def coreDevelopmentJar = new File(coreDirectory, "build/libs-dev/SkysBuildingPieces-${effectiveCoreVersion}-deobf.jar")
 configurations { bopRelease; developmentMappings }
 repositories {
     maven {
@@ -239,6 +243,10 @@ repositories {
 tasks.register('verifyCoreDependency') {
     doLast {
         if (!coreDevelopmentJar.isFile()) throw new GradleException('Build the pinned core jar first; see the contributor build instructions.')
+        def actualCoreProperties = new Properties()
+        new File(coreDirectory, 'gradle.properties').withInputStream { actualCoreProperties.load(it) }
+        if (actualCoreProperties.mod_version != effectiveCoreVersion)
+            throw new GradleException('The selected core jar version does not match its source checkout.')
         if (!providers.gradleProperty('buildingPiecesCoreDir').isPresent() || System.getenv('CI') == 'true') {
             def git = new ProcessBuilder('git', '-C', coreDirectory.path, 'rev-parse', 'HEAD').start()
             String actual = git.inputStream.getText('UTF-8').trim()

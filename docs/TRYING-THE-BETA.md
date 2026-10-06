@@ -3,7 +3,8 @@
 Install the main jars for the core, this add-on and BOP on the client and
 server. Do not put sources or Javadoc jars in the mods folder.
 
-- Cut redwood, ebony, eucalyptus, bamboo, stones and gem blocks with the core templates.
+- Craft redwood, ebony, eucalyptus, bamboo, stones and gem blocks using the
+  core's ordinary patterns. Check quantities and one-for-one slab rotation.
 - Place and join slabs, vertical slabs, steps and corners in every direction.
 - Check textures, native stairs, nonwood walls, breaking and item names.
 - Place blocks above and beside pieces; exposed internal faces must remain visible.

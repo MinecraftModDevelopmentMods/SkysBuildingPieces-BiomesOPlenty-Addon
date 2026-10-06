@@ -1,8 +1,8 @@
 # Existing worlds
 
-Back up the world and test a separate copy. Keep BuildingBricks installed in
-mixed packs such as Sylvester until every remaining material, shape and tool
-has a supported replacement.
+Back up the world and test a separate copy. Remove BuildingBricks only after
+every saved material, shape and item has a proven recovery path. Unsupported
+content still needs a replacement, even if the buildings look correct.
 
 To replace supported pieces while BuildingBricks remains installed, enable
 `compat.forceReplaceBuildingBricksPieces` in the core's configuration and

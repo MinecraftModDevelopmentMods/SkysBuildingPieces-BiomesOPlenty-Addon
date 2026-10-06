@@ -16,7 +16,8 @@ import zone.moddev.mc.skysbuildingpieces.legacy.*;
 public final class BopChecks {
     public static void run(WorldServer world) {
         require(Catalogue.INSTANCE.modules.get("biomesoplenty").palettes.size()==66,"BOP ID budget");
-        require(Catalogue.INSTANCE.modules.get("vanilla").palettes.size()==234,"core palettes unchanged");
+        int corePalettes=SkysBuildingPieces.VERSION.equals("0.3.0.110021")?235:234;
+        require(Catalogue.INSTANCE.modules.get("vanilla").palettes.size()==corePalettes,"core palette budget");
         int ids=0,highest=0;for(Block b:Block.REGISTRY){ids++;highest=Math.max(highest,Block.getIdFromBlock(b));}
         require(highest<4096,"legacy registry ceiling");System.out.println("BOP_REGISTRY_BUDGET registered="+ids+" highest="+highest+" free="+(4096-ids));
         BlockPos pos=new BlockPos(-700,90,-700);int checked=0;

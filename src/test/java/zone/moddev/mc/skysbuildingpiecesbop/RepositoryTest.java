@@ -6,6 +6,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RepositoryTest {
+    @Test void newerCoreOverrideIsLocalOnly() throws Exception {
+        String build=text("build.gradle");assertTrue(build.contains("buildingPiecesCoreVersion"));
+        assertTrue(build.contains("localCoreVersion.isPresent() && (System.getenv('CI') == 'true'"));
+        assertTrue(build.contains("actualCoreProperties.mod_version != effectiveCoreVersion"));
+        String pin=text("gradle/core-dependency.properties");assertTrue(pin.contains("version=0.3.0.110021"));assertTrue(pin.contains("api=1"));
+    }
     @Test void runtimeHarnessDoesNotClaimTheNormalMinecraftPort() throws Exception {
         String build=text("build.gradle");
         assertTrue(build.contains("server-ip=127.0.0.1"));assertTrue(build.contains("server-port=0"));

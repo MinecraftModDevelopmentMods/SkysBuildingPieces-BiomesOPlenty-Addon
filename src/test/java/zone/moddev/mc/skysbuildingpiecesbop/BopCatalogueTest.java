@@ -19,7 +19,10 @@ class BopCatalogueTest {
     }
     @Test void fixedCatalogueBudgetAndAllMetadata() throws Exception {
         Catalogue.Module m=module();assertEquals(33,m.materials.size());assertEquals(66,m.palettes.size());
-        assertEquals(301,235+m.palettes.size());assertTrue(m.materials.containsKey("biomesoplenty:planks_ebony"));assertTrue(m.materials.containsKey("biomesoplenty:planks_eucalyptus"));
+        Catalogue core=new Catalogue();int expectedCore=zone.moddev.mc.skysbuildingpieces.SkysBuildingPieces.VERSION.equals("0.3.0.110021")?235:234;
+        assertEquals(expectedCore,core.palettes.size());assertEquals(expectedCore+67,core.palettes.size()+1+m.palettes.size());
+        if(expectedCore==235){Catalogue.Palette dirt=core.palettes.get(234);assertEquals("dirt_vertical_slab_00",dirt.id);assertEquals(Collections.singletonList("minecraft:dirt"),dirt.materials);}
+        assertTrue(m.materials.containsKey("biomesoplenty:planks_ebony"));assertTrue(m.materials.containsKey("biomesoplenty:planks_eucalyptus"));
         Set<String> identities=new HashSet<String>();
         for(Catalogue.Palette p:m.palettes) {
             assertTrue(identities.add(p.registryId()));assertEquals("skysbuildingpiecesbop",p.namespace);

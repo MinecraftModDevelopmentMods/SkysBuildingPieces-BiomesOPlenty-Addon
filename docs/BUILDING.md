@@ -14,6 +14,11 @@ The development dependency is the core's `build/libs-dev` jar, not a shaded
 copy or a published Maven dependency. Packaged games use both normal main
 jars. BOP is fetched as a checksum-verified development dependency, not bundled.
 
+The pinned core is 0.3.0.110021. A local-only `buildingPiecesCoreVersion`
+override requires an explicit core directory and is rejected in CI.
+The add-on catalogue and API version remain unchanged. Hosted qualification
+awaits the authorised push of the pinned core source.
+
 Use `genEclipseRuns eclipse` with the same core-directory property. Ordinary
 client and server launches exclude the build-only probe and unit tests.
 Publication remains disabled until each mod has its own release metadata.
