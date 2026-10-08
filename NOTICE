@@ -1,0 +1,9 @@
+Sky's Building Pieces - Biomes O Plenty Add-on
+Copyright 2026 SkyBlade1978
+Licensed under LGPL-2.1-only.
+
+The material definitions and legacy geometry conventions are adapted
+from Building Bricks 1.10.2-2.0.13 by hea3ven. Those portions retain their MIT
+license; see BUILDINGBRICKS-MIT.txt. No Building Bricks dependency is required.
+BOP textures are referenced from the installed original mod, not redistributed.
+The core is a separate required dependency and is not bundled.
