@@ -12,6 +12,8 @@ palettes and do not need tile entities. No terrain is generated.
 
 With core 0.3.0.110021, use ordinary crafting patterns for BOP materials;
 no template or tool is needed. Native BOP slab and stair recipes remain intact.
+Regular slab items also place vertically. Vertical slabs drop regular slabs and
+are hidden from creative inventory; no separate vertical slab recipe is needed.
 Matching pieces combine into supported larger pieces or their original full
 block. Wooden walls, terrain smoothing and materials from other biome mods
 are not included.
@@ -28,6 +30,8 @@ Unsupported absent-mod recovery stops rather than guessing at a replacement.
 
 See [crafting](docs/RECIPES.md), [building and testing](docs/BUILDING.md), [existing worlds](docs/WORLD-UPGRADES.md)
 and [trying the beta](docs/TRYING-THE-BETA.md). Publication is not yet enabled.
+
+[Release preparation](docs/RELEASING.md) covers the CI checks and publication safeguards.
 
 Licensed under LGPL-2.1-only. Adapted BuildingBricks definitions and core
 geometry retain their MIT notice. BOP code and textures are not bundled.

@@ -1,4 +1,4 @@
-name: Sky's Building Pieces BOP 1.10 CI
+name: Sky's Building Pieces - Biomes O Plenty 1.10 CI
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: skysbuildingpiecesbop-1.10-${{ github.workflow }}-${{ github.ref }}
+  group: skysbuildingpieces-biomesoplenty-addon-1.10-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -33,7 +33,10 @@ jobs:
           java-version: '8.0.502+7'
 
       - name: Pin production Java
-        run: echo "SBP_JAVA8_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
+        run: |
+          echo "SGS_JAVA8_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
+          echo "SBP_JAVA8_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
+          echo "STS_JAVA8_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
 
       - name: Install Java 17 for Gradle
         uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
@@ -44,43 +47,42 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6
 
-
-      - name: Clean the add-on before installing its dependency
+      - name: Read pinned dependency sources
+        id: content
         run: |
-          chmod +x ./gradlew
-          ./gradlew clean --no-daemon
-
-      - name: Read the pinned core source
-        id: core
-        run: |
-          echo "repository=$(sed -n 's/^repository=//p' gradle/core-dependency.properties)" >> "$GITHUB_OUTPUT"
-          echo "commit=$(sed -n 's/^commit=//p' gradle/core-dependency.properties)" >> "$GITHUB_OUTPUT"
-
-      - name: Check out the pinned core
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+          set -euo pipefail
+          pieces="$(sed -n 's/^commit=//p' gradle/core-dependency.properties)"
+          [[ "$pieces" =~ ^[0-9a-f]{40}$ ]]
+          echo "pieces=$pieces" >> "$GITHUB_OUTPUT"
+      - name: Check out SkysBuildingPieces
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          repository: ${{ steps.core.outputs.repository }}
-          ref: ${{ steps.core.outputs.commit }}
-          path: build/dependencies/core
-
-      - name: Build the pinned development dependency
+          repository: SkyBlade1978/SkysBuildingPieces
+          ref: ${{ steps.content.outputs.pieces }}
+          path: dependencies/pieces
+      - name: Build development dependencies
         run: |
-          chmod +x build/dependencies/core/gradlew
-          cd build/dependencies/core
-          ./gradlew jar --no-daemon --stacktrace
+          set -euo pipefail
+          chmod +x dependencies/*/gradlew
+          (cd dependencies/pieces && ./gradlew jar --no-daemon --stacktrace)
 
       - name: Make the wrapper executable
         run: chmod +x ./gradlew
 
       - name: Build, test, and audit release artifacts
         run: >-
-          ./gradlew check build javadoc verifyReleaseArtifacts writeReleaseChecksums
-          verifyEclipseProductionClasspath --no-daemon --stacktrace
+          ./gradlew clean check integrationTest build javadoc verifyReleaseArtifacts writeReleaseChecksums
+          verifyEclipseProductionClasspath -PbuildingPiecesCoreDir=dependencies/pieces --no-daemon --stacktrace
+
+      - name: Replay artifact checks offline
+        run: >-
+          ./gradlew assemble verifyReleaseArtifacts writeReleaseChecksums
+          -PbuildingPiecesCoreDir=dependencies/pieces --offline --no-daemon --stacktrace
 
       - name: Upload audited release candidate
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: SkysBuildingPieces-BOP-1.10.2-${{ github.sha }}
+          name: SkysBuildingPieces-BiomesOPlenty-Addon-1.10.2-${{ github.sha }}
           if-no-files-found: error
           retention-days: 30
           path: |
@@ -94,7 +96,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: SkysBuildingPieces-BOP-1.10.2-diagnostics-${{ github.sha }}
+          name: SkysBuildingPieces-BiomesOPlenty-Addon-1.10.2-diagnostics-${{ github.sha }}
           if-no-files-found: ignore
           retention-days: 14
           path: |

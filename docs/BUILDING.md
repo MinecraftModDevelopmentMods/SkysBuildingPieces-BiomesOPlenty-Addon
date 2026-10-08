@@ -16,9 +16,9 @@ jars. BOP is fetched as a checksum-verified development dependency, not bundled.
 
 The pinned core is 0.3.0.110021. A local-only `buildingPiecesCoreVersion`
 override requires an explicit core directory and is rejected in CI.
-The add-on catalogue and API version remain unchanged. Hosted qualification
-awaits the authorised push of the pinned core source.
+The add-on catalogue and API version remain unchanged. CI builds the pinned
+core source before building this add-on.
 
 Use `genEclipseRuns eclipse` with the same core-directory property. Ordinary
 client and server launches exclude the build-only probe and unit tests.
-Publication remains disabled until each mod has its own release metadata.
+Publication remains disabled until this mod has its own CurseForge project.

@@ -4,6 +4,6 @@
 
 - Added building pieces for all BOP plank woods, bamboo thatching, stones and gem blocks.
 - Reused native BOP slabs and stairs and the core's crafting recipes.
-- With core 0.2.1, pieces use ordinary shaped recipes without cutting templates.
+- Uses the core's ordinary crafting recipes, with no cutting templates.
 - Added optional recovery of supported legacy pieces with separate BOP progress.
 - Preserved hellbark fire behaviour and native material properties.

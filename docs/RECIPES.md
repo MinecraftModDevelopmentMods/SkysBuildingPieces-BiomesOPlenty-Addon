@@ -4,15 +4,15 @@ Use core 0.3.0.110021 for ordinary crafting recipes. No template or cutting tool
 is required. All ingredients must be the same material, including wood type.
 
 - Three full blocks in a row make six horizontal slabs.
-- Three full blocks in a column make six vertical slabs.
 - Two matching slabs diagonally in a 2 by 2 square make four steps.
 - Two steps side by side make four corners.
 - Six full blocks in the usual stair pattern make four stairs.
 - Six full blocks in two columns of three make six walls.
 
 Existing BOP slab and stair recipes remain unchanged. New recipes are added
-only for missing pieces. A slab by itself can be rotated into its matching
-vertical slab, or back again, without changing its quantity.
+only for missing pieces. The regular slab item places horizontally or vertically;
+there are no separate vertical slab recipes or creative entries. Broken vertical
+slabs return the regular slab. Old vertical items can be crafted back one for one.
 Steps can also be rotated one for one; horizontal and vertical step items
 both work in corner recipes. Use two of the same item type rather than mixing
 horizontal and vertical items in one recipe.

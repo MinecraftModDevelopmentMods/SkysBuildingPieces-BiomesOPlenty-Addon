@@ -33,14 +33,16 @@ class RepositoryTest {
         assertTrue(build.contains("prepareDevelopmentDependencies"));
     }
     @Test void workflowsBuildTheLockedCoreAndCannotPublish() throws Exception {
-        for(String file:new String[]{"ci.yml","codeql-analysis.yml","release-on-tag.yml"}) {
+        for(String file:new String[]{"ci.yml","codeql-analysis.yml"}) {
             String workflow=text(".github/workflows/"+file);assertTrue(workflow.contains("core-dependency.properties"));
-            assertTrue(workflow.contains("steps.core.outputs.commit"));assertTrue(workflow.contains("./gradlew jar"));
+            assertTrue(workflow.contains("steps.content.outputs.pieces"));assertTrue(workflow.contains("./gradlew jar"));
             assertFalse(workflow.contains("secrets."));assertFalse(workflow.contains("gh release"));assertFalse(workflow.contains("publishRelease"));
         }
         String ci=text(".github/workflows/ci.yml");assertTrue(ci.contains("if-no-files-found: error"));
         for(String classifier:new String[]{"","-sources","-javadoc"})assertTrue(ci.contains("SkysBuildingPieces-BiomesOPlenty-Addon-0.1.0.110021"+classifier+".jar"));
-        assertTrue(ci.indexOf("./gradlew clean")<ci.indexOf("path: build/dependencies/core"));
+        assertTrue(ci.contains("-PbuildingPiecesCoreDir=dependencies/pieces"));
+        String tags=text(".github/workflows/release-on-tag.yml");
+        assertTrue(tags.contains("verifyReleaseArtifacts"));assertFalse(tags.contains("secrets."));
     }
     private String text(String path)throws Exception {return new String(Files.readAllBytes(Paths.get(path)),StandardCharsets.UTF_8);}
 }
