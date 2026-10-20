@@ -1,79 +1,70 @@
-# Sky's Building Pieces — Biomes O Plenty
+# Sky's Building Pieces — Biomes O' Plenty
 
 <img src="artwork/skysbuildingpieces-bop-logo.png" alt="Sky's Building Pieces – Biomes O' Plenty logo" width="256">
 
-Piece names use the material itself: Gold Wall and Oak Step, rather than the
-full block's name followed by the shape. All 18 languages have matching material labels.
+Bring Biomes O' Plenty materials into your builds with the same range of pieces
+as Sky's Building Pieces. This add-on supplies missing slabs, steps, corners,
+stairs and stone or gem walls, using the textures of the original BOP blocks.
 
-Building pieces for the woods, stones and gem blocks in Biomes O Plenty.
-Requires Minecraft 1.12.2, Forge 14.23.5.2859, Java 8, Sky's Building Pieces
-0.3.6.112021 and Biomes O Plenty 7.0.1. The target BOP build is
-7.0.1.2445. Install all three mods on both the client and server.
+## Building with BOP materials
 
-Version 0.2.2.112021 adds 74 block IDs for 33 materials, including all 16
-plank woods, bamboo thatching, eight stone materials and eight gem blocks.
-Existing BOP slabs and stairs are reused. New pieces use fixed metadata
-palettes and do not need tile entities. No terrain is generated.
-The 74 IDs cover 66 piece palettes, one retired-rock palette, two replacement
-decorations and five hidden recovery holders. The holders are not playable
-blocks or creative entries.
+Build with all 16 plank woods, bamboo thatching, eight stone materials
+and eight gem blocks. Redwood, ebony and eucalyptus are included. Where BOP
+already has a suitable slab or stair, the add-on uses it rather than adding
+another copy.
 
-With core 0.3.6.112021, use ordinary crafting patterns for BOP materials;
-no template or tool is needed. Native BOP slab and stair recipes remain intact.
-Regular slab items also place vertically. Vertical slabs drop regular slabs and
-are hidden from creative inventory; no separate vertical slab recipe is needed.
-Matching pieces combine into supported larger pieces or their original full
-block. Wooden walls, terrain smoothing and materials from other biome mods
-are not included.
+Craft pieces from matching blocks, slabs and steps, following the core mod's
+patterns. Regular slabs also place vertically and drop regular slabs when
+broken. Matching pieces can join into supported larger shapes.
 
-Optional replacement of installed BuildingBricks content uses the core's
-`compat.forceReplaceBuildingBricksPieces=false` setting. Enabling it also
-covers supported BOP pieces, with separate BOP progress and totals.
-Back up worlds before enabling replacement. Adding this mod can process BOP
-pieces in chunks already visited by the vanilla core.
+Stone and gem walls have lower panels and raised posts, just like the core's
+walls. Use BOP's own fences and gates for wooden builds; this add-on doesn't add
+wooden walls or generate terrain.
 
-Removing an older building mod requires an audit and a tested world backup.
-Unsupported materials, shapes or tools may still need a replacement.
-Unsupported absent-mod recovery stops rather than guessing at a replacement.
+See [crafting](docs/RECIPES.md) for the patterns and quantities.
 
-Old BOP stone formations and jelled poison have replacement blocks. Tree moss
-becomes BOP willow vines, keeping its attachment faces. These recoveries run
-automatically on upgrade, independently of the BuildingBricks setting. They
-do not generate new terrain or replace already missing blocks.
+## Flower Basket
 
-See [crafting](docs/RECIPES.md), [building and testing](docs/BUILDING.md), [existing worlds](docs/WORLD-UPGRADES.md)
-and [trying the beta](docs/TRYING-THE-BETA.md).
+The Flower Basket holds 18 slots of plants, saplings, leaves and other suitable
+plant blocks. Right-click with it in either hand to open it. Carry it in your
+main inventory and plant items you pick up go into the basket first, with
+anything that doesn't fit handled normally.
 
-Downloads are available on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/skysbuildingpiecesbop).
+Craft a basket from six wooden sticks. The [basket guide](docs/FLOWER-BASKET.md)
+shows the recipe and explains storage and automatic collection. The basket
+holds plant blocks, not ordinary seeds or unrelated items.
 
-[Release preparation](docs/RELEASING.md) covers the CI checks and publication safeguards.
+## Installation
 
-Licensed under LGPL-2.1-only. Adapted BuildingBricks definitions and core
-geometry retain their MIT notice. BOP code and textures are not bundled.
+Use the versions for **Minecraft 1.12.2**, with **Forge 14.23.5.2859** and
+**Java 8**. You'll need:
 
-Limestone, shale, siltstone and their polished forms use Mineralogy's matching
-blocks when available. Gabbro replaces the retired crag rock material. Without
-Mineralogy, one fixed palette supplies these seven full blocks using Mineralogy's
-textures. Existing Sky piece IDs and metadata are unchanged. The copied assets
-retain their separate LGPL-3.0 notices.
-Recovery also preserves the original retired BOP full blocks and item stacks.
-It does not cover other removed BOP content.
+- **Sky's Building Pieces 0.3.6.112021** and this add-on.
+- **Biomes O' Plenty 7.0.1.2445**.
 
-The Flower Basket is back, with 18 slots for plants, saplings and leaves.
-Right-click it in either hand to open it. Suitable plants picked up from the
-ground go into the first basket in your main inventory, with anything that does
-not fit handled normally. Craft one from six wooden sticks; no template is needed.
-Old BOP baskets keep their stored items on upgrade. The basket uses our own
-code and artwork and adds no block IDs. See [the basket guide](docs/FLOWER-BASKET.md).
+Put all three main jars in `mods` on both the client and server.
+Downloads are on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/skysbuildingpiecesbop).
 
-Three other retired BOP items have replacements: turnip seeds become Pam's
-HarvestCraft turnip seeds, each pinecone becomes two BOP brown dyes, and each
-dull flower band returns eight clover. The flower band is not restored as
-headgear. These changes keep stack quantities and custom item data; they do not
-add recipes, playable items or blocks. See [existing worlds](docs/WORLD-UPGRADES.md)
-for dependencies and inventory-space checks before upgrading.
+For smoother BOP grass and soil, use the separate
+[Terrain Smoother BOP add-on](https://github.com/MinecraftModDevelopmentMods/SkysTerrainSmoother-BiomesOPlenty-Addon)
+with Sky's Terrain Smoother.
 
-All custom walls have lower connecting panels and raised posts at ends, corners
-and junctions. A block or torch above keeps its supporting post. Selection follows
-the visible wall; the wall still prevents jumping over it.
-Use this add-on with the matching Building Pieces 0.3.6 core; update both jars together.
+## Existing worlds
+
+Before moving a world from 1.10 to 1.12, read
+[existing worlds and modpack notes](docs/WORLD-UPGRADES.md). It covers recovery
+for supported old building pieces, retired BOP rocks, decorations, Flower
+Baskets and other items, including any replacement mods you'll need.
+
+Mineralogy is optional. Retired rocks use its matching blocks when available;
+otherwise the add-on supplies its own full-block replacements using Mineralogy
+textures. Old crag rock becomes gabbro.
+
+Back up your world and test a copy before upgrading.
+See the [changelog](CHANGELOG.md) for release history.
+
+## Licence
+
+[LGPL-2.1-only](LICENSE), with third-party credits in [NOTICE](NOTICE).
+Included Mineralogy assets retain their separate [LGPL-3.0 licence](MINERALOGY-LGPL-3.0.txt).
+BOP textures are read from the installed mod, not bundled here.
