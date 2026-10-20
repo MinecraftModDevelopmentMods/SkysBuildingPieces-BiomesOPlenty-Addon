@@ -1,5 +1,7 @@
 # Sky's Building Pieces — Biomes O Plenty
 
+<img src="artwork/skysbuildingpieces-bop-logo.png" alt="Sky's Building Pieces – Biomes O' Plenty logo" width="256">
+
 Piece names use the material itself: Gold Wall and Oak Step, rather than the
 full block's name followed by the shape. All 18 languages have matching material labels.
 
