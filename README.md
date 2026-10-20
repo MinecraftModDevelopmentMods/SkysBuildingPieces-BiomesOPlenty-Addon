@@ -1,16 +1,19 @@
 # Sky's Building Pieces — Biomes O Plenty
 
+Piece names use the material itself: Gold Wall and Oak Step, rather than the
+full block's name followed by the shape. All 18 languages have matching material labels.
+
 Building pieces for the woods, stones and gem blocks in Biomes O Plenty.
 Requires Minecraft 1.10.2, Forge 12.18.3.2511, Java 8, Sky's Building Pieces
-0.3.0.110021 and Biomes O Plenty 5.0.0. This beta is qualified against BOP
+0.3.6.110021 and Biomes O Plenty 5.0.0. This beta is qualified against BOP
 5.0.0.2236. Install all three mods on both the client and server.
 
-Version 0.1.0.110021 adds 66 block IDs for 33 materials, including all 16
+Version 0.1.2.110021 adds 66 block IDs for 33 materials, including all 16
 plank woods, bamboo thatching, eight stone materials and eight gem blocks.
 Existing BOP slabs and stairs are reused. New pieces use fixed metadata
 palettes and do not need tile entities. No terrain is generated.
 
-With core 0.3.0.110021, use ordinary crafting patterns for BOP materials;
+With core 0.3.6.110021, use ordinary crafting patterns for BOP materials;
 no template or tool is needed. Native BOP slab and stair recipes remain intact.
 Regular slab items also place vertically. Vertical slabs drop regular slabs and
 are hidden from creative inventory; no separate vertical slab recipe is needed.
@@ -35,3 +38,8 @@ and [trying the beta](docs/TRYING-THE-BETA.md). Publication is not yet enabled.
 
 Licensed under LGPL-2.1-only. Adapted BuildingBricks definitions and core
 geometry retain their MIT notice. BOP code and textures are not bundled.
+
+All custom walls have lower connecting panels and raised posts at ends, corners
+and junctions. A block or torch above keeps its supporting post. Selection follows
+the visible wall; the wall still prevents jumping over it.
+Use this add-on with the matching Building Pieces 0.3.6 core; update both jars together.

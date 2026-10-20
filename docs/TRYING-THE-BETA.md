@@ -3,6 +3,11 @@
 Install the main jars for the core, this add-on and BOP on the client and
 server. Do not put sources or Javadoc jars in the mods folder.
 
+- Check gem and wood piece names in English and your usual game language.
+  Sapphire Wall and Redwood Step should not include the full block's label.
+- Check stone and gem walls in straight runs, corners
+  and junctions. The panels should be lower than the posts. Add and remove a
+  block or torch above the middle of a run, then check selection and collision.
 - Craft redwood, ebony, eucalyptus, bamboo, stones and gem blocks using the
   core's ordinary patterns. Check quantities and native slab recipes.
 - Place and join slabs, vertical slabs, steps and corners in every direction.

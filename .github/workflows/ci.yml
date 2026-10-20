@@ -86,9 +86,9 @@ jobs:
           if-no-files-found: error
           retention-days: 30
           path: |
-            build/libs/SkysBuildingPieces-BiomesOPlenty-Addon-0.1.0.110021.jar
-            build/libs/SkysBuildingPieces-BiomesOPlenty-Addon-0.1.0.110021-sources.jar
-            build/libs/SkysBuildingPieces-BiomesOPlenty-Addon-0.1.0.110021-javadoc.jar
+            build/libs/SkysBuildingPieces-BiomesOPlenty-Addon-0.1.2.110021.jar
+            build/libs/SkysBuildingPieces-BiomesOPlenty-Addon-0.1.2.110021-sources.jar
+            build/libs/SkysBuildingPieces-BiomesOPlenty-Addon-0.1.2.110021-javadoc.jar
             build/release/SHA256SUMS
             CHANGELOG.md
 
