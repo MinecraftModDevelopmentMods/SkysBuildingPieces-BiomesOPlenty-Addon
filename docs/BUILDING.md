@@ -22,5 +22,4 @@ candidate; it requires an explicit core directory and is rejected in CI.
 
 Use `genEclipseRuns eclipse` with the same core-directory property to prepare
 the IDE. Ordinary client and server launches exclude unit tests and the
-build-only runtime probe. Publication remains disabled until this add-on has
-its own CurseForge project.
+build-only runtime probe. Release preparation is covered in [the release guide](RELEASING.md).
