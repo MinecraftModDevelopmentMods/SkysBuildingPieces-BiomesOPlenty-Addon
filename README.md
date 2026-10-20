@@ -42,7 +42,9 @@ automatically on upgrade, independently of the BuildingBricks setting. They
 do not generate new terrain or replace already missing blocks.
 
 See [crafting](docs/RECIPES.md), [building and testing](docs/BUILDING.md), [existing worlds](docs/WORLD-UPGRADES.md)
-and [trying the beta](docs/TRYING-THE-BETA.md). Publication is not yet enabled.
+and [trying the beta](docs/TRYING-THE-BETA.md).
+
+Downloads are available on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/skysbuildingpiecesbop).
 
 [Release preparation](docs/RELEASING.md) covers the CI checks and publication safeguards.
 
