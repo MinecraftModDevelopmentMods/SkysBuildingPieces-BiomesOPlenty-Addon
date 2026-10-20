@@ -1,49 +1,54 @@
-# Sky's Building Pieces — Biomes O Plenty
+# Sky's Building Pieces — Biomes O' Plenty
 
 <img src="artwork/skysbuildingpieces-bop-logo.png" alt="Sky's Building Pieces – Biomes O' Plenty logo" width="256">
 
-Piece names use the material itself: Gold Wall and Oak Step, rather than the
-full block's name followed by the shape. All 18 languages have matching material labels.
+Bring Biomes O' Plenty materials into your builds with the same range of pieces
+as Sky's Building Pieces. This add-on supplies missing slabs, steps, corners,
+stairs and stone or gem walls, using the textures of the original BOP blocks.
 
-Building pieces for the woods, stones and gem blocks in Biomes O Plenty.
-Requires Minecraft 1.10.2, Forge 12.18.3.2511, Java 8, Sky's Building Pieces
-0.3.6.110021 and Biomes O Plenty 5.0.0. This beta is qualified against BOP
-5.0.0.2236. Install all three mods on both the client and server.
+## Building with BOP materials
 
-Version 0.1.2.110021 adds 66 block IDs for 33 materials, including all 16
-plank woods, bamboo thatching, eight stone materials and eight gem blocks.
-Existing BOP slabs and stairs are reused. New pieces use fixed metadata
-palettes and do not need tile entities. No terrain is generated.
+Build with all 16 plank woods, bamboo thatching, eight stone materials
+and eight gem blocks. Redwood, ebony and eucalyptus are included. Where BOP
+already has a suitable slab or stair, the add-on uses it rather than adding
+another copy.
 
-With core 0.3.6.110021, use ordinary crafting patterns for BOP materials;
-no template or tool is needed. Native BOP slab and stair recipes remain intact.
-Regular slab items also place vertically. Vertical slabs drop regular slabs and
-are hidden from creative inventory; no separate vertical slab recipe is needed.
-Matching pieces combine into supported larger pieces or their original full
-block. Wooden walls, terrain smoothing and materials from other biome mods
-are not included.
+Craft pieces from matching blocks, slabs and steps, following the core mod's
+patterns. Regular slabs also place vertically and drop regular slabs when
+broken. Matching pieces can join into supported larger shapes.
 
-Optional replacement of installed BuildingBricks content uses the core's
-`compat.forceReplaceBuildingBricksPieces=false` setting. Enabling it also
-covers supported BOP pieces, with separate BOP progress and totals.
-Back up worlds before enabling replacement. Adding this mod can process BOP
-pieces in chunks already visited by the vanilla core.
+Stone and gem walls have lower panels and raised posts, just like the core's
+walls. Use BOP's own fences and gates for wooden builds; this add-on doesn't add
+wooden walls or generate terrain.
 
-Removing an older building mod requires an audit and a tested world backup.
-Unsupported materials, shapes or tools may still need a replacement.
-Unsupported absent-mod recovery stops rather than guessing at a replacement.
+See [crafting](docs/RECIPES.md) for the patterns and quantities.
 
-See [crafting](docs/RECIPES.md), [building and testing](docs/BUILDING.md), [existing worlds](docs/WORLD-UPGRADES.md)
-and [trying the beta](docs/TRYING-THE-BETA.md).
+## Installation
 
-Downloads are available on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/skysbuildingpiecesbop).
+Use the versions for **Minecraft 1.10.2**, with **Forge 12.18.3.2511** and
+**Java 8**. You'll need:
 
-[Release preparation](docs/RELEASING.md) covers the CI checks and publication safeguards.
+- **Sky's Building Pieces 0.3.6.110021** and this add-on.
+- **Biomes O' Plenty 5.0.0.2236**.
 
-Licensed under LGPL-2.1-only. Adapted BuildingBricks definitions and core
-geometry retain their MIT notice. BOP code and textures are not bundled.
+Put all three main jars in `mods` on both the client and server.
+Downloads are on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/skysbuildingpiecesbop).
 
-All custom walls have lower connecting panels and raised posts at ends, corners
-and junctions. A block or torch above keeps its supporting post. Selection follows
-the visible wall; the wall still prevents jumping over it.
-Use this add-on with the matching Building Pieces 0.3.6 core; update both jars together.
+For smoother BOP grass and soil, use the separate
+[Terrain Smoother BOP add-on](https://github.com/MinecraftModDevelopmentMods/SkysTerrainSmoother-BiomesOPlenty-Addon)
+with Sky's Terrain Smoother.
+
+## Existing worlds
+
+Back up your world before changing mods. Recovery of supported older BOP
+building pieces uses the core mod's settings. It doesn't cover every material,
+shape or item from an older building mod.
+
+[Existing worlds and modpack notes](docs/WORLD-UPGRADES.md) covers recovery
+settings, limitations and block-ID usage. Always test an upgrade on a backup.
+See the [changelog](CHANGELOG.md) for release history.
+
+## Licence
+
+[LGPL-2.1-only](LICENSE), with third-party credits in [NOTICE](NOTICE).
+BOP textures are read from the installed mod, not bundled here.
