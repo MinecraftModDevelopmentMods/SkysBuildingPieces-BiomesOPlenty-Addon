@@ -77,7 +77,7 @@ class RepositoryTest {
 
         for (String classifier : new String[] { "", "-sources", "-javadoc" }) {
             assertTrue(
-                    ciWorkflow.contains("SkysBuildingPieces-BiomesOPlenty-Addon-0.1.2.110021" + classifier + ".jar"));
+                    ciWorkflow.contains("build/libs/${{ steps.target.outputs.artifact_prefix }}" + classifier + ".jar"));
         }
 
         assertTrue(ciWorkflow.contains("-PbuildingPiecesCoreDir=dependencies/pieces"));

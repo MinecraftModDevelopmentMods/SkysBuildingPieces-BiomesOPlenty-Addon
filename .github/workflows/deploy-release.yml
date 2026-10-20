@@ -324,8 +324,8 @@ jobs:
           if [[ "$LOADER_NAME" == "neoforge" ]]; then
             # NeoGradle resolves model inputs during configuration under build/tmp.
             # Cleaning in the same invocation removes those inputs before setup runs.
-            ./gradlew clean --no-daemon --stacktrace --max-workers=2
-            ./gradlew check build javadoc verifyReleaseArtifacts writeReleaseChecksums \
+            ./gradlew clean -PbuildingPiecesCoreDir=dependencies/pieces --no-daemon --stacktrace --max-workers=2
+            ./gradlew check build javadoc verifyReleaseArtifacts writeReleaseChecksums -PbuildingPiecesCoreDir=dependencies/pieces \
               --no-daemon --stacktrace --max-workers=2
           else
             # Preserve the established Forge release lifecycle.
@@ -480,6 +480,13 @@ jobs:
           distribution: temurin
           java-version: ${{ needs.preflight.outputs.gradle_java_version }}
 
+      - name: Pin Java 8 dependency builds
+        if: needs.preflight.outputs.java_version == '8'
+        run: |
+          echo "SGS_JAVA8_HOME=$JAVA_HOME_8_X64" >> "$GITHUB_ENV"
+          echo "SBP_JAVA8_HOME=$JAVA_HOME_8_X64" >> "$GITHUB_ENV"
+          echo "STS_JAVA8_HOME=$JAVA_HOME_8_X64" >> "$GITHUB_ENV"
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6
 
@@ -564,10 +571,14 @@ jobs:
           fi
 
       - name: Publish Sky's Building Pieces - Biomes O Plenty
+        id: curseforge
         uses: Kira-NT/mc-publish@52307b03863581dec6b652b83e597aec02ebb075 # v3.3.1
         with:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           curseforge-id: ${{ needs.preflight.outputs.curseforge_project_id }}
+          curseforge-dependencies: |
+            1754162(required)
+            220318(required)
           name: Sky's Building Pieces - Biomes O Plenty ${{ needs.preflight.outputs.release_version }} for Minecraft ${{ needs.preflight.outputs.minecraft_version }} (${{ needs.preflight.outputs.loader_display }})
           version: ${{ needs.preflight.outputs.release_version }}
           version-type: ${{ inputs.curseforge_release_level }}
@@ -582,6 +593,16 @@ jobs:
             ${{ runner.temp }}/release-input/${{ needs.preflight.outputs.main_jar }}
             ${{ runner.temp }}/release-input/${{ needs.preflight.outputs.sources_jar }}
             ${{ runner.temp }}/release-input/${{ needs.preflight.outputs.javadoc_jar }}
+
+      - name: Record CurseForge publication
+        env:
+          CURSEFORGE_FILE_ID: ${{ steps.curseforge.outputs.curseforge-version }}
+          CURSEFORGE_URL: ${{ steps.curseforge.outputs.curseforge-url }}
+        run: |
+          set -euo pipefail
+          [[ "$CURSEFORGE_FILE_ID" =~ ^[0-9]+$ ]]
+          printf 'CurseForge file: %s\nDownload: %s\n' "$CURSEFORGE_FILE_ID" "$CURSEFORGE_URL"
+          printf '### CurseForge publication\n\nFile: %s\n\nDownload: %s\n' "$CURSEFORGE_FILE_ID" "$CURSEFORGE_URL" >> "$GITHUB_STEP_SUMMARY"
 
   publish_github:
     name: Publish GitHub Release
