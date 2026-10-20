@@ -18,3 +18,13 @@ are not used to guess the saved material.
 Supported recovery remains automatic if BuildingBricks is absent. Unknown
 content without a safe target stops loading with an explanation. Restore the
 original mods and return to a backup rather than continuing an unsafe upgrade.
+
+## Block-ID budget for modpacks
+
+The add-on uses 66 block IDs for its 33 materials. Together with the core's
+236 IDs, that is 302 additional IDs. Existing native BOP blocks are not
+counted again.
+
+New pieces use fixed metadata palettes rather than material tile entities.
+Their saved material and orientation assignments stay the same between
+installations.
