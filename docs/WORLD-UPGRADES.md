@@ -91,3 +91,14 @@ one frame cannot preserve all the items produced by these substitutions.
 These item recoveries also apply to chunks not opened during the first upgrade.
 They do not rescue an inventory or entity discarded by another mod. Cabinet
 contents and old MCA villagers still need their separate upgrade paths.
+
+## Block-ID budget for modpacks
+
+The add-on uses 74 block IDs: 66 piece palettes, one retired-rock palette,
+two replacement decorations and five hidden recovery holders. The holders
+are not creative entries or playable blocks.
+
+Together with the core's 236 IDs, that is 310 additional IDs. Existing native
+BOP blocks are not counted again. New pieces use fixed metadata palettes
+rather than material tile entities; saved material and orientation assignments
+stay unchanged. The Flower Basket adds no block IDs.
