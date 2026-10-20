@@ -66,6 +66,9 @@ tasks.named('compileTestJava', JavaCompile) {
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
     workingDir = project.projectDir
+    // Repository checks read these files as well as the compiled test classes.
+    inputs.files('build.gradle', 'gradle.properties', '.gitignore', 'README.md')
+    inputs.files(fileTree('gradle'), fileTree('.github/workflows'), fileTree('docs'))
     if (pinnedJava8.isPresent()) javaLauncher = javaToolchains.launcherFor(exactJava8Spec)
 }
 tasks.withType(JavaExec).configureEach {
