@@ -1,0 +1,105 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "stone": "minecraft:blocks/stone",
+    "particle": "minecraft:blocks/stone"
+  },
+  "elements": [
+    {
+      "from": [
+        2,
+        0,
+        2
+      ],
+      "to": [
+        14,
+        5,
+        14
+      ],
+      "faces": {
+        "down": {
+          "texture": "#stone"
+        },
+        "up": {
+          "texture": "#stone"
+        },
+        "north": {
+          "texture": "#stone"
+        },
+        "south": {
+          "texture": "#stone"
+        },
+        "west": {
+          "texture": "#stone"
+        },
+        "east": {
+          "texture": "#stone"
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        5,
+        4
+      ],
+      "to": [
+        12,
+        11,
+        12
+      ],
+      "faces": {
+        "down": {
+          "texture": "#stone"
+        },
+        "up": {
+          "texture": "#stone"
+        },
+        "north": {
+          "texture": "#stone"
+        },
+        "south": {
+          "texture": "#stone"
+        },
+        "west": {
+          "texture": "#stone"
+        },
+        "east": {
+          "texture": "#stone"
+        }
+      }
+    },
+    {
+      "from": [
+        5,
+        11,
+        5
+      ],
+      "to": [
+        11,
+        16,
+        11
+      ],
+      "faces": {
+        "down": {
+          "texture": "#stone"
+        },
+        "up": {
+          "texture": "#stone"
+        },
+        "north": {
+          "texture": "#stone"
+        },
+        "south": {
+          "texture": "#stone"
+        },
+        "west": {
+          "texture": "#stone"
+        },
+        "east": {
+          "texture": "#stone"
+        }
+      }
+    }
+  ]
+}

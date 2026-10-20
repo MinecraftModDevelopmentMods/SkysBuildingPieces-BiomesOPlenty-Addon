@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "variant=0": {
+      "model": "skysbuildingpiecesbop:retired_gabbro"
+    },
+    "variant=1": {
+      "model": "skysbuildingpiecesbop:retired_limestone"
+    },
+    "variant=2": {
+      "model": "skysbuildingpiecesbop:retired_limestone_smooth"
+    },
+    "variant=3": {
+      "model": "skysbuildingpiecesbop:retired_shale"
+    },
+    "variant=4": {
+      "model": "skysbuildingpiecesbop:retired_shale_smooth"
+    },
+    "variant=5": {
+      "model": "skysbuildingpiecesbop:retired_siltstone"
+    },
+    "variant=6": {
+      "model": "skysbuildingpiecesbop:retired_siltstone_smooth"
+    }
+  }
+}

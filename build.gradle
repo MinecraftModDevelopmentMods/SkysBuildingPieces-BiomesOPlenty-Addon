@@ -66,6 +66,9 @@ tasks.named('compileTestJava', JavaCompile) {
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
     workingDir = project.projectDir
+    // Repository checks read these files as well as the compiled test classes.
+    inputs.files('build.gradle', 'gradle.properties', '.gitignore', 'README.md')
+    inputs.files(fileTree('gradle'), fileTree('.github/workflows'), fileTree('docs'))
     if (pinnedJava8.isPresent()) javaLauncher = javaToolchains.launcherFor(exactJava8Spec)
 }
 tasks.withType(JavaExec).configureEach {
@@ -114,14 +117,14 @@ minecraft {
     }
 }
 
-// Forge 1.10 discovers a development mod from one classes/resources root.
-def forge10DevelopmentOutput = layout.buildDirectory.dir('forge10-development/main')
+// Forge 1.12 discovers a development mod from one classes/resources root.
+def forge12DevelopmentOutput = layout.buildDirectory.dir('forge12-development/main')
 def syncForge10DevelopmentResources = tasks.register('syncForge10DevelopmentResources', Sync) {
     group = 'ide'
     dependsOn tasks.named('classes')
     from tasks.named('compileJava', JavaCompile).flatMap { it.destinationDirectory }
     from sourceSets.main.output.resourcesDir
-    into forge10DevelopmentOutput
+    into forge12DevelopmentOutput
 }
 tasks.configureEach {
     if (name in ['runClient', 'runServer', 'runTestClient', 'runTestServer']) {
@@ -132,7 +135,7 @@ tasks.configureEach {
                     tasks.named('compileJava', JavaCompile).get().destinationDirectory.get().asFile,
                     sourceSets.main.output.resourcesDir
             ] as Set<File>
-            classpath = files(forge10DevelopmentOutput, classpath.filter {
+            classpath = files(forge12DevelopmentOutput, classpath.filter {
                 !splitMainOutputs.contains(it)
             })
         }
@@ -173,7 +176,7 @@ def configureFromForgeRun = { JavaExec process, String runTaskName ->
                     tasks.named('compileJava', JavaCompile).get().destinationDirectory.get().asFile,
                     sourceSets.main.output.resourcesDir
             ] as Set<File>
-            run.setClasspath(files(forge10DevelopmentOutput, run.classpath.filter {
+            run.setClasspath(files(forge12DevelopmentOutput, run.classpath.filter {
                 !splitMainOutputs.contains(it)
             }))
             if (pinnedJava8.isPresent()) run.executable = javaToolchains.launcherFor(exactJava8Spec).get().executablePath.asFile.path
@@ -262,7 +265,7 @@ tasks.withType(JavaCompile).configureEach { dependsOn 'verifyCoreDependency' }
 
 dependencies {
     implementation files(coreDevelopmentJar)
-    bopRelease 'curse.maven:biomes-o-plenty-220318:2425769'
+    bopRelease "curse.maven:biomes-o-plenty-220318:${coreLock.bop_file}"
     developmentMappings "de.oceanlabs.mcp:mcp_stable:${project.mapping_version}@zip"
 }
 
@@ -472,7 +475,7 @@ tasks.named('processResources', ProcessResources) {
 tasks.named('jar', Jar) {
     archiveClassifier = 'deobf'
     destinationDirectory = layout.buildDirectory.dir('libs-dev')
-    from(['LICENSE', 'LICENSE.spdx', 'NOTICE', 'BUILDINGBRICKS-MIT.txt']) { into 'META-INF' }
+    from(['LICENSE', 'LICENSE.spdx', 'NOTICE', 'BUILDINGBRICKS-MIT.txt', 'MINERALOGY-LGPL-3.0.txt', 'MINERALOGY-GPL-3.0.txt']) { into 'META-INF' }
     manifest {
         attributes([
                 'Maven-Artifact': "${project.group}:${base.archivesName.get()}:${project.version}",
@@ -494,11 +497,11 @@ def releaseJar = renamer.classes(tasks.named('jar', Jar)) {
 }
 
 tasks.named('sourcesJar', Jar) {
-    from(['LICENSE', 'LICENSE.spdx', 'NOTICE', 'BUILDINGBRICKS-MIT.txt']) { into 'META-INF' }
+    from(['LICENSE', 'LICENSE.spdx', 'NOTICE', 'BUILDINGBRICKS-MIT.txt', 'MINERALOGY-LGPL-3.0.txt', 'MINERALOGY-GPL-3.0.txt']) { into 'META-INF' }
     filesMatching(archiveTextPatterns, normalizeArchiveLineEndings)
 }
 tasks.named('javadocJar', Jar) {
-    from(['LICENSE', 'LICENSE.spdx', 'NOTICE', 'BUILDINGBRICKS-MIT.txt']) { into 'META-INF' }
+    from(['LICENSE', 'LICENSE.spdx', 'NOTICE', 'BUILDINGBRICKS-MIT.txt', 'MINERALOGY-LGPL-3.0.txt', 'MINERALOGY-GPL-3.0.txt']) { into 'META-INF' }
     filesMatching(archiveTextPatterns, normalizeArchiveLineEndings)
 }
 
@@ -521,12 +524,12 @@ def releaseFiles = provider {
 tasks.register('verifyReleaseMetadata') {
     group = 'verification'
     doLast {
-        if (project.minecraft_version != '1.10.2' || project.forge_version != '12.18.3.2511' ||
-                project.mapping_channel != 'stable' || project.mapping_version != '29-1.10.2' ||
+        if (project.minecraft_version != '1.12.2' || project.forge_version != '14.23.5.2859' ||
+                project.mapping_channel != 'stable' || project.mapping_version != '39-1.12' ||
                 project.loader_name != 'forge' || project.loader_code != '1' ||
                 project.java_version != '8' || project.java_toolchain_version != '8.0.502+7' ||
                 project.mod_id != 'skysbuildingpiecesbop') {
-            throw new GradleException('Unexpected 1.10.2 release metadata')
+            throw new GradleException('Unexpected 1.12.2 release metadata')
         }
     }
 }
@@ -546,8 +549,27 @@ tasks.register('verifyReleaseArtifacts') {
         try {
             Set<String> names = zip.entries().collect { it.name } as Set<String>
             ['mcmod.info', 'META-INF/LICENSE', 'META-INF/LICENSE.spdx', 'META-INF/NOTICE',
-             'zone/moddev/mc/skysbuildingpiecesbop/SkysBuildingPiecesBop.class', 'META-INF/BUILDINGBRICKS-MIT.txt'].each { required ->
+             'zone/moddev/mc/skysbuildingpiecesbop/SkysBuildingPiecesBop.class', 'META-INF/BUILDINGBRICKS-MIT.txt',
+             'META-INF/MINERALOGY-LGPL-3.0.txt', 'META-INF/MINERALOGY-GPL-3.0.txt',
+             'assets/skysbuildingpiecesbop/blockstates/retired_rocks.json',
+             'assets/skysbuildingpiecesbop/blockstates/stone_formations.json',
+             'assets/skysbuildingpiecesbop/blockstates/jelled_poison.json',
+             'zone/moddev/mc/skysbuildingpiecesbop/RetiredDecorations.class',
+             'zone/moddev/mc/skysbuildingpiecesbop/basket/BasketItem.class',
+             'assets/skysbuildingpiecesbop/recipes/flower_basket.json',
+             'assets/skysbuildingpiecesbop/models/item/flower_basket.json',
+             'assets/skysbuildingpiecesbop/textures/items/flower_basket_empty.png',
+             'assets/skysbuildingpiecesbop/textures/items/flower_basket_full.png'].each { required ->
                 if (!names.contains(required)) throw new GradleException("Release jar is missing ${required}")
+            }
+            ['gabbro', 'limestone', 'limestone_smooth', 'shale', 'shale_smooth',
+             'siltstone', 'siltstone_smooth'].each { rock ->
+                String texture = "assets/skysbuildingpiecesbop/textures/blocks/retired_${rock}.png"
+                if (!names.contains(texture)) throw new GradleException("Release jar is missing ${texture}")
+                if (!Arrays.equals(zip.getInputStream(zip.getEntry(texture)).bytes,
+                        Files.readAllBytes(file("src/main/resources/${texture}").toPath()))) {
+                    throw new GradleException("Release jar changed ${texture}")
+                }
             }
             Set<String> forbidden = names.findAll { entry ->
                 String lower = entry.toLowerCase(Locale.ROOT)
@@ -590,11 +612,11 @@ tasks.register('verifyReleaseArtifacts') {
         }
 
         List<String> localeFiles = [
-                'de_AT.lang', 'de_AU.lang', 'de_DE.lang',
-                'en_CA.lang', 'en_EN.lang', 'en_GB.lang', 'en_PT.lang', 'en_US.lang',
-                'es_ES.lang', 'es_MX.lang', 'fr_CA.lang', 'fr_FR.lang',
-                'ja_JP.lang', 'ko_KR.lang', 'pt_BR.lang', 'pt_PT.lang',
-                'ru_RU.lang', 'zh_CN.lang'
+                'de_at.lang', 'de_au.lang', 'de_de.lang',
+                'en_ca.lang', 'en_en.lang', 'en_gb.lang', 'en_pt.lang', 'en_us.lang',
+                'es_es.lang', 'es_mx.lang', 'fr_ca.lang', 'fr_fr.lang',
+                'ja_jp.lang', 'ko_kr.lang', 'pt_br.lang', 'pt_pt.lang',
+                'ru_ru.lang', 'zh_cn.lang'
         ]
         releaseFiles.get()[0..1].each { artifactName ->
             ZipFile localizedZip = new ZipFile(new File(libs, artifactName))
@@ -718,6 +740,9 @@ tasks.register('isolateEclipseProductionRuns') {
             File launch = file(name)
             if (!launch.isFile()) throw new GradleException("ForgeGradle did not generate ${name}")
             String contents = launch.getText('UTF-8')
+            contents = contents.replace(
+                    'key="MC_VERSION" value="${MC_VERSION}"',
+                    "key=\"MC_VERSION\" value=\"${project.minecraft_version}\"")
             boolean production = name in ['runClient.launch', 'runServer.launch']
             if (production && !contents.contains('org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE')) {
                 contents = contents.replace('</launchConfiguration>',
@@ -760,6 +785,13 @@ tasks.register('verifyEclipseProductionClasspath') {
         def parsed = new JsonSlurper().parseText(metadata.getText('UTF-8'))
         if (parsed[0].version != project.mod_version || parsed[0].mcversion != project.minecraft_version) {
             throw new GradleException('Eclipse output contains incorrect mcmod.info')
+        }
+        ['runClient.launch', 'runServer.launch', 'runTestClient.launch', 'runTestServer.launch'].each { name ->
+            String contents = file(name).getText('UTF-8')
+            if (contents.contains('${MC_VERSION}') ||
+                    !contents.contains("key=\"MC_VERSION\" value=\"${project.minecraft_version}\"")) {
+                throw new GradleException("${name} does not define literal MC_VERSION=${project.minecraft_version}")
+            }
         }
         ['runClient.launch', 'runServer.launch'].each { name ->
             String contents = file(name).getText('UTF-8').replace('\\', '/')

@@ -1,6 +1,6 @@
 # Crafting
 
-Use core 0.3.0.110021 for ordinary crafting recipes. No template or cutting tool
+Use core 0.3.6.112021 for ordinary crafting recipes. No template or cutting tool
 is required. All ingredients must be the same material, including wood type.
 
 - Three full blocks in a row make six horizontal slabs.
@@ -21,6 +21,9 @@ The core registers the recipes for every installed catalogue. This add-on
 does not add templates, wooden walls, fences, gates or terrain generation.
 Use BOP's native fences and gates. BOP materials in this catalogue do not
 have pane recipes.
+
+Six wooden sticks make one Flower Basket, using the handle-and-bowl pattern
+shown in [the basket guide](FLOWER-BASKET.md). This recipe belongs to the add-on.
 
 Automatic recovery of old pieces is separate from crafting. Old beta templates
 can be recycled into paper in the grid, but they no longer cut building pieces.
