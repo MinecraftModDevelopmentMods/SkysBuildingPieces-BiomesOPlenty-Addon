@@ -7,3 +7,15 @@ from Building Bricks 1.10.2-2.0.13 by hea3ven. Those portions retain their MIT
 license; see BUILDINGBRICKS-MIT.txt. No Building Bricks dependency is required.
 BOP textures are referenced from the installed original mod, not redistributed.
 The core is a separate required dependency and is not bundled.
+
+The Flower Basket is independently implemented, with original item artwork.
+No Biomes O Plenty basket source or textures are redistributed. Its screen
+references Minecraft's standard chest texture from the installed game.
+
+The seven retired-rock textures and their translated names are unchanged
+copies from Mineralogy, credited to Cyanobacterium, SkyBlade1978, JRIwanek
+and Mineralogy's artwork contributors. These assets remain under LGPL-3.0;
+see MINERALOGY-LGPL-3.0.txt and MINERALOGY-GPL-3.0.txt. The original PNG source
+files are included in the source distribution and can be replaced by a
+resource pack. No Mineralogy Java code is bundled.
+Source: https://github.com/MinecraftModDevelopmentMods/MinecraftMineralogy

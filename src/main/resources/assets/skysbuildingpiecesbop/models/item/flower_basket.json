@@ -1,0 +1,5 @@
+{
+  "parent": "item/generated",
+  "textures": {"layer0": "skysbuildingpiecesbop:items/flower_basket_empty"},
+  "overrides": [{"predicate": {"filled": 1}, "model": "skysbuildingpiecesbop:item/flower_basket_full"}]
+}

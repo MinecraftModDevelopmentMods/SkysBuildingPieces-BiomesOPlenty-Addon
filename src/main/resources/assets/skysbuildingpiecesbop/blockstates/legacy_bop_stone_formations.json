@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "metadata=0": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=1": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=2": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=3": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=4": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=5": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=6": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=7": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=8": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=9": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=10": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=11": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=12": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=13": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=14": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "metadata=15": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    }
+  }
+}

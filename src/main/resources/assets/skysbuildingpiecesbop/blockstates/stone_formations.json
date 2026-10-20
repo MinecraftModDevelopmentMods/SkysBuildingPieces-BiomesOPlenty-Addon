@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "form=floor": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor"
+    },
+    "form=floor_base": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor_base"
+    },
+    "form=floor_tip": {
+      "model": "skysbuildingpiecesbop:stone_formation_floor_tip"
+    },
+    "form=connector": {
+      "model": "skysbuildingpiecesbop:stone_formation_connector"
+    },
+    "form=single": {
+      "model": "skysbuildingpiecesbop:stone_formation_single"
+    },
+    "form=ceiling": {
+      "model": "skysbuildingpiecesbop:stone_formation_ceiling"
+    },
+    "form=ceiling_base": {
+      "model": "skysbuildingpiecesbop:stone_formation_ceiling_base"
+    },
+    "form=ceiling_tip": {
+      "model": "skysbuildingpiecesbop:stone_formation_ceiling_tip"
+    }
+  }
+}

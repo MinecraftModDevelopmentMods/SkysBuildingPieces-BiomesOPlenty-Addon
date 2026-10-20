@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "metadata=0": {
+      "model": "skysbuildingpiecesbop:retired_limestone"
+    },
+    "metadata=1": {
+      "model": "skysbuildingpiecesbop:retired_siltstone"
+    },
+    "metadata=2": {
+      "model": "skysbuildingpiecesbop:retired_shale"
+    },
+    "metadata=3": {
+      "model": "skysbuildingpiecesbop:retired_gabbro"
+    },
+    "metadata=4": {
+      "model": "skysbuildingpiecesbop:retired_gabbro"
+    },
+    "metadata=5": {
+      "model": "skysbuildingpiecesbop:retired_gabbro"
+    },
+    "metadata=6": {
+      "model": "skysbuildingpiecesbop:retired_gabbro"
+    },
+    "metadata=7": {
+      "model": "skysbuildingpiecesbop:retired_gabbro"
+    },
+    "metadata=8": {
+      "model": "skysbuildingpiecesbop:retired_limestone_smooth"
+    },
+    "metadata=9": {
+      "model": "skysbuildingpiecesbop:retired_siltstone_smooth"
+    },
+    "metadata=10": {
+      "model": "skysbuildingpiecesbop:retired_shale_smooth"
+    },
+    "metadata=11": {
+      "model": "skysbuildingpiecesbop:retired_gabbro"
+    },
+    "metadata=12": {
+      "model": "skysbuildingpiecesbop:retired_gabbro"
+    },
+    "metadata=13": {
+      "model": "skysbuildingpiecesbop:retired_gabbro"
+    },
+    "metadata=14": {
+      "model": "skysbuildingpiecesbop:retired_gabbro"
+    },
+    "metadata=15": {
+      "model": "skysbuildingpiecesbop:retired_gabbro"
+    }
+  }
+}

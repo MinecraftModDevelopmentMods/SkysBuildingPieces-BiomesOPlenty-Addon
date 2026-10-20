@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "skysbuildingpiecesbop:blocks/retired_siltstone_smooth"
+  }
+}
