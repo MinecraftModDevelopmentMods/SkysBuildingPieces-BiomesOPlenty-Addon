@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3.110021
+
+- Update alongside Building Pieces 0.3.7 to rebuild BOP corners into steps and
+  steps into slabs. Stack two matching pieces vertically in the crafting grid.
+- Keep the same 33 materials, 66 block IDs and saved palette slots.
+
 ## 0.1.2.110021
 
 - Shortened names for gem and wood pieces across all 18 languages.

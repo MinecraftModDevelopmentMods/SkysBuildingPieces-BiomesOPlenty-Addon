@@ -16,7 +16,8 @@ import zone.moddev.mc.skysbuildingpieces.legacy.*;
 public final class BopChecks {
     public static void run(WorldServer world) {
         require(Catalogue.INSTANCE.modules.get("biomesoplenty").palettes.size() == 66, "BOP ID budget");
-        require(Catalogue.INSTANCE.modules.get("vanilla").palettes.size() == 235, "core palette budget");
+        int pathPalettes = Catalogue.INSTANCE.materials.containsKey("minecraft:grass_path") ? 2 : 0;
+        require(Catalogue.INSTANCE.modules.get("vanilla").palettes.size() == 235 + pathPalettes, "core palette budget");
 
         int registryCount = 0;
         int highest = 0;

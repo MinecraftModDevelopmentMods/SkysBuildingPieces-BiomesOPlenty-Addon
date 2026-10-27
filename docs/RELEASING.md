@@ -26,6 +26,9 @@ use the same version suffix and branch naming rules. Each port must supply its
 own tested build setup, dependency pin and correct metadata.
 
 If publication stops, inspect the completed stages before retrying. Keep the
-same commit and immutable bundle; rerun only failed jobs when an upload has
-already succeeded. Do not create another CurseForge file while one is awaiting
-approval. An existing release with the same jar does not need another upload.
+same commit and immutable bundle. CurseForge uploads make one attempt: a
+timeout or HTTP 500 can happen after the service has accepted the file.
+Check the project's Files page, filename and hash before deciding what to run
+again. If the file exists or is awaiting approval, leave the upload alone and
+continue only the remaining publication steps. Never blindly rerun the
+CurseForge job or create another file to resolve an uncertain response.

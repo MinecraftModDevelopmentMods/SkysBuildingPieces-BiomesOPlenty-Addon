@@ -28,8 +28,13 @@ class BopCatalogueTest {
 
         Catalogue core = new Catalogue();
 
-        assertEquals(235, core.palettes.size());
-        assertEquals(302, core.palettes.size() + 1 + catalogueModule.palettes.size());
+        int pathPalettes = core.materials.containsKey("minecraft:grass_path") ? 2 : 0;
+        assertEquals(235 + pathPalettes, core.palettes.size());
+        assertEquals(302 + pathPalettes, core.palettes.size() + 1 + catalogueModule.palettes.size());
+        if (pathPalettes != 0) {
+            assertEquals("path_step_00", core.palettes.get(235).id);
+            assertEquals("path_corner_00", core.palettes.get(236).id);
+        }
 
         Catalogue.Palette dirt = core.palettes.get(234);
 

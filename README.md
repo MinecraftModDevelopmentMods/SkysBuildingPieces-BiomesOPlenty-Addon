@@ -28,7 +28,7 @@ See [crafting](docs/RECIPES.md) for the patterns and quantities.
 Use the versions for **Minecraft 1.10.2**, with **Forge 12.18.3.2511** and
 **Java 8**. You'll need:
 
-- **Sky's Building Pieces 0.3.6.110021** and this add-on.
+- **Sky's Building Pieces 0.3.7.110021** and this add-on.
 - **Biomes O' Plenty 5.0.0.2236**.
 
 Put all three main jars in `mods` on both the client and server.
