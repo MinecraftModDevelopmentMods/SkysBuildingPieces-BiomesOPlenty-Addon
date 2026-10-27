@@ -21,9 +21,10 @@ original mods and return to a backup rather than continuing an unsafe upgrade.
 
 ## Block-ID budget for modpacks
 
-The add-on uses 66 block IDs for its 33 materials. Together with the core's
-236 IDs, that is 302 additional IDs. Existing native BOP blocks are not
-counted again.
+The add-on uses 66 block IDs for its 33 materials. Together with Building
+Pieces 0.3.7's 238 IDs, that is 304 additional IDs. With Mineralogy installed,
+the core adds 35 rock-piece IDs, bringing the combined total to 339.
+Existing native BOP and Mineralogy blocks are not counted again.
 
 New pieces use fixed metadata palettes rather than material tile entities.
 Their saved material and orientation assignments stay the same between

@@ -1,11 +1,13 @@
 # Crafting
 
-Use core 0.3.6.110021 for ordinary crafting recipes. No template or cutting tool
+Use core 0.3.7.110021 for ordinary crafting recipes. No template or cutting tool
 is required. All ingredients must be the same material, including wood type.
 
 - Three full blocks in a row make six horizontal slabs.
 - Two matching slabs diagonally in a 2 by 2 square make four steps.
 - Two steps side by side make four corners.
+- Two matching corners stacked vertically make one step.
+- Two matching steps stacked vertically make one regular slab.
 - Six full blocks in the usual stair pattern make four stairs.
 - Six full blocks in two columns of three make six walls.
 

@@ -73,6 +73,10 @@ class PublicationContractTest {
         assertTrue(workflow.contains("curseforge-dependencies: |"));
         assertTrue(workflow.contains("1754162(required)"));
         assertTrue(workflow.contains("220318(required)"));
+        String curseforge = workflow.substring(workflow.indexOf("  publish_curseforge:"),
+                workflow.indexOf("  publish_github:"));
+        assertTrue(curseforge.contains("curseforge-retry-attempts: 1"),
+                "An accepted upload must not be repeated after an uncertain response");
     }
 
     @Test

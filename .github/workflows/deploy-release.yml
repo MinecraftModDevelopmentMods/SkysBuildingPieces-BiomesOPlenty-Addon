@@ -576,6 +576,8 @@ jobs:
         with:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           curseforge-id: ${{ needs.preflight.outputs.curseforge_project_id }}
+          # A timeout or HTTP 500 can follow an accepted upload. Check the file before retrying.
+          curseforge-retry-attempts: 1
           curseforge-dependencies: |
             1754162(required)
             220318(required)
