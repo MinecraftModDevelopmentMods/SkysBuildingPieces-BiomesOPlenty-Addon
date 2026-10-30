@@ -729,6 +729,11 @@ def configureEclipseBuildship = tasks.register('configureEclipseBuildship') {
                 'gradle.user.home': gradle.gradleUserHomeDir.canonicalPath,
                 'override.workspace.settings': 'true'
         ].each { key, value -> preferences.setProperty(key, value) }
+        List<String> arguments = preferences.getProperty('arguments', '').tokenize(' ')
+        arguments.removeAll { it.startsWith('-PbuildingPiecesCoreDir=') || it.startsWith('-PbuildingPiecesCoreVersion=') }
+        arguments.add('-PbuildingPiecesCoreDir=' + relativePath(coreDirectory))
+        if (localCoreVersion.isPresent()) arguments.add('-PbuildingPiecesCoreVersion=' + effectiveCoreVersion)
+        preferences.setProperty('arguments', arguments.join(' '))
         preferencesFile.parentFile.mkdirs()
         preferencesFile.withOutputStream { preferences.store(it, 'Generated Buildship configuration.') }
     }
@@ -808,3 +813,10 @@ tasks.register('verifyEclipseProductionClasspath') {
 tasks.named('check') {
     dependsOn tasks.named('verifyReleaseMetadata')
 }
+
+apply from: 'gradle/recipe-advancements.gradle'
+
+ext.configureRecipeBookRun = configureFromForgeRun
+ext.recipeBookLogConfiguration = new File(coreDirectory, 'src/integrationTest/resources/log4j2.xml').toURI().toString()
+ext.recipeBookExtraMods = configurations.bopRelease
+apply from: 'gradle/recipe-book-verification.gradle'

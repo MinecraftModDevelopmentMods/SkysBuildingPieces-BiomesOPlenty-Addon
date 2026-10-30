@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.4.112021
+
+- Updated for Building Pieces 0.3.8.112021.
+- Added the missing recipe-book unlocks for crafting and rebuilding pieces.
+- Made the next recipes appear while the crafting table is still open.
+
 ## 0.2.3.112021
 
 - Updated for Building Pieces 0.3.7.112021. Matching corners can be crafted back
