@@ -29,6 +29,7 @@ class PublicationContractTest {
         String workflow = text(".github/workflows/deploy-release.yml");
 
         assertTrue(workflow.contains("confirm_live_publication"));
+        assertTrue(workflow.contains("curseforge-retry-attempts: 1"));
         assertTrue(workflow.contains("default: false"));
         assertTrue(workflow.contains("value release_enabled"));
         assertTrue(workflow.contains("Build, test, and audit"));

@@ -4,7 +4,7 @@ Use Java 17 for Gradle and Temurin 8.0.502+7 for production. Set
 `SBP_JAVA8_HOME` to the Java 8 installation. The wrapper uses Gradle 9.6.1
 and ForgeGradle 7.0.34 for Minecraft 1.12.2.
 
-Check out Building Pieces 0.3.6.112021 at the exact source commit in
+Check out Building Pieces 0.3.7.112021 at the exact release commit in
 `gradle/core-dependency.properties`, then run its `gradlew jar` task.
 Build this add-on with:
 
