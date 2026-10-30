@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.3.112021
+
+- Updated for Building Pieces 0.3.7.112021. Matching corners can be crafted back
+  into steps, and matching steps back into regular slabs.
+- Kept the BOP materials, saved pieces and Flower Basket contents unchanged.
+- Fixed the Minecraft version warning when refreshing the project in Eclipse.
+
 ## 0.2.2.112021
 
 - Shortened names for gem and wood pieces across all 18 languages.

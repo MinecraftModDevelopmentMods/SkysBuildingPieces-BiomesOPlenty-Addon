@@ -109,6 +109,8 @@ minecraft {
     runs {
         configureEach {
             workingDir.convention layout.projectDirectory.dir(developmentRunDirectory)
+            // Supply the legacy version before ForgeGradle expands the launch environment.
+            environment 'MC_VERSION', project.minecraft_version.toString()
             systemProperty 'forge.logging.console.level', 'debug'
             systemProperty 'fml.coreMods.load', 'zone.moddev.mc.skysbuildingpieces.legacy.LoaderPlugin'
         }

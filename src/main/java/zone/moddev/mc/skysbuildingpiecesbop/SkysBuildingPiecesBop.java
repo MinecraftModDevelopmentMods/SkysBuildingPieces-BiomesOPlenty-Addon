@@ -11,9 +11,9 @@ import zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue;
         name = "Sky's Building Pieces - Biomes O Plenty",
         version = SkysBuildingPiecesBop.VERSION,
         acceptedMinecraftVersions = "[1.12.2]",
-        dependencies = "required-after:skysbuildingpieces@[0.3.6.112021,0.4);required-after:biomesoplenty@[7.0.1,8.0);before:buildingbricks")
+        dependencies = "required-after:skysbuildingpieces@[0.3.7.112021,0.4);required-after:biomesoplenty@[7.0.1,8.0);before:buildingbricks")
 public final class SkysBuildingPiecesBop {
-    public static final String ID = "skysbuildingpiecesbop", VERSION = "0.2.2.112021";
+    public static final String ID = "skysbuildingpiecesbop", VERSION = "0.2.3.112021";
     @Mod.Instance(ID)
     public static SkysBuildingPiecesBop INSTANCE;
 

@@ -102,3 +102,6 @@ Together with the core's 236 IDs, that is 310 additional IDs. Existing native
 BOP blocks are not counted again. New pieces use fixed metadata palettes
 rather than material tile entities; saved material and orientation assignments
 stay unchanged. The Flower Basket adds no block IDs.
+
+Core 0.3.7 adds two path-piece IDs, making that combination 312 IDs instead.
+The add-on's own catalogue remains at 74 IDs.

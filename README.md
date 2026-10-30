@@ -39,7 +39,7 @@ holds plant blocks, not ordinary seeds or unrelated items.
 Use the versions for **Minecraft 1.12.2**, with **Forge 14.23.5.2859** and
 **Java 8**. You'll need:
 
-- **Sky's Building Pieces 0.3.6.112021** and this add-on.
+- **Sky's Building Pieces 0.3.7.112021** and this add-on.
 - **Biomes O' Plenty 7.0.1.2445**.
 
 Put all three main jars in `mods` on both the client and server.
