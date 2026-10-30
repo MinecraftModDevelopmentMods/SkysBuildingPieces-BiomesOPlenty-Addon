@@ -1,6 +1,6 @@
 # Crafting
 
-Use core 0.3.7.112021 for ordinary crafting recipes. No template or cutting tool
+Use core 0.3.8.112021 for ordinary crafting recipes. No template or cutting tool
 is required. All ingredients must be the same material, including wood type.
 
 - Three full blocks in a row make six horizontal slabs.
