@@ -1,0 +1,91 @@
+{
+  "advancements": [
+    {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:gabbro"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:gabbro"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:crag_rock_slab"
+        }
+      ],
+      "advancement": {
+        "criteria": {
+          "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+              "items": [
+                {
+                  "item": "skysbuildingpiecesbop:crag_rock_slab"
+                }
+              ]
+            }
+          },
+          "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+              "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/slab_recombination"
+            }
+          }
+        },
+        "requirements": [
+          ["has_ingredient", "has_the_recipe"]
+        ],
+        "rewards": {
+          "recipes": ["skysbuildingpieces:biomesoplenty/crag_rock/slab_recombination"]
+        }
+      }
+    },
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:item_exists",
+            "item": "mineralogy:gabbro"
+          }
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:crag_rock_slab"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:retired_gabbro"
+        }
+      ],
+      "advancement": {
+        "criteria": {
+          "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+              "items": [
+                {
+                  "item": "skysbuildingpiecesbop:crag_rock_slab"
+                }
+              ]
+            }
+          },
+          "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+              "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/slab_recombination"
+            }
+          }
+        },
+        "requirements": [
+          ["has_ingredient", "has_the_recipe"]
+        ],
+        "rewards": {
+          "recipes": ["skysbuildingpieces:biomesoplenty/crag_rock/slab_recombination"]
+        }
+      }
+    }
+  ]
+}

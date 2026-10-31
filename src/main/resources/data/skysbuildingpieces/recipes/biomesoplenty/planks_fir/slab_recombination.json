@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/planks_fir",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "biomesoplenty:fir_slab"
+    }
+  },
+  "result": {
+    "item": "biomesoplenty:fir_planks",
+    "count": 1
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:fir_planks"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:fir_slab"
+    }
+  ]
+}

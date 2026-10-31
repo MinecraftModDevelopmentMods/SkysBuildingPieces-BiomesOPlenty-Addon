@@ -1,0 +1,65 @@
+package zone.moddev.mc.skysbuildingpiecesbop;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class WorldMappingsTest {
+    @Test
+    void everySourceStateHasOneExplicitMappingOrAnActionableRefusal() throws Exception {
+        Map<String, JsonObject> source = new HashMap<>();
+
+        for (JsonElement element : read("src/testFixtures/bop-1.12.2-registry-states.json")) {
+            JsonObject row = element.getAsJsonObject();
+
+            source.put(key(row), row);
+        }
+
+        Set<String> assigned = new HashSet<>();
+
+        for (String file : new String[] { "legacy_states.json", "legacy_world_states.json" }) {
+            for (JsonElement element : read("src/main/resources/assets/skysbuildingpiecesbop/catalogue/" + file)) {
+                JsonObject row = element.getAsJsonObject();
+
+                assertTrue(assigned.add(key(row)), "Duplicate mapping: " + row);
+                assertNotNull(source.get(key(row)), "Invented source state: " + row);
+                assertEquals(source.get(key(row)).get("properties"), row.get("properties"));
+
+                if (row.has("target")) {
+                    JsonObject target = row.getAsJsonObject("target");
+
+                    if (target.has("unsupported")) {
+                        assertEquals("biomesoplenty:biome_block/0", key(row));
+                        assertFalse(target.get("unsupported").getAsString().isEmpty());
+                    } else {
+                        assertTrue(target.get("id").getAsString().matches("(minecraft|biomesoplenty):[a-z_]+"));
+                        assertFalse(target.get("id").getAsString().endsWith(":air"));
+                        assertTrue(target.get("properties").isJsonObject());
+                    }
+                }
+            }
+        }
+
+        assertEquals(1200, source.size());
+        assertEquals(source.keySet(), assigned);
+    }
+
+    private JsonArray read(String path) throws Exception {
+        return new JsonParser().parse(new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8))
+                .getAsJsonArray();
+    }
+
+    private String key(JsonObject row) {
+        return row.get("id").getAsString() + "/" + row.get("meta").getAsInt();
+    }
+}

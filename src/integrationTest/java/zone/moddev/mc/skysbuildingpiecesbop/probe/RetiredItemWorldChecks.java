@@ -3,10 +3,10 @@ package zone.moddev.mc.skysbuildingpiecesbop.probe;
 import java.io.*;
 import java.nio.file.*;
 import net.minecraft.nbt.*;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.event.TickEvent;
 import zone.moddev.mc.skysbuildingpieces.legacy.*;
 
 /** A fresh full-world copy, normally loading every carrier of the three retired item types. */
@@ -19,13 +19,13 @@ public final class RetiredItemWorldChecks {
             return;
         }
 
-        net.minecraft.server.MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+        net.minecraft.server.MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 
-        if (server == null || server.getWorld(0) == null) {
+        if (server == null || server.getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD) == null) {
             return;
         }
 
-        WorldServer world = server.getWorld(0);
+        ServerWorld world = server.getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD);
 
         if (ticks++ == 0) {
             RetiredItemChecks.run(world);
@@ -43,12 +43,12 @@ public final class RetiredItemWorldChecks {
 
         LegacyBridge.report(world);
 
-        NBTTagCompound state = PiecesWorldState.get(world).writeToNBT(new NBTTagCompound());
+        CompoundNBT state = PiecesWorldState.get(world).write(new CompoundNBT());
         File snapshot = new File(world.getSaveHandler().getWorldDirectory(), "retired-item-qualification-state.dat");
         boolean reload = System.getProperty("skysbuildingpieces.integrationPhase").endsWith("reload");
 
         if (reload) {
-            NBTTagCompound before;
+            CompoundNBT before;
 
             try (InputStream input = new FileInputStream(snapshot)) {
                 before = CompressedStreamTools.readCompressed(input);
@@ -63,8 +63,8 @@ public final class RetiredItemWorldChecks {
         }
 
         System.out.println("BOP_RETIRED_ITEM_SYLVESTER_PASS all_carriers_loaded=true schema="
-                + state.getInteger("schema_version") + " reload=" + reload);
+                + state.getInt("schema_version") + " reload=" + reload);
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.unregister(this);
-        server.initiateShutdown();
+        server.initiateShutdown(false);
     }
 }

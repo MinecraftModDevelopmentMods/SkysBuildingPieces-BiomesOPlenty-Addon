@@ -1,0 +1,91 @@
+{
+  "advancements": [
+    {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:gabbro"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:gabbro"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:crag_rock_wall"
+        }
+      ],
+      "advancement": {
+        "criteria": {
+          "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+              "items": [
+                {
+                  "item": "mineralogy:gabbro"
+                }
+              ]
+            }
+          },
+          "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+              "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/wall/wall/mineralogy/gabbro_0"
+            }
+          }
+        },
+        "requirements": [
+          ["has_ingredient", "has_the_recipe"]
+        ],
+        "rewards": {
+          "recipes": ["skysbuildingpieces:biomesoplenty/crag_rock/wall/wall/mineralogy/gabbro_0"]
+        }
+      }
+    },
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:item_exists",
+            "item": "mineralogy:gabbro"
+          }
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:crag_rock_wall"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:retired_gabbro"
+        }
+      ],
+      "advancement": {
+        "criteria": {
+          "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+              "items": [
+                {
+                  "item": "skysbuildingpiecesbop:retired_gabbro"
+                }
+              ]
+            }
+          },
+          "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+              "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/wall/wall/mineralogy/gabbro_0"
+            }
+          }
+        },
+        "requirements": [
+          ["has_ingredient", "has_the_recipe"]
+        ],
+        "rewards": {
+          "recipes": ["skysbuildingpieces:biomesoplenty/crag_rock/wall/wall/mineralogy/gabbro_0"]
+        }
+      }
+    }
+  ]
+}

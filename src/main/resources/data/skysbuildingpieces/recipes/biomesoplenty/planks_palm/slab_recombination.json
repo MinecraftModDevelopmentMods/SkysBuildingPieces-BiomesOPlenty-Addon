@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/planks_palm",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "biomesoplenty:palm_slab"
+    }
+  },
+  "result": {
+    "item": "biomesoplenty:palm_planks",
+    "count": 1
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:palm_planks"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:palm_slab"
+    }
+  ]
+}

@@ -4,12 +4,12 @@ import java.io.*;
 import java.util.UUID;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.nbt.*;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.world.WorldServer;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.fml.common.*;
-import net.minecraftforge.fml.common.eventhandler.*;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraftforge.eventbus.api.*;
+import net.minecraftforge.event.TickEvent;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketData;
 
 /** Exercise the real player-save loader only in explicitly selected disposable Sylvester tests. */
@@ -26,14 +26,15 @@ public final class BasketPlayerUpgrade {
 
         ran = true;
 
-        WorldServer world = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
+        ServerWorld world = ServerLifecycleHooks.getCurrentServer()
+                .getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD);
         File players = new File(world.getSaveHandler().getWorldDirectory(), "playerdata");
         int loaded = 0;
         File[] files = players.listFiles((directory, name) -> name.endsWith(".dat"));
 
         if (files != null) {
             for (File file : files) {
-                NBTTagCompound raw;
+                CompoundNBT raw;
 
                 try (InputStream input = new FileInputStream(file)) {
                     raw = CompressedStreamTools.readCompressed(input);
@@ -43,10 +44,10 @@ public final class BasketPlayerUpgrade {
                 }
 
                 UUID uuid = UUID.fromString(file.getName().substring(0, file.getName().length() - 4));
-                EntityPlayerMP player = FakePlayerFactory.get(world, new GameProfile(uuid, "MigrationTest"));
+                ServerPlayerEntity player = FakePlayerFactory.get(world, new GameProfile(uuid, "MigrationTest"));
 
-                world.getSaveHandler().getPlayerNBTManager().readPlayerData(player);
-                world.getSaveHandler().getPlayerNBTManager().writePlayerData(player);
+                world.getSaveHandler().readPlayerData(player);
+                world.getSaveHandler().writePlayerData(player);
                 loaded++;
             }
         }
@@ -54,20 +55,20 @@ public final class BasketPlayerUpgrade {
         System.out.println("BOP_BASKET_PLAYER_LOADER_PASS profiles=" + loaded);
     }
 
-    private static boolean hasBasket(NBTBase value) {
-        if (value instanceof NBTTagCompound) {
-            NBTTagCompound tag = (NBTTagCompound) value;
+    private static boolean hasBasket(INBT value) {
+        if (value instanceof CompoundNBT) {
+            CompoundNBT tag = (CompoundNBT) value;
 
             if (BasketData.isBasket(tag.getString("id"))) {
                 return true;
             }
-            for (String key : tag.getKeySet()) {
-                if (hasBasket(tag.getTag(key))) {
+            for (String key : tag.keySet()) {
+                if (hasBasket(tag.get(key))) {
                     return true;
                 }
             }
-        } else if (value instanceof NBTTagList) {
-            for (NBTBase child : (NBTTagList) value) {
+        } else if (value instanceof ListNBT) {
+            for (INBT child : (ListNBT) value) {
                 if (hasBasket(child)) {
                     return true;
                 }

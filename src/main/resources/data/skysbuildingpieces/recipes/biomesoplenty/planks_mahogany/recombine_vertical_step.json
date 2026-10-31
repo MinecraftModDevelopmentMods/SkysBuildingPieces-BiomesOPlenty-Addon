@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/planks_mahogany",
+  "pattern": ["X", "X"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:planks_mahogany_vertical_step"
+    }
+  },
+  "result": {
+    "item": "biomesoplenty:mahogany_slab",
+    "count": 1
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:mahogany_slab"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_mahogany_vertical_step"
+    }
+  ]
+}

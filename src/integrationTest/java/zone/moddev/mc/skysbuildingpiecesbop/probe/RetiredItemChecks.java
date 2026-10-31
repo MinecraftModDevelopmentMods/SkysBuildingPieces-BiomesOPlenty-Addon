@@ -1,13 +1,13 @@
 package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
-import net.minecraft.init.Items;
+import net.minecraft.item.Items;
 import net.minecraft.item.*;
 import net.minecraft.nbt.*;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.datafix.FixTypes;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import zone.moddev.mc.skysbuildingpieces.legacy.LegacyBridge;
+import net.minecraft.world.server.ServerWorld;
+
+import net.minecraftforge.registries.ForgeRegistries;
 import zone.moddev.mc.skysbuildingpiecesbop.*;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.*;
 import zone.moddev.mc.skysbuildingpieces.legacy.PiecesWorldState;
@@ -16,23 +16,23 @@ import zone.moddev.mc.skysbuildingpieces.legacy.PiecesWorldState;
 public final class RetiredItemChecks {
     private static int checks;
 
-    public static void run(WorldServer world) {
+    public static void run(ServerWorld world) {
         checks = 0;
 
         LegacyItemRecovery recovery = new LegacyItemRecovery();
-        NBTTagCompound state = PiecesWorldState.get(world).writeToNBT(new NBTTagCompound());
+        CompoundNBT state = PiecesWorldState.get(world).write(new CompoundNBT());
         String[] legacyIds = { "turnip_seeds", "pinecone", "dull_flower_band" };
         int[] counts = { 1, 2, 8 };
 
         for (int entryIndex = 0; entryIndex < 3; entryIndex++) {
-            require(LegacyItemRecovery.HOLDERS[entryIndex].getCreativeTab() == null, "holder is hidden");
+            require(LegacyItemRecovery.HOLDERS[entryIndex].getGroup() == null, "holder is hidden");
 
             Item target = ForgeRegistries.ITEMS.getValue(new ResourceLocation(LegacyItemRecovery.target(entryIndex)));
 
             for (String registryId : new String[] { "biomesoplenty:" + legacyIds[entryIndex],
                     LegacyItemRecovery.HOLDERS[entryIndex].getRegistryName().toString() }) {
-                NBTTagCompound raw = stack(registryId, 1, 7);
-                NBTTagCompound tag = raw.getCompoundTag("tag").copy();
+                CompoundNBT raw = stack(registryId, 1, 7);
+                CompoundNBT tag = raw.getCompound("tag").copy();
 
                 if (target == null || target == Items.AIR) {
                     reject(recovery, raw, "unavailable");
@@ -42,186 +42,192 @@ public final class RetiredItemChecks {
                 recovery.fixTagCompound(raw);
                 require(raw.getString("id").equals(LegacyItemRecovery.target(entryIndex)),
                         "target identity " + registryId);
-                require(raw.getInteger("Count") == counts[entryIndex] && raw.getInteger("Damage") == 0,
+                require(raw.getInt("Count") == counts[entryIndex] && raw.getInt("Damage") == 0,
                         "target quantity and variant");
-                require(raw.getCompoundTag("tag").equals(tag), "unrelated custom NBT");
+                require(raw.getCompound("tag").equals(tag), "unrelated custom NBT");
 
-                ItemStack decoded = new ItemStack(raw);
+                ItemStack decoded = ItemStack.read(raw);
 
                 require(decoded.getItem() == target && decoded.getCount() == counts[entryIndex],
                         "real item deserialization");
 
                 if (entryIndex == 2) {
-                    require(decoded.getTranslationKey().contains("clover"), "clover metadata, not another flower");
+                    require(decoded.getTranslationKey().contains("oxeye_daisy"), "retired flower target");
                 }
 
-                NBTTagCompound once = raw.copy();
+                CompoundNBT once = raw.copy();
 
                 recovery.fixTagCompound(raw);
                 require(raw.equals(once), "reload idempotence");
             }
         }
 
-        NBTTagCompound chest = chest();
-        NBTTagList list = new NBTTagList();
-        NBTTagCompound pine = stack("biomesoplenty:pinecone", 64, 4);
+        CompoundNBT chest = chest();
+        ListNBT list = new ListNBT();
+        CompoundNBT pine = stack("biomesoplenty:pinecone", 64, 4);
 
-        list.appendTag(pine);
+        list.add(pine);
 
-        NBTTagCompound stone = new ItemStack(Items.STICK, 64).writeToNBT(new NBTTagCompound());
+        CompoundNBT stone = new ItemStack(Items.STICK, 64).write(new CompoundNBT());
 
-        stone.setByte("Slot", (byte) 0);
-        list.appendTag(stone);
-        chest.setTag("Items", list);
+        stone.putByte("Slot", (byte) 0);
+        list.add(stone);
+        chest.put("Items", list);
         recovery.fixTagCompound(chest);
-        require(list.tagCount() == 2, "input references were not mutated");
-        list = chest.getTagList("Items", 10);
-        require(list.tagCount() == 3, "overflow creates a second legal stack");
+        require(list.size() == 2, "input references were not mutated");
+        list = chest.getList("Items", 10);
+        require(list.size() == 3, "overflow creates a second legal stack");
 
         int dyes = 0;
 
-        for (int entryIndex = 0; entryIndex < list.tagCount(); entryIndex++) {
-            NBTTagCompound compoundTag = list.getCompoundTagAt(entryIndex);
+        for (int entryIndex = 0; entryIndex < list.size(); entryIndex++) {
+            CompoundNBT compoundTag = list.getCompound(entryIndex);
 
-            if (compoundTag.getString("id").equals("biomesoplenty:brown_dye")) {
-                dyes += compoundTag.getInteger("Count");
-                require(compoundTag.getInteger("Count") == 64, "legal stack limit");
-                require(compoundTag.getCompoundTag("tag").equals(pine.getCompoundTag("tag")),
+            if (compoundTag.getString("id").equals("minecraft:brown_dye")) {
+                dyes += compoundTag.getInt("Count");
+                require(compoundTag.getInt("Count") == 64, "legal stack limit");
+                require(compoundTag.getCompound("tag").equals(pine.getCompound("tag")),
                         "split copies complete custom data");
             }
         }
 
-        require(dyes == 128 && list.getCompoundTagAt(2).getInteger("Slot") == 1, "exact multiplier and free slot");
+        require(dyes == 128 && list.getCompound(2).getInt("Slot") == 1, "exact multiplier and free slot");
 
-        NBTTagCompound full = chest();
+        CompoundNBT full = chest();
 
-        list = new NBTTagList();
+        list = new ListNBT();
 
         for (int entryIndex = 0; entryIndex < 27; entryIndex++) {
-            NBTTagCompound entry = entryIndex == 0 ? stack("biomesoplenty:pinecone", 64, entryIndex)
-                    : new ItemStack(Items.STICK, 64).writeToNBT(new NBTTagCompound());
+            CompoundNBT entry = entryIndex == 0 ? stack("biomesoplenty:pinecone", 64, entryIndex)
+                    : new ItemStack(Items.STICK, 64).write(new CompoundNBT());
 
-            entry.setByte("Slot", (byte) entryIndex);
-            list.appendTag(entry);
+            entry.putByte("Slot", (byte) entryIndex);
+            list.add(entry);
         }
 
-        full.setTag("Items", list);
+        full.put("Items", list);
         reject(recovery, full, "empty inventory slots");
         reject(recovery, stack("biomesoplenty:pinecone", 64, 0), "extra slots");
 
-        NBTTagCompound frame = new NBTTagCompound();
+        CompoundNBT frame = new CompoundNBT();
 
-        frame.setString("id", "minecraft:item_frame");
-        frame.setTag("Item", stack("biomesoplenty:pinecone", 1, 0));
+        frame.putString("id", "minecraft:item_frame");
+        frame.put("Item", stack("biomesoplenty:pinecone", 1, 0));
         reject(recovery, frame, "item frame");
 
-        NBTTagCompound bad = stack("biomesoplenty:pinecone", 1, 0);
+        CompoundNBT bad = stack("biomesoplenty:pinecone", 1, 0);
 
-        bad.setString("tag", "invalid");
+        bad.putString("tag", "invalid");
         reject(recovery, bad, "malformed");
         bad = stack("biomesoplenty:pinecone", 1, 0);
-        bad.setByte("Count", (byte) 0);
+        bad.putByte("Count", (byte) 0);
         reject(recovery, bad, "invalid saved stack");
 
-        NBTTagCompound basket = new ItemStack(Baskets.ITEM).writeToNBT(new NBTTagCompound());
-        NBTTagCompound tag = new NBTTagCompound();
+        CompoundNBT basket = new ItemStack(Baskets.ITEM).write(new CompoundNBT());
+        CompoundNBT tag = new CompoundNBT();
 
-        list = new NBTTagList();
-        list.appendTag(stack("biomesoplenty:pinecone", 64, 2));
-        tag.setTag("Items", list);
-        basket.setTag("tag", tag);
+        list = new ListNBT();
+        list.add(stack("biomesoplenty:pinecone", 64, 2));
+        tag.put("Items", list);
+        basket.put("tag", tag);
         recovery.fixTagCompound(basket);
-        require(basket.getCompoundTag("tag").getTagList("Items", 10).tagCount() == 2,
+        require(basket.getCompound("tag").getList("Items", 10).size() == 2,
                 "basket overflow is allocated before validation");
-        require(new BasketInventory(new ItemStack(basket)).getStackInSlot(0).getCount() == 64,
+        require(new BasketInventory(ItemStack.read(basket)).getStackInSlot(0).getCount() == 64,
                 "legacy non-plant output stays withdrawable");
 
-        NBTTagCompound player = new NBTTagCompound();
+        CompoundNBT player = new CompoundNBT();
 
-        player.setInteger("DataVersion", 1343);
-        player.setTag("abilities", new NBTTagCompound());
+        player.putInt("DataVersion", 1343);
+        player.put("abilities", new CompoundNBT());
 
-        NBTTagCompound versions = new NBTTagCompound();
+        CompoundNBT versions = new CompoundNBT();
 
-        versions.setInteger(SkysBuildingPiecesBop.ID, 1);
-        player.setTag("ForgeDataVersion", versions);
-        list = new NBTTagList();
-        list.appendTag(stack("biomesoplenty:pinecone", 64, 0));
-        player.setTag("Inventory", list);
-        list = new NBTTagList();
-        list.appendTag(stack("biomesoplenty:pinecone", 40, 3));
-        player.setTag("EnderItems", list);
-        FMLCommonHandler.instance().getDataFixer().process(FixTypes.PLAYER, player);
-        require(player.getTagList("Inventory", 10).tagCount() == 2
-                && player.getTagList("EnderItems", 10).tagCount() == 2,
+        versions.putInt(SkysBuildingPiecesBop.ID, 1);
+        player.put("ForgeDataVersion", versions);
+        list = new ListNBT();
+        list.add(stack("biomesoplenty:pinecone", 64, 0));
+        player.put("Inventory", list);
+        list = new ListNBT();
+        list.add(stack("biomesoplenty:pinecone", 40, 3));
+        player.put("EnderItems", list);
+        LegacyBridge.prepareNbt(player);
+        require(player.getList("Inventory", 10).size() == 2 && player.getList("EnderItems", 10).size() == 2,
                 "version-one saves receive version-two player and ender conversion");
 
-        NBTTagCompound deferred = stack("biomesoplenty:pinecone", 64, 4);
+        CompoundNBT deferred = stack("biomesoplenty:pinecone", 64, 4);
 
-        deferred.setInteger("DataVersion", 1343);
-        deferred.setTag("ForgeDataVersion", versions.copy());
+        deferred.putInt("DataVersion", 1343);
+        deferred.put("ForgeDataVersion", versions.copy());
 
-        NBTTagCompound same = deferred.copy();
+        CompoundNBT same = deferred.copy();
 
-        FMLCommonHandler.instance().getDataFixer().process(FixTypes.ITEM_INSTANCE, deferred);
-        require(deferred.equals(same), "child-first fixing defers larger output without truncation");
+        boolean blocked = false;
 
-        NBTTagCompound parent = chest();
+        try {
+            LegacyBridge.prepareNbt(deferred);
+        } catch (LegacyBridge.RecoveryAbort expected) {
+            blocked = true;
+        }
 
-        parent.setInteger("DataVersion", 1343);
-        parent.setTag("ForgeDataVersion", versions.copy());
-        list = new NBTTagList();
-        list.appendTag(deferred);
-        parent.setTag("Items", list);
-        FMLCommonHandler.instance().getDataFixer().process(FixTypes.BLOCK_ENTITY, parent);
+        require(blocked && deferred.equals(same), "a child without parent capacity stops without truncation");
 
-        net.minecraft.tileentity.TileEntityChest decodedChest = new net.minecraft.tileentity.TileEntityChest();
+        CompoundNBT parent = chest();
 
-        decodedChest.readFromNBT(parent);
+        parent.putInt("DataVersion", 1343);
+        parent.put("ForgeDataVersion", versions.copy());
+        list = new ListNBT();
+        list.add(deferred);
+        parent.put("Items", list);
+        LegacyBridge.prepareNbt(parent);
+
+        net.minecraft.tileentity.ChestTileEntity decodedChest = new net.minecraft.tileentity.ChestTileEntity();
+
+        decodedChest.read(parent);
         require(decodedChest.getStackInSlot(4).getCount() == 64 && decodedChest.getStackInSlot(0).getCount() == 64,
                 "parent-first and child-first orders both deserialize 128 items");
 
-        NBTTagCompound caps = stack("biomesoplenty:pinecone", 1, 0);
-        NBTTagCompound payload = new NBTTagCompound();
+        CompoundNBT caps = stack("biomesoplenty:pinecone", 1, 0);
+        CompoundNBT payload = new CompoundNBT();
 
-        payload.setString("custom", "retain capabilities");
-        caps.setTag("ForgeCaps", payload);
+        payload.putString("custom", "retain capabilities");
+        caps.put("ForgeCaps", payload);
         recovery.fixTagCompound(caps);
-        require(caps.getCompoundTag("tag").getCompoundTag(SkysBuildingPiecesBop.ID + ":legacy_capabilities")
-                .equals(payload), "old capabilities retain an exact archive");
-        require(PiecesWorldState.get(world).writeToNBT(new NBTTagCompound()).equals(state),
+        require(caps.getCompound("tag").getCompound(SkysBuildingPiecesBop.ID + ":legacy_capabilities").equals(payload),
+                "old capabilities retain an exact archive");
+        require(PiecesWorldState.get(world).write(new CompoundNBT()).equals(state),
                 "piece counters and schema untouched");
         System.out.println("BOP_RETIRED_ITEMS_PASS checks=" + checks
                 + " multipliers=1/2/8 capacity=bounded NBT=preserved schema=unchanged");
     }
 
-    private static NBTTagCompound chest() {
-        NBTTagCompound compoundTag = new NBTTagCompound();
+    private static CompoundNBT chest() {
+        CompoundNBT compoundTag = new CompoundNBT();
 
-        compoundTag.setString("id", "minecraft:chest");
+        compoundTag.putString("id", "minecraft:chest");
         return compoundTag;
     }
 
-    private static NBTTagCompound stack(String registryId, int count, int slot) {
-        NBTTagCompound compoundTag = new NBTTagCompound();
+    private static CompoundNBT stack(String registryId, int count, int slot) {
+        CompoundNBT compoundTag = new CompoundNBT();
 
-        compoundTag.setString("id", registryId);
-        compoundTag.setByte("Count", (byte) count);
-        compoundTag.setShort("Damage", (short) 0);
-        compoundTag.setByte("Slot", (byte) slot);
+        compoundTag.putString("id", registryId);
+        compoundTag.putByte("Count", (byte) count);
+        compoundTag.putShort("Damage", (short) 0);
+        compoundTag.putByte("Slot", (byte) slot);
 
-        NBTTagCompound tag = new NBTTagCompound();
-        NBTTagCompound display = new NBTTagCompound();
+        CompoundNBT tag = new CompoundNBT();
+        CompoundNBT display = new CompoundNBT();
 
-        display.setString("Name", "Archived plant");
-        tag.setTag("display", display);
-        tag.setInteger("Unrelated", 711);
-        compoundTag.setTag("tag", tag);
+        display.putString("Name", "Archived plant");
+        tag.put("display", display);
+        tag.putInt("Unrelated", 711);
+        compoundTag.put("tag", tag);
         return compoundTag;
     }
 
-    private static void reject(LegacyItemRecovery fix, NBTTagCompound raw, String expected) {
-        NBTTagCompound before = raw.copy();
+    private static void reject(LegacyItemRecovery fix, CompoundNBT raw, String expected) {
+        CompoundNBT before = raw.copy();
         boolean stopped = false;
 
         try {

@@ -64,9 +64,10 @@ class PublicationContractTest {
     @Test
     void releaseTargetsTheAddonAndDeclaresItsRequiredMods() throws Exception {
         java.util.Properties metadata = new java.util.Properties();
+
         metadata.load(new java.io.StringReader(text("gradle.properties")));
 
-        assertEquals("true", metadata.getProperty("release_enabled"));
+        assertEquals("false", metadata.getProperty("release_enabled"));
         assertEquals("1755976", metadata.getProperty("curseforge_project_id"));
 
         String workflow = text(".github/workflows/deploy-release.yml");

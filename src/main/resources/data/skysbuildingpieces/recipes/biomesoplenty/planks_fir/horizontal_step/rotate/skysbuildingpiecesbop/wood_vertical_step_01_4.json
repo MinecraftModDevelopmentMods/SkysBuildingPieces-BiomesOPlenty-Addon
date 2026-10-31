@@ -1,0 +1,25 @@
+{
+  "type": "skysbuildingpieces:cutting",
+  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "pattern": ["X"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:planks_fir_vertical_step"
+    }
+  },
+  "result": {
+    "item": "skysbuildingpiecesbop:planks_fir_horizontal_step",
+    "count": 1
+  },
+  "preserve_tag": true,
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_fir_horizontal_step"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_fir_vertical_step"
+    }
+  ]
+}

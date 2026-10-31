@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/biomesoplenty",
+  "pattern": ["X ", " X"],
+  "key": {
+    "X": {
+      "item": "biomesoplenty:hellbark_slab"
+    }
+  },
+  "result": {
+    "item": "skysbuildingpiecesbop:planks_hellbark_horizontal_step",
+    "count": 4
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:hellbark_slab"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_hellbark_horizontal_step"
+    }
+  ]
+}

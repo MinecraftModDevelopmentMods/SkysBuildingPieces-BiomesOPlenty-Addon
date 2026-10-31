@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "pattern": ["X ", " X"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:planks_hellbark_vertical_slab"
+    }
+  },
+  "result": {
+    "item": "skysbuildingpiecesbop:planks_hellbark_horizontal_step",
+    "count": 4
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_hellbark_horizontal_step"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_hellbark_vertical_slab"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/mineralogy",
+  "pattern": ["X  ", "XX ", "XXX"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:crag_rock_slab"
+    }
+  },
+  "result": {
+    "item": "skysbuildingpiecesbop:crag_rock_stairs",
+    "count": 4
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:crag_rock_slab"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:crag_rock_stairs"
+    }
+  ]
+}

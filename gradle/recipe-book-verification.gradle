@@ -1,7 +1,7 @@
 // Recipe-book checks get their own server runs rather than sharing one long gameplay tick.
 def bookDirectory = layout.buildDirectory.dir('recipe-book-test-run')
 def prepareBook = tasks.register('prepareRecipeBookTest') {
-    dependsOn tasks.named('integrationTestModJar')
+    dependsOn tasks.named('integrationTestModJar'), project.ext.bopDevelopmentTask
     doLast {
         File directory = bookDirectory.get().asFile
         if (directory.canonicalFile != new File(buildDir, 'recipe-book-test-run').canonicalFile) {

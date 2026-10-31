@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "mineralogy:gabbro"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "skysbuildingpiecesbop:retired_gabbro"
+    }
+  ],
+  "result": {
+    "item": "mineralogy:gabbro"
+  }
+}

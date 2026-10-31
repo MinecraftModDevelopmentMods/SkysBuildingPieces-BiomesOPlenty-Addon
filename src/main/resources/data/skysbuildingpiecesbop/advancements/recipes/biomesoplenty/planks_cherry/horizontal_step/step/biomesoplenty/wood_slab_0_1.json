@@ -1,0 +1,36 @@
+{
+  "criteria": {
+    "has_ingredient": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "biomesoplenty:cherry_slab"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "skysbuildingpieces:biomesoplenty/planks_cherry/horizontal_step/step/biomesoplenty/wood_slab_0_1"
+      }
+    }
+  },
+  "requirements": [
+    ["has_ingredient", "has_the_recipe"]
+  ],
+  "rewards": {
+    "recipes": ["skysbuildingpieces:biomesoplenty/planks_cherry/horizontal_step/step/biomesoplenty/wood_slab_0_1"]
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:cherry_slab"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_cherry_horizontal_step"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/planks_redwood",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "biomesoplenty:redwood_slab"
+    }
+  },
+  "result": {
+    "item": "biomesoplenty:redwood_planks",
+    "count": 1
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:redwood_planks"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:redwood_slab"
+    }
+  ]
+}

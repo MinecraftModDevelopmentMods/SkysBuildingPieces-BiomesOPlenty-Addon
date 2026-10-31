@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:planks_ethereal_horizontal_step"
+    }
+  },
+  "result": {
+    "item": "skysbuildingpiecesbop:planks_ethereal_corner",
+    "count": 4
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_ethereal_corner"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_ethereal_horizontal_step"
+    }
+  ]
+}

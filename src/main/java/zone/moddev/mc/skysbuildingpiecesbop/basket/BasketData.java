@@ -5,11 +5,10 @@ import java.util.Set;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.*;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.datafix.IFixableData;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistries;
 
 /** Reads the saved basket before an item serializer can discard its contents. */
-public final class BasketData implements IFixableData {
+public final class BasketData {
     public static final int SIZE = 18;
     public static final String ID = "skysbuildingpiecesbop:flower_basket";
     public static final String HOLDER = "skysbuildingpiecesbop:legacy_bop_flower_basket";
@@ -19,46 +18,40 @@ public final class BasketData implements IFixableData {
         return ID.equals(registryId) || HOLDER.equals(registryId) || OLD.equals(registryId);
     }
 
-    @Override
-    public int getFixVersion() {
-        return 1;
-    }
-
-    @Override
-    public NBTTagCompound fixTagCompound(NBTTagCompound root) {
+    public CompoundNBT fixTagCompound(CompoundNBT root) {
         if (!containsBasket(root, 0)) {
             return root;
         }
 
         // Validate a copy first: a bad nested entry must not leave half a conversion.
-        NBTTagCompound checked = root.copy();
+        CompoundNBT checked = root.copy();
 
         rewrite(checked, 0);
 
-        for (String key : checked.getKeySet()) {
-            root.setTag(key, checked.getTag(key));
+        for (String key : checked.keySet()) {
+            root.put(key, checked.get(key));
         }
 
         return root;
     }
 
-    private static boolean containsBasket(NBTBase value, int depth) {
+    private static boolean containsBasket(INBT value, int depth) {
         if (depth > 64) {
             throw invalid("inventory nesting exceeds 64 levels");
         }
-        if (value instanceof NBTTagCompound) {
-            NBTTagCompound compoundTag = (NBTTagCompound) value;
+        if (value instanceof CompoundNBT) {
+            CompoundNBT compoundTag = (CompoundNBT) value;
 
-            if (compoundTag.hasKey("id", 8) && isBasket(compoundTag.getString("id"))) {
+            if (compoundTag.contains("id", 8) && isBasket(compoundTag.getString("id"))) {
                 return true;
             }
-            for (String key : compoundTag.getKeySet()) {
-                if (containsBasket(compoundTag.getTag(key), depth + 1)) {
+            for (String key : compoundTag.keySet()) {
+                if (containsBasket(compoundTag.get(key), depth + 1)) {
                     return true;
                 }
             }
-        } else if (value instanceof NBTTagList) {
-            for (NBTBase child : (NBTTagList) value) {
+        } else if (value instanceof ListNBT) {
+            for (INBT child : (ListNBT) value) {
                 if (containsBasket(child, depth + 1)) {
                     return true;
                 }
@@ -68,69 +61,68 @@ public final class BasketData implements IFixableData {
         return false;
     }
 
-    private static void rewrite(NBTBase value, int depth) {
+    private static void rewrite(INBT value, int depth) {
         if (depth > 64) {
             throw invalid("inventory nesting exceeds 64 levels");
         }
-        if (value instanceof NBTTagCompound) {
-            NBTTagCompound compoundTag = (NBTTagCompound) value;
+        if (value instanceof CompoundNBT) {
+            CompoundNBT compoundTag = (CompoundNBT) value;
 
-            if (compoundTag.hasKey("id", 8) && isBasket(compoundTag.getString("id"))) {
-                if (!integer(compoundTag, "Count") || compoundTag.getInteger("Count") != 1
-                        || compoundTag.hasKey("Damage")
-                                && (!integer(compoundTag, "Damage") || compoundTag.getInteger("Damage") != 0)) {
+            if (compoundTag.contains("id", 8) && isBasket(compoundTag.getString("id"))) {
+                if (!integer(compoundTag, "Count") || compoundTag.getInt("Count") != 1 || compoundTag.contains("Damage")
+                        && (!integer(compoundTag, "Damage") || compoundTag.getInt("Damage") != 0)) {
                     throw invalid("a basket must have count 1 and damage 0");
                 }
-                if (compoundTag.hasKey("tag") && !compoundTag.hasKey("tag", 10)) {
+                if (compoundTag.contains("tag") && !compoundTag.contains("tag", 10)) {
                     throw invalid("basket tag is not a compound");
                 }
 
-                NBTTagCompound tag = compoundTag.getCompoundTag("tag");
+                CompoundNBT tag = compoundTag.getCompound("tag");
 
                 validate(tag);
-                compoundTag.setString("id", ID);
+                compoundTag.putString("id", ID);
 
                 // This was a transient GUI flag, not part of the stored inventory.
-                if (tag.hasKey("BasketOpen")) {
-                    tag.setBoolean("BasketOpen", false);
+                if (tag.contains("BasketOpen")) {
+                    tag.putBoolean("BasketOpen", false);
                 }
             }
-            for (String key : compoundTag.getKeySet()) {
-                rewrite(compoundTag.getTag(key), depth + 1);
+            for (String key : compoundTag.keySet()) {
+                rewrite(compoundTag.get(key), depth + 1);
             }
-        } else if (value instanceof NBTTagList) {
-            for (NBTBase child : (NBTTagList) value) {
+        } else if (value instanceof ListNBT) {
+            for (INBT child : (ListNBT) value) {
                 rewrite(child, depth + 1);
             }
         }
     }
 
     /** Reject malformed entries and duplicate slots before an item loader can discard stored contents. */
-    public static void validate(NBTTagCompound tag) {
-        if (!tag.hasKey("Items")) {
+    public static void validate(CompoundNBT tag) {
+        if (!tag.contains("Items")) {
             return;
         }
-        if (!tag.hasKey("Items", 9)) {
+        if (!tag.contains("Items", 9)) {
             throw invalid("Items is not a list");
         }
 
-        NBTTagList list = tag.getTagList("Items", 10);
-        NBTTagList raw = (NBTTagList) tag.getTag("Items");
+        ListNBT list = tag.getList("Items", 10);
+        ListNBT raw = (ListNBT) tag.get("Items");
 
-        if (raw.tagCount() != list.tagCount()) {
+        if (raw.size() != list.size()) {
             throw invalid("Items contains non-compound entries");
         }
 
         Set<Integer> occupied = new HashSet<Integer>();
 
-        for (int entryIndex = 0; entryIndex < list.tagCount(); entryIndex++) {
-            NBTTagCompound entry = list.getCompoundTagAt(entryIndex);
+        for (int entryIndex = 0; entryIndex < list.size(); entryIndex++) {
+            CompoundNBT entry = list.getCompound(entryIndex);
 
             if (!integer(entry, "Slot")) {
                 throw invalid("an inventory entry has no integral slot");
             }
 
-            int slot = entry.getInteger("Slot");
+            int slot = entry.getInt("Slot");
 
             if (slot < 0 || slot >= SIZE || !occupied.add(slot)) {
                 throw invalid("invalid or duplicate slot " + slot);
@@ -140,18 +132,18 @@ public final class BasketData implements IFixableData {
         }
     }
 
-    private static void validateStack(NBTTagCompound stack, String where, int depth) {
+    private static void validateStack(CompoundNBT stack, String where, int depth) {
         if (depth > 64) {
             throw invalid("nested item data exceeds 64 levels");
         }
-        if (!stack.hasKey("id", 8) || !integer(stack, "Count") || stack.getInteger("Count") <= 0
-                || stack.hasKey("Damage") && !integer(stack, "Damage")) {
+        if (!stack.contains("id", 8) || !integer(stack, "Count") || stack.getInt("Count") <= 0
+                || stack.contains("Damage") && !integer(stack, "Damage")) {
             throw invalid(where + " has an invalid item stack");
         }
-        if (stack.hasKey("tag") && !stack.hasKey("tag", 10)) {
+        if (stack.contains("tag") && !stack.contains("tag", 10)) {
             throw invalid(where + " has malformed item data");
         }
-        if (stack.hasKey("ForgeCaps") && !stack.hasKey("ForgeCaps", 10)) {
+        if (stack.contains("ForgeCaps") && !stack.contains("ForgeCaps", 10)) {
             throw invalid(where + " has malformed capability data");
         }
 
@@ -163,39 +155,39 @@ public final class BasketData implements IFixableData {
         } catch (RuntimeException failure) {
             throw invalid(where + " has an invalid item ID: " + registryId);
         }
-        if (item == null || item == net.minecraft.init.Items.AIR) {
+        if (item == null || item == net.minecraft.item.Items.AIR) {
             throw invalid(where + " has an unavailable item: " + registryId);
         }
 
-        net.minecraft.item.ItemStack decoded = new net.minecraft.item.ItemStack(item, 1, stack.getInteger("Damage"));
+        net.minecraft.item.ItemStack decoded = net.minecraft.item.ItemStack.read(stack.copy());
 
-        if (stack.hasKey("tag", 10)) {
-            decoded.setTagCompound(stack.getCompoundTag("tag").copy());
+        if (stack.contains("tag", 10)) {
+            decoded.setTag(stack.getCompound("tag").copy());
         }
-        if (stack.getInteger("Count") > decoded.getMaxStackSize()) {
+        if (stack.getInt("Count") > decoded.getMaxStackSize()) {
             throw invalid(where + " exceeds the stack limit for " + registryId);
         }
 
-        validateChildren(stack.getTag("tag"), where, depth + 1);
-        validateChildren(stack.getTag("ForgeCaps"), where, depth + 1);
+        validateChildren(stack.get("tag"), where, depth + 1);
+        validateChildren(stack.get("ForgeCaps"), where, depth + 1);
     }
 
-    private static void validateChildren(NBTBase value, String where, int depth) {
+    private static void validateChildren(INBT value, String where, int depth) {
         if (depth > 64) {
             throw invalid("nested item data exceeds 64 levels");
         }
-        if (value instanceof NBTTagCompound) {
-            NBTTagCompound compoundTag = (NBTTagCompound) value;
+        if (value instanceof CompoundNBT) {
+            CompoundNBT compoundTag = (CompoundNBT) value;
 
-            if (compoundTag.hasKey("id", 8) && compoundTag.hasKey("Count", 99)) {
+            if (compoundTag.contains("id", 8) && compoundTag.contains("Count", 99)) {
                 validateStack(compoundTag, where + " / " + compoundTag.getString("id"), depth + 1);
             } else {
-                for (String key : compoundTag.getKeySet()) {
-                    validateChildren(compoundTag.getTag(key), where, depth + 1);
+                for (String key : compoundTag.keySet()) {
+                    validateChildren(compoundTag.get(key), where, depth + 1);
                 }
             }
-        } else if (value instanceof NBTTagList) {
-            for (NBTBase child : (NBTTagList) value) {
+        } else if (value instanceof ListNBT) {
+            for (INBT child : (ListNBT) value) {
                 validateChildren(child, where, depth + 1);
             }
         }
@@ -206,7 +198,7 @@ public final class BasketData implements IFixableData {
                 + ". Restore the original world backup and required mods; no basket contents may be discarded.");
     }
 
-    private static boolean integer(NBTTagCompound compoundTag, String key) {
-        return compoundTag.hasKey(key, 99) && compoundTag.getTagId(key) >= 1 && compoundTag.getTagId(key) <= 3;
+    private static boolean integer(CompoundNBT compoundTag, String key) {
+        return compoundTag.contains(key, 99) && compoundTag.get(key).getId() >= 1 && compoundTag.get(key).getId() <= 3;
     }
 }

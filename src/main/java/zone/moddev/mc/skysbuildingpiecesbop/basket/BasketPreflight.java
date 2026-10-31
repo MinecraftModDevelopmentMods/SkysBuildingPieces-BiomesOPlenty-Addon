@@ -13,8 +13,7 @@ public final class BasketPreflight {
     }
 
     public static void check(MinecraftServer server) throws IOException {
-        File world = server.isDedicatedServer() ? server.getFile(server.getFolderName())
-                : new File(server.getDataDirectory(), "saves/" + server.getFolderName());
+        File world = server.getActiveAnvilConverter().getFile(server.getFolderName(), "level.dat").getParentFile();
 
         if (!world.isDirectory()) {
             return;

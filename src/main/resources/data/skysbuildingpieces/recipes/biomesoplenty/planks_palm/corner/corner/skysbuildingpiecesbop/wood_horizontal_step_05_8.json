@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:planks_palm_horizontal_step"
+    }
+  },
+  "result": {
+    "item": "skysbuildingpiecesbop:planks_palm_corner",
+    "count": 4
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_palm_corner"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_palm_horizontal_step"
+    }
+  ]
+}

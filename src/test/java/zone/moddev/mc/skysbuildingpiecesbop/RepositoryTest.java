@@ -16,7 +16,7 @@ class RepositoryTest {
 
         String pin = text("gradle/core-dependency.properties");
 
-        assertTrue(pin.contains("version=0.3.8.112021"));
+        assertTrue(pin.contains("version=0.3.8.114041"));
         assertTrue(pin.contains("api=1"));
     }
 
@@ -65,7 +65,7 @@ class RepositoryTest {
 
             assertTrue(workflow.contains("core-dependency.properties"));
             assertTrue(workflow.contains("steps.content.outputs.pieces"));
-            assertTrue(workflow.contains("./gradlew jar"));
+            assertTrue(workflow.contains("./gradlew assemble"));
             assertFalse(workflow.contains("secrets."));
             assertFalse(workflow.contains("gh release"));
             assertFalse(workflow.contains("publishRelease"));
@@ -76,8 +76,8 @@ class RepositoryTest {
         assertTrue(ciWorkflow.contains("if-no-files-found: error"));
 
         for (String classifier : new String[] { "", "-sources", "-javadoc" }) {
-            assertTrue(
-                    ciWorkflow.contains("build/libs/${{ steps.target.outputs.artifact_prefix }}" + classifier + ".jar"));
+            assertTrue(ciWorkflow
+                    .contains("build/libs/${{ steps.target.outputs.artifact_prefix }}" + classifier + ".jar"));
         }
 
         assertTrue(ciWorkflow.contains("-PbuildingPiecesCoreDir=dependencies/pieces"));

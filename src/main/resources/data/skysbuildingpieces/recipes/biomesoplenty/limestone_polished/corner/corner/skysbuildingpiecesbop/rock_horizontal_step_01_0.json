@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:limestone_polished_horizontal_step"
+    }
+  },
+  "result": {
+    "item": "skysbuildingpiecesbop:limestone_polished_corner",
+    "count": 4
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:limestone_polished_corner"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:limestone_polished_horizontal_step"
+    }
+  ]
+}

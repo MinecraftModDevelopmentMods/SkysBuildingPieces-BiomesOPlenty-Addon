@@ -2,13 +2,13 @@ package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
 import java.io.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.client.gui.screen.MainMenuScreen;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.*;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.eventbus.api.*;
+import net.minecraftforge.event.TickEvent;
 import zone.moddev.mc.skysbuildingpieces.probe.ClientStatus;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.*;
 import zone.moddev.mc.skysbuildingpiecesbop.client.BasketScreen;
@@ -16,7 +16,7 @@ import zone.moddev.mc.skysbuildingpiecesbop.client.BasketScreen;
 /** Disconnect with the window still open, then inspect the normal player save on reconnect. */
 public final class BasketDisconnectClientChecks {
     private static int stage, ticks;
-    private static boolean controlled;
+    private static boolean ready;
     private static volatile boolean checked;
 
     @SubscribeEvent(
@@ -28,26 +28,23 @@ public final class BasketDisconnectClientChecks {
             return;
         }
 
+        ready |= ClientStatus.complete;
         ClientStatus.complete = false;
 
-        Minecraft minecraft = Minecraft.getMinecraft();
+        Minecraft minecraft = Minecraft.getInstance();
 
         minecraft.gameSettings.pauseOnLostFocus = false;
 
         if (++ticks > 4000) {
             throw new AssertionError("Open-basket disconnect check timed out at stage " + stage);
         }
-        if (!controlled && minecraft.getIntegratedServer() != null) {
-            MinecraftForge.EVENT_BUS.unregister(zone.moddev.mc.skysbuildingpieces.probe.RuntimeProbe.proxy);
-            controlled = true;
-        }
-        if (minecraft.player == null || minecraft.getIntegratedServer() == null) {
+        if (!ready || minecraft.player == null || minecraft.getIntegratedServer() == null) {
             return;
         }
         if (stage == 0) {
             stage = phase.endsWith("reload") ? 10 : 1;
-            minecraft.getIntegratedServer().addScheduledTask(() -> {
-                EntityPlayerMP player = minecraft.getIntegratedServer().getPlayerList()
+            minecraft.getIntegratedServer().execute(() -> {
+                ServerPlayerEntity player = minecraft.getIntegratedServer().getPlayerList()
                         .getPlayerByUUID(minecraft.player.getUniqueID());
 
                 if (phase.endsWith("reload")) {
@@ -57,7 +54,7 @@ public final class BasketDisconnectClientChecks {
                         if (stack.getItem() == Baskets.ITEM) {
                             baskets++;
 
-                            if (!stack.getDisplayName().equals("Disconnect plants")
+                            if (!stack.getDisplayName().getString().equals("Disconnect plants")
                                     || new BasketInventory(stack).getStackInSlot(7).getCount() != 11) {
                                 throw new AssertionError("Disconnect changed the basket name, slot or contents");
                             }
@@ -74,23 +71,23 @@ public final class BasketDisconnectClientChecks {
 
                     ItemStack stack = new ItemStack(Baskets.ITEM);
 
-                    stack.setStackDisplayName("Disconnect plants");
+                    stack.setDisplayName(new net.minecraft.util.text.StringTextComponent("Disconnect plants"));
                     new BasketInventory(stack).setInventorySlotContents(7,
-                            new ItemStack(net.minecraft.init.Blocks.SAPLING, 11, 2));
+                            new ItemStack(net.minecraft.block.Blocks.BIRCH_SAPLING, 11));
                     player.inventory.setInventorySlotContents(0, stack);
-                    player.inventoryContainer.detectAndSendChanges();
+                    player.container.detectAndSendChanges();
                 }
             });
         } else if (stage == 10 && checked) {
             finish(minecraft, "BOP_BASKET_DISCONNECT_RELOAD_PASS baskets=1 units=11 slot=7 custom_name=preserved");
         } else if (stage == 1 && minecraft.player.getHeldItemMainhand().getItem() == Baskets.ITEM) {
             stage = 2;
-            minecraft.playerController.processRightClick(minecraft.player, minecraft.world, EnumHand.MAIN_HAND);
+            minecraft.playerController.processRightClick(minecraft.player, minecraft.world, Hand.MAIN_HAND);
         } else if (stage == 2 && minecraft.currentScreen instanceof BasketScreen) {
             stage = 3;
             minecraft.world.sendQuittingDisconnectingPacket();
             minecraft.loadWorld(null);
-            minecraft.displayGuiScreen(new GuiMainMenu());
+            minecraft.displayGuiScreen(new MainMenuScreen());
             finish(minecraft, "BOP_BASKET_DISCONNECT_PASS window=open units=11");
         }
     }

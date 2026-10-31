@@ -1,0 +1,28 @@
+{
+  "biomesoplenty:berries": { "0": "minecraft:sweet_berries" },
+  "biomesoplenty:black_dye": { "0": "minecraft:black_dye" },
+  "biomesoplenty:blue_dye": { "0": "minecraft:blue_dye" },
+  "biomesoplenty:brown_dye": { "0": "minecraft:brown_dye" },
+  "biomesoplenty:white_dye": { "0": "minecraft:white_dye" },
+  "biomesoplenty:green_dye": { "0": "minecraft:green_dye" },
+  "biomesoplenty:jar_empty": { "0": "minecraft:glass_bottle" },
+  "biomesoplenty:mudball": { "0": "biomesoplenty:mud_ball" },
+  "biomesoplenty:peach": { "0": "minecraft:apple" },
+  "biomesoplenty:pear": { "0": "minecraft:apple" },
+  "biomesoplenty:persimmon": { "0": "minecraft:apple" },
+  "biomesoplenty:sacred_oak_door": { "0": "minecraft:oak_door" },
+  "biomesoplenty:mangrove_door": { "0": "minecraft:birch_door" },
+  "biomesoplenty:pine_door": { "0": "minecraft:jungle_door" },
+  "biomesoplenty:ebony_door": { "0": "minecraft:dark_oak_door" },
+  "biomesoplenty:eucalyptus_door": { "0": "minecraft:oak_door" },
+  "biomesoplenty:gem": {
+    "0": "minecraft:lapis_lazuli",
+    "1": "minecraft:redstone",
+    "2": "minecraft:emerald",
+    "3": "minecraft:gold_nugget",
+    "4": "minecraft:lapis_lazuli",
+    "5": "minecraft:emerald",
+    "6": "minecraft:lapis_lazuli",
+    "7": "minecraft:gold_nugget"
+  }
+}

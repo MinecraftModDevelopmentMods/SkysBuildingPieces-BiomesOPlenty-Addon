@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.4.114041
+
+- Ported to Minecraft 1.14.4 and native waterlogging.
+- Reused BOP's current slabs, stairs and walls where equivalent pieces exist.
+- Added replacements for retired woods, gems and thatching when loading old pieces.
+- Kept Flower Basket inventories, with old plant names converted before loading.
+- Preserved existing migration totals and supported saved, unpopulated chunks.
+- Added recipe-book unlocks for converting fallback rocks to Mineralogy blocks.
+
 ## 0.2.4.112021
 
 - Updated for Building Pieces 0.3.8.112021.

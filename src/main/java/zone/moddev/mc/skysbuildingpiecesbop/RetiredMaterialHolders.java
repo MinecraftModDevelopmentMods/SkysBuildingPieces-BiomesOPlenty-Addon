@@ -2,20 +2,21 @@ package zone.moddev.mc.skysbuildingpiecesbop;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 /** Separate hidden identities keep mixed old and current palette saves unambiguous. */
 @Mod.EventBusSubscriber(
-        modid = SkysBuildingPiecesBop.ID)
+        modid = SkysBuildingPiecesBop.ID,
+        bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class RetiredMaterialHolders {
     public static final Block STONE = new Holder("legacy_bop_stone");
     public static final Block CRAG = new Holder("legacy_bop_crag_rock");
@@ -38,7 +39,7 @@ public final class RetiredMaterialHolders {
     public static void items(RegistryEvent.Register<Item> event) {
         for (Block block : BLOCKS) {
             event.getRegistry()
-                    .register(new ItemBlock(block).setHasSubtypes(true).setRegistryName(block.getRegistryName()));
+                    .register(new BlockItem(block, new Item.Properties()).setRegistryName(block.getRegistryName()));
         }
     }
 
@@ -65,27 +66,25 @@ public final class RetiredMaterialHolders {
     }
 
     private static final class Holder extends Block {
-        private static final PropertyInteger META = PropertyInteger.create("metadata", 0, 15);
+        private static final IntegerProperty META = IntegerProperty.create("metadata", 0, 15);
 
         Holder(String name) {
-            super(Material.ROCK);
+            super(Block.Properties.create(Material.ROCK).hardnessAndResistance(-1, 3600000));
             setRegistryName(SkysBuildingPiecesBop.ID, name);
-            setDefaultState(blockState.getBaseState().withProperty(META, 0));
+            setDefaultState(stateContainer.getBaseState().with(META, 0));
         }
 
         @Override
-        protected BlockStateContainer createBlockState() {
-            return new BlockStateContainer(this, META);
+        protected void fillStateContainer(StateContainer.Builder<Block, net.minecraft.block.BlockState> builder) {
+            builder.add(META);
         }
 
-        @Override
-        public IBlockState getStateFromMeta(int meta) {
-            return getDefaultState().withProperty(META, meta & 15);
+        public BlockState getStateFromMeta(int meta) {
+            return getDefaultState().with(META, meta & 15);
         }
 
-        @Override
-        public int getMetaFromState(IBlockState state) {
-            return state.getValue(META);
+        public int getMetaFromState(BlockState state) {
+            return state.get(META);
         }
     }
 }

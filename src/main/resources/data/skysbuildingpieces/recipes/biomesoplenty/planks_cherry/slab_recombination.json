@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/planks_cherry",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "biomesoplenty:cherry_slab"
+    }
+  },
+  "result": {
+    "item": "biomesoplenty:cherry_planks",
+    "count": 1
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:cherry_planks"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:cherry_slab"
+    }
+  ]
+}

@@ -3,10 +3,10 @@ package zone.moddev.mc.skysbuildingpiecesbop.probe;
 import java.io.*;
 import java.nio.file.*;
 import net.minecraft.nbt.*;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.event.TickEvent;
 import zone.moddev.mc.skysbuildingpieces.legacy.*;
 
 /** Loads every original basket carrier in a fresh full-world copy, without visiting unrelated chunks. */
@@ -19,13 +19,13 @@ public final class BasketWorldChecks {
             return;
         }
 
-        net.minecraft.server.MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+        net.minecraft.server.MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 
-        if (server == null || server.getWorld(0) == null) {
+        if (server == null || server.getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD) == null) {
             return;
         }
 
-        WorldServer world = server.getWorld(0);
+        ServerWorld world = server.getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD);
 
         if (ticks++ == 0) {
             for (String row : Files.readAllLines(Paths.get(System.getProperty("skysbuildingpieces.basketIndex")),
@@ -41,12 +41,12 @@ public final class BasketWorldChecks {
 
         LegacyBridge.report(world);
 
-        NBTTagCompound state = PiecesWorldState.get(world).writeToNBT(new NBTTagCompound());
+        CompoundNBT state = PiecesWorldState.get(world).write(new CompoundNBT());
         File snapshot = new File(world.getSaveHandler().getWorldDirectory(), "basket-qualification-state.dat");
         boolean reload = System.getProperty("skysbuildingpieces.integrationPhase").endsWith("reload");
 
         if (reload) {
-            NBTTagCompound before;
+            CompoundNBT before;
 
             try (InputStream input = new FileInputStream(snapshot)) {
                 before = CompressedStreamTools.readCompressed(input);
@@ -61,9 +61,9 @@ public final class BasketWorldChecks {
             }
         }
 
-        System.out.println("BOP_BASKET_SYLVESTER_PASS all_carriers_loaded=true schema="
-                + state.getInteger("schema_version") + " reload=" + reload);
+        System.out.println("BOP_BASKET_SYLVESTER_PASS all_carriers_loaded=true schema=" + state.getInt("schema_version")
+                + " reload=" + reload);
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.unregister(this);
-        server.initiateShutdown();
+        server.initiateShutdown(false);
     }
 }

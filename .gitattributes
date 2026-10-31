@@ -1,4 +1,8 @@
 * text=auto
+
+# Keep the generated Forge defaults unchanged for the startup log controls.
+src/bootstrapTest/defaultconfigs/config/forge-client.toml whitespace=-blank-at-eof
+src/bootstrapTest/defaultconfigs/defaultconfigs/forge-server.toml whitespace=-blank-at-eof
 *.java text eol=lf
 *.json text eol=lf
 *.lang text eol=lf

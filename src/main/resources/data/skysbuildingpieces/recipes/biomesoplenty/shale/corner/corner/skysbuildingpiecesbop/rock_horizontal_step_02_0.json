@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:shale_horizontal_step"
+    }
+  },
+  "result": {
+    "item": "skysbuildingpiecesbop:shale_corner",
+    "count": 4
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:shale_corner"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:shale_horizontal_step"
+    }
+  ]
+}

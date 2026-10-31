@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/planks_jacaranda",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "biomesoplenty:jacaranda_slab"
+    }
+  },
+  "result": {
+    "item": "biomesoplenty:jacaranda_planks",
+    "count": 1
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:jacaranda_planks"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:jacaranda_slab"
+    }
+  ]
+}

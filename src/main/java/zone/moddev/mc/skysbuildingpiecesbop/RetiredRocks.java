@@ -1,106 +1,103 @@
 package zone.moddev.mc.skysbuildingpiecesbop;
 
+import java.util.Collections;
+import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
-/** Stable full-block fallbacks for the seven rock materials removed from BOP. */
+/** Stable full-block fallbacks for the rock materials removed from BOP. */
 @Mod.EventBusSubscriber(
-        modid = SkysBuildingPiecesBop.ID)
+        modid = SkysBuildingPiecesBop.ID,
+        bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class RetiredRocks extends Block {
     public static final String[] NAMES = { "gabbro", "limestone", "limestone_smooth", "shale", "shale_smooth",
             "siltstone", "siltstone_smooth" };
     private static final float[] HARDNESS = { 5, 1.5f, 1.5f, 1.5f, 1.5f, 1, 1 };
-    public static final PropertyInteger VARIANT = PropertyInteger.create("variant", 0, 6);
+    public static final IntegerProperty VARIANT = IntegerProperty.create("variant", 0, 6);
     public static final RetiredRocks BLOCK = new RetiredRocks();
+    public static final Item[] ITEMS = new Item[NAMES.length];
 
     private RetiredRocks() {
-        super(Material.ROCK);
+        super(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.5f, 6));
         setRegistryName(SkysBuildingPiecesBop.ID, "retired_rocks");
-        setTranslationKey(SkysBuildingPiecesBop.ID + ".retired_rocks");
-        setSoundType(SoundType.STONE);
-        setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-        setDefaultState(blockState.getBaseState().withProperty(VARIANT, 0));
+        setDefaultState(stateContainer.getBaseState().with(VARIANT, 0));
     }
 
     @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, VARIANT);
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(VARIANT);
     }
 
-    @Override
-    public IBlockState getStateFromMeta(int meta) {
-        if (meta < 0 || meta >= NAMES.length) {
-            throw new IllegalArgumentException("Unassigned retired-rock slot: " + meta);
+    public BlockState getStateFromMeta(int variant) {
+        if (variant < 0 || variant >= NAMES.length) {
+            throw new IllegalArgumentException("Unassigned retired-rock slot: " + variant);
         }
 
-        return getDefaultState().withProperty(VARIANT, meta);
+        return getDefaultState().with(VARIANT, variant);
+    }
+
+    public int getMetaFromState(BlockState state) {
+        return state.get(VARIANT);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(VARIANT);
+    public float getBlockHardness(BlockState state, IBlockReader world, BlockPos position) {
+        return HARDNESS[state.get(VARIANT)];
     }
 
     @Override
-    public int damageDropped(IBlockState state) {
-        return getMetaFromState(state);
+    public float getExplosionResistance(BlockState state, IWorldReader world, BlockPos position, Entity entity,
+            Explosion explosion) {
+        return state.get(VARIANT) == 0 ? 60 : 6;
     }
 
     @Override
-    public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
-        return HARDNESS[getMetaFromState(state)];
+    public ToolType getHarvestTool(BlockState state) {
+        return ToolType.PICKAXE;
     }
 
     @Override
-    public float getExplosionResistance(World world, BlockPos pos, Entity entity, Explosion explosion) {
-        return world.getBlockState(pos).getValue(VARIANT) == 0 ? 60 : 6;
+    public int getHarvestLevel(BlockState state) {
+        return state.get(VARIANT) == 0 ? 2 : 0;
+    }
+
+    public static Item item(BlockState state) {
+        return ITEMS[state.get(VARIANT)];
     }
 
     @Override
-    public float getExplosionResistance(Entity entity) {
-        return 6;
+    public List<ItemStack> getDrops(BlockState state, LootContext.Builder context) {
+        return Collections.singletonList(new ItemStack(item(state)));
     }
 
     @Override
-    public String getHarvestTool(IBlockState state) {
-        return "pickaxe";
-    }
-
-    @Override
-    public int getHarvestLevel(IBlockState state) {
-        return getMetaFromState(state) == 0 ? 2 : 0;
-    }
-
-    @Override
-    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> items) {
-        for (int meta = 0; meta < NAMES.length; meta++) {
-            Block nativeRock = Block.getBlockFromName("mineralogy:" + NAMES[meta]);
-
-            if (nativeRock == null || nativeRock instanceof net.minecraft.block.BlockAir) {
-                items.add(new ItemStack(this, 1, meta));
-            }
-        }
+    public ItemStack getPickBlock(BlockState state, RayTraceResult hit, IBlockReader world, BlockPos position,
+            PlayerEntity player) {
+        return new ItemStack(item(state));
     }
 
     @SubscribeEvent(
@@ -111,45 +108,47 @@ public final class RetiredRocks extends Block {
 
     @SubscribeEvent
     public static void items(RegistryEvent.Register<Item> event) {
-        event.getRegistry().register(new ItemBlock(BLOCK) {
-            {
-                setHasSubtypes(true);
-            }
+        // The old palette identity remains a hidden recovery carrier. Normal inventory stacks have a distinct item
+        // identity for each rock.
+        event.getRegistry()
+                .register(new BlockItem(BLOCK, new Item.Properties()).setRegistryName(BLOCK.getRegistryName()));
 
-            @Override
-            public int getMetadata(int damage) {
-                return damage;
-            }
+        for (int variant = 0; variant < NAMES.length; variant++) {
+            VariantItem item = new VariantItem(variant);
 
-            @Override
-            public String getTranslationKey(ItemStack stack) {
-                int meta = stack.getMetadata();
+            item.setRegistryName(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]);
+            ITEMS[variant] = item;
+            event.getRegistry().register(item);
+        }
 
-                if (meta < 0 || meta >= NAMES.length) {
-                    throw new IllegalArgumentException("Unassigned retired-rock item slot: " + meta);
-                }
-
-                return "tile." + SkysBuildingPiecesBop.ID + ".retired_" + NAMES[meta];
-            }
-        }.setRegistryName(BLOCK.getRegistryName()));
+        zone.moddev.mc.skysbuildingpieces.api.BuildingPiecesApi.registerStateItems(BLOCK, RetiredRocks::item);
     }
 
-    @SubscribeEvent
-    public static void recipes(RegistryEvent.Register<IRecipe> event) {
-        // A world created without Mineralogy may still contain these full blocks. Keep them useful if the optional mod
-        // is installed later.
-        for (int meta = 0; meta < NAMES.length; meta++) {
-            Block nativeRock = Block.getBlockFromName("mineralogy:" + NAMES[meta]);
+    private static final class VariantItem extends BlockItem {
+        private final int variant;
 
-            if (nativeRock == null || Item.getItemFromBlock(nativeRock) == net.minecraft.init.Items.AIR) {
-                continue;
+        VariantItem(int variant) {
+            super(BLOCK, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS));
+            this.variant = variant;
+        }
+
+        @Override
+        protected BlockState getStateForPlacement(BlockItemUseContext context) {
+            return BLOCK.getStateFromMeta(variant);
+        }
+
+        @Override
+        public String getTranslationKey() {
+            return "block.skysbuildingpiecesbop.retired_" + NAMES[variant];
+        }
+
+        @Override
+        public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+            Block nativeRock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("mineralogy", NAMES[variant]));
+
+            if (nativeRock == null || nativeRock == net.minecraft.block.Blocks.AIR) {
+                super.fillItemGroup(group, items);
             }
-
-            NonNullList<Ingredient> ingredients = NonNullList.create();
-
-            ingredients.add(Ingredient.fromStacks(new ItemStack(BLOCK, 1, meta)));
-            event.getRegistry().register(new ShapelessRecipes("", new ItemStack(nativeRock), ingredients)
-                    .setRegistryName(new ResourceLocation(SkysBuildingPiecesBop.ID, "restore_" + NAMES[meta])));
         }
     }
 }

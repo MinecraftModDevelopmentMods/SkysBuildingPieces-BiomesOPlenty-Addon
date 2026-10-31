@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "mineralogy:limestone"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "skysbuildingpiecesbop:retired_limestone"
+    }
+  ],
+  "result": {
+    "item": "mineralogy:limestone"
+  }
+}

@@ -11,10 +11,13 @@ class FlowerBasketTest {
 
     @Test
     void recipeUsesSixReusableWoodenSticks() throws Exception {
-        JsonObject json = json("recipes/flower_basket.json");
+        JsonObject json = new JsonParser().parse(new String(
+                Files.readAllBytes(
+                        Paths.get("src/main/resources/data/skysbuildingpiecesbop/recipes/flower_basket.json")),
+                StandardCharsets.UTF_8)).getAsJsonObject();
 
-        assertEquals("forge:ore_shaped", json.get("type").getAsString());
-        assertEquals("stickWood", json.getAsJsonObject("key").getAsJsonObject("S").get("ore").getAsString());
+        assertEquals("minecraft:crafting_shaped", json.get("type").getAsString());
+        assertEquals("forge:rods/wooden", json.getAsJsonObject("key").getAsJsonObject("S").get("tag").getAsString());
         assertEquals("skysbuildingpiecesbop:flower_basket", json.getAsJsonObject("result").get("item").getAsString());
 
         StringBuilder pattern = new StringBuilder();
@@ -31,12 +34,12 @@ class FlowerBasketTest {
     void inventoryModelHasOriginalEmptyAndFullSprites() throws Exception {
         JsonObject model = json("models/item/flower_basket.json");
 
-        assertEquals("skysbuildingpiecesbop:items/flower_basket_empty",
+        assertEquals("skysbuildingpiecesbop:item/flower_basket_empty",
                 model.getAsJsonObject("textures").get("layer0").getAsString());
         assertEquals(1, model.getAsJsonArray("overrides").size());
 
         for (String variant : new String[] { "empty", "full" }) {
-            Path png = ROOT.resolve("textures/items/flower_basket_" + variant + ".png");
+            Path png = ROOT.resolve("textures/item/flower_basket_" + variant + ".png");
             java.awt.image.BufferedImage image = javax.imageio.ImageIO.read(png.toFile());
 
             assertEquals(32, image.getWidth());

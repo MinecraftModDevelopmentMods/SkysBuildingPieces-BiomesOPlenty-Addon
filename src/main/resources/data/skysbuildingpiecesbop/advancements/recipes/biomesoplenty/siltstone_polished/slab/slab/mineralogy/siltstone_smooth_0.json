@@ -1,0 +1,91 @@
+{
+  "advancements": [
+    {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:siltstone_smooth"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:siltstone_smooth"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:siltstone_polished_slab"
+        }
+      ],
+      "advancement": {
+        "criteria": {
+          "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+              "items": [
+                {
+                  "item": "mineralogy:siltstone_smooth"
+                }
+              ]
+            }
+          },
+          "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+              "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/slab/slab/mineralogy/siltstone_smooth_0"
+            }
+          }
+        },
+        "requirements": [
+          ["has_ingredient", "has_the_recipe"]
+        ],
+        "rewards": {
+          "recipes": ["skysbuildingpieces:biomesoplenty/siltstone_polished/slab/slab/mineralogy/siltstone_smooth_0"]
+        }
+      }
+    },
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:item_exists",
+            "item": "mineralogy:siltstone_smooth"
+          }
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:retired_siltstone_smooth"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:siltstone_polished_slab"
+        }
+      ],
+      "advancement": {
+        "criteria": {
+          "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+              "items": [
+                {
+                  "item": "skysbuildingpiecesbop:retired_siltstone_smooth"
+                }
+              ]
+            }
+          },
+          "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+              "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/slab/slab/mineralogy/siltstone_smooth_0"
+            }
+          }
+        },
+        "requirements": [
+          ["has_ingredient", "has_the_recipe"]
+        ],
+        "rewards": {
+          "recipes": ["skysbuildingpieces:biomesoplenty/siltstone_polished/slab/slab/mineralogy/siltstone_smooth_0"]
+        }
+      }
+    }
+  ]
+}

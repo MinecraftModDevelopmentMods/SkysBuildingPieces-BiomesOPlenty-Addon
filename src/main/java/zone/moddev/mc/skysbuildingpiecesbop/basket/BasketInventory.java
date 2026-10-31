@@ -1,41 +1,36 @@
 package zone.moddev.mc.skysbuildingpiecesbop.basket;
 
 import net.minecraft.block.*;
-import net.minecraft.inventory.InventoryBasic;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.IShearable;
 
 /** A basket keeps its inventory on the owning stack, including when it is dropped. */
-public final class BasketInventory extends InventoryBasic {
+public final class BasketInventory extends Inventory {
     private final ItemStack owner;
     private boolean loading = true;
 
     public BasketInventory(ItemStack owner) {
-        super("container.skysbuildingpiecesbop.flower_basket", false, BasketData.SIZE);
+        super(BasketData.SIZE);
         this.owner = owner;
 
-        NBTTagCompound tag = owner.hasTagCompound() ? owner.getTagCompound() : new NBTTagCompound();
+        CompoundNBT tag = owner.hasTag() ? owner.getTag() : new CompoundNBT();
 
         // Old contents remain recoverable even when the current insertion rules would reject them.
         BasketData.validate(tag);
 
-        NBTTagList entries = tag.getTagList("Items", 10);
+        ListNBT entries = tag.getList("Items", 10);
 
-        for (int entryIndex = 0; entryIndex < entries.tagCount(); entryIndex++) {
-            NBTTagCompound entry = entries.getCompoundTagAt(entryIndex).copy();
+        for (int entryIndex = 0; entryIndex < entries.size(); entryIndex++) {
+            CompoundNBT entry = entries.getCompound(entryIndex).copy();
 
             if (BasketData.isBasket(entry.getString("id"))) {
-                entry.setString("id", BasketData.ID);
+                entry.putString("id", BasketData.ID);
             }
 
-            setInventorySlotContents(entry.getInteger("Slot"), new ItemStack(entry));
-        }
-        if (owner.hasDisplayName()) {
-            setCustomName(owner.getDisplayName());
-        } else if (tag.hasKey("CustomName", 8)) {
-            setCustomName(tag.getString("CustomName"));
+            setInventorySlotContents(entry.getInt("Slot"), ItemStack.read(entry));
         }
 
         loading = false;
@@ -68,22 +63,22 @@ public final class BasketInventory extends InventoryBasic {
             return;
         }
 
-        NBTTagCompound tag = owner.hasTagCompound() ? owner.getTagCompound() : new NBTTagCompound();
-        NBTTagList entries = new NBTTagList();
+        CompoundNBT tag = owner.hasTag() ? owner.getTag() : new CompoundNBT();
+        ListNBT entries = new ListNBT();
 
         for (int slot = 0; slot < getSizeInventory(); slot++) {
             ItemStack stack = getStackInSlot(slot);
 
             if (!stack.isEmpty()) {
-                NBTTagCompound entry = stack.writeToNBT(new NBTTagCompound());
+                CompoundNBT entry = stack.write(new CompoundNBT());
 
-                entry.setByte("Slot", (byte) slot);
-                entries.appendTag(entry);
+                entry.putByte("Slot", (byte) slot);
+                entries.add(entry);
             }
         }
 
-        tag.setTag("Items", entries);
-        owner.setTagCompound(tag);
+        tag.put("Items", entries);
+        owner.setTag(tag);
     }
 
     /** Returns what did not fit; the caller's stack is never mutated. */

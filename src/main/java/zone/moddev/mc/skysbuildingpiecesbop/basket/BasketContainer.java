@@ -1,19 +1,26 @@
 package zone.moddev.mc.skysbuildingpiecesbop.basket;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.*;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.*;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 
 /** The open basket cannot be moved into its own inventory or swapped underneath the GUI. */
 public final class BasketContainer extends Container {
-    private final EntityPlayer player;
+    private final PlayerEntity player;
     private final int ownerSlot;
     public final BasketInventory basket;
 
-    public BasketContainer(EntityPlayer player, EnumHand hand) {
+    public BasketContainer(int windowId, PlayerInventory inventory, PacketBuffer data) {
+        this(windowId, inventory.player, data.readEnumValue(Hand.class));
+    }
+
+    public BasketContainer(int windowId, PlayerEntity player, Hand hand) {
+        super(Baskets.TYPE, windowId);
         this.player = player;
-        ownerSlot = hand == EnumHand.MAIN_HAND ? player.inventory.currentItem : 40;
+        ownerSlot = hand == Hand.MAIN_HAND ? player.inventory.currentItem : 40;
 
         ItemStack held = player.inventory.getStackInSlot(ownerSlot);
 
@@ -25,7 +32,7 @@ public final class BasketContainer extends Container {
 
         for (int row = 0; row < 2; row++) {
             for (int column = 0; column < 9; column++) {
-                addSlotToContainer(new Slot(basket, row * 9 + column, 8 + column * 18, 18 + row * 18) {
+                addSlot(new Slot(basket, row * 9 + column, 8 + column * 18, 18 + row * 18) {
                     @Override
                     public boolean isItemValid(ItemStack stack) {
                         return BasketInventory.accepts(stack);
@@ -44,9 +51,9 @@ public final class BasketContainer extends Container {
     }
 
     private void addPlayerSlot(int slot, int screenX, int screenY) {
-        addSlotToContainer(new Slot(player.inventory, slot, screenX, screenY) {
+        addSlot(new Slot(player.inventory, slot, screenX, screenY) {
             @Override
-            public boolean canTakeStack(EntityPlayer viewingPlayer) {
+            public boolean canTakeStack(PlayerEntity viewingPlayer) {
                 return getSlotIndex() != ownerSlot;
             }
 
@@ -58,14 +65,14 @@ public final class BasketContainer extends Container {
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer viewingPlayer) {
+    public boolean canInteractWith(PlayerEntity viewingPlayer) {
         // Window sync replaces client stack objects; the exact-reference lock belongs only to the server.
         if (viewingPlayer.world.isRemote) {
-            return viewingPlayer == player && viewingPlayer.isEntityAlive()
+            return viewingPlayer == player && viewingPlayer.isAlive()
                     && viewingPlayer.inventory.getStackInSlot(ownerSlot).getItem() instanceof BasketItem
                     && viewingPlayer.inventory.getStackInSlot(ownerSlot).getCount() == 1;
         }
-        if (viewingPlayer != player || !viewingPlayer.isEntityAlive() || basket.owner().getCount() != 1) {
+        if (viewingPlayer != player || !viewingPlayer.isAlive() || basket.owner().getCount() != 1) {
             return false;
         }
         // Hand-swap packets bypass slot clicks. Restore the original stack, never a matching copy.
@@ -86,7 +93,7 @@ public final class BasketContainer extends Container {
     }
 
     @Override
-    public ItemStack slotClick(int slot, int button, ClickType type, EntityPlayer viewingPlayer) {
+    public ItemStack slotClick(int slot, int button, ClickType type, PlayerEntity viewingPlayer) {
         if (!canInteractWith(viewingPlayer)) {
             return ItemStack.EMPTY;
         }
@@ -111,7 +118,7 @@ public final class BasketContainer extends Container {
     }
 
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer viewingPlayer, int index) {
+    public ItemStack transferStackInSlot(PlayerEntity viewingPlayer, int index) {
         if (!canInteractWith(viewingPlayer) || index < 0 || index >= inventorySlots.size()) {
             return ItemStack.EMPTY;
         }
@@ -153,7 +160,7 @@ public final class BasketContainer extends Container {
     }
 
     @Override
-    public void onContainerClosed(EntityPlayer viewingPlayer) {
+    public void onContainerClosed(PlayerEntity viewingPlayer) {
         basket.markDirty();
         super.onContainerClosed(viewingPlayer);
     }

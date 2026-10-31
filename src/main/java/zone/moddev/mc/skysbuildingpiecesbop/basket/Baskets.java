@@ -1,33 +1,31 @@
 package zone.moddev.mc.skysbuildingpiecesbop.basket;
 
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.datafix.FixTypes;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.fml.common.*;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.common.util.ModFixs;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import zone.moddev.mc.skysbuildingpiecesbop.SkysBuildingPiecesBop;
 
-@Mod.EventBusSubscriber(
-        modid = SkysBuildingPiecesBop.ID)
 public final class Baskets {
     public static final BasketItem ITEM = new BasketItem(false), HOLDER = new BasketItem(true);
+    public static final ContainerType<BasketContainer> TYPE = IForgeContainerType.create(BasketContainer::new);
+    static {
+        TYPE.setRegistryName(SkysBuildingPiecesBop.ID, "flower_basket");
+    }
 
     private Baskets() {
     }
 
     public static void registerRecovery() {
-        ModFixs fixes = FMLCommonHandler.instance().getDataFixer().init(SkysBuildingPiecesBop.ID, 2);
         zone.moddev.mc.skysbuildingpiecesbop.LegacyItemRecovery fix = new zone.moddev.mc.skysbuildingpiecesbop.LegacyItemRecovery();
 
-        for (FixTypes type : new FixTypes[] { FixTypes.CHUNK, FixTypes.PLAYER, FixTypes.ENTITY, FixTypes.BLOCK_ENTITY,
-                FixTypes.ITEM_INSTANCE }) {
-            fixes.registerFix(type, type == FixTypes.ITEM_INSTANCE ? fix.itemInstanceFix() : fix);
-        }
+        zone.moddev.mc.skysbuildingpieces.legacy.HistoricalItems.register(SkysBuildingPiecesBop.ID, fix::isRelevant,
+                fix::fixTagCompound);
     }
 
     @SubscribeEvent
@@ -46,21 +44,22 @@ public final class Baskets {
 
     @SubscribeEvent
     public static void pickup(EntityItemPickupEvent event) {
-        EntityPlayer player = event.getEntityPlayer();
+        PlayerEntity player = event.getEntityPlayer();
 
         if (player.world.isRemote || event.isCanceled()) {
             return;
         }
 
-        EntityItem entity = event.getItem();
+        ItemEntity entity = event.getItem();
         ItemStack incoming = entity.getItem();
 
         if (!BasketInventory.accepts(incoming)) {
             return;
         }
-        // getAge is client-only in 1.12; the saved age is also available on a server.
-        if (entity.getOwner() != null && !entity.getOwner().equals(player.getName())
-                && entity.lifespan - entity.writeToNBT(new net.minecraft.nbt.NBTTagCompound()).getShort("Age") > 200) {
+        // Read the saved age on the server without depending on the client-only accessor.
+        if (entity.cannotPickup()
+                || entity.getOwnerId() != null && !entity.getOwnerId().equals(player.getUniqueID()) && entity.lifespan
+                        - entity.writeWithoutTypeId(new net.minecraft.nbt.CompoundNBT()).getShort("Age") > 200) {
             return;
         }
 
@@ -94,16 +93,16 @@ public final class Baskets {
         ItemStack pickedUp = incoming.copy();
 
         pickedUp.setCount(accepted);
-        player.addStat(net.minecraft.stats.StatList.getObjectsPickedUpStats(incoming.getItem()), accepted);
+        player.addStat(net.minecraft.stats.Stats.ITEM_PICKED_UP.get(incoming.getItem()), accepted);
 
         if (remainder.isEmpty()) {
             player.onItemPickup(entity, accepted);
-            entity.setDead();
+            entity.remove();
         } else {
             entity.setItem(remainder);
         }
 
-        FMLCommonHandler.instance().firePlayerItemPickupEvent(player, entity, pickedUp);
+        net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerItemPickupEvent(player, entity, pickedUp);
         player.inventory.markDirty();
         player.openContainer.detectAndSendChanges();
     }

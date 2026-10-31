@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "mineralogy:shale"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "skysbuildingpiecesbop:retired_shale"
+    }
+  ],
+  "result": {
+    "item": "mineralogy:shale"
+  }
+}

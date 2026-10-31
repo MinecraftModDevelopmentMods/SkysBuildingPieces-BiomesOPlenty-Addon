@@ -1,5 +1,67 @@
 # Existing worlds
 
+## Moving from Minecraft 1.12.2 to 1.14.4
+
+BOP changed both its block names and its material list. The add-on converts
+supported old material palettes before Minecraft reads them, keeping slab
+halves, stair directions, gate states, stack counts and custom item data.
+Existing migration totals are retained. Chunks containing recovered pieces or
+inventories are preserved even if they had not finished population in the old
+world; this is not terrain retrogen.
+
+Some original materials no longer exist. Sacred oak and eucalyptus use oak;
+mangrove uses birch, ebony uses dark oak, pine uses jungle wood and bamboo
+thatching uses willow. Removed gem pieces use similarly coloured terracotta:
+amber and topaz become orange, amethyst magenta, malachite cyan, peridot lime,
+ruby red, sapphire light blue and tanzanite purple. These are replacements,
+not exact matches for the old textures. The original saved piece identities
+remain recognised when loading unopened chunks later.
+
+Flower Basket contents use current plant names. White anemones become oxeye
+daisies, tiny cacti become regular cacti and the old small water lilies become
+vanilla lily pads. Flowering saplings use BOP's flowering oak. Missing or
+malformed contents still stop recovery rather than disappearing.
+
+Native BOP logs, leaves, soil, farmland, doors and other supported blocks also
+need their old metadata split into named states. Log axes, placed leaves,
+door halves, moisture and saved fluid levels are carried across. The add-on
+does this while reading old chunks, including chunks opened after the first
+upgrade save.
+
+BOP removed some of those blocks altogether. Loamy, sandy and silty soils use
+vanilla dirt, grass, paths and farmland, keeping coarse dirt separate. Retired
+woods use the same replacements listed above for their logs, leaves and doors.
+Old coral uses similar vanilla coral or seagrass; seaweed becomes kelp. Quicksand
+becomes sand. Removed blood, poison, honey and hot-spring liquids become water,
+so their special effects do not carry over.
+
+Retired gem ores use similar vanilla ores: redstone for ruby, emerald for
+peridot and malachite, lapis for amethyst, tanzanite and sapphire, and gold for
+amber and topaz. Stored gems become redstone, emeralds, lapis lazuli or gold
+nuggets respectively, one for one. The coloured full gem blocks and building
+pieces still use the terracotta replacements listed above.
+
+Old terraria become small potted plants. Crystal becomes purpur, honey blocks
+become slime blocks, hive blocks become yellow terracotta and blue fire becomes
+ordinary fire. These replacements keep occupied positions; they do not recreate
+the removed features. Removed fruits become apples, berries become sweet
+berries, empty jars become glass bottles and dyes use their vanilla equivalents.
+Mud balls keep BOP's current mud-ball item. Stack counts and unrelated custom
+data are retained.
+
+Saved BOP biome numbers are updated too. Biomes that still exist keep their
+names. Removed biomes use similar current ones: for example, Lavender Fields
+becomes Lavender Field, Tropical Island becomes Tropics, and the old snowy
+tundra uses vanilla snowy tundra so it stays cold enough for snow. This updates
+the saved biome without generating its terrain again. Unrelated mods' biomes
+still need their own upgrade support.
+
+These mappings cover the add-on's materials and supported recovered contents.
+They are not a promise that every old BOP biome, entity or unrelated block has
+an upgrade path. Test the whole pack on a copy before moving your main world.
+
+## Earlier pieces and decorations
+
 Back up the world and test a separate copy. Remove BuildingBricks only after
 every saved material, shape and item has a proven recovery path. Unsupported
 content still needs a replacement, even if the buildings look correct.
@@ -66,20 +128,18 @@ not depend on the BuildingBricks replacement setting.
 
 | Old item | Replacement |
 |---|---|
-| One BOP turnip seed | One Pam's HarvestCraft turnip seed |
-| One pinecone | Two BOP brown dyes |
-| One dull flower band | Eight BOP clover |
+| One BOP turnip seed | One vanilla beetroot seed |
+| One pinecone | Two vanilla brown dyes |
+| One dull flower band | Eight vanilla oxeye daisies |
 
-Pinecones retain their original dye yield. The flower band returns its original
-crafting ingredients rather than pretending that clover is wearable headgear.
-Names and unrelated custom data are kept. The old item variant is not copied to
-the replacement, which would turn clover into another flower. Old capabilities
+Pinecones retain their original dye yield. BOP no longer has the old clover, so
+the flower band becomes eight similar small white flowers. Names and unrelated
+custom data are kept. The old item variant is not copied to the replacement.
+Old capabilities
 that a replacement cannot use retain an archive in the item's custom data.
 
-HarvestCraft is not required for the building pieces or the other recoveries.
-It must provide `harvestcraft:turnipseeditem` if the world contains old BOP turnip
-seeds. Missing replacements stop the upgrade with an explanation rather than
-substituting an unrelated seed or deleting the stack.
+These target-version substitutions do not require HarvestCraft. Missing
+replacements stop the upgrade with an explanation rather than deleting stacks.
 
 Expanded stacks use spare slots in recognised chests, player and ender
 inventories, and Flower Baskets. If there is not enough room, or the inventory
@@ -98,10 +158,8 @@ The add-on uses 74 block IDs: 66 piece palettes, one retired-rock palette,
 two replacement decorations and five hidden recovery holders. The holders
 are not creative entries or playable blocks.
 
-Together with the core's 236 IDs, that is 310 additional IDs. Existing native
+Together with the core's 238 registered blocks, that is 312 additional blocks.
+The optional Mineralogy catalogue adds another 35. Existing native
 BOP blocks are not counted again. New pieces use fixed metadata palettes
 rather than material tile entities; saved material and orientation assignments
 stay unchanged. The Flower Basket adds no block IDs.
-
-Core 0.3.7 adds two path-piece IDs, making that combination 312 IDs instead.
-The add-on's own catalogue remains at 74 IDs.

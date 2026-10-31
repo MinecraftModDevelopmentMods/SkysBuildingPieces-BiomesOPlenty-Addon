@@ -1,0 +1,91 @@
+{
+  "advancements": [
+    {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:shale"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:shale"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:shale_wall"
+        }
+      ],
+      "advancement": {
+        "criteria": {
+          "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+              "items": [
+                {
+                  "item": "mineralogy:shale"
+                }
+              ]
+            }
+          },
+          "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+              "recipe": "skysbuildingpieces:biomesoplenty/shale/wall/wall/mineralogy/shale_0"
+            }
+          }
+        },
+        "requirements": [
+          ["has_ingredient", "has_the_recipe"]
+        ],
+        "rewards": {
+          "recipes": ["skysbuildingpieces:biomesoplenty/shale/wall/wall/mineralogy/shale_0"]
+        }
+      }
+    },
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:item_exists",
+            "item": "mineralogy:shale"
+          }
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:retired_shale"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:shale_wall"
+        }
+      ],
+      "advancement": {
+        "criteria": {
+          "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+              "items": [
+                {
+                  "item": "skysbuildingpiecesbop:retired_shale"
+                }
+              ]
+            }
+          },
+          "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+              "recipe": "skysbuildingpieces:biomesoplenty/shale/wall/wall/mineralogy/shale_0"
+            }
+          }
+        },
+        "requirements": [
+          ["has_ingredient", "has_the_recipe"]
+        ],
+        "rewards": {
+          "recipes": ["skysbuildingpieces:biomesoplenty/shale/wall/wall/mineralogy/shale_0"]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:siltstone_smooth"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:siltstone_smooth"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:siltstone_polished_wall"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "group": "skysbuildingpieces/mineralogy",
+        "pattern": ["XX", "XX", "XX"],
+        "key": {
+          "X": {
+            "item": "mineralogy:siltstone_smooth"
+          }
+        },
+        "result": {
+          "item": "skysbuildingpiecesbop:siltstone_polished_wall",
+          "count": 6
+        }
+      }
+    },
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:item_exists",
+            "item": "mineralogy:siltstone_smooth"
+          }
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:retired_siltstone_smooth"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:siltstone_polished_wall"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "group": "skysbuildingpieces/mineralogy",
+        "pattern": ["XX", "XX", "XX"],
+        "key": {
+          "X": {
+            "item": "skysbuildingpiecesbop:retired_siltstone_smooth"
+          }
+        },
+        "result": {
+          "item": "skysbuildingpiecesbop:siltstone_polished_wall",
+          "count": 6
+        }
+      }
+    }
+  ]
+}

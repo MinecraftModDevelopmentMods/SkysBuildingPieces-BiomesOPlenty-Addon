@@ -1,0 +1,91 @@
+{
+  "advancements": [
+    {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:limestone"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:limestone"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:limestone_slab"
+        }
+      ],
+      "advancement": {
+        "criteria": {
+          "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+              "items": [
+                {
+                  "item": "skysbuildingpiecesbop:limestone_slab"
+                }
+              ]
+            }
+          },
+          "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+              "recipe": "skysbuildingpieces:biomesoplenty/limestone/slab_recombination"
+            }
+          }
+        },
+        "requirements": [
+          ["has_ingredient", "has_the_recipe"]
+        ],
+        "rewards": {
+          "recipes": ["skysbuildingpieces:biomesoplenty/limestone/slab_recombination"]
+        }
+      }
+    },
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:item_exists",
+            "item": "mineralogy:limestone"
+          }
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:limestone_slab"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:retired_limestone"
+        }
+      ],
+      "advancement": {
+        "criteria": {
+          "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+              "items": [
+                {
+                  "item": "skysbuildingpiecesbop:limestone_slab"
+                }
+              ]
+            }
+          },
+          "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+              "recipe": "skysbuildingpieces:biomesoplenty/limestone/slab_recombination"
+            }
+          }
+        },
+        "requirements": [
+          ["has_ingredient", "has_the_recipe"]
+        ],
+        "rewards": {
+          "recipes": ["skysbuildingpieces:biomesoplenty/limestone/slab_recombination"]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "skysbuildingpieces:cutting",
+  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "pattern": ["X"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:shale_polished_vertical_slab"
+    }
+  },
+  "result": {
+    "item": "skysbuildingpiecesbop:shale_polished_slab",
+    "count": 1
+  },
+  "preserve_tag": true,
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:shale_polished_slab"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:shale_polished_vertical_slab"
+    }
+  ]
+}
