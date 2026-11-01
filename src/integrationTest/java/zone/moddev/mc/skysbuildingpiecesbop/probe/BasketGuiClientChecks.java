@@ -21,6 +21,7 @@ public final class BasketGuiClientChecks {
     private static int stage, ticks, lastStage = -1, deathCheckAt;
     private static boolean ready, controlled, respawnChecked;
     private static volatile boolean serverChecked;
+    private static volatile boolean offhandMoved;
 
     @SubscribeEvent(
             priority = EventPriority.HIGHEST)
@@ -114,18 +115,32 @@ public final class BasketGuiClientChecks {
             serverChecked = false;
             minecraft.player.closeScreen();
             stage = 5;
-            minecraft.getIntegratedServer().execute(() -> {
-                ServerPlayerEntity player = minecraft.getIntegratedServer().getPlayerList()
-                        .getPlayerByUUID(minecraft.player.getUniqueID());
-                ItemStack basket = player.inventory.getStackInSlot(0);
-
-                player.inventory.setInventorySlotContents(0, ItemStack.EMPTY);
-                player.setHeldItem(Hand.OFF_HAND, basket);
-                player.container.detectAndSendChanges();
-            });
-        } else if (stage == 5 && minecraft.player.getHeldItemOffhand().getItem() == Baskets.ITEM) {
-            stage = 6;
-            minecraft.playerController.processRightClick(minecraft.player, minecraft.world, Hand.OFF_HAND);
+        } else if (stage == 5) {
+            if (!offhandMoved && ticks % 5 == 0) {
+                minecraft.getIntegratedServer().execute(() -> {
+                    ServerPlayerEntity player = minecraft.getIntegratedServer().getPlayerList()
+                            .getPlayerByUUID(minecraft.player.getUniqueID());
+                    if (offhandMoved || player.openContainer != player.container) {
+                        return;
+                    }
+                    // Wait for the actual close packet. Moving the owner earlier
+                    // correctly makes the basket rescue itself into its locked slot.
+                    ItemStack basket = player.inventory.getStackInSlot(0);
+                    if (basket.getItem() != Baskets.ITEM || !basket.hasTag()
+                            || !basket.getTag().getString("TestBasket").equals(TEST_BASKET)
+                            || new BasketInventory(basket).getStackInSlot(0).getCount() != 5) {
+                        throw new AssertionError("The closed basket keeps its owner and five saplings");
+                    }
+                    player.inventory.setInventorySlotContents(0, ItemStack.EMPTY);
+                    player.setHeldItem(Hand.OFF_HAND, basket);
+                    player.container.detectAndSendChanges();
+                    offhandMoved = true;
+                });
+            }
+            if (offhandMoved && minecraft.player.getHeldItemOffhand().getItem() == Baskets.ITEM) {
+                stage = 6;
+                minecraft.playerController.processRightClick(minecraft.player, minecraft.world, Hand.OFF_HAND);
+            }
         } else if (stage == 6 && minecraft.currentScreen instanceof BasketScreen) {
             stage = 7;
             minecraft.playerController.windowClick(minecraft.player.openContainer.windowId, 0, 0, ClickType.QUICK_MOVE,

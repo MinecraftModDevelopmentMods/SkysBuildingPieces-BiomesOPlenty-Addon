@@ -18,6 +18,8 @@ public final class BasketDisconnectClientChecks {
     private static int stage, ticks;
     private static boolean ready;
     private static volatile boolean checked;
+    private static Thread closingServerThread;
+    private static File savedPlayer;
 
     @SubscribeEvent(
             priority = EventPriority.HIGHEST)
@@ -37,6 +39,13 @@ public final class BasketDisconnectClientChecks {
 
         if (++ticks > 4000) {
             throw new AssertionError("Open-basket disconnect check timed out at stage " + stage);
+        }
+        if (stage == 3) {
+            if (!closingServerThread.isAlive()) {
+                checkSavedBasket();
+                finish(minecraft, "BOP_BASKET_DISCONNECT_PASS window=open units=11 server_stopped=true saved_baskets=1");
+            }
+            return;
         }
         if (!ready || minecraft.player == null || minecraft.getIntegratedServer() == null) {
             return;
@@ -85,10 +94,38 @@ public final class BasketDisconnectClientChecks {
             minecraft.playerController.processRightClick(minecraft.player, minecraft.world, Hand.MAIN_HAND);
         } else if (stage == 2 && minecraft.currentScreen instanceof BasketScreen) {
             stage = 3;
+            closingServerThread = minecraft.getIntegratedServer().getExecutionThread();
+            savedPlayer = new File(minecraft.getIntegratedServer()
+                    .getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD).getSaveHandler().getWorldDirectory(),
+                    "playerdata/" + minecraft.player.getUniqueID() + ".dat");
             minecraft.world.sendQuittingDisconnectingPacket();
             minecraft.loadWorld(null);
             minecraft.displayGuiScreen(new MainMenuScreen());
-            finish(minecraft, "BOP_BASKET_DISCONNECT_PASS window=open units=11");
+            // Keep the client alive until the normal server thread has finished
+            // saving. Exiting the JVM here can interrupt the player-file rename.
+        }
+    }
+
+    private static void checkSavedBasket() {
+        try (InputStream input = new FileInputStream(savedPlayer)) {
+            net.minecraft.nbt.ListNBT inventory = net.minecraft.nbt.CompressedStreamTools.readCompressed(input)
+                    .getList("Inventory", 10);
+            int baskets = 0;
+            for (int slot = 0; slot < inventory.size(); slot++) {
+                ItemStack stack = ItemStack.read(inventory.getCompound(slot));
+                if (stack.getItem() == Baskets.ITEM) {
+                    baskets++;
+                    if (!stack.getDisplayName().getString().equals("Disconnect plants")
+                            || new BasketInventory(stack).getStackInSlot(7).getCount() != 11) {
+                        throw new AssertionError("The stopped server did not save the complete basket");
+                    }
+                }
+            }
+            if (baskets != 1) {
+                throw new AssertionError("The stopped server must save exactly one basket: " + baskets);
+            }
+        } catch (IOException failure) {
+            throw new IllegalStateException("Cannot inspect the normal saved player file", failure);
         }
     }
 
