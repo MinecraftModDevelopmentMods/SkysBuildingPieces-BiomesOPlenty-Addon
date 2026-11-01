@@ -1,10 +1,10 @@
 {
   "parent": "block/block",
   "textures": {
-    "top": "biomesoplenty:block/ethereal_planks",
-    "side": "biomesoplenty:block/ethereal_planks",
-    "bottom": "biomesoplenty:block/ethereal_planks",
-    "particle": "biomesoplenty:block/ethereal_planks"
+    "top": "minecraft:block/birch_planks",
+    "side": "minecraft:block/birch_planks",
+    "bottom": "minecraft:block/birch_planks",
+    "particle": "minecraft:block/birch_planks"
   },
   "elements": [
     {

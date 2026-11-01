@@ -25,6 +25,8 @@ import zone.moddev.mc.skysbuildingpieces.legacy.PiecesWorldState;
 
 /** Load every saved position through the real server, including chunks outside spawn. */
 final class ForwardUpgradeChecks {
+    private static final JsonObject TARGET_UPGRADES = targetUpgrades();
+
     private ForwardUpgradeChecks() {
     }
 
@@ -44,7 +46,12 @@ final class ForwardUpgradeChecks {
             JsonObject manifest = new JsonParser().parse(reader).getAsJsonObject();
 
             if (manifest.has("manifest")) {
-                manifest = manifest.getAsJsonObject("manifest");
+                JsonObject source = manifest;
+
+                manifest = source.getAsJsonObject("manifest");
+                if (source.has("source_saved_states")) {
+                    manifest.add("source_saved_states", source.get("source_saved_states"));
+                }
             }
 
             return manifest;
@@ -53,6 +60,7 @@ final class ForwardUpgradeChecks {
 
     private static void run(ServerWorld world, JsonObject manifest) throws Exception {
         int states = 0;
+        java.util.Map<BlockPos, BlockState> retainedRocks = retainedNamedRocks(manifest);
 
         for (JsonElement element : manifest.getAsJsonArray("blocks")) {
             JsonObject row = element.getAsJsonObject();
@@ -60,8 +68,14 @@ final class ForwardUpgradeChecks {
             BlockState actual = world.getBlockState(position);
             BlockState expected;
 
-            if (row.has("role") && row.get("role").getAsString().equals("world")) {
-                expected = zone.moddev.mc.skysbuildingpiecesbop.BopWorldMappings.state(row.getAsJsonObject("target"));
+            if (retainedRocks.containsKey(position)) {
+                expected = retainedRocks.get(position);
+            } else if (row.has("role") && row.get("role").getAsString().equals("world")) {
+                JsonObject target = new JsonParser().parse(row.getAsJsonObject("target").toString())
+                        .getAsJsonObject();
+
+                target.addProperty("id", currentTarget("blocks", target.get("id").getAsString()));
+                expected = zone.moddev.mc.skysbuildingpiecesbop.BopWorldMappings.state(target);
             } else if (row.has("role") || row.has("owned_decoration")) {
                 expected = HistoricalFullBlocks.resolve(row.get("id").getAsString(), row.get("meta").getAsInt());
             } else if (row.get("shape").getAsString().equals("FULL")) {
@@ -128,7 +142,7 @@ final class ForwardUpgradeChecks {
                     require(before.getByte("Slot") == after.getByte("Slot")
                             && before.getByte("Count") == after.getByte("Count"), "Basket slot/count changed");
 
-                    String expectedId = plant(before);
+                    String expectedId = currentItemTarget(plant(before));
 
                     require(after.getString("id").equals(expectedId),
                             "Basket plant changed: " + before + ", expected " + expectedId + ", actual " + after);
@@ -138,7 +152,8 @@ final class ForwardUpgradeChecks {
                 units += expectedUnits;
                 baskets++;
             } else if (row.has("native_item")) {
-                require(actual.getItem().getRegistryName().toString().equals(row.get("target_item").getAsString()),
+                require(actual.getItem().getRegistryName().toString()
+                        .equals(currentItemTarget(row.get("target_item").getAsString())),
                         "Saved native BOP item changed: " + row + ", actual " + actual);
                 require(original.getCompound("tag").equals(actual.getTag()), "Saved native item custom data changed");
             } else {
@@ -176,22 +191,82 @@ final class ForwardUpgradeChecks {
                 + " units=" + units);
     }
 
+    private static java.util.Map<BlockPos, BlockState> retainedNamedRocks(JsonObject manifest) throws Exception {
+        java.util.Map<BlockPos, BlockState> states = new java.util.HashMap<>();
+
+        if (manifest.has("source_saved_states")) {
+            for (JsonElement element : manifest.getAsJsonArray("source_saved_states")) {
+                JsonObject row = element.getAsJsonObject();
+                CompoundNBT saved = JsonToNBT.getTagFromJson(row.get("state").getAsString());
+
+                // Installing Mineralogy later does not replace an already named fallback block.
+                // Its bridge recipe is the player's explicit conversion route.
+                if (saved.getString("Name").equals("skysbuildingpiecesbop:retired_rocks")) {
+                    BlockState state = net.minecraft.nbt.NBTUtil.readBlockState(saved);
+
+                    require(state.getBlock() == zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks.BLOCK,
+                            "A named fallback rock no longer resolves");
+                    states.put(position(row), state);
+                }
+            }
+        }
+        return states;
+    }
+
     private static void checkBiomes(ServerWorld world, JsonObject manifest) {
         require(manifest.has("biomes") && manifest.getAsJsonArray("biomes").size() == 73,
                 "The biome regression fixture is incomplete");
 
+        File delayedMarker = new File("delayed-biomes-first-pass.txt");
+        boolean delay = Boolean.getBoolean("skysbuildingpieces.bopDelayedBiomes");
+        boolean first = delay && !delayedMarker.isFile();
+        java.util.Set<Long> deferred = new java.util.HashSet<>();
+        int number = 0;
+
         for (JsonElement element : manifest.getAsJsonArray("biomes")) {
             JsonObject row = element.getAsJsonObject();
+            BlockPos position = position(row);
+
+            if ((number++ & 1) != 0 || TARGET_UPGRADES.getAsJsonObject("biomes").has(row.get("id").getAsString())) {
+                deferred.add(net.minecraft.util.math.ChunkPos.asLong(position.getX() >> 4, position.getZ() >> 4));
+            }
+        }
+
+        int checked = 0;
+
+        for (JsonElement element : manifest.getAsJsonArray("biomes")) {
+            JsonObject row = element.getAsJsonObject();
+            BlockPos position = position(row);
+
+            if (first && deferred.contains(net.minecraft.util.math.ChunkPos.asLong(
+                    position.getX() >> 4, position.getZ() >> 4))) {
+                require(world.getChunkProvider().getChunkWithoutLoading(position.getX() >> 4, position.getZ() >> 4)
+                        == null, "A deferred biome chunk was loaded during the first pass");
+                continue;
+            }
 
             world.getChunk(position(row));
 
             String actual = world.getBiome(position(row)).getRegistryName().toString();
 
-            require(actual.equals(row.get("target_biome").getAsString()),
+            require(actual.equals(currentTarget("biomes", row.get("target_biome").getAsString())),
                     "Saved BOP biome changed after loading its chunk: " + row + ", actual " + actual);
+            checked++;
         }
 
-        System.out.println("BOP_NATIVE_BIOMES_PASS biomes=73 loaded_chunks=true");
+        if (first) {
+            require(checked > 0 && checked < 73 && !deferred.isEmpty(), "Delayed biome coverage is empty");
+            try {
+                java.nio.file.Files.write(delayedMarker.toPath(), ("deferred_chunks=" + deferred.size() + "\n")
+                        .getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            } catch (java.io.IOException failure) {
+                throw new IllegalStateException("Cannot retain delayed-biome evidence", failure);
+            }
+        } else {
+            require(checked == 73, "A saved biome was not checked");
+        }
+
+        System.out.println("BOP_NATIVE_BIOMES_PASS biomes=" + checked + " loaded_chunks=true delayed_first=" + first);
     }
 
     private static String plant(CompoundNBT original) {
@@ -224,6 +299,27 @@ final class ForwardUpgradeChecks {
         }
 
         return id;
+    }
+
+    private static JsonObject targetUpgrades() {
+        try (java.io.InputStreamReader reader = new java.io.InputStreamReader(
+                ForwardUpgradeChecks.class.getResourceAsStream(
+                        "/assets/skysbuildingpiecesbop/catalogue/named_legacy.json"),
+                java.nio.charset.StandardCharsets.UTF_8)) {
+            return new JsonParser().parse(reader).getAsJsonObject();
+        } catch (java.io.IOException failure) {
+            throw new IllegalStateException("Cannot read the target upgrade contract", failure);
+        }
+    }
+
+    private static String currentTarget(String group, String id) {
+        JsonObject mappings = TARGET_UPGRADES.getAsJsonObject(group);
+
+        return mappings.has(id) ? mappings.get(id).getAsString() : id;
+    }
+
+    private static String currentItemTarget(String id) {
+        return currentTarget("items", currentTarget("blocks", id));
     }
 
     private static BlockPos position(JsonObject row) {

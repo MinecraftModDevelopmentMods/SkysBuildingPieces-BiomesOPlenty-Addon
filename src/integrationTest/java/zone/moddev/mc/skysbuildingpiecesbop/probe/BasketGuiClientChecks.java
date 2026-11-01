@@ -94,7 +94,7 @@ public final class BasketGuiClientChecks {
         } else if (stage == 3 && minecraft.player.openContainer instanceof BasketContainer
                 && ((BasketContainer) minecraft.player.openContainer).basket.getStackInSlot(0).getCount() == 5) {
             net.minecraft.util.ScreenShotHelper.saveScreenshot(minecraft.gameDir, "flower-basket-gui.png",
-                    minecraft.mainWindow.getFramebufferWidth(), minecraft.mainWindow.getFramebufferHeight(),
+                    minecraft.getMainWindow().getFramebufferWidth(), minecraft.getMainWindow().getFramebufferHeight(),
                     minecraft.getFramebuffer(), message -> {
                     });
             minecraft.playerController.windowClick(minecraft.player.openContainer.windowId, 45, 1, ClickType.THROW,

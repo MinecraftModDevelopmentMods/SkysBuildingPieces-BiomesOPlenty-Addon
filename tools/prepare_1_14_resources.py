@@ -87,6 +87,10 @@ def prepare(options):
                 texture_names[texture] = target
             material['textures'] = current['all'] if 'all' in current else current
 
+    # Later ports already use singular texture paths. Apply the same explicit
+    # material replacement to those models as to the original catalogue paths.
+    texture_names.update({name.replace(':blocks/', ':block/').replace(':items/', ':item/'): target
+                          for name, target in list(texture_names.items())})
     changes = {}
     for model in (assets / 'models').rglob('*.json'):
         data = json.loads(model.read_text(encoding='utf-8'))

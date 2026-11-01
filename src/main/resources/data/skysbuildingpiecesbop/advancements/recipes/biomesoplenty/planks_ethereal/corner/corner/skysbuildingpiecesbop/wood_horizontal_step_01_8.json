@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpiecesbop:planks_ethereal_horizontal_step"
+            "item": "skysbuildingpieces:planks_birch_horizontal_step"
           }
         ]
       }
@@ -26,11 +26,11 @@
   "conditions": [
     {
       "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_ethereal_corner"
+      "item": "skysbuildingpieces:planks_birch_corner"
     },
     {
       "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_ethereal_horizontal_step"
+      "item": "skysbuildingpieces:planks_birch_horizontal_step"
     }
   ]
 }

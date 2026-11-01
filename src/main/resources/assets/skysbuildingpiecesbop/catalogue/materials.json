@@ -379,22 +379,22 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:block/ethereal_planks",
+    "textures": "minecraft:block/birch_planks",
     "blocks": {
       "full": {
-        "id": "biomesoplenty:ethereal_planks"
-      },
-      "slab": {
-        "id": "biomesoplenty:ethereal_slab"
+        "id": "minecraft:birch_planks"
       },
       "stairs": {
-        "id": "biomesoplenty:ethereal_stairs"
+        "id": "minecraft:birch_stairs"
+      },
+      "slab": {
+        "id": "minecraft:birch_slab"
       },
       "fence": {
-        "id": "biomesoplenty:ethereal_fence"
+        "id": "minecraft:birch_fence"
       },
       "fence_gate": {
-        "id": "biomesoplenty:ethereal_fence_gate"
+        "id": "minecraft:birch_fence_gate"
       }
     },
     "group": "wood",
@@ -423,7 +423,8 @@
         "meta": 0
       }
     },
-    "legacy_textures": "biomesoplenty:blocks/ethereal_planks"
+    "legacy_textures": "biomesoplenty:blocks/ethereal_planks",
+    "replacement": "minecraft:planks_birch"
   },
   {
     "name": "Eucalyptus Wood Planks",

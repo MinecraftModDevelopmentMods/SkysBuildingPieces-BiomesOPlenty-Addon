@@ -26,12 +26,12 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="skysbuildingpieces"
 mandatory=true
-versionRange="[0.3.8.114041,0.4)"
+versionRange="[0.3.8.115021,0.4)"
 ordering="AFTER"
 side="BOTH"
 [[dependencies.${mod_id}]]
 modId="biomesoplenty"
 mandatory=true
-versionRange="[1.14.4-9.0.0,1.14.4-10)"
+versionRange="[1.15.2-10.0.0,1.15.2-11)"
 ordering="AFTER"
 side="BOTH"

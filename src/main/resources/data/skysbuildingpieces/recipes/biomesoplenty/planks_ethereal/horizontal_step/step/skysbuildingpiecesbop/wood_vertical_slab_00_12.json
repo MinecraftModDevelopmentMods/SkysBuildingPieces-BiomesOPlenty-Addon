@@ -4,21 +4,21 @@
   "pattern": ["X ", " X"],
   "key": {
     "X": {
-      "item": "skysbuildingpiecesbop:planks_ethereal_vertical_slab"
+      "item": "skysbuildingpieces:planks_birch_vertical_slab"
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:planks_ethereal_horizontal_step",
+    "item": "skysbuildingpieces:planks_birch_horizontal_step",
     "count": 4
   },
   "conditions": [
     {
       "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_ethereal_horizontal_step"
+      "item": "skysbuildingpieces:planks_birch_horizontal_step"
     },
     {
       "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_ethereal_vertical_slab"
+      "item": "skysbuildingpieces:planks_birch_vertical_slab"
     }
   ]
 }

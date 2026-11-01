@@ -28,6 +28,7 @@ def bootstrapJar = tasks.register('nativeBootstrapJar', Jar) {
     destinationDirectory = layout.buildDirectory.dir('native-bootstrap')
     from bootstrapClasses
     from 'src/bootstrapTest/resources'
+    from('src/testFixtures/bop-1.14.4-native-catalogue.json') { into 'fixtures' }
 }
 def packagedProbe = renamer.classes(bootstrapJar) {
     map.from minecraft.dependency.toSrgFile
@@ -64,7 +65,7 @@ def prepare = tasks.register('prepareNativeBootstrap') {
         if (target.canonicalFile != new File(buildDir, expectedName).canonicalFile) {
             throw new GradleException('Native checks must remain inside their build directory')
         }
-        delete target
+        if (target.exists()) throw new GradleException('Preserve existing runtime evidence before another run: ' + target)
         if (forwardArchive.isPresent()) {
             if (forwardFixture.isPresent()) throw new GradleException('Choose one forward source')
             File archive = file(forwardArchive.get())
@@ -113,6 +114,8 @@ tasks.register('nativeBootstrapTest', JavaExec) {
     dependsOn prepare
     workingDir directory
     project.ext.configureRecipeBookRun(delegate, 'runServer')
+    systemProperty 'skysbuildingpieces.bopDelayedBiomes',
+            providers.gradleProperty('bopDelayBiomes').getOrElse('false')
     doLast {
         File target = directory.get().asFile
         String log = new File(target, 'logs/latest.log').getText('UTF-8')
@@ -129,6 +132,8 @@ tasks.register('nativeForwardReloadTest', JavaExec) {
     dependsOn bootstrapJar
     workingDir layout.buildDirectory.dir('native-forward-upgrade-run')
     project.ext.configureRecipeBookRun(delegate, 'runServer')
+    systemProperty 'skysbuildingpieces.bopDelayedBiomes',
+            providers.gradleProperty('bopDelayBiomes').getOrElse('false')
     doFirst {
         File target = workingDir
         if (!new File(target, 'forward-fixture.json').isFile()
@@ -181,7 +186,7 @@ def prepareClient = tasks.register('prepareNativeClientTest') {
             }
             return
         }
-        delete target
+        if (target.exists()) throw new GradleException('Preserve existing runtime evidence before another run: ' + target)
         copy {
             from bootstrapJar.flatMap { it.archiveFile }
             from project.ext.bopDevelopmentJar
@@ -211,7 +216,7 @@ tasks.register('nativeClientTest', Exec) {
         JavaExec run = tasks.getByName('runClient') as JavaExec
         File assets = file(clientAssets.get())
         File natives = file(clientNatives.get())
-        [new File(assets, 'indexes/1.14.json'), natives].each {
+        [new File(assets, 'indexes/1.15.json'), natives].each {
             if (!it.exists()) throw new GradleException('Incomplete native client runtime: ' + it)
         }
         File classpathJar = layout.buildDirectory.file('native-bootstrap/client-classpath.jar').get().asFile
@@ -224,7 +229,7 @@ tasks.register('nativeClientTest', Exec) {
         launchEnvironment.putAll([
                 target: 'fmluserdevclient', MCP_MAPPINGS: "${mapping_channel}_${mapping_version}",
                 MCP_VERSION: mcp_version, FORGE_VERSION: forge_version, FORGE_GROUP: 'net.minecraftforge',
-                MC_VERSION: minecraft_version, assetDirectory: assets.absolutePath, assetIndex: '1.14',
+                MC_VERSION: minecraft_version, assetDirectory: assets.absolutePath, assetIndex: '1.15',
                 nativesDirectory: natives.absolutePath,
                 MOD_CLASSES: "${mod_id}%%${buildDir}/forge-run-mod-classes/main${File.pathSeparator}" +
                         "${mod_id}%%${buildDir}/forge-run-mod-classes/main"])

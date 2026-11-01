@@ -40,12 +40,13 @@ public final class LegacyItemRecovery {
     }
 
     public CompoundNBT fixTagCompound(CompoundNBT root) {
-        if (!related(root, 0)) {
+        if (!isRelevant(root)) {
             return root;
         }
 
         CompoundNBT copy = root.copy();
 
+        NamedBopRecovery.rewrite(copy);
         LegacyPlantItems.rewrite(copy, false, 0);
         rewrite(copy, 0, 0);
         // Substitutions run before basket validation, including plants kept in old baskets.
@@ -74,7 +75,7 @@ public final class LegacyItemRecovery {
     }
 
     public boolean isRelevant(CompoundNBT root) {
-        return related(root, 0);
+        return related(root, 0) || NamedBopRecovery.relevant(root);
     }
 
     private static boolean related(INBT value, int depth) {

@@ -44,7 +44,7 @@ public final class Baskets {
 
     @SubscribeEvent
     public static void pickup(EntityItemPickupEvent event) {
-        PlayerEntity player = event.getEntityPlayer();
+        PlayerEntity player = event.getPlayer();
 
         if (player.world.isRemote || event.isCanceled()) {
             return;

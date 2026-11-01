@@ -1,6 +1,29 @@
 # Existing worlds
 
-## Moving from Minecraft 1.12.2 to 1.14.4
+## Moving from Minecraft 1.14.4 to 1.15.2
+
+BOP removed ethereal wood in this version. Saved planks, logs, stripped logs,
+doors, fences, gates, slabs, stairs, buttons and pressure plates use birch.
+Leaves and saplings use white cherry, including potted saplings. Ethereal boat
+items become birch boat items. This does not provide recovery for saved BOP
+boat entities.
+
+Dried sand becomes BOP's dried salt, and barley becomes tall wheat. Saved
+directions, slab halves, waterlogging, stack counts and custom item data are
+kept. These are replacements rather than the original textures. An invalid
+waterlogged double slab stops recovery with an explanation instead of losing
+its water.
+
+Four removed biomes have replacements in the same dimension: Dead Reef uses
+End Midlands, Ethereal Forest uses End Highlands, Fungi Forest uses Undergarden
+and Glowstone Grotto uses the vanilla Nether. Existing terrain stays in place.
+
+Keep `data/skysbuildingpiecesbop_named_registry.dat` with the world. It preserves
+the old biome registry so chunks opened after the first upgrade save still
+receive the right replacement. It belongs in world backups alongside the core's
+recovery data. Already upgraded chunks are not converted again.
+
+## Moving from Minecraft 1.12.2 to 1.15.2
 
 BOP changed both its block names and its material list. The add-on converts
 supported old material palettes before Minecraft reads them, keeping slab

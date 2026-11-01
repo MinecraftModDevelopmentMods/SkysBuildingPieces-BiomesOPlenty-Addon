@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.4.115021 - Minecraft 1.15.2 (unreleased)
+
+- Bring BOP building pieces, restored decorations and the Flower Basket to 1.15.2.
+- Use the matching core pieces and BOP 10 materials.
+- Recover retired ethereal wood as birch, with white cherry leaves and saplings.
+- Replace dried sand with dried salt and barley with tall wheat.
+- Preserve saved biome identities when upgrading, including chunks opened later.
+
 ## 0.2.4.114041
 
 - Ported to Minecraft 1.14.4 and native waterlogging.

@@ -9,8 +9,8 @@ import unittest
 from prepare_1_14_recipes import native_conflict, prepare
 
 ROOT = Path(__file__).resolve().parents[1]
-FIXTURE = ROOT / 'tools/fixtures/mineralogy-1.14.4-crafting.json'
-FIXTURE_SHA256 = 'A1B65F025B1B28701D5651B800ACF87C0406CF3395B496536AE5CA26A7B67063'
+FIXTURE = ROOT / 'tools/fixtures/mineralogy-1.15.2-crafting.json'
+FIXTURE_SHA256 = '0F7CEE53881B0BDC3C8B4D38DFE2AA52C3250C0AC6F09F3F73BB4345E609FBF3'
 
 
 class MineralogyRecipeChecks(unittest.TestCase):
@@ -32,7 +32,7 @@ class MineralogyRecipeChecks(unittest.TestCase):
 
     def test_standalone_and_mineralogy_keep_the_same_recipe_ids(self):
         resources = ROOT / 'src/main/resources'
-        default_core = ROOT.parent.parent / 'SkysBuildingPieces114/SkysBuildingPieces/src/main/resources'
+        default_core = ROOT.parent.parent / 'SkysBuildingPieces115/SkysBuildingPieces/src/main/resources'
         core = Path(os.environ.get('BUILDING_PIECES_CORE_RESOURCES', str(default_core)))
         normal, _ = prepare(resources, core, self.recipes, self.tags)
         fallback, _ = prepare(resources, core, self.recipes, self.tags, True)

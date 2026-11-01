@@ -4,22 +4,18 @@
   "pattern": ["X"],
   "key": {
     "X": {
-      "item": "skysbuildingpiecesbop:planks_ethereal_vertical_slab"
+      "item": "skysbuildingpieces:planks_birch_vertical_slab"
     }
   },
   "result": {
-    "item": "biomesoplenty:ethereal_slab",
+    "item": "minecraft:birch_slab",
     "count": 1
   },
   "preserve_tag": true,
   "conditions": [
     {
       "type": "forge:item_exists",
-      "item": "biomesoplenty:ethereal_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_ethereal_vertical_slab"
+      "item": "skysbuildingpieces:planks_birch_vertical_slab"
     }
   ]
 }

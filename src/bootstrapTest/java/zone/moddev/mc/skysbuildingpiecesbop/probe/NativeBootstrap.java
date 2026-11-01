@@ -28,6 +28,7 @@ public final class NativeBootstrap {
 
         try {
             RegistrySnapshot.write();
+            NamedRecoveryChecks.run();
             require(ModList.get().isLoaded("skysbuildingpieces"), "The core is missing");
             require(ModList.get().isLoaded("skysbuildingpiecesbop"), "The add-on is missing");
             require(ModList.get().isLoaded("biomesoplenty"), "BOP is missing");

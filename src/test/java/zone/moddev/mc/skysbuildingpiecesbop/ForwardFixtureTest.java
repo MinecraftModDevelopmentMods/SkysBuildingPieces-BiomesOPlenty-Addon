@@ -34,6 +34,29 @@ class ForwardFixtureTest {
     }
 
     @Test
+    void namedUpgradeFixturesContainRealPreviousVersionSaves() throws Exception {
+        for (String name : new String[] { "building-pieces-bop-1.14.4", "building-pieces-bop-biomes-1.14.4" }) {
+            JsonObject metadata = json(FIXTURES.resolve("worlds/" + name + ".json")).getAsJsonObject();
+
+            assertEquals(metadata.get("archive_sha256").getAsString(),
+                    digest(FIXTURES.resolve("worlds/" + name + ".zip")));
+            assertEquals("1.14.4", metadata.get("source_minecraft").getAsString());
+            assertEquals(1976, metadata.get("source_data_version").getAsInt());
+            assertTrue(metadata.get("source_world_unchanged").getAsBoolean());
+            assertTrue(metadata.getAsJsonObject("source_file_hashes").entrySet().size() >= 30);
+            assertEquals(1741, metadata.getAsJsonArray("source_saved_states").size());
+
+            Set<String> artifacts = new HashSet<>();
+
+            metadata.getAsJsonArray("source_artifacts")
+                    .forEach(entry -> artifacts.add(entry.getAsJsonObject().get("sha256").getAsString()));
+            assertTrue(artifacts.contains("8A0A1DEA2A4A6C069519C7B1BCF28331186FF2DF6284DB72C2FFDB8178FC84D4"));
+            assertTrue(artifacts.contains("CF0BA460D641A4723CEB4E069D5B995C2F3357531DD86CA73CD9157F687D5702"));
+            assertTrue(artifacts.contains("65B32AAF4D34B1FFBAC6452041A4411F64357970DE6A736E4D9500346FABCA1B"));
+        }
+    }
+
+    @Test
     void everyNativeMappingUsesAnActualSourceState() throws Exception {
         Map<String, JsonObject> original = new HashMap<>();
 

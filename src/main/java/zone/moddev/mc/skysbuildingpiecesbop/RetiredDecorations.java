@@ -14,7 +14,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
@@ -95,7 +94,7 @@ public final class RetiredDecorations {
         private static final VoxelShape OUTLINE = Block.makeCuboidShape(1.6, 0, 1.6, 14.4, 16, 14.4);
 
         private Formation() {
-            super(Block.Properties.create(Material.ROCK).hardnessAndResistance(1).sound(SoundType.STONE));
+            super(Block.Properties.create(Material.ROCK).hardnessAndResistance(1).sound(SoundType.STONE).notSolid());
             setRegistryName(SkysBuildingPiecesBop.ID, "stone_formations");
             setDefaultState(stateContainer.getBaseState().with(FORM, Form.FLOOR));
             // Loading an old decoration must not start a removal cascade when its anchor has changed.
@@ -172,11 +171,6 @@ public final class RetiredDecorations {
         }
 
         @Override
-        public boolean isSolid(BlockState state) {
-            return false;
-        }
-
-        @Override
         public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos position, ISelectionContext context) {
             return OUTLINE;
         }
@@ -188,11 +182,6 @@ public final class RetiredDecorations {
         }
 
         @Override
-        public BlockRenderLayer getRenderLayer() {
-            return BlockRenderLayer.CUTOUT;
-        }
-
-        @Override
         public List<ItemStack> getDrops(BlockState state, LootContext.Builder context) {
             return Collections.emptyList();
         }
@@ -201,18 +190,9 @@ public final class RetiredDecorations {
     private static final class JelledPoison extends Block {
         private JelledPoison() {
             super(Block.Properties.create(Material.CLAY).hardnessAndResistance(.4f).sound(SoundType.SLIME)
-                    .slipperiness(.9f));
+                    .slipperiness(.9f).notSolid());
             setRegistryName(SkysBuildingPiecesBop.ID, "jelled_poison");
         }
 
-        @Override
-        public boolean isSolid(BlockState state) {
-            return false;
-        }
-
-        @Override
-        public BlockRenderLayer getRenderLayer() {
-            return BlockRenderLayer.TRANSLUCENT;
-        }
     }
 }

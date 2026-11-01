@@ -749,7 +749,7 @@
     "meta": 0,
     "properties": {},
     "target": {
-      "id": "biomesoplenty:dried_sand",
+      "id": "biomesoplenty:dried_salt",
       "properties": {}
     }
   },
@@ -1242,7 +1242,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_log",
+      "id": "minecraft:birch_log",
       "properties": {
         "axis": "x"
       }
@@ -1298,7 +1298,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_log",
+      "id": "minecraft:birch_log",
       "properties": {
         "axis": "y"
       }
@@ -1354,7 +1354,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_log",
+      "id": "minecraft:birch_log",
       "properties": {
         "axis": "z"
       }
@@ -1410,7 +1410,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_wood",
+      "id": "minecraft:birch_wood",
       "properties": {
         "axis": "y"
       }
@@ -2331,7 +2331,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_leaves",
+      "id": "biomesoplenty:white_cherry_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2395,7 +2395,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_leaves",
+      "id": "biomesoplenty:white_cherry_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -2459,7 +2459,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_leaves",
+      "id": "biomesoplenty:white_cherry_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2523,7 +2523,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_leaves",
+      "id": "biomesoplenty:white_cherry_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -4701,7 +4701,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_door",
+      "id": "minecraft:birch_door",
       "properties": {
         "facing": "east",
         "half": "lower",
@@ -4722,7 +4722,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_door",
+      "id": "minecraft:birch_door",
       "properties": {
         "facing": "south",
         "half": "lower",
@@ -4743,7 +4743,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_door",
+      "id": "minecraft:birch_door",
       "properties": {
         "facing": "west",
         "half": "lower",
@@ -4764,7 +4764,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_door",
+      "id": "minecraft:birch_door",
       "properties": {
         "facing": "north",
         "half": "lower",
@@ -4785,7 +4785,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_door",
+      "id": "minecraft:birch_door",
       "properties": {
         "facing": "east",
         "half": "lower",
@@ -4806,7 +4806,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_door",
+      "id": "minecraft:birch_door",
       "properties": {
         "facing": "south",
         "half": "lower",
@@ -4827,7 +4827,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_door",
+      "id": "minecraft:birch_door",
       "properties": {
         "facing": "west",
         "half": "lower",
@@ -4848,7 +4848,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_door",
+      "id": "minecraft:birch_door",
       "properties": {
         "facing": "north",
         "half": "lower",
@@ -4869,7 +4869,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_door",
+      "id": "minecraft:birch_door",
       "properties": {
         "facing": "north",
         "half": "upper",
@@ -4890,7 +4890,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_door",
+      "id": "minecraft:birch_door",
       "properties": {
         "facing": "north",
         "half": "upper",
@@ -4911,7 +4911,7 @@
       "powered": "true"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_door",
+      "id": "minecraft:birch_door",
       "properties": {
         "facing": "north",
         "half": "upper",
@@ -4932,7 +4932,7 @@
       "powered": "true"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_door",
+      "id": "minecraft:birch_door",
       "properties": {
         "facing": "north",
         "half": "upper",
@@ -8151,7 +8151,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_sapling",
+      "id": "biomesoplenty:white_cherry_sapling",
       "properties": {
         "stage": "0"
       }
@@ -8261,7 +8261,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:ethereal_sapling",
+      "id": "biomesoplenty:white_cherry_sapling",
       "properties": {
         "stage": "1"
       }
@@ -9019,7 +9019,7 @@
       "variant": "barley"
     },
     "target": {
-      "id": "biomesoplenty:barley",
+      "id": "biomesoplenty:tall_wheat",
       "properties": {}
     }
   },

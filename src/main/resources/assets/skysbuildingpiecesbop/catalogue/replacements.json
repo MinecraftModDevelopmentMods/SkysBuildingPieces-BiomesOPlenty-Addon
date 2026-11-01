@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "minecraft": "1.14.4",
+  "minecraft": "1.15.2",
   "materials": {
     "biomesoplenty:planks_sacred_oak": "minecraft:planks_oak",
     "biomesoplenty:planks_eucalyptus": "minecraft:planks_oak",
@@ -15,6 +15,7 @@
     "biomesoplenty:ruby_block": "minecraft:stained_hardened_clay_red",
     "biomesoplenty:sapphire_block": "minecraft:stained_hardened_clay_light_blue",
     "biomesoplenty:tanzanite_block": "minecraft:stained_hardened_clay_purple",
-    "biomesoplenty:topaz_block": "minecraft:stained_hardened_clay_orange"
+    "biomesoplenty:topaz_block": "minecraft:stained_hardened_clay_orange",
+    "biomesoplenty:planks_ethereal": "minecraft:planks_birch"
   }
 }

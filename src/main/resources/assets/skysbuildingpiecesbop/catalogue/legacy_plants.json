@@ -13,7 +13,7 @@
     "4": "biomesoplenty:umbran_sapling",
     "5": "biomesoplenty:dead_sapling",
     "6": "biomesoplenty:fir_sapling",
-    "7": "biomesoplenty:ethereal_sapling",
+    "7": "biomesoplenty:white_cherry_sapling",
     "8": "biomesoplenty:yellow_autumn_sapling",
     "9": "biomesoplenty:orange_autumn_sapling",
     "10": "minecraft:bamboo",
@@ -21,7 +21,7 @@
     "12": "biomesoplenty:umbran_sapling",
     "13": "biomesoplenty:dead_sapling",
     "14": "biomesoplenty:fir_sapling",
-    "15": "biomesoplenty:ethereal_sapling"
+    "15": "biomesoplenty:white_cherry_sapling"
   },
   "biomesoplenty:sapling_1": {
     "0": "biomesoplenty:origin_sapling",
@@ -89,7 +89,7 @@
     "8": "biomesoplenty:reed",
     "9": "biomesoplenty:mangrove_root",
     "10": "biomesoplenty:pink_hibiscus",
-    "11": "biomesoplenty:barley"
+    "11": "biomesoplenty:tall_wheat"
   },
   "biomesoplenty:flower_0": {
     "0": "minecraft:oxeye_daisy",

@@ -1,7 +1,7 @@
 # Trying the beta
 
-Install the Minecraft 1.14.4 main jars for Building Pieces 0.3.8.114041,
-this add-on and BOP 9.0.0.262 on the client and server. Use a new world or a
+Install the Minecraft 1.15.2 main jars for Building Pieces 0.3.8.115021,
+this add-on and BOP 10.0.0.366 on the client and server. Use a new world or a
 backup copy. Do not put sources or Javadoc jars in the mods folder.
 
 - Check wood and stone piece names in English and your usual game language.

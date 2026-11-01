@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "minecraft": "1.15.2",
+  "blocks": {
+    "biomesoplenty:barley": "biomesoplenty:tall_wheat",
+    "biomesoplenty:dried_sand": "biomesoplenty:dried_salt",
+    "biomesoplenty:ethereal_button": "minecraft:birch_button",
+    "biomesoplenty:ethereal_door": "minecraft:birch_door",
+    "biomesoplenty:ethereal_fence": "minecraft:birch_fence",
+    "biomesoplenty:ethereal_fence_gate": "minecraft:birch_fence_gate",
+    "biomesoplenty:ethereal_log": "minecraft:birch_log",
+    "biomesoplenty:ethereal_planks": "minecraft:birch_planks",
+    "biomesoplenty:ethereal_pressure_plate": "minecraft:birch_pressure_plate",
+    "biomesoplenty:ethereal_slab": "minecraft:birch_slab",
+    "biomesoplenty:ethereal_stairs": "minecraft:birch_stairs",
+    "biomesoplenty:ethereal_trapdoor": "minecraft:birch_trapdoor",
+    "biomesoplenty:ethereal_wood": "minecraft:birch_wood",
+    "biomesoplenty:ethereal_leaves": "biomesoplenty:white_cherry_leaves",
+    "biomesoplenty:ethereal_sapling": "biomesoplenty:white_cherry_sapling",
+    "biomesoplenty:potted_ethereal_sapling": "biomesoplenty:potted_white_cherry_sapling",
+    "biomesoplenty:stripped_ethereal_log": "minecraft:stripped_birch_log",
+    "biomesoplenty:stripped_ethereal_wood": "minecraft:stripped_birch_wood"
+  },
+  "items": {
+    "biomesoplenty:ethereal_boat": "minecraft:birch_boat"
+  },
+  "biomes": {
+    "biomesoplenty:dead_reef": "minecraft:end_midlands",
+    "biomesoplenty:ethereal_forest": "minecraft:end_highlands",
+    "biomesoplenty:fungi_forest": "biomesoplenty:undergarden",
+    "biomesoplenty:glowstone_grotto": "minecraft:nether"
+  }
+}

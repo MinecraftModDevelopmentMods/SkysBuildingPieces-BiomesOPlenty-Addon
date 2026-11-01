@@ -1,6 +1,6 @@
 {
-  "source_mod": "Mineralogy-6.0.1.114041",
-  "source_sha256": "75CE58BCDCB845407DE55F476FDB06211E2F8DBE6FCB0AC0F7FBDB5B7841F7BA",
+  "source_mod": "Mineralogy-6.0.1.115021",
+  "source_sha256": "ADACF365CCAFF7091980AA92ED1FCC14892AA6CD4B10E82336C8512525341DFA",
   "recipes": {
     "data/mineralogy/recipes/gabbro_brick.json": {
       "conditions": [

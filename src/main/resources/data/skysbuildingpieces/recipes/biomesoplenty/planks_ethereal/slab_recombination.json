@@ -4,21 +4,11 @@
   "pattern": ["XX"],
   "key": {
     "X": {
-      "item": "biomesoplenty:ethereal_slab"
+      "item": "minecraft:birch_slab"
     }
   },
   "result": {
-    "item": "biomesoplenty:ethereal_planks",
+    "item": "minecraft:birch_planks",
     "count": 1
-  },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:ethereal_planks"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:ethereal_slab"
-    }
-  ]
+  }
 }

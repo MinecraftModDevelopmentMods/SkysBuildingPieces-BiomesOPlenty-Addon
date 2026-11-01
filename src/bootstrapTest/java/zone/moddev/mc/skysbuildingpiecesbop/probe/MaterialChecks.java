@@ -95,6 +95,18 @@ final class MaterialChecks {
                                     + " / " + shape + " / " + orientation + ": " + occupied);
                         }
 
+                        if (state.has(net.minecraft.block.SlabBlock.WATERLOGGED)) {
+                            BlockState wet = state.with(net.minecraft.block.SlabBlock.WATERLOGGED, true);
+
+                            world.setBlockState(position, wet, 2);
+                            require(world.getFluidState(position).getFluid() == net.minecraft.fluid.Fluids.WATER,
+                                    "Waterlogged material lost its fluid: " + material.id + " / " + shape);
+                            require(net.minecraft.nbt.NBTUtil.readBlockState(
+                                    net.minecraft.nbt.NBTUtil.writeBlockState(wet)).equals(wet),
+                                    "Waterlogged orientation did not survive serialization: " + material.id);
+                            world.setBlockState(position, state, 2);
+                        }
+
                         checked++;
                     }
                 }
