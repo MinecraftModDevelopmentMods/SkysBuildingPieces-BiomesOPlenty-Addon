@@ -57,6 +57,29 @@ class ForwardFixtureTest {
     }
 
     @Test
+    void previousNativeSavesAreBoundToBothAcceptedJars() throws Exception {
+        for (String name : new String[] {"building-pieces-bop-1.15.2", "building-pieces-bop-biomes-1.15.2"}) {
+            JsonObject metadata = json(FIXTURES.resolve("worlds/" + name + ".json")).getAsJsonObject();
+            assertEquals(metadata.get("archive_sha256").getAsString(),
+                    digest(FIXTURES.resolve("worlds/" + name + ".zip")));
+            assertEquals("1.15.2", metadata.get("source_minecraft").getAsString());
+            assertEquals(2230, metadata.get("source_data_version").getAsInt());
+            assertTrue(metadata.get("source_world_unchanged").getAsBoolean());
+            assertEquals(1741, metadata.getAsJsonArray("source_saved_states").size());
+            assertTrue(metadata.getAsJsonObject("source_file_hashes").size() >= 30);
+            assertEquals(8, metadata.getAsJsonObject("manifest").get("baskets").getAsInt());
+            assertEquals(1500, metadata.getAsJsonObject("manifest").get("basket_item_units").getAsInt());
+            Set<String> artifacts = new HashSet<>();
+            metadata.getAsJsonArray("source_artifacts").forEach(entry ->
+                    artifacts.add(entry.getAsJsonObject().get("sha256").getAsString()));
+            assertTrue(artifacts.contains("94A5BAA4B3DC025A338A60BAC27B3E5BBAD4AE0CE494BA5EC1F852E401A704F7"));
+            assertTrue(artifacts.contains("CF73DA4A5688D79F5FFBC76FEF83941472A5FBEFF9D84581B57F1B67CAA399EB"));
+            assertEquals("14e6c9ac180bfb9cda947ae28c04fe9cf9263a4f",
+                    metadata.get("source_addon_commit").getAsString());
+        }
+    }
+
+    @Test
     void everyNativeMappingUsesAnActualSourceState() throws Exception {
         Map<String, JsonObject> original = new HashMap<>();
 

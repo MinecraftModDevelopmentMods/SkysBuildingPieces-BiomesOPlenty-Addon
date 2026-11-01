@@ -28,7 +28,13 @@ public final class NativeBootstrap {
 
         try {
             RegistrySnapshot.write();
+            if (Boolean.getBoolean("skysbuildingpieces.bopRegistryOnly")) {
+                System.out.println("BUILDING_PIECES_BOP_REGISTRY_ONLY_PASS");
+                return;
+            }
+            WallRecoveryChecks.run(event.getServer());
             NamedRecoveryChecks.run();
+            zone.moddev.mc.skysbuildingpieces.legacy.NativeBopBiomeChecks.run(event.getServer());
             require(ModList.get().isLoaded("skysbuildingpieces"), "The core is missing");
             require(ModList.get().isLoaded("skysbuildingpiecesbop"), "The add-on is missing");
             require(ModList.get().isLoaded("biomesoplenty"), "BOP is missing");
@@ -57,18 +63,18 @@ public final class NativeBootstrap {
                     ForwardUpgradeChecks.run(event.getServer(), manifest);
                 }
             } else {
-                BasketChecks.run(event.getServer().getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD));
+                BasketChecks.run(event.getServer().getLevel(net.minecraft.world.World.OVERWORLD));
                 RetiredItemChecks
-                        .run(event.getServer().getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD));
+                        .run(event.getServer().getLevel(net.minecraft.world.World.OVERWORLD));
                 PlantRecoveryChecks.run();
-                DecorationChecks.run(event.getServer().getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD));
-                MaterialChecks.run(event.getServer().getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD));
+                DecorationChecks.run(event.getServer().getLevel(net.minecraft.world.World.OVERWORLD));
+                MaterialChecks.run(event.getServer().getLevel(net.minecraft.world.World.OVERWORLD));
                 zone.moddev.mc.skysbuildingpieces.probe.BopMigrationChecks
-                        .run(event.getServer().getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD));
+                        .run(event.getServer().getLevel(net.minecraft.world.World.OVERWORLD));
                 zone.moddev.mc.skysbuildingpieces.probe.RecipeChecks
-                        .run(event.getServer().getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD));
+                        .run(event.getServer().getLevel(net.minecraft.world.World.OVERWORLD));
                 zone.moddev.mc.skysbuildingpieces.probe.RecipeBookChecks
-                        .run(event.getServer().getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD));
+                        .run(event.getServer().getLevel(net.minecraft.world.World.OVERWORLD));
             }
 
             System.out.println("BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS materials=33 palettes=66 retired_items=7");
@@ -76,15 +82,20 @@ public final class NativeBootstrap {
 
             if (client) {
                 zone.moddev.mc.skysbuildingpieces.probe.PresentationChecks.connectedGlass(
-                        event.getServer().getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD));
+                        event.getServer().getLevel(net.minecraft.world.World.OVERWORLD));
                 zone.moddev.mc.skysbuildingpieces.probe.ClientStatus.complete = true;
             }
         } catch (Throwable failure) {
             failure.printStackTrace();
             zone.moddev.mc.skysbuildingpieces.probe.ClientStatus.failure = failure;
+            if (client) {
+                net.minecraftforge.fml.DistExecutor.runWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT,
+                        () -> () -> net.minecraft.client.Minecraft.getInstance().delayCrash(
+                                net.minecraft.crash.CrashReport.forThrowable(failure, "BOP client verification failed")));
+            }
         } finally {
             if (!client || !success) {
-                event.getServer().initiateShutdown(false);
+                event.getServer().halt(false);
             }
         }
     }

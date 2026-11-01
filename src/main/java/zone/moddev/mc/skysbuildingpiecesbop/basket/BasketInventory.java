@@ -5,7 +5,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.IShearable;
+import net.minecraftforge.common.IForgeShearable;
 
 /** A basket keeps its inventory on the owning stack, including when it is dropped. */
 public final class BasketInventory extends Inventory {
@@ -30,7 +30,7 @@ public final class BasketInventory extends Inventory {
                 entry.putString("id", BasketData.ID);
             }
 
-            setInventorySlotContents(entry.getInt("Slot"), ItemStack.read(entry));
+            setItem(entry.getInt("Slot"), ItemStack.of(entry));
         }
 
         loading = false;
@@ -45,19 +45,19 @@ public final class BasketInventory extends Inventory {
             return false;
         }
 
-        Block block = Block.getBlockFromItem(stack.getItem());
+        Block block = Block.byItem(stack.getItem());
 
-        return block instanceof IPlantable || block instanceof IGrowable || block instanceof IShearable;
+        return block instanceof IPlantable || block instanceof IGrowable || block instanceof IForgeShearable;
     }
 
     @Override
-    public boolean isItemValidForSlot(int slot, ItemStack stack) {
+    public boolean canPlaceItem(int slot, ItemStack stack) {
         return accepts(stack);
     }
 
     @Override
-    public void markDirty() {
-        super.markDirty();
+    public void setChanged() {
+        super.setChanged();
 
         if (loading || owner == null) {
             return;
@@ -66,11 +66,11 @@ public final class BasketInventory extends Inventory {
         CompoundNBT tag = owner.hasTag() ? owner.getTag() : new CompoundNBT();
         ListNBT entries = new ListNBT();
 
-        for (int slot = 0; slot < getSizeInventory(); slot++) {
-            ItemStack stack = getStackInSlot(slot);
+        for (int slot = 0; slot < getContainerSize(); slot++) {
+            ItemStack stack = getItem(slot);
 
             if (!stack.isEmpty()) {
-                CompoundNBT entry = stack.write(new CompoundNBT());
+                CompoundNBT entry = stack.save(new CompoundNBT());
 
                 entry.putByte("Slot", (byte) slot);
                 entries.add(entry);
@@ -90,30 +90,30 @@ public final class BasketInventory extends Inventory {
         }
         // Fill matching stacks first, then use empty slots without changing the caller's stack.
         for (int pass = 0; pass < 2 && !remainder.isEmpty(); pass++) {
-            for (int slot = 0; slot < getSizeInventory() && !remainder.isEmpty(); slot++) {
-                ItemStack stored = getStackInSlot(slot);
+            for (int slot = 0; slot < getContainerSize() && !remainder.isEmpty(); slot++) {
+                ItemStack stored = getItem(slot);
 
                 if (pass == 0) {
-                    if (stored.isEmpty() || !stored.isItemEqual(remainder)
-                            || !ItemStack.areItemStackTagsEqual(stored, remainder)) {
+                    if (stored.isEmpty() || !stored.sameItem(remainder)
+                            || !ItemStack.tagMatches(stored, remainder)) {
                         continue;
                     }
 
                     int count = Math.min(remainder.getCount(),
-                            Math.min(getInventoryStackLimit(), stored.getMaxStackSize()) - stored.getCount());
+                            Math.min(getMaxStackSize(), stored.getMaxStackSize()) - stored.getCount());
 
                     if (count > 0) {
                         stored.grow(count);
                         remainder.shrink(count);
-                        markDirty();
+                        setChanged();
                     }
                 } else if (stored.isEmpty()) {
                     int count = Math.min(remainder.getCount(),
-                            Math.min(getInventoryStackLimit(), remainder.getMaxStackSize()));
+                            Math.min(getMaxStackSize(), remainder.getMaxStackSize()));
                     ItemStack placed = remainder.copy();
 
                     placed.setCount(count);
-                    setInventorySlotContents(slot, placed);
+                    setItem(slot, placed);
                     remainder.shrink(count);
                 }
             }

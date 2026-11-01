@@ -46,7 +46,7 @@ public final class Baskets {
     public static void pickup(EntityItemPickupEvent event) {
         PlayerEntity player = event.getPlayer();
 
-        if (player.world.isRemote || event.isCanceled()) {
+        if (player.level.isClientSide || event.isCanceled()) {
             return;
         }
 
@@ -57,15 +57,15 @@ public final class Baskets {
             return;
         }
         // Read the saved age on the server without depending on the client-only accessor.
-        if (entity.cannotPickup()
-                || entity.getOwnerId() != null && !entity.getOwnerId().equals(player.getUniqueID()) && entity.lifespan
-                        - entity.writeWithoutTypeId(new net.minecraft.nbt.CompoundNBT()).getShort("Age") > 200) {
+        if (entity.hasPickUpDelay()
+                || entity.getOwner() != null && !entity.getOwner().equals(player.getUUID()) && entity.lifespan
+                        - entity.saveWithoutId(new net.minecraft.nbt.CompoundNBT()).getShort("Age") > 200) {
             return;
         }
 
         ItemStack first = ItemStack.EMPTY;
 
-        for (ItemStack stack : player.inventory.mainInventory) {
+        for (ItemStack stack : player.inventory.items) {
             if (stack.getItem() instanceof BasketItem) {
                 first = stack;
                 break;
@@ -75,9 +75,9 @@ public final class Baskets {
             return;
         }
 
-        BasketInventory inventory = player.openContainer instanceof BasketContainer
-                && ((BasketContainer) player.openContainer).basket.owner() == first
-                        ? ((BasketContainer) player.openContainer).basket
+        BasketInventory inventory = player.containerMenu instanceof BasketContainer
+                && ((BasketContainer) player.containerMenu).basket.owner() == first
+                        ? ((BasketContainer) player.containerMenu).basket
                         : new BasketInventory(first);
         ItemStack remainder = inventory.insert(incoming);
         int accepted = incoming.getCount() - remainder.getCount();
@@ -93,17 +93,17 @@ public final class Baskets {
         ItemStack pickedUp = incoming.copy();
 
         pickedUp.setCount(accepted);
-        player.addStat(net.minecraft.stats.Stats.ITEM_PICKED_UP.get(incoming.getItem()), accepted);
+        player.awardStat(net.minecraft.stats.Stats.ITEM_PICKED_UP.get(incoming.getItem()), accepted);
 
         if (remainder.isEmpty()) {
-            player.onItemPickup(entity, accepted);
+            player.take(entity, accepted);
             entity.remove();
         } else {
             entity.setItem(remainder);
         }
 
         net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerItemPickupEvent(player, entity, pickedUp);
-        player.inventory.markDirty();
-        player.openContainer.detectAndSendChanges();
+        player.inventory.setChanged();
+        player.containerMenu.broadcastChanges();
     }
 }

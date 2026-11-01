@@ -1,5 +1,6 @@
 package zone.moddev.mc.skysbuildingpiecesbop;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.state.IntegerProperty;
@@ -59,7 +60,7 @@ public final class RetiredMaterialHolders {
         for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getAllMappings()) {
             for (int legacyIdIndex = 0; legacyIdIndex < OLD_IDS.length; legacyIdIndex++) {
                 if (mapping.key.equals(new ResourceLocation("biomesoplenty", OLD_IDS[legacyIdIndex]))) {
-                    mapping.remap(Item.getItemFromBlock(BLOCKS[legacyIdIndex]));
+                    mapping.remap(Item.byBlock(BLOCKS[legacyIdIndex]));
                 }
             }
         }
@@ -69,22 +70,22 @@ public final class RetiredMaterialHolders {
         private static final IntegerProperty META = IntegerProperty.create("metadata", 0, 15);
 
         Holder(String name) {
-            super(Block.Properties.create(Material.ROCK).hardnessAndResistance(-1, 3600000));
+            super(AbstractBlock.Properties.of(Material.STONE).strength(-1, 3600000));
             setRegistryName(SkysBuildingPiecesBop.ID, name);
-            setDefaultState(stateContainer.getBaseState().with(META, 0));
+            registerDefaultState(stateDefinition.any().setValue(META, 0));
         }
 
         @Override
-        protected void fillStateContainer(StateContainer.Builder<Block, net.minecraft.block.BlockState> builder) {
+        protected void createBlockStateDefinition(StateContainer.Builder<Block, net.minecraft.block.BlockState> builder) {
             builder.add(META);
         }
 
         public BlockState getStateFromMeta(int meta) {
-            return getDefaultState().with(META, meta & 15);
+            return defaultBlockState().setValue(META, meta & 15);
         }
 
         public int getMetaFromState(BlockState state) {
-            return state.get(META);
+            return state.getValue(META);
         }
     }
 }

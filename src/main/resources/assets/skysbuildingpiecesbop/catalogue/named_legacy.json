@@ -1,8 +1,7 @@
 {
   "schema": 1,
-  "minecraft": "1.15.2",
+  "minecraft": "1.16.5",
   "blocks": {
-    "biomesoplenty:barley": "biomesoplenty:tall_wheat",
     "biomesoplenty:dried_sand": "biomesoplenty:dried_salt",
     "biomesoplenty:ethereal_button": "minecraft:birch_button",
     "biomesoplenty:ethereal_door": "minecraft:birch_door",
@@ -19,7 +18,11 @@
     "biomesoplenty:ethereal_sapling": "biomesoplenty:white_cherry_sapling",
     "biomesoplenty:potted_ethereal_sapling": "biomesoplenty:potted_white_cherry_sapling",
     "biomesoplenty:stripped_ethereal_log": "minecraft:stripped_birch_log",
-    "biomesoplenty:stripped_ethereal_wood": "minecraft:stripped_birch_wood"
+    "biomesoplenty:stripped_ethereal_wood": "minecraft:stripped_birch_wood",
+    "biomesoplenty:ash_block": "minecraft:basalt",
+    "biomesoplenty:root": "biomesoplenty:dead_grass",
+    "biomesoplenty:tall_cattail": "biomesoplenty:cattail",
+    "biomesoplenty:tall_wheat": "biomesoplenty:barley"
   },
   "items": {
     "biomesoplenty:ethereal_boat": "minecraft:birch_boat"
@@ -27,7 +30,39 @@
   "biomes": {
     "biomesoplenty:dead_reef": "minecraft:end_midlands",
     "biomesoplenty:ethereal_forest": "minecraft:end_highlands",
-    "biomesoplenty:fungi_forest": "biomesoplenty:undergarden",
-    "biomesoplenty:glowstone_grotto": "minecraft:nether"
+    "biomesoplenty:fungi_forest": "biomesoplenty:undergrowth",
+    "biomesoplenty:glowstone_grotto": "minecraft:nether_wastes",
+    "biomesoplenty:ashen_inferno": "minecraft:basalt_deltas",
+    "biomesoplenty:bog": "biomesoplenty:wetland",
+    "biomesoplenty:boreal_forest": "biomesoplenty:coniferous_forest",
+    "biomesoplenty:brushland": "biomesoplenty:wooded_scrubland",
+    "biomesoplenty:chaparral": "biomesoplenty:scrubland",
+    "biomesoplenty:floodplain": "biomesoplenty:rainforest_floodplain",
+    "biomesoplenty:ghost_forest": "biomesoplenty:muskeg",
+    "biomesoplenty:lush_grassland": "biomesoplenty:meadow",
+    "biomesoplenty:lush_swamp": "biomesoplenty:bayou",
+    "biomesoplenty:mangrove": "biomesoplenty:bayou_mangrove",
+    "biomesoplenty:maple_woods": "biomesoplenty:seasonal_forest",
+    "biomesoplenty:mire": "biomesoplenty:ominous_mire",
+    "biomesoplenty:oasis": "biomesoplenty:lush_desert",
+    "biomesoplenty:origin_beach": "biomesoplenty:tropic_beach",
+    "biomesoplenty:origin_hills": "biomesoplenty:origin_valley",
+    "biomesoplenty:outback": "biomesoplenty:dryland",
+    "biomesoplenty:overgrown_cliffs": "biomesoplenty:rainforest_cliffs",
+    "biomesoplenty:pasture": "biomesoplenty:meadow",
+    "biomesoplenty:poppy_field": "biomesoplenty:flower_meadow",
+    "biomesoplenty:pumpkin_patch": "biomesoplenty:seasonal_pumpkin_patch",
+    "biomesoplenty:rainbow_valley": "biomesoplenty:rainbow_hills",
+    "biomesoplenty:shield": "biomesoplenty:highland",
+    "biomesoplenty:silkglade": "biomesoplenty:grove",
+    "biomesoplenty:snowy_forest": "biomesoplenty:snowy_maple_forest",
+    "biomesoplenty:steppe": "biomesoplenty:grassland",
+    "biomesoplenty:temperate_rainforest": "biomesoplenty:redwood_forest",
+    "biomesoplenty:temperate_rainforest_hills": "biomesoplenty:redwood_hills",
+    "biomesoplenty:tropical_rainforest": "biomesoplenty:rainforest",
+    "biomesoplenty:undergarden": "biomesoplenty:undergrowth",
+    "biomesoplenty:volcano_edge": "biomesoplenty:volcanic_plains",
+    "biomesoplenty:white_beach": "biomesoplenty:tropic_beach",
+    "biomesoplenty:xeric_shrubland": "biomesoplenty:dryland"
   }
 }

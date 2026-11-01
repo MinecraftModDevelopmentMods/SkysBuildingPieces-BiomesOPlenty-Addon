@@ -22,7 +22,7 @@ final class RegistrySnapshot {
             if (!block.getRegistryName().getNamespace().equals("biomesoplenty")) {
                 continue;
             }
-            for (BlockState state : block.getStateContainer().getValidStates()) {
+            for (BlockState state : block.getStateDefinition().getPossibleStates()) {
                 JsonObject row = new JsonObject();
 
                 row.addProperty("id", block.getRegistryName().toString());
@@ -56,7 +56,7 @@ final class RegistrySnapshot {
             JsonObject row = new JsonObject();
 
             row.addProperty("id", biome.getRegistryName().toString());
-            row.addProperty("temperature", biome.getDefaultTemperature());
+            row.addProperty("temperature", biome.getBaseTemperature());
             row.addProperty("rainfall", biome.getDownfall());
             row.addProperty("depth", biome.getDepth());
             row.addProperty("scale", biome.getScale());

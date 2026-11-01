@@ -2,6 +2,7 @@ package zone.moddev.mc.skysbuildingpiecesbop;
 
 import java.util.Collections;
 import java.util.List;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -21,7 +22,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
-import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.loot.LootContext;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -42,13 +43,13 @@ public final class RetiredRocks extends Block {
     public static final Item[] ITEMS = new Item[NAMES.length];
 
     private RetiredRocks() {
-        super(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.5f, 6));
+        super(AbstractBlock.Properties.of(Material.STONE).strength(1.5f, 6));
         setRegistryName(SkysBuildingPiecesBop.ID, "retired_rocks");
-        setDefaultState(stateContainer.getBaseState().with(VARIANT, 0));
+        registerDefaultState(stateDefinition.any().setValue(VARIANT, 0));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(VARIANT);
     }
 
@@ -57,22 +58,20 @@ public final class RetiredRocks extends Block {
             throw new IllegalArgumentException("Unassigned retired-rock slot: " + variant);
         }
 
-        return getDefaultState().with(VARIANT, variant);
+        return defaultBlockState().setValue(VARIANT, variant);
     }
 
     public int getMetaFromState(BlockState state) {
-        return state.get(VARIANT);
+        return state.getValue(VARIANT);
+    }
+
+    public float materialDestroySpeed(BlockState state, IBlockReader world, BlockPos position) {
+        return HARDNESS[state.getValue(VARIANT)];
     }
 
     @Override
-    public float getBlockHardness(BlockState state, IBlockReader world, BlockPos position) {
-        return HARDNESS[state.get(VARIANT)];
-    }
-
-    @Override
-    public float getExplosionResistance(BlockState state, IWorldReader world, BlockPos position, Entity entity,
-            Explosion explosion) {
-        return state.get(VARIANT) == 0 ? 60 : 6;
+    public float getExplosionResistance(BlockState state, IBlockReader world, BlockPos position, Explosion explosion) {
+        return state.getValue(VARIANT) == 0 ? 60 : 6;
     }
 
     @Override
@@ -82,11 +81,11 @@ public final class RetiredRocks extends Block {
 
     @Override
     public int getHarvestLevel(BlockState state) {
-        return state.get(VARIANT) == 0 ? 2 : 0;
+        return state.getValue(VARIANT) == 0 ? 2 : 0;
     }
 
     public static Item item(BlockState state) {
-        return ITEMS[state.get(VARIANT)];
+        return ITEMS[state.getValue(VARIANT)];
     }
 
     @Override
@@ -128,26 +127,26 @@ public final class RetiredRocks extends Block {
         private final int variant;
 
         VariantItem(int variant) {
-            super(BLOCK, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS));
+            super(BLOCK, new Item.Properties().tab(ItemGroup.TAB_BUILDING_BLOCKS));
             this.variant = variant;
         }
 
         @Override
-        protected BlockState getStateForPlacement(BlockItemUseContext context) {
+        protected BlockState getPlacementState(BlockItemUseContext context) {
             return BLOCK.getStateFromMeta(variant);
         }
 
         @Override
-        public String getTranslationKey() {
+        public String getDescriptionId() {
             return "block.skysbuildingpiecesbop.retired_" + NAMES[variant];
         }
 
         @Override
-        public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+        public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
             Block nativeRock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("mineralogy", NAMES[variant]));
 
             if (nativeRock == null || nativeRock == net.minecraft.block.Blocks.AIR) {
-                super.fillItemGroup(group, items);
+                super.fillItemCategory(group, items);
             }
         }
     }

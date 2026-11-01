@@ -1,5 +1,24 @@
 # Existing worlds
 
+## Moving to Minecraft 1.16.5
+
+The piece catalogue keeps its existing materials, IDs and orientations. BOP
+renamed tall wheat to barley and tall cattails to cattails. Both halves of
+those plants are retained. Older one-block cattails and roots use BOP dead
+grass, so they remain one block tall. Full ash blocks use basalt. Stored
+items keep their counts and custom data. Old white sandstone and mud-brick walls
+keep their connections, posts and waterlogging through the changed wall format.
+
+Removed biomes use similar surviving biomes in the same dimension: for example,
+Ghost Forest becomes Muskeg, Mangrove becomes Bayou Mangrove, Maple Woods
+becomes Seasonal Forest and Origin Hills becomes Origin Valley. Undergarden
+uses Undergrowth, while Ashen Inferno uses Basalt Deltas. Existing terrain is
+not regenerated. Earlier replacements are carried forward to live names.
+
+Keep the named-registry sidecar with the world so chunks opened later retain
+their original biome identities. Test a backup copy of the whole modpack before
+upgrading; this add-on cannot recover unrelated missing mods or their entities.
+
 ## Moving from Minecraft 1.14.4 to 1.15.2
 
 BOP removed ethereal wood in this version. Saved planks, logs, stripped logs,

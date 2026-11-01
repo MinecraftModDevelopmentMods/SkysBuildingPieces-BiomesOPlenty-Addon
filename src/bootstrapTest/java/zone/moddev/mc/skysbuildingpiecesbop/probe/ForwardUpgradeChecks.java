@@ -5,7 +5,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.InputStream;
 import java.util.Map;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
@@ -15,7 +17,6 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Shape;
@@ -32,13 +33,13 @@ final class ForwardUpgradeChecks {
 
     static void run(MinecraftServer server, File manifestFile) throws Exception {
         JsonObject manifest = read(manifestFile);
-        ServerWorld world = server.getWorld(DimensionType.OVERWORLD);
+        ServerWorld world = server.getLevel(net.minecraft.world.World.OVERWORLD);
 
         run(world, manifest);
     }
 
     static void biomesOnly(MinecraftServer server, File manifestFile) throws Exception {
-        checkBiomes(server.getWorld(DimensionType.OVERWORLD), read(manifestFile));
+        checkBiomes(server.getLevel(net.minecraft.world.World.OVERWORLD), read(manifestFile));
     }
 
     private static JsonObject read(File manifestFile) throws Exception {
@@ -75,6 +76,21 @@ final class ForwardUpgradeChecks {
                         .getAsJsonObject();
 
                 target.addProperty("id", currentTarget("blocks", target.get("id").getAsString()));
+                if (target.get("id").getAsString().equals("biomesoplenty:cattail")
+                        && !target.getAsJsonObject("properties").has("half")) {
+                    target.addProperty("id", "biomesoplenty:dead_grass");
+                }
+                if (target.get("id").getAsString().equals("biomesoplenty:white_sandstone_wall")
+                        || target.get("id").getAsString().equals("biomesoplenty:mud_brick_wall")) {
+                    JsonObject properties = target.getAsJsonObject("properties");
+                    for (String direction : new String[] {"north", "south", "east", "west"}) {
+                        if (!properties.has(direction)) continue;
+                        String value = properties.get(direction).getAsString();
+                        if (value.equals("true") || value.equals("false")) {
+                            properties.addProperty(direction, value.equals("true") ? "low" : "none");
+                        }
+                    }
+                }
                 expected = zone.moddev.mc.skysbuildingpiecesbop.BopWorldMappings.state(target);
             } else if (row.has("role") || row.has("owned_decoration")) {
                 expected = HistoricalFullBlocks.resolve(row.get("id").getAsString(), row.get("meta").getAsInt());
@@ -91,7 +107,7 @@ final class ForwardUpgradeChecks {
 
             // Connections and snow are derived from neighbours. The palette metadata and persisted orientation still
             // have to match exactly.
-            for (Map.Entry<net.minecraft.state.IProperty<?>, Comparable<?>> property : expected.getValues()
+            for (Map.Entry<net.minecraft.state.Property<?>, Comparable<?>> property : expected.getValues()
                     .entrySet()) {
                 String name = property.getKey().getName();
 
@@ -116,12 +132,12 @@ final class ForwardUpgradeChecks {
             BlockPos chestPosition = position(row);
 
             world.getChunk(chestPosition.getX() >> 4, chestPosition.getZ() >> 4);
-            require(world.getTileEntity(chestPosition) instanceof ChestTileEntity,
+            require(world.getBlockEntity(chestPosition) instanceof ChestTileEntity,
                     "Saved chest is missing at " + chestPosition + ": " + world.getBlockState(chestPosition));
 
-            ChestTileEntity chest = (ChestTileEntity) world.getTileEntity(chestPosition);
-            ItemStack actual = chest.getStackInSlot(row.get("slot").getAsInt());
-            CompoundNBT original = JsonToNBT.getTagFromJson(row.get("item").getAsString());
+            ChestTileEntity chest = (ChestTileEntity) world.getBlockEntity(chestPosition);
+            ItemStack actual = chest.getItem(row.get("slot").getAsInt());
+            CompoundNBT original = JsonToNBT.parseTag(row.get("item").getAsString());
 
             require(actual.getCount() == original.getByte("Count"), "Saved stack count changed: " + row);
 
@@ -169,12 +185,12 @@ final class ForwardUpgradeChecks {
 
         world.getChunk(shovelPosition.getX() >> 4, shovelPosition.getZ() >> 4);
 
-        ItemStack shovel = ((ChestTileEntity) world.getTileEntity(shovelPosition)).getStackInSlot(0);
+        ItemStack shovel = ((ChestTileEntity) world.getBlockEntity(shovelPosition)).getItem(0);
 
-        require(shovel.getItem() == net.minecraft.item.Items.DIAMOND_SHOVEL && shovel.getDamage() == 17
-                && shovel.getDisplayName().getString().equals("A saved slope shovel")
+        require(shovel.getItem() == net.minecraft.item.Items.DIAMOND_SHOVEL && shovel.getDamageValue() == 17
+                && shovel.getHoverName().getString().equals("A saved slope shovel")
                 && net.minecraft.enchantment.EnchantmentHelper
-                        .getEnchantmentLevel(net.minecraft.enchantment.Enchantments.EFFICIENCY, shovel) == 3,
+                        .getItemEnchantmentLevel(net.minecraft.enchantment.Enchantments.BLOCK_EFFICIENCY, shovel) == 3,
                 "Saved shovel identity, damage, name or enchantment changed");
         require(state.blocks == 17 && state.items == 31 && state.chunks == 7, "Existing vanilla totals changed");
 
@@ -187,8 +203,45 @@ final class ForwardUpgradeChecks {
             checkBiomes(world, manifest);
         }
 
+        checkSavedRecoveryData(world);
+
         System.out.println("BUILDING_PIECES_BOP_FORWARD_UPGRADE_PASS states=" + states + " baskets=" + baskets
                 + " units=" + units);
+    }
+
+    private static void checkSavedRecoveryData(ServerWorld world) throws Exception {
+        File first = new File("first-save/data");
+
+        // Delayed profiles deliberately open additional chunks after the first save.
+        if (!first.isDirectory() || Boolean.getBoolean("skysbuildingpieces.bopDelayedBiomes")) {
+            return;
+        }
+
+        world.getServer().saveAllChunks(true, true, true);
+        File current = new File(world.getServer()
+                .getWorldPath(net.minecraft.world.storage.FolderName.ROOT).toFile(), "data");
+        int checked = 0;
+
+        for (String name : new String[] {"skysbuildingpieces_world_state.dat",
+                "skysbuildingpieces_legacy_registry.dat", "skysbuildingpiecesbop_named_registry.dat",
+                "skysgrassslabs_legacy_registry.dat", "mineralogy_legacy_registry.dat"}) {
+            File before = new File(first, name);
+            File after = new File(current, name);
+            require(before.isFile() == after.isFile(), "Recovery data appeared or disappeared on reload: " + name);
+
+            if (before.isFile()) {
+                try (InputStream original = new FileInputStream(before);
+                        InputStream reloaded = new FileInputStream(after)) {
+                    require(net.minecraft.nbt.CompressedStreamTools.readCompressed(original)
+                                    .equals(net.minecraft.nbt.CompressedStreamTools.readCompressed(reloaded)),
+                            "Saved recovery data changed on reload: " + name);
+                }
+                checked++;
+            }
+        }
+
+        require(checked > 0, "The reload profile has no saved recovery data");
+        System.out.println("BOP_RECOVERY_DATA_RELOAD_PASS files=" + checked);
     }
 
     private static java.util.Map<BlockPos, BlockState> retainedNamedRocks(JsonObject manifest) throws Exception {
@@ -197,7 +250,7 @@ final class ForwardUpgradeChecks {
         if (manifest.has("source_saved_states")) {
             for (JsonElement element : manifest.getAsJsonArray("source_saved_states")) {
                 JsonObject row = element.getAsJsonObject();
-                CompoundNBT saved = JsonToNBT.getTagFromJson(row.get("state").getAsString());
+                CompoundNBT saved = JsonToNBT.parseTag(row.get("state").getAsString());
 
                 // Installing Mineralogy later does not replace an already named fallback block.
                 // Its bridge recipe is the player's explicit conversion route.
@@ -240,7 +293,7 @@ final class ForwardUpgradeChecks {
 
             if (first && deferred.contains(net.minecraft.util.math.ChunkPos.asLong(
                     position.getX() >> 4, position.getZ() >> 4))) {
-                require(world.getChunkProvider().getChunkWithoutLoading(position.getX() >> 4, position.getZ() >> 4)
+                require(world.getChunkSource().getChunkNow(position.getX() >> 4, position.getZ() >> 4)
                         == null, "A deferred biome chunk was loaded during the first pass");
                 continue;
             }
@@ -315,7 +368,10 @@ final class ForwardUpgradeChecks {
     private static String currentTarget(String group, String id) {
         JsonObject mappings = TARGET_UPGRADES.getAsJsonObject(group);
 
-        return mappings.has(id) ? mappings.get(id).getAsString() : id;
+        String target = mappings.has(id) ? mappings.get(id).getAsString() : id;
+
+        // The sealed older fixtures keep the vanilla biome name used before 1.16.
+        return group.equals("biomes") && target.equals("minecraft:nether") ? "minecraft:nether_wastes" : target;
     }
 
     private static String currentItemTarget(String id) {

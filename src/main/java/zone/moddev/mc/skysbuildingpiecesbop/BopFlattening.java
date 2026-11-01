@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import net.minecraft.block.BlockState;
-import net.minecraft.state.IProperty;
+import net.minecraft.state.Property;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Shape;
 import zone.moddev.mc.skysbuildingpieces.content.Pieces;
@@ -30,10 +30,10 @@ public final class BopFlattening {
 
         HistoricalFullBlocks.registerStates(SkysBuildingPiecesBop.ID + ":stone_formations",
                 SkysBuildingPiecesBop.ID + ":stone_formations", MODULE,
-                metadata -> metadata == 0 ? RetiredDecorations.STONE_FORMATIONS.getDefaultState() : null);
+                metadata -> metadata == 0 ? RetiredDecorations.STONE_FORMATIONS.defaultBlockState() : null);
         HistoricalFullBlocks.registerStates(SkysBuildingPiecesBop.ID + ":jelled_poison",
                 SkysBuildingPiecesBop.ID + ":jelled_poison", MODULE,
-                metadata -> metadata == 0 ? RetiredDecorations.JELLED_POISON.getDefaultState() : null);
+                metadata -> metadata == 0 ? RetiredDecorations.JELLED_POISON.defaultBlockState() : null);
 
         String path = "/assets/skysbuildingpiecesbop/catalogue/legacy_states.json";
         Map<String, JsonObject[]> palettes = new LinkedHashMap<>();
@@ -117,7 +117,7 @@ public final class BopFlattening {
                 continue;
             }
 
-            IProperty<?> target = result.getBlock().getStateContainer().getProperty(property.getKey());
+            Property<?> target = result.getBlock().getStateDefinition().getProperty(property.getKey());
 
             if (target != null) {
                 result = withProperty(result, target, property.getValue().getAsString());
@@ -127,9 +127,9 @@ public final class BopFlattening {
         return result;
     }
 
-    private static <T extends Comparable<T>> BlockState withProperty(BlockState state, IProperty<T> property,
+    private static <T extends Comparable<T>> BlockState withProperty(BlockState state, Property<T> property,
             String value) {
-        return state.with(property, property.parseValue(value).orElseThrow(
+        return state.setValue(property, property.getValue(value).orElseThrow(
                 () -> new IllegalStateException("Invalid recovered property " + property.getName() + "=" + value)));
     }
 }

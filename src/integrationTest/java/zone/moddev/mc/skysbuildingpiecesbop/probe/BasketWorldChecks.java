@@ -21,11 +21,11 @@ public final class BasketWorldChecks {
 
         net.minecraft.server.MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 
-        if (server == null || server.getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD) == null) {
+        if (server == null || server.getLevel(net.minecraft.world.World.OVERWORLD) == null) {
             return;
         }
 
-        ServerWorld world = server.getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD);
+        ServerWorld world = server.getLevel(net.minecraft.world.World.OVERWORLD);
 
         if (ticks++ == 0) {
             for (String row : Files.readAllLines(Paths.get(System.getProperty("skysbuildingpieces.basketIndex")),
@@ -41,8 +41,8 @@ public final class BasketWorldChecks {
 
         LegacyBridge.report(world);
 
-        CompoundNBT state = PiecesWorldState.get(world).write(new CompoundNBT());
-        File snapshot = new File(world.getSaveHandler().getWorldDirectory(), "basket-qualification-state.dat");
+        CompoundNBT state = PiecesWorldState.get(world).save(new CompoundNBT());
+        File snapshot = new File(world.getServer().getWorldPath(net.minecraft.world.storage.FolderName.ROOT).toFile(), "basket-qualification-state.dat");
         boolean reload = System.getProperty("skysbuildingpieces.integrationPhase").endsWith("reload");
 
         if (reload) {
@@ -64,6 +64,6 @@ public final class BasketWorldChecks {
         System.out.println("BOP_BASKET_SYLVESTER_PASS all_carriers_loaded=true schema=" + state.getInt("schema_version")
                 + " reload=" + reload);
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.unregister(this);
-        server.initiateShutdown(false);
+        server.halt(false);
     }
 }

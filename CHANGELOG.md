@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.4.116051
+
+- Added the Minecraft 1.16.5 port for Forge 36.2.34 and BOP 13.1.0.488.
+- Kept existing piece IDs, material slots, Flower Baskets and saved contents.
+- Added replacements for BOP plants and biomes removed on this upgrade route.
+
+
 ## 0.2.4.115021 - Minecraft 1.15.2 (unreleased)
 
 - Bring BOP building pieces, restored decorations and the Flower Basket to 1.15.2.

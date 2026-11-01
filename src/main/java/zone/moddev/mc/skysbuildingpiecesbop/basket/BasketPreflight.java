@@ -12,8 +12,19 @@ public final class BasketPreflight {
     private BasketPreflight() {
     }
 
+    static boolean hasRegionHeader(long size, String name) throws IOException {
+        // Native RegionFile may create an empty file before saving its first chunk.
+        if (size == 0) {
+            return false;
+        }
+        if (size < 8192) {
+            throw new IOException("Invalid region header: " + name);
+        }
+        return true;
+    }
+
     public static void check(MinecraftServer server) throws IOException {
-        File world = server.getActiveAnvilConverter().getFile(server.getFolderName(), "level.dat").getParentFile();
+        File world = server.getWorldPath(net.minecraft.world.storage.FolderName.LEVEL_DATA_FILE).toFile().getParentFile();
 
         if (!world.isDirectory()) {
             return;
@@ -32,8 +43,8 @@ public final class BasketPreflight {
                 if (name.matches("r\\.-?\\d+\\.-?\\d+\\.mca")
                         && path.getParent().getFileName().toString().equals("region")) {
                     try (RandomAccessFile region = new RandomAccessFile(path.toFile(), "r")) {
-                        if (region.length() < 8192) {
-                            throw new IOException("Invalid region header: " + name);
+                        if (!hasRegionHeader(region.length(), name)) {
+                            continue;
                         }
 
                         int[] locations = new int[1024];

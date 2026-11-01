@@ -39,25 +39,24 @@ final class MaterialChecks {
                             continue;
                         }
 
-                        world.setBlockState(position, state, 2);
+                        world.setBlock(position, state, 2);
 
                         ItemStack item = Pieces.stack(state, 3);
 
                         require(item != null && !item.isEmpty() && item.getCount() == 3, "Piece item " + material.id);
-                        require(world.getTileEntity(position) == null,
+                        require(world.getBlockEntity(position) == null,
                                 "Material pieces must not create block entities");
                         require(state.getMaterial() == full.getMaterial(), "Native block material " + material.id);
-                        require(state.getBlock().getBlockHardness(state, world, position) == full.getBlock()
-                                .getBlockHardness(full, world, position), "Native hardness " + material.id);
+                        require(state.getDestroySpeed(world, position) == full.getDestroySpeed(world, position), "Native hardness " + material.id);
                         Catalogue.MaterialDef placedMaterial = state.getBlock() instanceof PieceBlock
                                 ? ((PieceBlock) state.getBlock()).definition(state) : null;
                         // Retired rocks keep their declared resistance even when Mineralogy supplies the full block.
                         // Reused native slabs and stairs retain their own native properties.
                         float resistance = placedMaterial != null && placedMaterial.explosionResistance() >= 0
                                 ? placedMaterial.explosionResistance()
-                                : full.getBlock().getExplosionResistance(full, world, position, null, null);
+                                : full.getBlock().getExplosionResistance(full, world, position, null);
 
-                        require(state.getBlock().getExplosionResistance(state, world, position, null, null) == resistance,
+                        require(state.getBlock().getExplosionResistance(state, world, position, null) == resistance,
                                 "Material resistance " + material.id);
 
                         for (Direction face : Direction.values()) {
@@ -74,7 +73,7 @@ final class MaterialChecks {
                                     "Material fire spread " + material.id);
                         }
                         if (shape != Shape.WALL) {
-                            List<AxisAlignedBB> boxes = state.getCollisionShape(world, position).toBoundingBoxList();
+                            List<AxisAlignedBB> boxes = state.getCollisionShape(world, position).toAabbs();
                             int occupied = 0;
 
                             for (int cellY = 0; cellY < 2; cellY++) {
@@ -95,16 +94,16 @@ final class MaterialChecks {
                                     + " / " + shape + " / " + orientation + ": " + occupied);
                         }
 
-                        if (state.has(net.minecraft.block.SlabBlock.WATERLOGGED)) {
-                            BlockState wet = state.with(net.minecraft.block.SlabBlock.WATERLOGGED, true);
+                        if (state.hasProperty(net.minecraft.block.SlabBlock.WATERLOGGED)) {
+                            BlockState wet = state.setValue(net.minecraft.block.SlabBlock.WATERLOGGED, true);
 
-                            world.setBlockState(position, wet, 2);
-                            require(world.getFluidState(position).getFluid() == net.minecraft.fluid.Fluids.WATER,
+                            world.setBlock(position, wet, 2);
+                            require(world.getFluidState(position).getType() == net.minecraft.fluid.Fluids.WATER,
                                     "Waterlogged material lost its fluid: " + material.id + " / " + shape);
                             require(net.minecraft.nbt.NBTUtil.readBlockState(
                                     net.minecraft.nbt.NBTUtil.writeBlockState(wet)).equals(wet),
                                     "Waterlogged orientation did not survive serialization: " + material.id);
-                            world.setBlockState(position, state, 2);
+                            world.setBlock(position, state, 2);
                         }
 
                         checked++;
@@ -118,7 +117,7 @@ final class MaterialChecks {
             require(registered == 74 && registered <= 80, "Complete add-on block budget: " + registered);
             System.out.println("BOP_NATIVE_MATERIALS_PASS states=" + checked + " blocks=" + registered);
         } finally {
-            world.setBlockState(position, previous, 2);
+            world.setBlock(position, previous, 2);
         }
     }
 

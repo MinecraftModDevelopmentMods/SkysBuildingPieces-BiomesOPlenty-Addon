@@ -28,7 +28,7 @@ public final class BasketData {
 
         rewrite(checked, 0);
 
-        for (String key : checked.keySet()) {
+        for (String key : checked.getAllKeys()) {
             root.put(key, checked.get(key));
         }
 
@@ -45,7 +45,7 @@ public final class BasketData {
             if (compoundTag.contains("id", 8) && isBasket(compoundTag.getString("id"))) {
                 return true;
             }
-            for (String key : compoundTag.keySet()) {
+            for (String key : compoundTag.getAllKeys()) {
                 if (containsBasket(compoundTag.get(key), depth + 1)) {
                     return true;
                 }
@@ -87,7 +87,7 @@ public final class BasketData {
                     tag.putBoolean("BasketOpen", false);
                 }
             }
-            for (String key : compoundTag.keySet()) {
+            for (String key : compoundTag.getAllKeys()) {
                 rewrite(compoundTag.get(key), depth + 1);
             }
         } else if (value instanceof ListNBT) {
@@ -159,7 +159,7 @@ public final class BasketData {
             throw invalid(where + " has an unavailable item: " + registryId);
         }
 
-        net.minecraft.item.ItemStack decoded = net.minecraft.item.ItemStack.read(stack.copy());
+        net.minecraft.item.ItemStack decoded = net.minecraft.item.ItemStack.of(stack.copy());
 
         if (stack.contains("tag", 10)) {
             decoded.setTag(stack.getCompound("tag").copy());
@@ -182,7 +182,7 @@ public final class BasketData {
             if (compoundTag.contains("id", 8) && compoundTag.contains("Count", 99)) {
                 validateStack(compoundTag, where + " / " + compoundTag.getString("id"), depth + 1);
             } else {
-                for (String key : compoundTag.keySet()) {
+                for (String key : compoundTag.getAllKeys()) {
                     validateChildren(compoundTag.get(key), where, depth + 1);
                 }
             }

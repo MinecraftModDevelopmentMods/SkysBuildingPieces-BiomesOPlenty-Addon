@@ -27,13 +27,13 @@ public final class LegacyItemRecovery {
 
             HOLDERS[holderIndex] = new Item(new Item.Properties()) {
                 @Override
-                public net.minecraft.util.text.ITextComponent getDisplayName(ItemStack stack) {
+                public net.minecraft.util.text.ITextComponent getName(ItemStack stack) {
                     Item target = ForgeRegistries.ITEMS.getValue(new ResourceLocation(TARGET[targetIndex]));
 
                     return target == null || target == net.minecraft.item.Items.AIR
                             ? new net.minecraft.util.text.TranslationTextComponent(
                                     "item.skysbuildingpiecesbop.retired_item")
-                            : new ItemStack(target).getDisplayName();
+                            : new ItemStack(target).getHoverName();
                 }
             }.setRegistryName(SkysBuildingPiecesBop.ID, "legacy_" + OLD[holderIndex].substring(14));
         }
@@ -52,7 +52,7 @@ public final class LegacyItemRecovery {
         // Substitutions run before basket validation, including plants kept in old baskets.
         new BasketData().fixTagCompound(copy);
 
-        for (String key : copy.keySet()) {
+        for (String key : copy.getAllKeys()) {
             root.put(key, copy.get(key));
         }
 
@@ -89,7 +89,7 @@ public final class LegacyItemRecovery {
                             || LegacyPlantItems.matches(compoundTag.getString("id")))) {
                 return true;
             }
-            for (String key : compoundTag.keySet()) {
+            for (String key : compoundTag.getAllKeys()) {
                 if (related(compoundTag.get(key), depth + 1)) {
                     return true;
                 }
@@ -134,7 +134,7 @@ public final class LegacyItemRecovery {
                             "remove the retired item from its item frame in the original world first; a frame cannot retain multiple replacement items");
                 }
             }
-            for (String key : compoundTag.keySet()) {
+            for (String key : compoundTag.getAllKeys()) {
                 INBT child = compoundTag.get(key);
 
                 if (child instanceof ListNBT) {
@@ -297,7 +297,7 @@ public final class LegacyItemRecovery {
     }
 
     private static void replace(CompoundNBT targetData, CompoundNBT from) {
-        for (String key : from.keySet()) {
+        for (String key : from.getAllKeys()) {
             targetData.put(key, from.get(key));
         }
     }

@@ -20,12 +20,12 @@ public final class RetiredItemChecks {
         checks = 0;
 
         LegacyItemRecovery recovery = new LegacyItemRecovery();
-        CompoundNBT state = PiecesWorldState.get(world).write(new CompoundNBT());
+        CompoundNBT state = PiecesWorldState.get(world).save(new CompoundNBT());
         String[] legacyIds = { "turnip_seeds", "pinecone", "dull_flower_band" };
         int[] counts = { 1, 2, 8 };
 
         for (int entryIndex = 0; entryIndex < 3; entryIndex++) {
-            require(LegacyItemRecovery.HOLDERS[entryIndex].getGroup() == null, "holder is hidden");
+            require(LegacyItemRecovery.HOLDERS[entryIndex].getItemCategory() == null, "holder is hidden");
 
             Item target = ForgeRegistries.ITEMS.getValue(new ResourceLocation(LegacyItemRecovery.target(entryIndex)));
 
@@ -46,13 +46,13 @@ public final class RetiredItemChecks {
                         "target quantity and variant");
                 require(raw.getCompound("tag").equals(tag), "unrelated custom NBT");
 
-                ItemStack decoded = ItemStack.read(raw);
+                ItemStack decoded = ItemStack.of(raw);
 
                 require(decoded.getItem() == target && decoded.getCount() == counts[entryIndex],
                         "real item deserialization");
 
                 if (entryIndex == 2) {
-                    require(decoded.getTranslationKey().contains("oxeye_daisy"), "retired flower target");
+                    require(decoded.getDescriptionId().contains("oxeye_daisy"), "retired flower target");
                 }
 
                 CompoundNBT once = raw.copy();
@@ -68,7 +68,7 @@ public final class RetiredItemChecks {
 
         list.add(pine);
 
-        CompoundNBT stone = new ItemStack(Items.STICK, 64).write(new CompoundNBT());
+        CompoundNBT stone = new ItemStack(Items.STICK, 64).save(new CompoundNBT());
 
         stone.putByte("Slot", (byte) 0);
         list.add(stone);
@@ -99,7 +99,7 @@ public final class RetiredItemChecks {
 
         for (int entryIndex = 0; entryIndex < 27; entryIndex++) {
             CompoundNBT entry = entryIndex == 0 ? stack("biomesoplenty:pinecone", 64, entryIndex)
-                    : new ItemStack(Items.STICK, 64).write(new CompoundNBT());
+                    : new ItemStack(Items.STICK, 64).save(new CompoundNBT());
 
             entry.putByte("Slot", (byte) entryIndex);
             list.add(entry);
@@ -123,7 +123,7 @@ public final class RetiredItemChecks {
         bad.putByte("Count", (byte) 0);
         reject(recovery, bad, "invalid saved stack");
 
-        CompoundNBT basket = new ItemStack(Baskets.ITEM).write(new CompoundNBT());
+        CompoundNBT basket = new ItemStack(Baskets.ITEM).save(new CompoundNBT());
         CompoundNBT tag = new CompoundNBT();
 
         list = new ListNBT();
@@ -133,7 +133,7 @@ public final class RetiredItemChecks {
         recovery.fixTagCompound(basket);
         require(basket.getCompound("tag").getList("Items", 10).size() == 2,
                 "basket overflow is allocated before validation");
-        require(new BasketInventory(ItemStack.read(basket)).getStackInSlot(0).getCount() == 64,
+        require(new BasketInventory(ItemStack.of(basket)).getItem(0).getCount() == 64,
                 "legacy non-plant output stays withdrawable");
 
         CompoundNBT player = new CompoundNBT();
@@ -183,8 +183,8 @@ public final class RetiredItemChecks {
 
         net.minecraft.tileentity.ChestTileEntity decodedChest = new net.minecraft.tileentity.ChestTileEntity();
 
-        decodedChest.read(parent);
-        require(decodedChest.getStackInSlot(4).getCount() == 64 && decodedChest.getStackInSlot(0).getCount() == 64,
+        decodedChest.load(net.minecraft.block.Blocks.CHEST.defaultBlockState(), parent);
+        require(decodedChest.getItem(4).getCount() == 64 && decodedChest.getItem(0).getCount() == 64,
                 "parent-first and child-first orders both deserialize 128 items");
 
         CompoundNBT caps = stack("biomesoplenty:pinecone", 1, 0);
@@ -195,7 +195,7 @@ public final class RetiredItemChecks {
         recovery.fixTagCompound(caps);
         require(caps.getCompound("tag").getCompound(SkysBuildingPiecesBop.ID + ":legacy_capabilities").equals(payload),
                 "old capabilities retain an exact archive");
-        require(PiecesWorldState.get(world).write(new CompoundNBT()).equals(state),
+        require(PiecesWorldState.get(world).save(new CompoundNBT()).equals(state),
                 "piece counters and schema untouched");
         System.out.println("BOP_RETIRED_ITEMS_PASS checks=" + checks
                 + " multipliers=1/2/8 capacity=bounded NBT=preserved schema=unchanged");

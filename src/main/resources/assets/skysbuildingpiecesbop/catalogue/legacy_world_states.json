@@ -767,7 +767,7 @@
     "meta": 0,
     "properties": {},
     "target": {
-      "id": "biomesoplenty:ash_block",
+      "id": "minecraft:basalt",
       "properties": {}
     }
   },
@@ -8942,7 +8942,7 @@
       "variant": "cattail"
     },
     "target": {
-      "id": "biomesoplenty:cattail",
+      "id": "biomesoplenty:dead_grass",
       "properties": {}
     }
   },
@@ -9019,7 +9019,7 @@
       "variant": "barley"
     },
     "target": {
-      "id": "biomesoplenty:tall_wheat",
+      "id": "biomesoplenty:barley",
       "properties": {}
     }
   },
@@ -9045,7 +9045,7 @@
       "variant": "tall_cattail"
     },
     "target": {
-      "id": "biomesoplenty:tall_cattail",
+      "id": "biomesoplenty:cattail",
       "properties": {
         "half": "lower"
       }
@@ -9101,7 +9101,7 @@
       "variant": "tall_cattail"
     },
     "target": {
-      "id": "biomesoplenty:tall_cattail",
+      "id": "biomesoplenty:cattail",
       "properties": {
         "half": "upper"
       }

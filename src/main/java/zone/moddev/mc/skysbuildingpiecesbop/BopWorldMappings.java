@@ -11,7 +11,7 @@ import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.state.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -56,10 +56,10 @@ public final class BopWorldMappings {
             throw new IllegalStateException("Missing BOP world replacement: " + identity);
         }
 
-        BlockState state = block.getDefaultState();
+        BlockState state = block.defaultBlockState();
 
         for (Map.Entry<String, JsonElement> entry : target.getAsJsonObject("properties").entrySet()) {
-            IProperty<?> property = block.getStateContainer().getProperty(entry.getKey());
+            Property<?> property = block.getStateDefinition().getProperty(entry.getKey());
 
             if (property == null) {
                 throw new IllegalStateException("Missing recovered property " + entry.getKey() + " on " + identity);
@@ -74,9 +74,9 @@ public final class BopWorldMappings {
         return state;
     }
 
-    private static <T extends Comparable<T>> BlockState withProperty(BlockState state, IProperty<T> property,
+    private static <T extends Comparable<T>> BlockState withProperty(BlockState state, Property<T> property,
             String value) {
-        return state.with(property, property.parseValue(value).orElseThrow(
+        return state.setValue(property, property.getValue(value).orElseThrow(
                 () -> new IllegalStateException("Invalid recovered property " + property.getName() + "=" + value)));
     }
 }

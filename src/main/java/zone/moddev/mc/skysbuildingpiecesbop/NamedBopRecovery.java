@@ -29,7 +29,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.state.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedConstants;
 import net.minecraft.util.registry.Registry;
@@ -75,7 +75,7 @@ public final class NamedBopRecovery {
 
     /** Keep earlier numeric biome tables available for chunks not opened during the first upgrade. */
     public static synchronized void begin(MinecraftServer server) throws IOException {
-        File level = server.getActiveAnvilConverter().getFile(server.getFolderName(), "level.dat");
+        File level = server.getWorldPath(net.minecraft.world.storage.FolderName.LEVEL_DATA_FILE).toFile();
         File sidecar = new File(level.getParentFile(), "data/skysbuildingpiecesbop_named_registry.dat");
         CompoundNBT saved = new CompoundNBT();
 
@@ -92,37 +92,42 @@ public final class NamedBopRecovery {
         CompoundNBT snapshots = saved.getCompound("snapshots");
         boolean changed = false;
 
-        if (level.isFile()) {
+        CompoundNBT original = zone.moddev.mc.skysbuildingpieces.legacy.LegacyBridge.sourceBiomeSnapshot(server);
+
+        if (original.isEmpty() && level.isFile()) {
             CompoundNBT root;
 
             try (FileInputStream input = new FileInputStream(level)) {
                 root = CompressedStreamTools.readCompressed(input);
             }
 
-            int version = root.getCompound("Data").getInt("DataVersion");
+            original.putInt("DataVersion", root.getCompound("Data").getInt("DataVersion"));
+            original.put("Registry", root.getCompound("fml").getCompound("Registries")
+                    .getCompound("minecraft:biome").copy());
+        }
 
-            if (version >= 1451 && version < SharedConstants.getVersion().getWorldVersion()) {
-                CompoundNBT registry = root.getCompound("fml").getCompound("Registries")
-                        .getCompound("minecraft:biome");
+        int sourceVersion = original.getInt("DataVersion");
 
-                if (registry.contains("ids", 9)) {
-                    String key = Integer.toString(version);
+        if (sourceVersion >= 1451 && sourceVersion < SharedConstants.getCurrentVersion().getWorldVersion()) {
+            CompoundNBT registry = original.getCompound("Registry");
 
-                    if (snapshots.contains(key, 10) && !snapshots.getCompound(key).equals(registry)) {
-                        throw new IllegalStateException("Conflicting BOP biome tables for save version " + version
-                                + ". Restore the original world backup and mod list before upgrading.");
-                    }
-                    if (!snapshots.contains(key, 10)) {
-                        snapshots.put(key, registry.copy());
-                        changed = true;
-                    }
+            if (registry.contains("ids", 9)) {
+                String key = Integer.toString(sourceVersion);
+
+                if (snapshots.contains(key, 10) && !snapshots.getCompound(key).equals(registry)) {
+                    throw new IllegalStateException("Conflicting BOP biome tables for save version " + sourceVersion
+                            + ". Restore the original world backup and mod list before upgrading.");
+                }
+                if (!snapshots.contains(key, 10)) {
+                    snapshots.put(key, registry.copy());
+                    changed = true;
                 }
             }
         }
 
         NavigableMap<Integer, Map<Integer, String>> resolved = new TreeMap<>();
 
-        for (String version : snapshots.keySet()) {
+        for (String version : snapshots.getAllKeys()) {
             resolved.put(Integer.parseInt(version), resolveBiomes(snapshots.getCompound(version)));
         }
         if (changed) {
@@ -130,6 +135,12 @@ public final class NamedBopRecovery {
             writeSnapshot(sidecar.toPath(), saved);
         }
         biomeSnapshots = resolved;
+    }
+
+    private static Registry<Biome> biomeRegistry() {
+        // The active world's registry owns the saved numeric IDs, not Forge's registration objects.
+        return net.minecraftforge.fml.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
+                .registryOrThrow(Registry.BIOME_REGISTRY);
     }
 
     private static Map<Integer, String> resolveBiomes(CompoundNBT registry) {
@@ -158,7 +169,7 @@ public final class NamedBopRecovery {
             }
 
             String target = BIOMES.getOrDefault(source, source);
-            Biome biome = ForgeRegistries.BIOMES.getValue(new ResourceLocation(target));
+            Biome biome = biomeRegistry().get(new ResourceLocation(target));
 
             if (biome == null) {
                 throw new IllegalStateException("No safe named BOP biome replacement for " + source);
@@ -197,12 +208,14 @@ public final class NamedBopRecovery {
         if (value instanceof CompoundNBT) {
             CompoundNBT tag = (CompoundNBT) value;
 
-            if (blockState && BLOCKS.containsKey(tag.getString("Name"))
-                    || tag.contains("Count", 99) && ITEMS.containsKey(tag.getString("id"))
+            if (blockState && (BLOCKS.containsKey(tag.getString("Name")) || oldShortCattail(tag)
+                    || oldWall(tag.getString("Name"), tag.getCompound("Properties")))
+                    || tag.contains("Count", 99) && (ITEMS.containsKey(tag.getString("id"))
+                    || oldWall(tag.getString("id"), tag.getCompound("tag").getCompound("BlockStateTag")))
                     || biomeTable(tag) != null) {
                 return true;
             }
-            for (String key : tag.keySet()) {
+            for (String key : tag.getAllKeys()) {
                 if (relevant(tag.get(key), depth + 1, stateField(key))) {
                     return true;
                 }
@@ -227,7 +240,12 @@ public final class NamedBopRecovery {
             CompoundNBT tag = (CompoundNBT) value;
             String name = tag.getString("Name");
 
-            if (blockState && BLOCKS.containsKey(name)) {
+            if (blockState && oldWall(name, tag.getCompound("Properties"))) {
+                rewriteWall(tag.getCompound("Properties"));
+                rewriteState(tag, name);
+            } else if (blockState && oldShortCattail(tag)) {
+                rewriteState(tag, "biomesoplenty:dead_grass");
+            } else if (blockState && BLOCKS.containsKey(name)) {
                 rewriteState(tag, BLOCKS.get(name));
             }
             if (tag.contains("Count", 99) && ITEMS.containsKey(tag.getString("id"))) {
@@ -238,6 +256,11 @@ public final class NamedBopRecovery {
                     throw new IllegalStateException("Missing named BOP item replacement: " + target);
                 }
                 tag.putString("id", target);
+            }
+
+            if (tag.contains("Count", 99)
+                    && oldWall(tag.getString("id"), tag.getCompound("tag").getCompound("BlockStateTag"))) {
+                rewriteWall(tag.getCompound("tag").getCompound("BlockStateTag"));
             }
 
             Map<Integer, String> biomes = biomeTable(tag);
@@ -253,8 +276,8 @@ public final class NamedBopRecovery {
 
                 // Forge restores a world's numeric registry after AboutToStart. Resolve names at the chunk read.
                 biomes.forEach((source, target) -> {
-                    Biome biome = ForgeRegistries.BIOMES.getValue(new ResourceLocation(target));
-                    int currentId = biome == null ? -1 : Registry.BIOME.getId(biome);
+                    Biome biome = biomeRegistry().get(new ResourceLocation(target));
+                    int currentId = biome == null ? -1 : biomeRegistry().getId(biome);
 
                     if (currentId < 0) {
                         throw new IllegalStateException("Missing current BOP biome replacement: " + target);
@@ -267,9 +290,9 @@ public final class NamedBopRecovery {
                 }
                 level.putIntArray("Biomes", values);
                 // The early inventory wrapper can see the same tag again before vanilla updates DataVersion.
-                level.putInt(BIOME_MARKER, SharedConstants.getVersion().getWorldVersion());
+                level.putInt(BIOME_MARKER, SharedConstants.getCurrentVersion().getWorldVersion());
             }
-            for (String key : new ArrayList<>(tag.keySet())) {
+            for (String key : new ArrayList<>(tag.getAllKeys())) {
                 rewrite(tag.get(key), depth + 1, stateField(key));
             }
         } else if (value instanceof ListNBT) {
@@ -277,6 +300,40 @@ public final class NamedBopRecovery {
                 rewrite(child, depth + 1, blockState);
             }
         }
+    }
+
+    private static boolean oldWall(String name, CompoundNBT properties) {
+        if (!name.equals("biomesoplenty:white_sandstone_wall") && !name.equals("biomesoplenty:mud_brick_wall")) {
+            return false;
+        }
+        for (String direction : new String[] {"north", "south", "east", "west"}) {
+            String value = properties.getString(direction);
+            if (value.equals("true") || value.equals("false")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static void rewriteWall(CompoundNBT properties) {
+        // Vanilla only upgrades its own walls. Keep BOP's old arms, post and water state too.
+        for (String direction : new String[] {"north", "south", "east", "west"}) {
+            if (!properties.contains(direction)) {
+                continue;
+            }
+            String value = properties.getString(direction);
+            if (value.equals("true") || value.equals("false")) {
+                properties.putString(direction, value.equals("true") ? "low" : "none");
+            } else if (!value.equals("low") && !value.equals("none") && !value.equals("tall")) {
+                throw new IllegalStateException("Cannot recover BOP wall connection " + direction + "=" + value);
+            }
+        }
+    }
+
+    private static boolean oldShortCattail(CompoundNBT state) {
+        // BOP reused this ID for the tall plant. The old one-block state has no half property.
+        return state.getString("Name").equals("biomesoplenty:cattail")
+                && !state.getCompound("Properties").contains("half");
     }
 
     private static boolean stateField(String key) {
@@ -293,7 +350,7 @@ public final class NamedBopRecovery {
             return null;
         }
 
-        int current = SharedConstants.getVersion().getWorldVersion();
+        int current = SharedConstants.getCurrentVersion().getWorldVersion();
 
         if (version >= current || level.getInt(BIOME_MARKER) >= current) {
             return null;
@@ -311,27 +368,27 @@ public final class NamedBopRecovery {
             throw new IllegalStateException("Missing named BOP block replacement: " + target);
         }
 
-        BlockState state = block.getDefaultState();
+        BlockState state = block.defaultBlockState();
         CompoundNBT properties = saved.getCompound("Properties");
 
         if (saved.contains("Properties") && !saved.contains("Properties", 10)) {
             throw new IllegalStateException("Malformed saved BOP block properties: " + saved);
         }
-        for (String name : properties.keySet()) {
-            IProperty<?> property = block.getStateContainer().getProperty(name);
+        for (String name : properties.getAllKeys()) {
+            Property<?> property = block.getStateDefinition().getProperty(name);
 
             if (property == null || !properties.contains(name, 8)) {
                 throw new IllegalStateException("No safe " + name + " property on replacement " + target);
             }
             state = withProperty(state, property, properties.getString(name));
         }
-        if (state.has(net.minecraft.block.SlabBlock.TYPE)
-                && state.get(net.minecraft.block.SlabBlock.TYPE) == net.minecraft.state.properties.SlabType.DOUBLE) {
-            if (state.get(net.minecraft.block.SlabBlock.WATERLOGGED)) {
+        if (state.hasProperty(net.minecraft.block.SlabBlock.TYPE)
+                && state.getValue(net.minecraft.block.SlabBlock.TYPE) == net.minecraft.state.properties.SlabType.DOUBLE) {
+            if (state.getValue(net.minecraft.block.SlabBlock.WATERLOGGED)) {
                 throw new IllegalStateException("Cannot safely normalize a waterlogged double ethereal slab. "
                         + "Restore the backup and remove that invalid combination before upgrading.");
             }
-            state = Blocks.BIRCH_PLANKS.getDefaultState();
+            state = Blocks.BIRCH_PLANKS.defaultBlockState();
         }
 
         CompoundNBT result = NBTUtil.writeBlockState(state);
@@ -344,9 +401,9 @@ public final class NamedBopRecovery {
         }
     }
 
-    private static <T extends Comparable<T>> BlockState withProperty(BlockState state, IProperty<T> property,
+    private static <T extends Comparable<T>> BlockState withProperty(BlockState state, Property<T> property,
             String value) {
-        return state.with(property, property.parseValue(value).orElseThrow(
+        return state.setValue(property, property.getValue(value).orElseThrow(
                 () -> new IllegalStateException("Invalid saved " + property.getName() + "=" + value)));
     }
 

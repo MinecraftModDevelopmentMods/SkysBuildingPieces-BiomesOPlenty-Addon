@@ -14,7 +14,7 @@ final class PlantRecoveryChecks {
 
     static void run() {
         for (String source : new String[] { "biomesoplenty:sapling_0", "minecraft:sapling" }) {
-            CompoundNBT basket = new ItemStack(Baskets.ITEM).write(new CompoundNBT());
+            CompoundNBT basket = new ItemStack(Baskets.ITEM).save(new CompoundNBT());
             CompoundNBT tag = new CompoundNBT();
             CompoundNBT plant = new CompoundNBT();
 
@@ -42,9 +42,9 @@ final class PlantRecoveryChecks {
             recovery.fixTagCompound(basket);
 
             CompoundNBT converted = basket.getCompound("tag").getList("Items", 10).getCompound(0);
-            ItemStack decoded = ItemStack.read(converted);
+            ItemStack decoded = ItemStack.of(converted);
 
-            require(decoded.getDisplayName().getString().equals("Saved tree"), "Legacy plant name is readable");
+            require(decoded.getHoverName().getString().equals("Saved tree"), "Legacy plant name is readable");
             require(decoded.getCount() == 23 && converted.getByte("Slot") == 4, "Legacy slot and count");
             require(decoded.getTag().getString("unrelated").equals("Keep this data"), "Unrelated plant NBT");
 

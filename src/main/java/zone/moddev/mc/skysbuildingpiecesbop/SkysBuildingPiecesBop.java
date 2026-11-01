@@ -21,7 +21,7 @@ import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketPreflight;
 @Mod(SkysBuildingPiecesBop.ID)
 public final class SkysBuildingPiecesBop {
     public static final String ID = "skysbuildingpiecesbop";
-    public static final String VERSION = "0.2.4.115021";
+    public static final String VERSION = "0.2.4.116051";
 
     public SkysBuildingPiecesBop() {
         if (BuildingPiecesApi.VERSION != 1) {

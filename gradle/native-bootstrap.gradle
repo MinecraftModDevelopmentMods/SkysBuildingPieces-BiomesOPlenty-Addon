@@ -1,5 +1,13 @@
 // Target-native startup checks remain separate from ordinary game launches.
 
+def auditServerLogs = { File directory, String phase ->
+    logger.lifecycle(providers.exec {
+        commandLine providers.gradleProperty('pythonExecutable').getOrElse('python'),
+                file('tools/native_client_log.py'), '--server', '--directory', directory,
+                '--phase', phase
+    }.standardOutput.asText.get().trim())
+}
+
 def bootstrapClasses = layout.buildDirectory.dir('native-bootstrap/classes')
 def compileBootstrap = tasks.register('compileNativeBootstrap', JavaCompile) {
     dependsOn tasks.named('classes')
@@ -29,6 +37,7 @@ def bootstrapJar = tasks.register('nativeBootstrapJar', Jar) {
     from bootstrapClasses
     from 'src/bootstrapTest/resources'
     from('src/testFixtures/bop-1.14.4-native-catalogue.json') { into 'fixtures' }
+    from('src/testFixtures/bop-1.15.2-native-catalogue.json') { into 'fixtures' }
 }
 def packagedProbe = renamer.classes(bootstrapJar) {
     map.from minecraft.dependency.toSrgFile
@@ -51,6 +60,28 @@ tasks.register('verifyNativeClientLogPolicy', Exec) {
             'tools/test_native_client_log.py'
 }
 tasks.named('check') { dependsOn tasks.named('verifyNativeClientLogPolicy') }
+// The combined verification profile uses exact optional jars, never production dependencies.
+def nativeCompanions = providers.gradleProperty('bopNativeCompanions').getOrElse('false').toBoolean()
+def companionLock = new Properties()
+file('gradle/optional-runtime.properties').withInputStream { companionLock.load(it) }
+def companionJars = ['grass', 'mineralogy', 'orespawn'].collect { name ->
+    file(companionLock.getProperty(name + '.development.path'))
+}
+def verifyCompanions = tasks.register('verifyBopNativeCompanions') {
+    doLast {
+        ['grass', 'mineralogy', 'orespawn'].each { name ->
+            ['', '.development'].each { kind ->
+                File artifact = file(companionLock.getProperty(name + kind + '.path'))
+                String expected = companionLock.getProperty(name + kind + '.sha256')
+                if (!artifact.isFile() || java.security.MessageDigest.getInstance('SHA-256')
+                        .digest(artifact.bytes).encodeHex().toString().toUpperCase(Locale.ROOT) != expected) {
+                    throw new GradleException('The optional native reference is missing or changed: ' + artifact.name)
+                }
+            }
+        }
+    }
+}
+
 def forwardFixture = providers.gradleProperty('bopForwardFixtureDir')
 def forwardArchive = providers.gradleProperty('bopForwardFixtureArchive')
 def hasForward = forwardFixture.isPresent() || forwardArchive.isPresent()
@@ -58,6 +89,7 @@ def directory = layout.buildDirectory.dir(hasForward
         ? 'native-forward-upgrade-run' : 'native-bootstrap-run')
 def prepare = tasks.register('prepareNativeBootstrap') {
     dependsOn bootstrapJar
+    if (nativeCompanions) dependsOn verifyCompanions
     dependsOn project.ext.bopDevelopmentTask
     doLast {
         File target = directory.get().asFile
@@ -93,6 +125,9 @@ def prepare = tasks.register('prepareNativeBootstrap') {
             from coreDevelopmentJar
             into new File(target, 'mods')
         }
+        if (nativeCompanions) {
+            copy { from companionJars; into new File(target, 'mods') }
+        }
         copy { from new File(coreDirectory, 'src/bootstrapTest/defaultconfigs'); into target }
         new File(target, 'eula.txt').text = 'eula=true\n'
         ['banned-players.json', 'banned-ips.json', 'ops.json', 'whitelist.json'].each {
@@ -110,6 +145,22 @@ max-tick-time=120000
 '''
     }
 }
+// This short gate records the actual target registry before upgrade assertions run.
+tasks.register('nativeRegistryTest', JavaExec) {
+    dependsOn prepare
+    workingDir directory
+    project.ext.configureRecipeBookRun(delegate, 'runServer')
+    systemProperty 'skysbuildingpieces.bopRegistryOnly', 'true'
+    doLast {
+        auditServerLogs(directory.get().asFile, 'registry')
+        String log = new File(directory.get().asFile, 'logs/latest.log').getText('UTF-8')
+        if (!log.contains('BUILDING_PIECES_BOP_REGISTRY_ONLY_PASS') || !log.contains('Done (')
+                || !fileTree(new File(directory.get().asFile, 'crash-reports')).isEmpty()) {
+            throw new GradleException('Target BOP registry startup did not complete cleanly')
+        }
+    }
+}
+
 tasks.register('nativeBootstrapTest', JavaExec) {
     dependsOn prepare
     workingDir directory
@@ -118,10 +169,11 @@ tasks.register('nativeBootstrapTest', JavaExec) {
             providers.gradleProperty('bopDelayBiomes').getOrElse('false')
     doLast {
         File target = directory.get().asFile
+        auditServerLogs(target, hasForward ? 'forward' : 'bootstrap')
         String log = new File(target, 'logs/latest.log').getText('UTF-8')
         if (!log.contains('BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS') ||
                 hasForward && !log.contains('BUILDING_PIECES_BOP_FORWARD_UPGRADE_PASS') ||
-                !log.contains('Done (') || log.find(/\/(?:ERROR|FATAL)\]/) || log.contains('[STDERR') ||
+                !log.contains('Done (') ||
                 !fileTree(new File(target, 'crash-reports')).isEmpty()) {
             throw new GradleException('Native BOP startup did not complete cleanly')
         }
@@ -149,9 +201,9 @@ tasks.register('nativeForwardReloadTest', JavaExec) {
         }
     }
     doLast {
+        auditServerLogs(workingDir, 'forward-reload')
         String log = new File(workingDir, 'logs/latest.log').getText('UTF-8')
         if (!log.contains('BUILDING_PIECES_BOP_FORWARD_UPGRADE_PASS') || !log.contains('Done (')
-                || log.find(/\/(?:ERROR|FATAL)\]/) || log.contains('[STDERR')
                 || !fileTree(new File(workingDir, 'crash-reports')).isEmpty()) {
             throw new GradleException('The forward fixture did not reload cleanly')
         }
@@ -160,6 +212,8 @@ tasks.register('nativeForwardReloadTest', JavaExec) {
 
 def clientPhase = providers.gradleProperty('bopClientPhase').orElse('client-basket')
 def clientDisconnect = clientPhase.get().startsWith('client-basket-disconnect')
+def clientReload = providers.gradleProperty('bopClientReload').getOrElse('false').toBoolean()
+if (clientReload && clientDisconnect) throw new GradleException('Use the dedicated disconnect reload phase')
 if (!(clientPhase.get() in ['client-basket', 'client-basket-disconnect', 'client-basket-disconnect-reload'])) {
     throw new GradleException('Unknown native basket client phase: ' + clientPhase.get())
 }
@@ -167,17 +221,23 @@ def clientDirectory = layout.buildDirectory.dir(clientDisconnect
         ? 'native-client-disconnect-run' : 'native-client-test-run')
 def prepareClient = tasks.register('prepareNativeClientTest') {
     dependsOn bootstrapJar, project.ext.bopDevelopmentTask
+    if (nativeCompanions) dependsOn verifyCompanions
     doLast {
         File target = clientDirectory.get().asFile
         if (target.canonicalFile != new File(buildDir, clientDisconnect
                 ? 'native-client-disconnect-run' : 'native-client-test-run').canonicalFile) {
             throw new GradleException('Client checks must stay inside their build directory')
         }
-        if (clientPhase.get().endsWith('-reload')) {
-            if (!new File(target, 'basket-disconnect-pass.txt').isFile()) {
+        if (clientReload || clientPhase.get().endsWith('-reload')) {
+            File completed = new File(target, clientReload
+                    ? 'saves/building-pieces-world/level.dat' : 'basket-disconnect-pass.txt')
+            if (!completed.isFile()) {
                 throw new GradleException('Complete the open-window disconnect before checking its saved player')
             }
-            [bootstrapJar.get().archiveFile.get().asFile, coreDevelopmentJar, project.ext.bopDevelopmentJar].each { input ->
+            List<File> reloadInputs = [bootstrapJar.get().archiveFile.get().asFile, coreDevelopmentJar,
+                    project.ext.bopDevelopmentJar]
+            if (nativeCompanions) reloadInputs.addAll(companionJars)
+            reloadInputs.each { input ->
                 File original = file(input)
                 File installed = new File(target, 'mods/' + original.name)
                 if (!installed.isFile() || !java.util.Arrays.equals(original.bytes, installed.bytes)) {
@@ -192,6 +252,9 @@ def prepareClient = tasks.register('prepareNativeClientTest') {
             from project.ext.bopDevelopmentJar
             from coreDevelopmentJar
             into new File(target, 'mods')
+        }
+        if (nativeCompanions) {
+            copy { from companionJars; into new File(target, 'mods') }
         }
         copy { from new File(coreDirectory, 'src/bootstrapTest/defaultconfigs'); into target }
         ['banned-players.json', 'banned-ips.json', 'ops.json', 'whitelist.json'].each {
@@ -216,7 +279,7 @@ tasks.register('nativeClientTest', Exec) {
         JavaExec run = tasks.getByName('runClient') as JavaExec
         File assets = file(clientAssets.get())
         File natives = file(clientNatives.get())
-        [new File(assets, 'indexes/1.15.json'), natives].each {
+        [new File(assets, 'indexes/1.16.json'), natives].each {
             if (!it.exists()) throw new GradleException('Incomplete native client runtime: ' + it)
         }
         File classpathJar = layout.buildDirectory.file('native-bootstrap/client-classpath.jar').get().asFile
@@ -229,7 +292,7 @@ tasks.register('nativeClientTest', Exec) {
         launchEnvironment.putAll([
                 target: 'fmluserdevclient', MCP_MAPPINGS: "${mapping_channel}_${mapping_version}",
                 MCP_VERSION: mcp_version, FORGE_VERSION: forge_version, FORGE_GROUP: 'net.minecraftforge',
-                MC_VERSION: minecraft_version, assetDirectory: assets.absolutePath, assetIndex: '1.15',
+                MC_VERSION: minecraft_version, assetDirectory: assets.absolutePath, assetIndex: '1.16',
                 nativesDirectory: natives.absolutePath,
                 MOD_CLASSES: "${mod_id}%%${buildDir}/forge-run-mod-classes/main${File.pathSeparator}" +
                         "${mod_id}%%${buildDir}/forge-run-mod-classes/main"])
@@ -243,7 +306,7 @@ tasks.register('nativeClientTest', Exec) {
         logger.lifecycle(providers.exec {
             commandLine providers.gradleProperty('pythonExecutable').getOrElse('python'),
                     file('tools/native_client_log.py'), '--directory', clientDirectory.get().asFile,
-                    '--phase', clientPhase.get()
+                    '--phase', clientPhase.get() + (clientReload ? '-reload' : '')
         }.standardOutput.asText.get().trim())
         String log = new File(clientDirectory.get().asFile, 'logs/latest.log').getText('UTF-8')
         String marker = clientPhase.get() == 'client-basket' ? 'BOP_BASKET_GUI_NETWORK_PASS'

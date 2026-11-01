@@ -2,7 +2,7 @@ package zone.moddev.mc.skysbuildingpiecesbop;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Dynamic;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -84,13 +84,13 @@ final class LegacyPlantItems {
                     // it here would recurse.
                     CompoundNBT fixed = (CompoundNBT) DataFixesManager.getDataFixer()
                             .update(TypeReferences.ITEM_STACK, new Dynamic<>(NBTDynamicOps.INSTANCE, compound.copy()),
-                                    1343, SharedConstants.getVersion().getWorldVersion())
+                                    1343, SharedConstants.getCurrentVersion().getWorldVersion())
                             .getValue();
 
-                    for (String key : new ArrayList<>(compound.keySet())) {
+                    for (String key : new ArrayList<>(compound.getAllKeys())) {
                         compound.remove(key);
                     }
-                    for (String key : fixed.keySet()) {
+                    for (String key : fixed.getAllKeys()) {
                         compound.put(key, fixed.get(key));
                     }
                     if (nativeTarget != null) {
@@ -98,7 +98,7 @@ final class LegacyPlantItems {
                     }
                 }
             }
-            for (String key : new ArrayList<>(compound.keySet())) {
+            for (String key : new ArrayList<>(compound.getAllKeys())) {
                 rewrite(compound.get(key), basketContents || basket && key.equals("tag"), depth + 1);
             }
         } else if (value instanceof ListNBT) {

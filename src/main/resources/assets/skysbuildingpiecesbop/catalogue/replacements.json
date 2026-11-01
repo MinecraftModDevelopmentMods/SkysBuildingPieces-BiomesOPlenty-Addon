@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "minecraft": "1.15.2",
+  "minecraft": "1.16.5",
   "materials": {
     "biomesoplenty:planks_sacred_oak": "minecraft:planks_oak",
     "biomesoplenty:planks_eucalyptus": "minecraft:planks_oak",

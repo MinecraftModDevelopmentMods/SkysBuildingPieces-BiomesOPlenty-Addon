@@ -48,7 +48,7 @@ public final class BopMigrationChecks {
                     require(coverage.getInt("vanilla") == 1 && coverage.getInt("biomesoplenty") == 1
                             && coverage.getInt("future_addon") == 9, "Independent module coverage changed");
 
-                    CompoundNBT fixed = NBTUtil.update(world.getServer().getDataFixer(), DefaultTypeReferences.CHUNK,
+                    CompoundNBT fixed = NBTUtil.update(world.getServer().getFixerUpper(), DefaultTypeReferences.CHUNK,
                             raw.copy(), 512, 1976);
 
                     require(contains(fixed, expected), "Native flattening lost " + material.id + "/" + code);

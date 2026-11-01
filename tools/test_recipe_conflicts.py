@@ -9,8 +9,8 @@ import unittest
 from prepare_1_14_recipes import native_conflict, prepare
 
 ROOT = Path(__file__).resolve().parents[1]
-FIXTURE = ROOT / 'tools/fixtures/mineralogy-1.15.2-crafting.json'
-FIXTURE_SHA256 = '0F7CEE53881B0BDC3C8B4D38DFE2AA52C3250C0AC6F09F3F73BB4345E609FBF3'
+FIXTURE = ROOT / 'tools/fixtures/mineralogy-1.16.5-crafting.json'
+FIXTURE_SHA256 = '76B17AB9977F45910D4EB7786B94D3D296BA2E50D74FB53BB67BDB8A3EC51BA6'
 
 
 class MineralogyRecipeChecks(unittest.TestCase):
@@ -23,6 +23,17 @@ class MineralogyRecipeChecks(unittest.TestCase):
         cls.recipes = list(cls.snapshot['recipes'].values())
         cls.tags = cls.snapshot['tags']
 
+    def test_native_object_tag_entries_are_resolved_without_losing_conflicts(self):
+        recipe = {'type': 'minecraft:crafting_shaped', 'pattern': ['X'],
+                  'key': {'X': {'tag': 'test:rock'}}, 'result': {'item': 'test:other'}}
+        tags = {'test:rock': [{'id': '#test:nested', 'required': False}],
+                'test:nested': [{'id': 'mineralogy:gabbro', 'required': False}]}
+        self.assertTrue(native_conflict(['X'], 'mineralogy:gabbro', ('test:piece', 1), [recipe], tags))
+        self.assertFalse(native_conflict(['X'], 'mineralogy:shale', ('test:piece', 1), [recipe], tags))
+        tags['test:nested'] = [{'required': False}]
+        with self.assertRaises(ValueError):
+            native_conflict(['X'], 'mineralogy:gabbro', ('test:piece', 1), [recipe], tags)
+
     def test_native_tagged_stairs_reproduce_the_original_conflict(self):
         for ingredient in self.snapshot['covered_full_items']:
             with self.subTest(ingredient=ingredient):
@@ -32,7 +43,7 @@ class MineralogyRecipeChecks(unittest.TestCase):
 
     def test_standalone_and_mineralogy_keep_the_same_recipe_ids(self):
         resources = ROOT / 'src/main/resources'
-        default_core = ROOT.parent.parent / 'SkysBuildingPieces115/SkysBuildingPieces/src/main/resources'
+        default_core = ROOT.parent.parent / 'SkysBuildingPieces116/SkysBuildingPieces/src/main/resources'
         core = Path(os.environ.get('BUILDING_PIECES_CORE_RESOURCES', str(default_core)))
         normal, _ = prepare(resources, core, self.recipes, self.tags)
         fallback, _ = prepare(resources, core, self.recipes, self.tags, True)

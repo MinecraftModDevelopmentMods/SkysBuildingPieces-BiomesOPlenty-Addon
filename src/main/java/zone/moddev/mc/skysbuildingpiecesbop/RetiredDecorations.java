@@ -2,6 +2,7 @@ package zone.moddev.mc.skysbuildingpiecesbop;
 
 import java.util.Collections;
 import java.util.List;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -25,7 +26,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.loot.LootContext;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -47,10 +48,10 @@ public final class RetiredDecorations {
     public static void registerRecovery() {
         HistoricalFullBlocks.registerStates("biomesoplenty:stone_formations",
                 SkysBuildingPiecesBop.ID + ":legacy_bop_stone_formations", MODULE,
-                metadata -> metadata == 0 ? STONE_FORMATIONS.getDefaultState() : null);
+                metadata -> metadata == 0 ? STONE_FORMATIONS.defaultBlockState() : null);
         HistoricalFullBlocks.registerStates("biomesoplenty:jelled_poison",
                 SkysBuildingPiecesBop.ID + ":legacy_bop_jelled_poison", MODULE,
-                metadata -> metadata == 0 ? JELLED_POISON.getDefaultState() : null);
+                metadata -> metadata == 0 ? JELLED_POISON.defaultBlockState() : null);
         HistoricalFullBlocks.registerStates("biomesoplenty:tree_moss",
                 SkysBuildingPiecesBop.ID + ":legacy_bop_tree_moss", MODULE, RetiredDecorations::vine);
     }
@@ -62,9 +63,9 @@ public final class RetiredDecorations {
             return null;
         }
 
-        return block.getDefaultState().with(VineBlock.SOUTH, (metadata & 1) != 0)
-                .with(VineBlock.WEST, (metadata & 2) != 0).with(VineBlock.NORTH, (metadata & 4) != 0)
-                .with(VineBlock.EAST, (metadata & 8) != 0);
+        return block.defaultBlockState().setValue(VineBlock.SOUTH, (metadata & 1) != 0)
+                .setValue(VineBlock.WEST, (metadata & 2) != 0).setValue(VineBlock.NORTH, (metadata & 4) != 0)
+                .setValue(VineBlock.EAST, (metadata & 8) != 0);
     }
 
     @SubscribeEvent
@@ -75,7 +76,7 @@ public final class RetiredDecorations {
     @SubscribeEvent
     public static void items(RegistryEvent.Register<Item> event) {
         for (Block block : new Block[] { STONE_FORMATIONS, JELLED_POISON }) {
-            event.getRegistry().register(new BlockItem(block, new Item.Properties().group(ItemGroup.DECORATIONS))
+            event.getRegistry().register(new BlockItem(block, new Item.Properties().tab(ItemGroup.TAB_DECORATIONS))
                     .setRegistryName(block.getRegistryName()));
         }
     }
@@ -84,24 +85,25 @@ public final class RetiredDecorations {
         FLOOR, CEILING, SINGLE, CONNECTOR, FLOOR_BASE, CEILING_BASE, FLOOR_TIP, CEILING_TIP;
 
         @Override
-        public String getName() {
+        public String getSerializedName() {
             return name().toLowerCase(java.util.Locale.ROOT);
         }
     }
 
     public static final class Formation extends Block {
         public static final EnumProperty<Form> FORM = EnumProperty.create("form", Form.class);
-        private static final VoxelShape OUTLINE = Block.makeCuboidShape(1.6, 0, 1.6, 14.4, 16, 14.4);
+        private static final VoxelShape OUTLINE = Block.box(1.6, 0, 1.6, 14.4, 16, 14.4);
 
         private Formation() {
-            super(Block.Properties.create(Material.ROCK).hardnessAndResistance(1).sound(SoundType.STONE).notSolid());
+            super(AbstractBlock.Properties.of(Material.STONE).strength(1).sound(SoundType.STONE).noOcclusion()
+                    .isRedstoneConductor((state, world, position) -> false));
             setRegistryName(SkysBuildingPiecesBop.ID, "stone_formations");
-            setDefaultState(stateContainer.getBaseState().with(FORM, Form.FLOOR));
+            registerDefaultState(stateDefinition.any().setValue(FORM, Form.FLOOR));
             // Loading an old decoration must not start a removal cascade when its anchor has changed.
         }
 
         @Override
-        protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
             builder.add(FORM);
         }
 
@@ -110,7 +112,7 @@ public final class RetiredDecorations {
                 throw new IllegalArgumentException("Unassigned stone-formation metadata: " + metadata);
             }
 
-            return getDefaultState();
+            return defaultBlockState();
         }
 
         public int getMetaFromState(BlockState state) {
@@ -118,8 +120,8 @@ public final class RetiredDecorations {
         }
 
         public BlockState getActualState(BlockState state, IBlockReader world, BlockPos position) {
-            BlockState above = world.getBlockState(position.up());
-            BlockState below = world.getBlockState(position.down());
+            BlockState above = world.getBlockState(position.above());
+            BlockState below = world.getBlockState(position.below());
             boolean continuesAbove = above.getBlock() == this;
             boolean continuesBelow = below.getBlock() == this;
             Form form;
@@ -127,47 +129,42 @@ public final class RetiredDecorations {
             if (continuesAbove && continuesBelow) {
                 form = Form.CONNECTOR;
             } else if (continuesAbove) {
-                form = fullSupport(below, world, position.down()) ? Form.FLOOR_BASE : Form.CEILING_TIP;
+                form = fullSupport(below, world, position.below()) ? Form.FLOOR_BASE : Form.CEILING_TIP;
             } else if (continuesBelow) {
-                form = fullSupport(above, world, position.up()) ? Form.CEILING_BASE : Form.FLOOR_TIP;
-            } else if (fullSupport(above, world, position.up()) && fullSupport(below, world, position.down())) {
+                form = fullSupport(above, world, position.above()) ? Form.CEILING_BASE : Form.FLOOR_TIP;
+            } else if (fullSupport(above, world, position.above()) && fullSupport(below, world, position.below())) {
                 form = Form.SINGLE;
             } else {
-                form = fullSupport(above, world, position.up()) ? Form.CEILING : Form.FLOOR;
+                form = fullSupport(above, world, position.above()) ? Form.CEILING : Form.FLOOR;
             }
 
-            return state.with(FORM, form);
+            return state.setValue(FORM, form);
         }
 
         private boolean fullSupport(BlockState state, IBlockReader world, BlockPos position) {
-            return !VoxelShapes.compare(state.getShape(world, position), VoxelShapes.fullCube(),
+            return !VoxelShapes.joinIsNotEmpty(state.getShape(world, position), VoxelShapes.block(),
                     IBooleanFunction.NOT_SAME);
         }
 
         @Override
         public BlockState getStateForPlacement(BlockItemUseContext context) {
-            return getActualState(getDefaultState(), context.getWorld(), context.getPos());
+            return getActualState(defaultBlockState(), context.getLevel(), context.getClickedPos());
         }
 
         @Override
-        public BlockState updatePostPlacement(BlockState state, Direction direction, BlockState neighbour, IWorld world,
+        public BlockState updateShape(BlockState state, Direction direction, BlockState neighbour, IWorld world,
                 BlockPos position, BlockPos neighbourPosition) {
             return getActualState(state, world, position);
         }
 
         @Override
-        public void onBlockAdded(BlockState state, World world, BlockPos position, BlockState previous,
+        public void onPlace(BlockState state, World world, BlockPos position, BlockState previous,
                 boolean moving) {
             BlockState actual = getActualState(state, world, position);
 
-            if (!world.isRemote && actual != state) {
-                world.setBlockState(position, actual, 2);
+            if (!world.isClientSide && actual != state) {
+                world.setBlock(position, actual, 2);
             }
-        }
-
-        @Override
-        public boolean isNormalCube(BlockState state, IBlockReader world, BlockPos position) {
-            return false;
         }
 
         @Override
@@ -189,8 +186,8 @@ public final class RetiredDecorations {
 
     private static final class JelledPoison extends Block {
         private JelledPoison() {
-            super(Block.Properties.create(Material.CLAY).hardnessAndResistance(.4f).sound(SoundType.SLIME)
-                    .slipperiness(.9f).notSolid());
+            super(AbstractBlock.Properties.of(Material.CLAY).strength(.4f).sound(SoundType.SLIME_BLOCK)
+                    .friction(.9f).noOcclusion());
             setRegistryName(SkysBuildingPiecesBop.ID, "jelled_poison");
         }
 

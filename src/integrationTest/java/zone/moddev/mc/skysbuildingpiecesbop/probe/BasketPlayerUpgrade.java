@@ -27,8 +27,8 @@ public final class BasketPlayerUpgrade {
         ran = true;
 
         ServerWorld world = ServerLifecycleHooks.getCurrentServer()
-                .getWorld(net.minecraft.world.dimension.DimensionType.OVERWORLD);
-        File players = new File(world.getSaveHandler().getWorldDirectory(), "playerdata");
+                .getLevel(net.minecraft.world.World.OVERWORLD);
+        File players = new File(world.getServer().getWorldPath(net.minecraft.world.storage.FolderName.ROOT).toFile(), "playerdata");
         int loaded = 0;
         File[] files = players.listFiles((directory, name) -> name.endsWith(".dat"));
 
@@ -46,8 +46,10 @@ public final class BasketPlayerUpgrade {
                 UUID uuid = UUID.fromString(file.getName().substring(0, file.getName().length() - 4));
                 ServerPlayerEntity player = FakePlayerFactory.get(world, new GameProfile(uuid, "MigrationTest"));
 
-                world.getSaveHandler().readPlayerData(player);
-                world.getSaveHandler().writePlayerData(player);
+                world.getServer().getPlayerList().load(player);
+                net.minecraftforge.fml.common.ObfuscationReflectionHelper.findMethod(
+                        net.minecraft.server.management.PlayerList.class, "func_72391_b",
+                        ServerPlayerEntity.class).invoke(world.getServer().getPlayerList(), player);
                 loaded++;
             }
         }
@@ -62,7 +64,7 @@ public final class BasketPlayerUpgrade {
             if (BasketData.isBasket(tag.getString("id"))) {
                 return true;
             }
-            for (String key : tag.keySet()) {
+            for (String key : tag.getAllKeys()) {
                 if (hasBasket(tag.get(key))) {
                     return true;
                 }

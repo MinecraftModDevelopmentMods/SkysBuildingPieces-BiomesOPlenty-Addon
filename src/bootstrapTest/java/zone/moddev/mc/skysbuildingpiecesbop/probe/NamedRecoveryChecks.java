@@ -64,7 +64,7 @@ final class NamedRecoveryChecks {
             require(actual.getBlock() != Blocks.AIR && actual.getBlock().getRegistryName().toString().equals(target),
                     "Named block target changed: " + saved + " -> " + result);
             if (!doubleSlab) {
-                for (String key : properties.keySet()) {
+                for (String key : properties.getAllKeys()) {
                     require(properties.getString(key).equals(result.getCompound("Properties").getString(key)),
                             "Named block property lost: " + key + " / " + saved + " -> " + result);
                 }
@@ -126,7 +126,7 @@ final class NamedRecoveryChecks {
             require(malformed.equals(before), "Failed named conversion changed its source");
         }
 
-        require(items == 19 && states > 300 && rejected > 0, "Named coverage is incomplete");
+        require(items == 20 && states > 300 && rejected > 0, "Named coverage is incomplete: items=" + items + " states=" + states + " rejected=" + rejected);
         biomeSnapshotControls();
         System.out.println("BOP_NAMED_RECOVERY_PASS states=" + states + " items=" + items
                 + " invalid_wet_double_refusals=" + rejected + " properties=true counts=true atomic=true");
@@ -141,7 +141,7 @@ final class NamedRecoveryChecks {
         Object savedSnapshots = snapshots.get(null);
         java.util.NavigableMap<Integer, java.util.Map<Integer, String>> testSnapshots = new java.util.TreeMap<>();
 
-        testSnapshots.put(1976, java.util.Collections.singletonMap(600, "biomesoplenty:undergarden"));
+        testSnapshots.put(1976, java.util.Collections.singletonMap(600, "biomesoplenty:undergrowth"));
         try {
             snapshots.set(null, testSnapshots);
 
@@ -150,9 +150,11 @@ final class NamedRecoveryChecks {
 
             new LegacyItemRecovery().fixTagCompound(source);
 
-            net.minecraft.world.biome.Biome target = net.minecraftforge.registries.ForgeRegistries.BIOMES
-                    .getValue(new net.minecraft.util.ResourceLocation("biomesoplenty:undergarden"));
-            int targetId = net.minecraft.util.registry.Registry.BIOME.getId(target);
+            net.minecraft.world.biome.Biome target = net.minecraftforge.fml.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
+                    .registryOrThrow(net.minecraft.util.registry.Registry.BIOME_REGISTRY)
+                    .get(new net.minecraft.util.ResourceLocation("biomesoplenty:undergrowth"));
+            int targetId = net.minecraftforge.fml.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
+                            .registryOrThrow(net.minecraft.util.registry.Registry.BIOME_REGISTRY).getId(target);
 
             require(source.getCompound("Level").getIntArray("Biomes")[0] == targetId,
                     "Saved biome identity was not resolved through the current registry");
@@ -164,7 +166,7 @@ final class NamedRecoveryChecks {
             new LegacyItemRecovery().fixTagCompound(source);
             require(source.equals(once), "A biome table was applied twice before vanilla data fixing");
 
-            for (int version : new int[] { 1343, net.minecraft.util.SharedConstants.getVersion().getWorldVersion() }) {
+            for (int version : new int[] { 1343, net.minecraft.util.SharedConstants.getCurrentVersion().getWorldVersion() }) {
                 CompoundNBT excluded = biomeChunk(version, 256);
                 CompoundNBT before = excluded.copy();
 

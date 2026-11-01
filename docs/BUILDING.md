@@ -2,13 +2,13 @@
 
 Use Temurin 17.0.1+12 for Gradle and Temurin 8.0.502+7 for production. Set
 `SBP_JAVA8_HOME` to the Java 8 installation. The wrapper uses Gradle 9.6.1
-and ForgeGradle 7.0.34 for Minecraft 1.15.2 and Forge 31.2.57. ForgeGradle's
+and ForgeGradle 7.0.34 for Minecraft 1.16.5 and Forge 36.2.34. ForgeGradle's
 Mavenizer also needs Java 25; it is not used to compile or run the mod.
 
 The runtime log checks use Python 3.11 or later. If `python` is not on your
 path, pass `-PpythonExecutable=<python executable>` to Gradle.
 
-Check out Building Pieces 0.3.8.115021 at the exact source commit in
+Check out Building Pieces 0.3.8.116051 at the exact source commit in
 `gradle/core-dependency.properties`, then run its `gradlew assemble` task.
 Build this add-on with:
 
@@ -44,8 +44,8 @@ advancements use matching Forge conditions.
 
 `integrationTest` runs the shared core placement checks together with the BOP
 material, basket, decoration and migration checks, then reloads the saved world.
-The accepted 1.12 and 1.14 jars produced the sealed worlds in `src/testFixtures`;
-the forward tests copy those worlds before starting the native 1.15 server.
+The accepted 1.12, 1.14 and 1.15 jars produced the sealed worlds in `src/testFixtures`;
+the forward tests copy those worlds before starting the native 1.16 server.
 Older synthetic fixture writers are no longer used to create pre-flattening saves.
 
 `nativeClientTest` checks the baked models and basket GUI through real client
@@ -55,4 +55,12 @@ disconnecting with the basket open. All these runs use disposable build folders.
 
 The development integration harness uses one mod-loading thread. Packaged checks
 retain Forge's normal loading settings. Unexpected errors or crashes fail either
-profile; native Forge31 controls complete without severe log messages.
+profile; native Forge36 controls complete without severe log messages.
+
+For combined native checks, `-PbopNativeCompanions=true` adds the exact Grass
+Slabs, Mineralogy and OreSpawn jars listed in `gradle/optional-runtime.properties`.
+Their main and development hashes are checked before copying. These profiles
+remain separate from ordinary client and server runs.
+Run `nativeClientTest` once, then repeat with `-PbopClientReload=true` to check
+the same saved client world. The second run refuses changed test or dependency
+jars. Disconnect tests use their separate `bopClientPhase` values instead.

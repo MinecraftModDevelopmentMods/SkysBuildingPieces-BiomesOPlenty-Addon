@@ -18,8 +18,14 @@ public final class RetiredRockModels {
     }
 
     private static void setup(FMLClientSetupEvent event) {
-        ScreenManager.registerFactory(Baskets.TYPE, BasketScreen::new);
-        RenderTypeLookup.setRenderLayer(RetiredDecorations.STONE_FORMATIONS, RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(RetiredDecorations.JELLED_POISON, RenderType.getTranslucent());
+        event.enqueueWork(() -> {
+            for (net.minecraft.item.Item basket : new net.minecraft.item.Item[] {Baskets.ITEM, Baskets.HOLDER}) {
+                net.minecraft.item.ItemModelsProperties.register(basket, new net.minecraft.util.ResourceLocation("filled"),
+                        (stack, world, entity) -> stack.hasTag() && !stack.getTag().getList("Items", 10).isEmpty() ? 1 : 0);
+            }
+            ScreenManager.register(Baskets.TYPE, BasketScreen::new);
+            RenderTypeLookup.setRenderLayer(RetiredDecorations.STONE_FORMATIONS, RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(RetiredDecorations.JELLED_POISON, RenderType.translucent());
+        });
     }
 }

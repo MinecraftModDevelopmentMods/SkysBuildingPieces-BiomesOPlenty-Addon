@@ -50,8 +50,14 @@ def native_conflict(rows, ingredient, output, native_recipes, tags):
             tag = value['tag']
             if tag in visited:
                 raise ValueError('Circular native ingredient tag: ' + tag)
-            return any(accepts({'tag': entry[1:]} if entry.startswith('#') else {'item': entry},
-                               visited | {tag}) for entry in tags.get(tag, []))
+            for entry in tags.get(tag, []):
+                identity = entry.get('id') if isinstance(entry, dict) else entry
+                if not isinstance(identity, str):
+                    raise ValueError('Malformed native ingredient tag: ' + tag)
+                nested = {'tag': identity[1:]} if identity.startswith('#') else {'item': identity}
+                if accepts(nested, visited | {tag}):
+                    return True
+            return False
         return False
     pattern, width = canonical_pattern(rows)
     reflected = tuple(sorted((width - column, row) for column, row in pattern))
@@ -289,9 +295,9 @@ def main():
     parser.add_argument('--native-jar', type=Path, action='append', required=True)
     parser.add_argument('--write', action='store_true')
     args = parser.parse_args()
-    fixture = Path(__file__).parent / 'fixtures/mineralogy-1.15.2-crafting.json'
+    fixture = Path(__file__).parent / 'fixtures/mineralogy-1.16.5-crafting.json'
     data = fixture.read_bytes()
-    if hashlib.sha256(data).hexdigest().upper() != '0F7CEE53881B0BDC3C8B4D38DFE2AA52C3250C0AC6F09F3F73BB4345E609FBF3':
+    if hashlib.sha256(data).hexdigest().upper() != '76B17AB9977F45910D4EB7786B94D3D296BA2E50D74FB53BB67BDB8A3EC51BA6':
         raise ValueError('The locked native Mineralogy crafting fixture changed')
     snapshot = json.loads(data)
     native = list(snapshot['recipes'].values())

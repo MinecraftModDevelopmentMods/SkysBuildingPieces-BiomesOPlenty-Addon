@@ -23,7 +23,7 @@ class NamedRecoveryContractTest {
 
             assertEquals(2, packs.size());
             for (java.nio.file.Path pack : packs) {
-                assertEquals(5, read(pack.toString()).getAsJsonObject("pack").get("pack_format").getAsInt(),
+                assertEquals(6, read(pack.toString()).getAsJsonObject("pack").get("pack_format").getAsInt(),
                         pack.toString());
             }
         }
@@ -31,41 +31,43 @@ class NamedRecoveryContractTest {
 
     @Test
     void everyRemovedNativeBlockAndItemHasAnExplicitTarget() throws Exception {
-        JsonObject source = read("src/testFixtures/bop-1.14.4-native-catalogue.json");
-        JsonObject target = read("src/testFixtures/bop-1.15.2-native-catalogue.json");
+        JsonObject earlier = read("src/testFixtures/bop-1.14.4-native-catalogue.json");
+        JsonObject previous = read("src/testFixtures/bop-1.15.2-native-catalogue.json");
+        JsonObject target = read("src/testFixtures/bop-1.16.5-native-catalogue.json");
         JsonObject mapping = read("src/main/resources/assets/skysbuildingpiecesbop/catalogue/named_legacy.json");
-        Set<String> removedBlocks = identities(source.getAsJsonArray("states"), "id");
-
+        Set<String> removedBlocks = identities(earlier.getAsJsonArray("states"), "id");
+        removedBlocks.addAll(identities(previous.getAsJsonArray("blocks"), "id"));
         removedBlocks.removeAll(identities(target.getAsJsonArray("blocks"), "id"));
-        assertEquals(18, removedBlocks.size());
+        assertEquals(21, removedBlocks.size());
         assertEquals(removedBlocks, keys(mapping.getAsJsonObject("blocks")));
 
-        Set<String> removedItems = identities(source.getAsJsonArray("items"), null);
-
+        Set<String> removedItems = identities(earlier.getAsJsonArray("items"), null);
+        removedItems.addAll(identities(previous.getAsJsonArray("items"), null));
         removedItems.removeAll(identities(target.getAsJsonArray("items"), null));
-
         Set<String> itemMappings = new HashSet<>(keys(mapping.getAsJsonObject("blocks")));
-
         itemMappings.addAll(keys(mapping.getAsJsonObject("items")));
-        assertEquals(19, removedItems.size());
+        assertEquals(22, removedItems.size());
         assertEquals(removedItems, itemMappings);
     }
 
     @Test
     void retiredBiomesKeepTheirEndOrNetherEnvironment() throws Exception {
-        JsonObject source = read("src/testFixtures/bop-1.14.4-native-catalogue.json");
-        JsonObject target = read("src/testFixtures/bop-1.15.2-native-catalogue.json");
+        JsonObject earlier = read("src/testFixtures/bop-1.14.4-native-catalogue.json");
+        JsonObject previous = read("src/testFixtures/bop-1.15.2-native-catalogue.json");
+        JsonObject target = read("src/testFixtures/bop-1.16.5-native-catalogue.json");
         JsonObject mapping = read("src/main/resources/assets/skysbuildingpiecesbop/catalogue/named_legacy.json")
                 .getAsJsonObject("biomes");
-        Set<String> removed = identities(source.getAsJsonArray("biomes"), "id");
-
+        Set<String> removed = identities(earlier.getAsJsonArray("biomes"), "id");
+        removed.addAll(identities(previous.getAsJsonArray("biomes"), null));
         removed.removeAll(identities(target.getAsJsonArray("biomes"), null));
-        assertEquals(4, removed.size());
+        assertEquals(36, removed.size());
         assertEquals(removed, keys(mapping));
         assertEquals("minecraft:end_midlands", mapping.get("biomesoplenty:dead_reef").getAsString());
         assertEquals("minecraft:end_highlands", mapping.get("biomesoplenty:ethereal_forest").getAsString());
-        assertEquals("biomesoplenty:undergarden", mapping.get("biomesoplenty:fungi_forest").getAsString());
-        assertEquals("minecraft:nether", mapping.get("biomesoplenty:glowstone_grotto").getAsString());
+        assertEquals("biomesoplenty:undergrowth", mapping.get("biomesoplenty:fungi_forest").getAsString());
+        assertEquals("biomesoplenty:undergrowth", mapping.get("biomesoplenty:undergarden").getAsString());
+        assertEquals("minecraft:nether_wastes", mapping.get("biomesoplenty:glowstone_grotto").getAsString());
+        assertEquals("minecraft:basalt_deltas", mapping.get("biomesoplenty:ashen_inferno").getAsString());
     }
 
     @Test
@@ -73,7 +75,7 @@ class NamedRecoveryContractTest {
         JsonObject fixture = read("src/testFixtures/worlds/building-pieces-bop-biomes-1.12.2.json")
                 .getAsJsonObject("manifest");
         JsonObject aliases = read("src/main/resources/assets/skysbuildingpiecesbop/catalogue/legacy_biomes.json");
-        Set<String> current = identities(read("src/testFixtures/bop-1.15.2-native-catalogue.json")
+        Set<String> current = identities(read("src/testFixtures/bop-1.16.5-native-catalogue.json")
                 .getAsJsonArray("biomes"), null);
 
         assertEquals(73, fixture.getAsJsonArray("biomes").size());

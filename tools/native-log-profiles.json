@@ -1,0 +1,139 @@
+{
+  "profiles": {
+    "6392A69CC973CF6CEB8E23DB261EA06C4009FE15C807A2F6525FA5A3BDE26CCD": {
+      "fixture": "src/testFixtures/worlds/building-pieces-bop-1.14.4.zip",
+      "sha256": "6392A69CC973CF6CEB8E23DB261EA06C4009FE15C807A2F6525FA5A3BDE26CCD",
+      "mappings": {
+        "minecraft:sound_event": {
+          "minecraft:entity.zombie_pigman.ambient": 784,
+          "minecraft:entity.zombie_pigman.angry": 785,
+          "minecraft:entity.zombie_pigman.death": 786,
+          "minecraft:entity.zombie_pigman.hurt": 787,
+          "minecraft:music.nether": 400
+        },
+        "minecraft:memory_module_type": {
+          "minecraft:golem_last_seen_time": 24,
+          "minecraft:opened_doors": 16
+        },
+        "minecraft:entity_type": {
+          "biomesoplenty:boat_bop": 102,
+          "minecraft:zombie_pigman": 56
+        },
+        "minecraft:item": {
+          "minecraft:zombie_pigman_spawn_egg": 753
+        }
+      },
+      "saved_uses": 0,
+      "inspected_nbt_records": 612,
+      "source_jar_sha256": "CF0BA460D641A4723CEB4E069D5B995C2F3357531DD86CA73CD9157F687D5702"
+    },
+    "E54C47131969B7B13384E18792F5496A999427259B98AC6D6AD2A07C3D1C4230": {
+      "fixture": "src/testFixtures/worlds/building-pieces-bop-biomes-1.14.4.zip",
+      "sha256": "E54C47131969B7B13384E18792F5496A999427259B98AC6D6AD2A07C3D1C4230",
+      "mappings": {
+        "minecraft:sound_event": {
+          "minecraft:entity.zombie_pigman.ambient": 784,
+          "minecraft:entity.zombie_pigman.angry": 785,
+          "minecraft:entity.zombie_pigman.death": 786,
+          "minecraft:entity.zombie_pigman.hurt": 787,
+          "minecraft:music.nether": 400
+        },
+        "minecraft:memory_module_type": {
+          "minecraft:golem_last_seen_time": 24,
+          "minecraft:opened_doors": 16
+        },
+        "minecraft:entity_type": {
+          "biomesoplenty:boat_bop": 102,
+          "minecraft:zombie_pigman": 56
+        },
+        "minecraft:item": {
+          "minecraft:zombie_pigman_spawn_egg": 753
+        }
+      },
+      "saved_uses": 0,
+      "inspected_nbt_records": 686,
+      "source_jar_sha256": "CF0BA460D641A4723CEB4E069D5B995C2F3357531DD86CA73CD9157F687D5702"
+    },
+    "634FA10DA5BA9FD5D2C95EF01142F91F4B85EC2A1EEB2F2292A70663CAC8C1A7": {
+      "fixture": "src/testFixtures/worlds/building-pieces-bop-1.15.2.zip",
+      "sha256": "634FA10DA5BA9FD5D2C95EF01142F91F4B85EC2A1EEB2F2292A70663CAC8C1A7",
+      "mappings": {
+        "minecraft:sound_event": {
+          "minecraft:entity.zombie_pigman.ambient": 784,
+          "minecraft:entity.zombie_pigman.angry": 785,
+          "minecraft:entity.zombie_pigman.death": 786,
+          "minecraft:entity.zombie_pigman.hurt": 787,
+          "minecraft:music.nether": 400
+        },
+        "minecraft:memory_module_type": {
+          "minecraft:golem_last_seen_time": 24,
+          "minecraft:opened_doors": 16
+        },
+        "minecraft:entity_type": {
+          "biomesoplenty:boat_bop": 102,
+          "minecraft:zombie_pigman": 56
+        },
+        "minecraft:item": {
+          "minecraft:zombie_pigman_spawn_egg": 753
+        }
+      },
+      "saved_uses": 0,
+      "inspected_nbt_records": 613,
+      "source_jar_sha256": "CF73DA4A5688D79F5FFBC76FEF83941472A5FBEFF9D84581B57F1B67CAA399EB"
+    },
+    "6A09B1E83F3AE237BC3FA092799C33A28CCD316AC43A8F28BF395A1382C9FA86": {
+      "fixture": "src/testFixtures/worlds/building-pieces-bop-biomes-1.15.2.zip",
+      "sha256": "6A09B1E83F3AE237BC3FA092799C33A28CCD316AC43A8F28BF395A1382C9FA86",
+      "mappings": {
+        "minecraft:sound_event": {
+          "minecraft:entity.zombie_pigman.ambient": 784,
+          "minecraft:entity.zombie_pigman.angry": 785,
+          "minecraft:entity.zombie_pigman.death": 786,
+          "minecraft:entity.zombie_pigman.hurt": 787,
+          "minecraft:music.nether": 400
+        },
+        "minecraft:memory_module_type": {
+          "minecraft:golem_last_seen_time": 24,
+          "minecraft:opened_doors": 16
+        },
+        "minecraft:entity_type": {
+          "biomesoplenty:boat_bop": 102,
+          "minecraft:zombie_pigman": 56
+        },
+        "minecraft:item": {
+          "minecraft:zombie_pigman_spawn_egg": 753
+        }
+      },
+      "saved_uses": 0,
+      "inspected_nbt_records": 687,
+      "source_jar_sha256": "CF73DA4A5688D79F5FFBC76FEF83941472A5FBEFF9D84581B57F1B67CAA399EB"
+    }
+  },
+  "native_control": {
+    "scope": "Native BOP registry behavior without Sky mods; this does not qualify BOP-only world recovery.",
+    "source": "Forge31.2.57 / BOP10.0.0.366",
+    "target": "Forge36.2.34 / BOP13.1.0.488",
+    "sky_mods": false,
+    "registered_game_content": false,
+    "normal_start_and_stop": true,
+    "first_severe_headers": [
+      "[01Nov2026 12:36:19.619] [main/ERROR] [net.minecraftforge.registries.GameData/REGISTRIES]: Unidentified mapping from registry minecraft:block",
+      "[01Nov2026 12:36:19.620] [main/ERROR] [net.minecraftforge.registries.GameData/REGISTRIES]: Unidentified mapping from registry minecraft:entity_type",
+      "[01Nov2026 12:36:19.620] [main/ERROR] [net.minecraftforge.registries.GameData/REGISTRIES]: Unidentified mapping from registry minecraft:item",
+      "[01Nov2026 12:36:19.621] [main/ERROR] [net.minecraftforge.registries.GameData/REGISTRIES]: Unidentified mapping from registry minecraft:memory_module_type",
+      "[01Nov2026 12:36:19.621] [main/ERROR] [net.minecraftforge.registries.GameData/REGISTRIES]: Unidentified mapping from registry minecraft:sound_event",
+      "[01Nov2026 12:36:19.621] [main/ERROR] [net.minecraftforge.registries.GameData/REGISTRIES]: There are unidentified mappings in this world - we are going to attempt to process anyway"
+    ],
+    "reload_errors": 0,
+    "source_world_unchanged": true,
+    "source_file_count": 17,
+    "source_helper_and_bop_hashes": {
+      "native-bop-catalogue-control-reobf.jar": "A8B20CD352096BB099EE9DB0AA027269084B89CBC147B103A82496B576A8C45F",
+      "BiomesOPlenty-1.15.2-10.0.0.366-universal.jar": "FA450EB93CCE9CF16F88BCB0DD48FF8ABBD163981EA54DABD27CC0B6E110F99C",
+      "bop-registry-control-reobf.jar": "C985F557E8CA8969E72F41884B1D90A4D68A0D64115A0AF684F5E9D0010A3B8E",
+      "BiomesOPlenty-1.16.5-13.1.0.488-universal.jar": "2806139055DC330A1E8F7A4324A68B6305A9EB67CC132EF09B81BDEC5E89D9BB"
+    },
+    "first_log_sha256": "8A2BCF400C7B4ACE766A19D4F4FCBFA25A1E593089B9694CF8EAF683AACD00E2",
+    "reload_log_sha256": "FBA58EC29C179EFD021577FF4D0C3F8D96718F40F15F2DE284C4580CCCAE5748"
+  }
+}
