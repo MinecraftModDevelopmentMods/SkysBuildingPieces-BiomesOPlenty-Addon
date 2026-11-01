@@ -9,7 +9,7 @@ stairs and stone walls, using the textures of the original BOP blocks.
 ## Building with BOP materials
 
 Build with the woods and stone materials in Biomes O' Plenty for Minecraft
-1.16.5. Where BOP already has a suitable slab, stair or wall, the add-on uses
+1.17.1. Where BOP already has a suitable slab, stair or wall, the add-on uses
 it rather than adding another copy.
 
 Craft pieces from matching blocks, slabs and steps, following the core mod's
@@ -36,11 +36,11 @@ It doesn't accept unrelated items.
 
 ## Installation
 
-Use the versions for **Minecraft 1.16.5**, with **Forge 36.2.34** and
-**Java 8**. You'll need:
+Use the versions for **Minecraft 1.17.1**, with **Forge 37.1.1** and
+**Java 16**. You'll need:
 
-- **Sky's Building Pieces 0.3.8.116051** and this add-on.
-- **Biomes O' Plenty 13.1.0.488**.
+- **Sky's Building Pieces 0.3.8.117011** and this add-on.
+- **Biomes O' Plenty 14.0.0.43**.
 
 Put all three main jars in `mods` on both the client and server.
 Downloads are on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/skysbuildingpiecesbop).
@@ -58,6 +58,8 @@ Baskets and other items. BOP has removed some woods, gems and thatching since
 1.12; their saved pieces use similar current woods or coloured terracotta.
 Ethereal wood removed after 1.14 uses birch, with white cherry leaves and saplings.
 Other retired plants and biomes use the replacements listed in the upgrade guide.
+Nether crystals removed in BOP 1.17 become rose quartz, keeping their attachment
+directions and stored item data.
 
 Mineralogy is optional. Retired rocks use its matching blocks when available;
 otherwise the add-on supplies its own full-block replacements using Mineralogy

@@ -1,10 +1,14 @@
 package zone.moddev.mc.skysbuildingpiecesbop.basket;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+
 import java.util.HashSet;
 import java.util.Set;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraft.nbt.*;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
 /** Reads the saved basket before an item serializer can discard its contents. */
@@ -18,13 +22,13 @@ public final class BasketData {
         return ID.equals(registryId) || HOLDER.equals(registryId) || OLD.equals(registryId);
     }
 
-    public CompoundNBT fixTagCompound(CompoundNBT root) {
+    public CompoundTag fixTagCompound(CompoundTag root) {
         if (!containsBasket(root, 0)) {
             return root;
         }
 
         // Validate a copy first: a bad nested entry must not leave half a conversion.
-        CompoundNBT checked = root.copy();
+        CompoundTag checked = root.copy();
 
         rewrite(checked, 0);
 
@@ -35,12 +39,12 @@ public final class BasketData {
         return root;
     }
 
-    private static boolean containsBasket(INBT value, int depth) {
+    private static boolean containsBasket(Tag value, int depth) {
         if (depth > 64) {
             throw invalid("inventory nesting exceeds 64 levels");
         }
-        if (value instanceof CompoundNBT) {
-            CompoundNBT compoundTag = (CompoundNBT) value;
+        if (value instanceof CompoundTag) {
+            CompoundTag compoundTag = (CompoundTag) value;
 
             if (compoundTag.contains("id", 8) && isBasket(compoundTag.getString("id"))) {
                 return true;
@@ -50,8 +54,8 @@ public final class BasketData {
                     return true;
                 }
             }
-        } else if (value instanceof ListNBT) {
-            for (INBT child : (ListNBT) value) {
+        } else if (value instanceof ListTag) {
+            for (Tag child : (ListTag) value) {
                 if (containsBasket(child, depth + 1)) {
                     return true;
                 }
@@ -61,12 +65,12 @@ public final class BasketData {
         return false;
     }
 
-    private static void rewrite(INBT value, int depth) {
+    private static void rewrite(Tag value, int depth) {
         if (depth > 64) {
             throw invalid("inventory nesting exceeds 64 levels");
         }
-        if (value instanceof CompoundNBT) {
-            CompoundNBT compoundTag = (CompoundNBT) value;
+        if (value instanceof CompoundTag) {
+            CompoundTag compoundTag = (CompoundTag) value;
 
             if (compoundTag.contains("id", 8) && isBasket(compoundTag.getString("id"))) {
                 if (!integer(compoundTag, "Count") || compoundTag.getInt("Count") != 1 || compoundTag.contains("Damage")
@@ -77,7 +81,7 @@ public final class BasketData {
                     throw invalid("basket tag is not a compound");
                 }
 
-                CompoundNBT tag = compoundTag.getCompound("tag");
+                CompoundTag tag = compoundTag.getCompound("tag");
 
                 validate(tag);
                 compoundTag.putString("id", ID);
@@ -90,15 +94,15 @@ public final class BasketData {
             for (String key : compoundTag.getAllKeys()) {
                 rewrite(compoundTag.get(key), depth + 1);
             }
-        } else if (value instanceof ListNBT) {
-            for (INBT child : (ListNBT) value) {
+        } else if (value instanceof ListTag) {
+            for (Tag child : (ListTag) value) {
                 rewrite(child, depth + 1);
             }
         }
     }
 
     /** Reject malformed entries and duplicate slots before an item loader can discard stored contents. */
-    public static void validate(CompoundNBT tag) {
+    public static void validate(CompoundTag tag) {
         if (!tag.contains("Items")) {
             return;
         }
@@ -106,8 +110,8 @@ public final class BasketData {
             throw invalid("Items is not a list");
         }
 
-        ListNBT list = tag.getList("Items", 10);
-        ListNBT raw = (ListNBT) tag.get("Items");
+        ListTag list = tag.getList("Items", 10);
+        ListTag raw = (ListTag) tag.get("Items");
 
         if (raw.size() != list.size()) {
             throw invalid("Items contains non-compound entries");
@@ -116,7 +120,7 @@ public final class BasketData {
         Set<Integer> occupied = new HashSet<Integer>();
 
         for (int entryIndex = 0; entryIndex < list.size(); entryIndex++) {
-            CompoundNBT entry = list.getCompound(entryIndex);
+            CompoundTag entry = list.getCompound(entryIndex);
 
             if (!integer(entry, "Slot")) {
                 throw invalid("an inventory entry has no integral slot");
@@ -132,7 +136,7 @@ public final class BasketData {
         }
     }
 
-    private static void validateStack(CompoundNBT stack, String where, int depth) {
+    private static void validateStack(CompoundTag stack, String where, int depth) {
         if (depth > 64) {
             throw invalid("nested item data exceeds 64 levels");
         }
@@ -155,11 +159,11 @@ public final class BasketData {
         } catch (RuntimeException failure) {
             throw invalid(where + " has an invalid item ID: " + registryId);
         }
-        if (item == null || item == net.minecraft.item.Items.AIR) {
+        if (item == null || item == net.minecraft.world.item.Items.AIR) {
             throw invalid(where + " has an unavailable item: " + registryId);
         }
 
-        net.minecraft.item.ItemStack decoded = net.minecraft.item.ItemStack.of(stack.copy());
+        net.minecraft.world.item.ItemStack decoded = net.minecraft.world.item.ItemStack.of(stack.copy());
 
         if (stack.contains("tag", 10)) {
             decoded.setTag(stack.getCompound("tag").copy());
@@ -172,12 +176,12 @@ public final class BasketData {
         validateChildren(stack.get("ForgeCaps"), where, depth + 1);
     }
 
-    private static void validateChildren(INBT value, String where, int depth) {
+    private static void validateChildren(Tag value, String where, int depth) {
         if (depth > 64) {
             throw invalid("nested item data exceeds 64 levels");
         }
-        if (value instanceof CompoundNBT) {
-            CompoundNBT compoundTag = (CompoundNBT) value;
+        if (value instanceof CompoundTag) {
+            CompoundTag compoundTag = (CompoundTag) value;
 
             if (compoundTag.contains("id", 8) && compoundTag.contains("Count", 99)) {
                 validateStack(compoundTag, where + " / " + compoundTag.getString("id"), depth + 1);
@@ -186,8 +190,8 @@ public final class BasketData {
                     validateChildren(compoundTag.get(key), where, depth + 1);
                 }
             }
-        } else if (value instanceof ListNBT) {
-            for (INBT child : (ListNBT) value) {
+        } else if (value instanceof ListTag) {
+            for (Tag child : (ListTag) value) {
                 validateChildren(child, where, depth + 1);
             }
         }
@@ -198,7 +202,7 @@ public final class BasketData {
                 + ". Restore the original world backup and required mods; no basket contents may be discarded.");
     }
 
-    private static boolean integer(CompoundNBT compoundTag, String key) {
+    private static boolean integer(CompoundTag compoundTag, String key) {
         return compoundTag.contains(key, 99) && compoundTag.get(key).getId() >= 1 && compoundTag.get(key).getId() <= 3;
     }
 }

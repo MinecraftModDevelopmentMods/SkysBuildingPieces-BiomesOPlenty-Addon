@@ -1,8 +1,11 @@
 package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.*;
@@ -12,6 +15,9 @@ import zone.moddev.mc.skysbuildingpiecesbop.basket.*;
 
 /** Verify both basket variants against the real client atlas before the client probe exits. */
 public final class BasketClientChecks {
+    private static final org.apache.logging.log4j.Logger LOGGER =
+            org.apache.logging.log4j.LogManager.getLogger();
+
     private static boolean checked;
 
     @SubscribeEvent(
@@ -25,17 +31,17 @@ public final class BasketClientChecks {
         checked = true;
 
         Minecraft minecraft = Minecraft.getInstance();
-        IBakedModel previous = null;
+        BakedModel previous = null;
 
-        for (net.minecraft.item.Item basket : new net.minecraft.item.Item[] {Baskets.ITEM, Baskets.HOLDER}) {
+        for (net.minecraft.world.item.Item basket : new net.minecraft.world.item.Item[] {Baskets.ITEM, Baskets.HOLDER}) {
             previous = null;
             for (boolean filled : new boolean[] { false, true }) {
                 ItemStack stack = new ItemStack(basket);
 
                 if (filled) {
-                    CompoundNBT tag = new CompoundNBT();
-                    ListNBT entries = new ListNBT();
-                    CompoundNBT child = new ItemStack(net.minecraft.block.Blocks.OAK_SAPLING).save(new CompoundNBT());
+                    CompoundTag tag = new CompoundTag();
+                    ListTag entries = new ListTag();
+                    CompoundTag child = new ItemStack(net.minecraft.world.level.block.Blocks.OAK_SAPLING).save(new CompoundTag());
 
                     child.putByte("Slot", (byte) 0);
                     entries.add(child);
@@ -43,7 +49,7 @@ public final class BasketClientChecks {
                     stack.setTag(tag);
                 }
 
-                IBakedModel model = minecraft.getItemRenderer().getModel(stack, null, null);
+                BakedModel model = minecraft.getItemRenderer().getModel(stack, null, null, 0);
 
                 if (model == minecraft.getItemRenderer().getItemModelShaper().getModelManager().getMissingModel()
                         || model.getParticleIcon().getName().toString().contains("missingno")) {
@@ -57,9 +63,9 @@ public final class BasketClientChecks {
                 previous = model;
             }
         }
-        for (net.minecraft.item.Item holder : zone.moddev.mc.skysbuildingpiecesbop.LegacyItemRecovery.HOLDERS) {
-            IBakedModel model = minecraft.getItemRenderer().getModel(new ItemStack(holder), null,
-                    null);
+        for (net.minecraft.world.item.Item holder : zone.moddev.mc.skysbuildingpiecesbop.LegacyItemRecovery.HOLDERS) {
+            BakedModel model = minecraft.getItemRenderer().getModel(new ItemStack(holder), null,
+                    null, 0);
 
             if (model == minecraft.getItemRenderer().getItemModelShaper().getModelManager().getMissingModel()
                     || model.getParticleIcon().getName().toString().contains("missingno")) {
@@ -67,6 +73,6 @@ public final class BasketClientChecks {
             }
         }
 
-        System.out.println("BOP_BASKET_CLIENT_PASS empty=true filled=true atlas=true retired_item_models=3");
+        LOGGER.info("BOP_BASKET_CLIENT_PASS empty=true filled=true atlas=true retired_item_models=3");
     }
 }

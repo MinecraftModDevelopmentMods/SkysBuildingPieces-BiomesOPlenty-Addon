@@ -2,10 +2,10 @@ package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
 import java.io.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.MainMenuScreen;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
+import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.*;
 import net.minecraftforge.event.TickEvent;
@@ -15,6 +15,9 @@ import zone.moddev.mc.skysbuildingpiecesbop.client.BasketScreen;
 
 /** Disconnect with the window still open, then inspect the normal player save on reconnect. */
 public final class BasketDisconnectClientChecks {
+    private static final org.apache.logging.log4j.Logger LOGGER =
+            org.apache.logging.log4j.LogManager.getLogger();
+
     private static int stage, ticks;
     private static boolean ready;
     private static volatile boolean checked;
@@ -53,13 +56,13 @@ public final class BasketDisconnectClientChecks {
         if (stage == 0) {
             stage = phase.endsWith("reload") ? 10 : 1;
             minecraft.getSingleplayerServer().execute(() -> {
-                ServerPlayerEntity player = minecraft.getSingleplayerServer().getPlayerList()
+                ServerPlayer player = minecraft.getSingleplayerServer().getPlayerList()
                         .getPlayer(minecraft.player.getUUID());
 
                 if (phase.endsWith("reload")) {
                     int baskets = 0;
 
-                    for (ItemStack stack : player.inventory.items) {
+                    for (ItemStack stack : player.getInventory().items) {
                         if (stack.getItem() == Baskets.ITEM) {
                             baskets++;
 
@@ -75,15 +78,15 @@ public final class BasketDisconnectClientChecks {
 
                     checked = true;
                 } else {
-                    player.inventory.clearContent();
-                    player.inventory.selected = 0;
+                    player.getInventory().clearContent();
+                    player.getInventory().selected = 0;
 
                     ItemStack stack = new ItemStack(Baskets.ITEM);
 
-                    stack.setHoverName(new net.minecraft.util.text.StringTextComponent("Disconnect plants"));
+                    stack.setHoverName(new net.minecraft.network.chat.TextComponent("Disconnect plants"));
                     new BasketInventory(stack).setItem(7,
-                            new ItemStack(net.minecraft.block.Blocks.BIRCH_SAPLING, 11));
-                    player.inventory.setItem(0, stack);
+                            new ItemStack(net.minecraft.world.level.block.Blocks.BIRCH_SAPLING, 11));
+                    player.getInventory().setItem(0, stack);
                     player.inventoryMenu.broadcastChanges();
                 }
             });
@@ -91,16 +94,16 @@ public final class BasketDisconnectClientChecks {
             finish(minecraft, "BOP_BASKET_DISCONNECT_RELOAD_PASS baskets=1 units=11 slot=7 custom_name=preserved");
         } else if (stage == 1 && minecraft.player.getMainHandItem().getItem() == Baskets.ITEM) {
             stage = 2;
-            minecraft.gameMode.useItem(minecraft.player, minecraft.level, Hand.MAIN_HAND);
+            minecraft.gameMode.useItem(minecraft.player, minecraft.level, InteractionHand.MAIN_HAND);
         } else if (stage == 2 && minecraft.screen instanceof BasketScreen) {
             stage = 3;
             closingServerThread = minecraft.getSingleplayerServer().getRunningThread();
             savedPlayer = new File(minecraft.getSingleplayerServer()
-                    .getWorldPath(net.minecraft.world.storage.FolderName.ROOT).toFile(),
+                    .getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(),
                     "playerdata/" + minecraft.player.getUUID() + ".dat");
             minecraft.level.disconnect();
             minecraft.clearLevel();
-            minecraft.setScreen(new MainMenuScreen());
+            minecraft.setScreen(new TitleScreen());
             // Keep the client alive until the normal server thread has finished
             // saving. Exiting the JVM here can interrupt the player-file rename.
         }
@@ -108,7 +111,7 @@ public final class BasketDisconnectClientChecks {
 
     private static void checkSavedBasket() {
         try (InputStream input = new FileInputStream(savedPlayer)) {
-            net.minecraft.nbt.ListNBT inventory = net.minecraft.nbt.CompressedStreamTools.readCompressed(input)
+            net.minecraft.nbt.ListTag inventory = net.minecraft.nbt.NbtIo.readCompressed(input)
                     .getList("Inventory", 10);
             int baskets = 0;
             for (int slot = 0; slot < inventory.size(); slot++) {
@@ -137,7 +140,7 @@ public final class BasketDisconnectClientChecks {
             throw new RuntimeException(failure);
         }
 
-        System.out.println(marker);
+        LOGGER.info(marker);
         stage = 4;
         minecraft.stop();
     }

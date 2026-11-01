@@ -16,6 +16,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WorldMappingsTest {
     @Test
+    void oldBopPathsUseTheCurrentVanillaPathIdentity() throws Exception {
+        Set<Integer> variants = new HashSet<>();
+        for (JsonElement value : read("src/main/resources/assets/skysbuildingpiecesbop/catalogue/legacy_world_states.json")) {
+            JsonObject row = value.getAsJsonObject();
+            if (row.get("id").getAsString().equals("biomesoplenty:grass_path")) {
+                variants.add(row.get("meta").getAsInt());
+                assertEquals("minecraft:dirt_path", row.getAsJsonObject("target").get("id").getAsString());
+            }
+        }
+        assertEquals(new HashSet<>(java.util.Arrays.asList(0, 1, 2)), variants);
+    }
+
+    @Test
     void everySourceStateHasOneExplicitMappingOrAnActionableRefusal() throws Exception {
         Map<String, JsonObject> source = new HashMap<>();
 

@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
+            "items": ["skysbuildingpiecesbop:mud_brick_block_horizontal_step"]
           }
         ]
       }

@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpiecesbop:planks_hellbark_horizontal_step"
+            "items": ["skysbuildingpiecesbop:planks_hellbark_horizontal_step"]
           }
         ]
       }

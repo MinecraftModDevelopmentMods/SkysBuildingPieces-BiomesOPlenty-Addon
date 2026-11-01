@@ -35,7 +35,7 @@ def audit_text(text, profile=None):
         for row in body.splitlines():
             if not row.strip():
                 continue
-            entry = re.fullmatch(r"\s*(minecraft:[a-z_.]+|biomesoplenty:boat_bop): (\d+)", row)
+            entry = re.fullmatch(r"\s*(minecraft:[a-z_.]+|biomesoplenty:boat(?:_bop)?): (\d+)", row)
             if not entry or entry[1] in entries:
                 raise ValueError("Malformed or repeated registry entry: " + row)
             entries[entry[1]] = int(entry[2])
@@ -51,8 +51,8 @@ def audit_text(text, profile=None):
     for line in text.splitlines():
         if not re.search(r"/(?:ERROR|FATAL)\]|\[STDERR[/\]]", line):
             continue
-        message = re.fullmatch(r"\[[^\r\n]+\] \[main/ERROR\] "
-                               r"\[net\.minecraftforge\.registries\.GameData/REGISTRIES\]: (.+)", line)
+        message = re.fullmatch(r"\[[^\r\n]+\] \[main/ERROR\]"
+                               r"(?: \[net\.minecraftforge\.registries\.GameData/REGISTRIES\])?: (.+)", line)
         if message and message[1] in headers and message[1] not in seen:
             seen.add(message[1])
         else:
@@ -62,7 +62,8 @@ def audit_text(text, profile=None):
     for problem in ("Encountered an unexpected exception", "Exception stopping the server",
                     "MissingModsException", "NoSuchMethodError", "NoClassDefFoundError",
                     "ExceptionInInitializerError", "cascading worldgen lag", "Unable to load model",
-                    "Unable to load blockstate", "Unable to read property", "outside of the generating region"):
+                    "Unable to load blockstate", "Unable to read property", "outside of the generating region",
+                    "java.lang.AssertionError", "java.lang.IllegalStateException:"):
         if problem in text:
             raise ValueError("Unexpected native failure: " + problem)
     return sorted(headers)

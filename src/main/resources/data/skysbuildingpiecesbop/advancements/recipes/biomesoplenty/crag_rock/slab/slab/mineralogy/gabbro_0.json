@@ -22,7 +22,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "mineralogy:gabbro"
+                  "items": ["mineralogy:gabbro"]
                 }
               ]
             }
@@ -67,7 +67,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "skysbuildingpiecesbop:retired_gabbro"
+                  "items": ["skysbuildingpiecesbop:retired_gabbro"]
                 }
               ]
             }

@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpieces:stained_hardened_clay_orange_horizontal_step"
+            "items": ["skysbuildingpieces:stained_hardened_clay_orange_horizontal_step"]
           }
         ]
       }

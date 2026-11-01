@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpieces:planks_jungle_corner"
+            "items": ["skysbuildingpieces:planks_jungle_corner"]
           }
         ]
       }

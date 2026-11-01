@@ -22,7 +22,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "skysbuildingpiecesbop:siltstone_slab"
+                  "items": ["skysbuildingpiecesbop:siltstone_slab"]
                 }
               ]
             }
@@ -67,7 +67,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "skysbuildingpiecesbop:siltstone_slab"
+                  "items": ["skysbuildingpiecesbop:siltstone_slab"]
                 }
               ]
             }

@@ -30,7 +30,7 @@ class RetiredRockHardnessHookTest {
 
     private ClassNode nativeState() throws Exception {
         try (InputStream input = getClass().getClassLoader()
-                .getResourceAsStream("net/minecraft/block/AbstractBlock$AbstractBlockState.class")) {
+                .getResourceAsStream("net/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase.class")) {
             assertNotNull(input);
             ClassNode node = new ClassNode();
             new ClassReader(input).accept(node, 0);

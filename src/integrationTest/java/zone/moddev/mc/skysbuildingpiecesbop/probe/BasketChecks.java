@@ -1,35 +1,48 @@
 package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.Items;
-import net.minecraft.inventory.container.ClickType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.*;
-import net.minecraft.util.Hand;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.*;
 
 /** Real item, container, pickup and raw-storage checks; never shipped in the mod. */
 public final class BasketChecks {
+    private static final org.apache.logging.log4j.Logger LOGGER =
+            org.apache.logging.log4j.LogManager.getLogger();
+
     private static int checks;
 
-    public static void run(ServerWorld world) {
+    public static void run(ServerLevel world) {
         checks = 0;
 
-        ServerPlayerEntity player = FakePlayerFactory.getMinecraft(world);
+        ServerPlayer player = FakePlayerFactory.getMinecraft(world);
 
-        player.inventory.clearContent();
-        player.inventory.selected = 0;
+        player.getInventory().clearContent();
+        player.getInventory().selected = 0;
 
         try {
-            net.minecraft.inventory.CraftingInventory crafting = new net.minecraft.inventory.CraftingInventory(
-                    new net.minecraft.inventory.container.Container(null, 0) {
+            net.minecraft.world.inventory.CraftingContainer crafting = new net.minecraft.world.inventory.CraftingContainer(
+                    new net.minecraft.world.inventory.AbstractContainerMenu(null, 0) {
                         @Override
-                        public boolean stillValid(net.minecraft.entity.player.PlayerEntity player) {
+                        public boolean stillValid(net.minecraft.world.entity.player.Player player) {
                             return true;
                         }
                     }, 3, 3);
@@ -38,8 +51,8 @@ public final class BasketChecks {
                 crafting.setItem(slot, new ItemStack(Items.STICK));
             }
 
-            net.minecraft.item.crafting.IRecipe<net.minecraft.inventory.CraftingInventory> recipe = world
-                    .getRecipeManager().getRecipeFor(net.minecraft.item.crafting.IRecipeType.CRAFTING, crafting, world)
+            net.minecraft.world.item.crafting.Recipe<net.minecraft.world.inventory.CraftingContainer> recipe = world
+                    .getRecipeManager().getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING, crafting, world)
                     .orElse(null);
 
             require(recipe != null && recipe.assemble(crafting).getItem() == Baskets.ITEM
@@ -55,7 +68,7 @@ public final class BasketChecks {
 
             ItemStack basket = new ItemStack(Baskets.ITEM);
 
-            basket.setHoverName(new net.minecraft.util.text.StringTextComponent("Test plants"));
+            basket.setHoverName(new net.minecraft.network.chat.TextComponent("Test plants"));
             basket.getTag().putInt("unrelated", 19);
 
             BasketInventory inventory = new BasketInventory(basket);
@@ -76,13 +89,13 @@ public final class BasketChecks {
             ItemStack rest = inventory.insert(new ItemStack(Blocks.OAK_SAPLING, 12));
 
             require(rest.getCount() == 8, "partial insertion retains remainder");
-            player.inventory.setItem(0, basket);
+            player.getInventory().setItem(0, basket);
 
-            for (Hand hand : Hand.values()) {
-                int index = hand == Hand.MAIN_HAND ? 0 : 40;
+            for (InteractionHand hand : InteractionHand.values()) {
+                int index = hand == InteractionHand.MAIN_HAND ? 0 : 40;
 
-                player.inventory.setItem(0, ItemStack.EMPTY);
-                player.inventory.setItem(index, basket);
+                player.getInventory().setItem(0, ItemStack.EMPTY);
+                player.getInventory().setItem(index, basket);
 
                 BasketContainer container = new BasketContainer(1, player, hand);
 
@@ -92,44 +105,44 @@ public final class BasketChecks {
 
                 int other = index == 40 ? 0 : 40;
 
-                player.inventory.setItem(index, new ItemStack(Items.STICK));
-                player.inventory.setItem(other, basket);
-                require(container.stillValid(player) && player.inventory.getItem(index) == basket
-                        && player.inventory.getItem(other).getItem() == Items.STICK,
+                player.getInventory().setItem(index, new ItemStack(Items.STICK));
+                player.getInventory().setItem(other, basket);
+                require(container.stillValid(player) && player.getInventory().getItem(index) == basket
+                        && player.getInventory().getItem(other).getItem() == Items.STICK,
                         "hand-swap packet is reversed without copying");
 
                 if (index == 0) {
                     for (ClickType type : ClickType.values()) {
                         container.clicked(45, 0, type, player);
-                        require(player.inventory.getItem(0) == basket, "owner click locked " + type);
+                        require(player.getInventory().getItem(0) == basket, "owner click locked " + type);
                     }
                 }
 
-                player.inventory.setItem(9, new ItemStack(Blocks.OAK_SAPLING, 5));
+                player.getInventory().setItem(9, new ItemStack(Blocks.OAK_SAPLING, 5));
                 container.clicked(18, index, ClickType.SWAP, player);
-                require(player.inventory.getItem(index) == basket, "swap owner locked");
-                player.inventory.setItem(index, basket.copy());
+                require(player.getInventory().getItem(index) == basket, "swap owner locked");
+                player.getInventory().setItem(index, basket.copy());
                 require(!container.stillValid(player), "copied stack is not the owner");
-                player.inventory.setItem(index, basket);
+                player.getInventory().setItem(index, basket);
                 container.removed(player);
             }
 
             ItemStack editable = new ItemStack(Baskets.ITEM);
 
-            player.inventory.clearContent();
-            player.inventory.setItem(0, editable);
+            player.getInventory().clearContent();
+            player.getInventory().setItem(0, editable);
 
-            BasketContainer editor = new BasketContainer(1, player, Hand.MAIN_HAND);
+            BasketContainer editor = new BasketContainer(1, player, InteractionHand.MAIN_HAND);
 
             player.containerMenu = editor;
-            player.inventory.setItem(9, new ItemStack(Blocks.OAK_SAPLING, 5));
+            player.getInventory().setItem(9, new ItemStack(Blocks.OAK_SAPLING, 5));
             editor.quickMoveStack(player, 18);
-            require(editor.basket.getItem(0).getCount() == 5 && player.inventory.getItem(9).isEmpty(),
+            require(editor.basket.getItem(0).getCount() == 5 && player.getInventory().getItem(9).isEmpty(),
                     "shift-click inserts");
-            player.inventory.setItem(9, new ItemStack(Items.DIAMOND));
+            player.getInventory().setItem(9, new ItemStack(Items.DIAMOND));
             editor.quickMoveStack(player, 18);
             require(editor.basket.getItem(1).isEmpty()
-                    && player.inventory.getItem(9).getItem() == Items.DIAMOND,
+                    && player.getInventory().getItem(9).getItem() == Items.DIAMOND,
                     "shift-click rejects unrelated items");
             editor.quickMoveStack(player, 0);
             require(editor.basket.isEmpty(), "shift-click withdraws");
@@ -142,12 +155,12 @@ public final class BasketChecks {
             editor.removed(player);
             require(new BasketInventory(editable).getItem(0).getCount() == 11,
                     "close persists contents immediately");
-            player.inventory.clearContent();
+            player.getInventory().clearContent();
 
             ItemStack collected = new ItemStack(Baskets.ITEM);
 
-            player.inventory.setItem(0, collected);
-            player.inventory.setItem(1, new ItemStack(Baskets.ITEM));
+            player.getInventory().setItem(0, collected);
+            player.getInventory().setItem(1, new ItemStack(Baskets.ITEM));
             player.containerMenu = player.inventoryMenu;
 
             ItemEntity entity = new ItemEntity(world, 0, 100, 0, new ItemStack(Blocks.OAK_SAPLING, 7));
@@ -156,7 +169,7 @@ public final class BasketChecks {
             Baskets.pickup(event);
             require(event.isCanceled() && !entity.isAlive(), "complete pickup consumed once");
             require(new BasketInventory(collected).getItem(0).getCount() == 7, "first basket collects");
-            require(!player.inventory.getItem(1).hasTag(), "later basket unchanged");
+            require(!player.getInventory().getItem(1).hasTag(), "later basket unchanged");
 
             BasketInventory full = new BasketInventory(collected);
 
@@ -171,9 +184,9 @@ public final class BasketChecks {
                     "partial pickup leaves exact remainder for the next collision");
             // Exercise the caller too: vanilla retains the stack reference from before the pickup event, so replacing
             // only ItemEntity's stack is unsafe.
-            player.inventory.clearContent();
-            player.inventory.setItem(0, collected);
-            player.abilities.instabuild = false;
+            player.getInventory().clearContent();
+            player.getInventory().setItem(0, collected);
+            player.getAbilities().instabuild = false;
             full = new BasketInventory(collected);
 
             for (int entryIndex = 0; entryIndex < 18; entryIndex++) {
@@ -189,8 +202,8 @@ public final class BasketChecks {
 
             int loose = 0;
 
-            for (ItemStack stack : player.inventory.items) {
-                if (stack.getItem() == net.minecraft.item.Item.byBlock(Blocks.OAK_SAPLING)) {
+            for (ItemStack stack : player.getInventory().items) {
+                if (stack.getItem() == net.minecraft.world.item.Item.byBlock(Blocks.OAK_SAPLING)) {
                     loose += stack.getCount();
                 }
             }
@@ -198,8 +211,8 @@ public final class BasketChecks {
             require(new BasketInventory(collected).getItem(0).getCount() == 64 && loose == 6
                     && !entity.isAlive(), "real partial pickup conserves all nine items");
 
-            for (int entryIndex = 1; entryIndex < player.inventory.items.size(); entryIndex++) {
-                player.inventory.setItem(entryIndex, new ItemStack(Blocks.STONE, 64));
+            for (int entryIndex = 1; entryIndex < player.getInventory().items.size(); entryIndex++) {
+                player.getInventory().setItem(entryIndex, new ItemStack(Blocks.STONE, 64));
             }
 
             full = new BasketInventory(collected);
@@ -210,11 +223,11 @@ public final class BasketChecks {
             require(entity.isAlive() && entity.getItem().getCount() == 6
                     && new BasketInventory(collected).getItem(0).getCount() == 64,
                     "real full inventory retains six ground items");
-            player.inventory.clearContent();
+            player.getInventory().clearContent();
 
             ItemStack ownedBasket = new ItemStack(Baskets.ITEM);
 
-            player.inventory.setItem(0, ownedBasket);
+            player.getInventory().setItem(0, ownedBasket);
             entity = new ItemEntity(world, 0, 100, 0, new ItemStack(Blocks.OAK_SAPLING, 4));
             entity.setOwner(new java.util.UUID(1, 2));
             entity.playerTouch(player);
@@ -225,10 +238,10 @@ public final class BasketChecks {
             require(!entity.isAlive() && new BasketInventory(ownedBasket).getItem(0).getCount() == 4,
                     "the drop owner can collect plants");
             rawRecovery();
-            System.out.println("BOP_FLOWER_BASKET_PASS checks=" + checks
+            LOGGER.info("BOP_FLOWER_BASKET_PASS checks=" + checks
                     + " slots=18 collection=true NBT=preserved reload=idempotent");
         } finally {
-            player.inventory.clearContent();
+            player.getInventory().clearContent();
             player.containerMenu = player.inventoryMenu;
         }
     }
@@ -237,18 +250,18 @@ public final class BasketChecks {
         BasketData fixer = new BasketData();
 
         for (String registryId : new String[] { BasketData.OLD, BasketData.HOLDER, BasketData.ID }) {
-            CompoundNBT stack = new ItemStack(Baskets.ITEM).save(new CompoundNBT());
+            CompoundTag stack = new ItemStack(Baskets.ITEM).save(new CompoundTag());
 
             stack.putString("id", registryId);
 
-            CompoundNBT tag = new CompoundNBT();
+            CompoundTag tag = new CompoundTag();
 
             tag.putBoolean("BasketOpen", true);
             tag.putString("CustomName", "Archived plants");
             tag.putInt("other", 77);
 
-            ListNBT list = new ListNBT();
-            CompoundNBT child = new ItemStack(Blocks.BIRCH_SAPLING, 53).save(new CompoundNBT());
+            ListTag list = new ListTag();
+            CompoundTag child = new ItemStack(Blocks.BIRCH_SAPLING, 53).save(new CompoundTag());
 
             child.putByte("Slot", (byte) 17);
             list.add(child);
@@ -261,7 +274,7 @@ public final class BasketChecks {
             require(stack.getCompound("tag").getList("Items", 10).getCompound(0).equals(child),
                     "raw child NBT unchanged");
 
-            CompoundNBT once = stack.copy();
+            CompoundTag once = stack.copy();
 
             fixer.fixTagCompound(stack);
             require(stack.equals(once), "raw reload idempotence");
@@ -269,9 +282,9 @@ public final class BasketChecks {
                     "deserialization preserved contents");
 
             for (String carrier : new String[] { "Inventory", "EnderItems", "Items", "Equipment", "CustomHandler" }) {
-                CompoundNBT root = new CompoundNBT();
-                ListNBT listCarrier = new ListNBT();
-                CompoundNBT historical = once.copy();
+                CompoundTag root = new CompoundTag();
+                ListTag listCarrier = new ListTag();
+                CompoundTag historical = once.copy();
 
                 historical.putString("id", BasketData.OLD);
                 listCarrier.add(historical);
@@ -282,8 +295,8 @@ public final class BasketChecks {
             }
             for (String error : new String[] { "unknown", "duplicate", "badslot", "badcount", "fractional", "wronglist",
                     "badtag", "badcaps" }) {
-                CompoundNBT broken = once.copy();
-                CompoundNBT entry = broken.getCompound("tag").getList("Items", 10).getCompound(0);
+                CompoundTag broken = once.copy();
+                CompoundTag entry = broken.getCompound("tag").getList("Items", 10).getCompound(0);
 
                 if (error.equals("unknown")) {
                     entry.putString("id", "missing_test:flower");
@@ -310,7 +323,7 @@ public final class BasketChecks {
                     entry.putString("ForgeCaps", "not capability data");
                 }
 
-                CompoundNBT before = broken.copy();
+                CompoundTag before = broken.copy();
                 boolean stopped = false;
 
                 try {

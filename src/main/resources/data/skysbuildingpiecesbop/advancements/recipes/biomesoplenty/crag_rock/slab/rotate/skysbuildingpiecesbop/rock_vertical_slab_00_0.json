@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpiecesbop:crag_rock_vertical_slab"
+            "items": ["skysbuildingpiecesbop:crag_rock_vertical_slab"]
           }
         ]
       }

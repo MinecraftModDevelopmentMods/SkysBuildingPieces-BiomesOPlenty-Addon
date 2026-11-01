@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "biomesoplenty:jacaranda_slab"
+            "items": ["biomesoplenty:jacaranda_slab"]
           }
         ]
       }

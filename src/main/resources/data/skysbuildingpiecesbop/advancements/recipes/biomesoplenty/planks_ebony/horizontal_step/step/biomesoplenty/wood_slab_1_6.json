@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:dark_oak_slab"
+            "items": ["minecraft:dark_oak_slab"]
           }
         ]
       }

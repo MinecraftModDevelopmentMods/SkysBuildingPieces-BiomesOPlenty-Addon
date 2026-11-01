@@ -107,6 +107,18 @@
       "saved_uses": 0,
       "inspected_nbt_records": 687,
       "source_jar_sha256": "CF73DA4A5688D79F5FFBC76FEF83941472A5FBEFF9D84581B57F1B67CAA399EB"
+    },
+    "FBF62E044298691AFA51F53FB5AD47EC87BB9DA9702D564EC85D445EF5E254DE": {
+      "fixture": "src/testFixtures/worlds/building-pieces-bop-1.16.5.zip",
+      "sha256": "FBF62E044298691AFA51F53FB5AD47EC87BB9DA9702D564EC85D445EF5E254DE",
+      "mappings": {
+        "minecraft:entity_type": {
+          "biomesoplenty:boat": 108
+        }
+      },
+      "saved_uses": 0,
+      "inspected_nbt_records": 624,
+      "source_jar_sha256": "2470024008508957A7FAEC5ED9171E56725A00100ADBC4481C3F48C808DBDFC9"
     }
   },
   "native_control": {
@@ -135,5 +147,38 @@
     },
     "first_log_sha256": "8A2BCF400C7B4ACE766A19D4F4FCBFA25A1E593089B9694CF8EAF683AACD00E2",
     "reload_log_sha256": "FBA58EC29C179EFD021577FF4D0C3F8D96718F40F15F2DE284C4580CCCAE5748"
+  },
+  "forge37_bop14_source16_control": {
+    "target": "Forge37.1.1 / BOP14.0.0.43",
+    "sky_mods": false,
+    "mappings": {
+      "minecraft:block": {
+        "biomesoplenty:nether_crystal": 805,
+        "biomesoplenty:nether_crystal_block": 804,
+        "minecraft:grass_path": 498
+      },
+      "minecraft:entity_type": {
+        "biomesoplenty:boat": 108
+      },
+      "minecraft:item": {
+        "biomesoplenty:nether_crystal": 1018,
+        "biomesoplenty:nether_crystal_block": 1017,
+        "minecraft:grass_path": 372
+      },
+      "minecraft:sound_event": {
+        "minecraft:item.sweet_berries.pick_from_bush": 831
+      }
+    },
+    "source_saved_boat_uses": 0,
+    "inspected_nbt_records": 542,
+    "source_unchanged": true,
+    "target_log_sha256": {
+      "logs/latest.log": "B0CBE150CD882CDD742551E8DD296AA43748E4BB065A3B06F4EDE89C6D20F4C7",
+      "logs/debug.log": "E02D0988051B075EDA4B68236AD152F19D8D2AFD0D6039FB295A2EB87A4BFC95"
+    },
+    "inputs": {
+      "BiomesOPlenty-1.17.1-14.0.0.43-universal.jar": "12F142C44B38E189866288308AEDF8E1D0079236616CDC0B65BDAF3BAE6BCBD5",
+      "native-bop-catalogue-control-reobf.jar": "D7AC78653BAFDCD31AA73C23A6663EB292C5B35284A23B2258A19714D4FAD52A"
+    }
   }
 }

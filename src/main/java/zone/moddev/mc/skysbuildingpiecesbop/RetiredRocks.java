@@ -2,28 +2,27 @@ package zone.moddev.mc.skysbuildingpiecesbop;
 
 import java.util.Collections;
 import java.util.List;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.loot.LootContext;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,13 +42,13 @@ public final class RetiredRocks extends Block {
     public static final Item[] ITEMS = new Item[NAMES.length];
 
     private RetiredRocks() {
-        super(AbstractBlock.Properties.of(Material.STONE).strength(1.5f, 6));
+        super(BlockBehaviour.Properties.of(Material.STONE).strength(1.5f, 6).requiresCorrectToolForDrops());
         setRegistryName(SkysBuildingPiecesBop.ID, "retired_rocks");
         registerDefaultState(stateDefinition.any().setValue(VARIANT, 0));
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(VARIANT);
     }
 
@@ -65,23 +64,32 @@ public final class RetiredRocks extends Block {
         return state.getValue(VARIANT);
     }
 
-    public float materialDestroySpeed(BlockState state, IBlockReader world, BlockPos position) {
+    public float materialDestroySpeed(BlockState state, BlockGetter world, BlockPos position) {
         return HARDNESS[state.getValue(VARIANT)];
     }
 
     @Override
-    public float getExplosionResistance(BlockState state, IBlockReader world, BlockPos position, Explosion explosion) {
+    public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos position, Explosion explosion) {
         return state.getValue(VARIANT) == 0 ? 60 : 6;
     }
 
     @Override
-    public ToolType getHarvestTool(BlockState state) {
-        return ToolType.PICKAXE;
+    public boolean canHarvestBlock(BlockState state, BlockGetter world, BlockPos position, Player player) {
+        return miningReference(state).canHarvestBlock(world, position, player);
     }
 
     @Override
-    public int getHarvestLevel(BlockState state) {
-        return state.getValue(VARIANT) == 0 ? 2 : 0;
+    public float getDestroyProgress(BlockState state, Player player, BlockGetter world, BlockPos position) {
+        BlockState reference = miningReference(state);
+        int divisor = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(reference, player) ? 30 : 100;
+        return player.getDigSpeed(reference, position) / materialDestroySpeed(state, world, position) / divisor;
+    }
+
+    private static BlockState miningReference(BlockState state) {
+        // These variants share an ID, so block-wide tool-tier tags cannot
+        // distinguish gabbro's iron-pickaxe requirement from the softer rocks.
+        return (state.getValue(VARIANT) == 0 ? net.minecraft.world.level.block.Blocks.DIAMOND_ORE
+                : net.minecraft.world.level.block.Blocks.STONE).defaultBlockState();
     }
 
     public static Item item(BlockState state) {
@@ -94,8 +102,8 @@ public final class RetiredRocks extends Block {
     }
 
     @Override
-    public ItemStack getPickBlock(BlockState state, RayTraceResult hit, IBlockReader world, BlockPos position,
-            PlayerEntity player) {
+    public ItemStack getPickBlock(BlockState state, HitResult hit, BlockGetter world, BlockPos position,
+            Player player) {
         return new ItemStack(item(state));
     }
 
@@ -127,12 +135,12 @@ public final class RetiredRocks extends Block {
         private final int variant;
 
         VariantItem(int variant) {
-            super(BLOCK, new Item.Properties().tab(ItemGroup.TAB_BUILDING_BLOCKS));
+            super(BLOCK, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS));
             this.variant = variant;
         }
 
         @Override
-        protected BlockState getPlacementState(BlockItemUseContext context) {
+        protected BlockState getPlacementState(BlockPlaceContext context) {
             return BLOCK.getStateFromMeta(variant);
         }
 
@@ -142,10 +150,10 @@ public final class RetiredRocks extends Block {
         }
 
         @Override
-        public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+        public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
             Block nativeRock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("mineralogy", NAMES[variant]));
 
-            if (nativeRock == null || nativeRock == net.minecraft.block.Blocks.AIR) {
+            if (nativeRock == null || nativeRock == net.minecraft.world.level.block.Blocks.AIR) {
                 super.fillItemCategory(group, items);
             }
         }

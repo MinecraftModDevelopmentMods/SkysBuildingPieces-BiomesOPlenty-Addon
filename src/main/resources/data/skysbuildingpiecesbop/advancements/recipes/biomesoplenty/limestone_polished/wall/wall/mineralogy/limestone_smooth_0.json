@@ -22,7 +22,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "mineralogy:limestone_smooth"
+                  "items": ["mineralogy:limestone_smooth"]
                 }
               ]
             }
@@ -67,7 +67,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "skysbuildingpiecesbop:retired_limestone_smooth"
+                  "items": ["skysbuildingpiecesbop:retired_limestone_smooth"]
                 }
               ]
             }

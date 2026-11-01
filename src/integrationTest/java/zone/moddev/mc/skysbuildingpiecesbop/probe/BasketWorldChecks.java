@@ -1,16 +1,24 @@
 package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.LevelResource;
+
 import java.io.*;
 import java.nio.file.*;
 import net.minecraft.nbt.*;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.event.TickEvent;
 import zone.moddev.mc.skysbuildingpieces.legacy.*;
 
 /** Loads every original basket carrier in a fresh full-world copy, without visiting unrelated chunks. */
 public final class BasketWorldChecks {
+    private static final org.apache.logging.log4j.Logger LOGGER =
+            org.apache.logging.log4j.LogManager.getLogger();
+
     private int ticks;
 
     @SubscribeEvent
@@ -21,11 +29,11 @@ public final class BasketWorldChecks {
 
         net.minecraft.server.MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 
-        if (server == null || server.getLevel(net.minecraft.world.World.OVERWORLD) == null) {
+        if (server == null || server.getLevel(net.minecraft.world.level.Level.OVERWORLD) == null) {
             return;
         }
 
-        ServerWorld world = server.getLevel(net.minecraft.world.World.OVERWORLD);
+        ServerLevel world = server.getLevel(net.minecraft.world.level.Level.OVERWORLD);
 
         if (ticks++ == 0) {
             for (String row : Files.readAllLines(Paths.get(System.getProperty("skysbuildingpieces.basketIndex")),
@@ -41,15 +49,15 @@ public final class BasketWorldChecks {
 
         LegacyBridge.report(world);
 
-        CompoundNBT state = PiecesWorldState.get(world).save(new CompoundNBT());
-        File snapshot = new File(world.getServer().getWorldPath(net.minecraft.world.storage.FolderName.ROOT).toFile(), "basket-qualification-state.dat");
+        CompoundTag state = PiecesWorldState.get(world).save(new CompoundTag());
+        File snapshot = new File(world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(), "basket-qualification-state.dat");
         boolean reload = System.getProperty("skysbuildingpieces.integrationPhase").endsWith("reload");
 
         if (reload) {
-            CompoundNBT before;
+            CompoundTag before;
 
             try (InputStream input = new FileInputStream(snapshot)) {
-                before = CompressedStreamTools.readCompressed(input);
+                before = NbtIo.readCompressed(input);
             }
             if (!state.equals(before)) {
                 throw new AssertionError(
@@ -57,11 +65,11 @@ public final class BasketWorldChecks {
             }
         } else {
             try (OutputStream output = new FileOutputStream(snapshot)) {
-                CompressedStreamTools.writeCompressed(state, output);
+                NbtIo.writeCompressed(state, output);
             }
         }
 
-        System.out.println("BOP_BASKET_SYLVESTER_PASS all_carriers_loaded=true schema=" + state.getInt("schema_version")
+        LOGGER.info("BOP_BASKET_SYLVESTER_PASS all_carriers_loaded=true schema=" + state.getInt("schema_version")
                 + " reload=" + reload);
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.unregister(this);
         server.halt(false);

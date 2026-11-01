@@ -1,19 +1,29 @@
 package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.LevelResource;
+
 import java.io.*;
 import java.util.UUID;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.nbt.*;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks;
 import net.minecraftforge.eventbus.api.*;
 import net.minecraftforge.event.TickEvent;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketData;
 
 /** Exercise the real player-save loader only in explicitly selected disposable Sylvester tests. */
 public final class BasketPlayerUpgrade {
+    private static final org.apache.logging.log4j.Logger LOGGER =
+            org.apache.logging.log4j.LogManager.getLogger();
+
     private static boolean ran;
 
     @SubscribeEvent(
@@ -26,40 +36,56 @@ public final class BasketPlayerUpgrade {
 
         ran = true;
 
-        ServerWorld world = ServerLifecycleHooks.getCurrentServer()
-                .getLevel(net.minecraft.world.World.OVERWORLD);
-        File players = new File(world.getServer().getWorldPath(net.minecraft.world.storage.FolderName.ROOT).toFile(), "playerdata");
+        ServerLevel world = ServerLifecycleHooks.getCurrentServer()
+                .getLevel(net.minecraft.world.level.Level.OVERWORLD);
+        File players = new File(world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(), "playerdata");
         int loaded = 0;
         File[] files = players.listFiles((directory, name) -> name.endsWith(".dat"));
 
         if (files != null) {
             for (File file : files) {
-                CompoundNBT raw;
+                CompoundTag raw;
 
                 try (InputStream input = new FileInputStream(file)) {
-                    raw = CompressedStreamTools.readCompressed(input);
+                    raw = NbtIo.readCompressed(input);
                 }
                 if (!hasBasket(raw)) {
                     continue;
                 }
 
                 UUID uuid = UUID.fromString(file.getName().substring(0, file.getName().length() - 4));
-                ServerPlayerEntity player = FakePlayerFactory.get(world, new GameProfile(uuid, "MigrationTest"));
+                ServerPlayer player = FakePlayerFactory.get(world, new GameProfile(uuid, "MigrationTest"));
 
                 world.getServer().getPlayerList().load(player);
-                net.minecraftforge.fml.common.ObfuscationReflectionHelper.findMethod(
-                        net.minecraft.server.management.PlayerList.class, "func_72391_b",
-                        ServerPlayerEntity.class).invoke(world.getServer().getPlayerList(), player);
+                savePlayer(player);
                 loaded++;
             }
         }
 
-        System.out.println("BOP_BASKET_PLAYER_LOADER_PASS profiles=" + loaded);
+        LOGGER.info("BOP_BASKET_PLAYER_LOADER_PASS profiles=" + loaded);
     }
 
-    private static boolean hasBasket(INBT value) {
-        if (value instanceof CompoundNBT) {
-            CompoundNBT tag = (CompoundNBT) value;
+    private static void savePlayer(ServerPlayer player) throws Exception {
+        java.lang.reflect.Method save = null;
+        for (java.lang.reflect.Method method : net.minecraft.server.players.PlayerList.class.getDeclaredMethods()) {
+            if (java.lang.reflect.Modifier.isProtected(method.getModifiers()) && method.getReturnType() == void.class
+                    && java.util.Arrays.equals(method.getParameterTypes(), new Class<?>[] { ServerPlayer.class })) {
+                if (save != null) {
+                    throw new IllegalStateException("The native player-save method is ambiguous");
+                }
+                save = method;
+            }
+        }
+        if (save == null) {
+            throw new IllegalStateException("The native player-save method is missing");
+        }
+        save.setAccessible(true);
+        save.invoke(player.getServer().getPlayerList(), player);
+    }
+
+    private static boolean hasBasket(Tag value) {
+        if (value instanceof CompoundTag) {
+            CompoundTag tag = (CompoundTag) value;
 
             if (BasketData.isBasket(tag.getString("id"))) {
                 return true;
@@ -69,8 +95,8 @@ public final class BasketPlayerUpgrade {
                     return true;
                 }
             }
-        } else if (value instanceof ListNBT) {
-            for (INBT child : (ListNBT) value) {
+        } else if (value instanceof ListTag) {
+            for (Tag child : (ListTag) value) {
                 if (hasBasket(child)) {
                     return true;
                 }

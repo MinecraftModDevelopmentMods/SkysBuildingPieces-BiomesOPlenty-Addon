@@ -175,7 +175,7 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
             advancement = {
                 'criteria': {
                     'has_ingredient': {'trigger': 'minecraft:inventory_changed',
-                                       'conditions': {'items': [{'item': ingredient}]}},
+                                       'conditions': {'items': [{'items': [ingredient]}]}},
                     'has_the_recipe': {'trigger': 'minecraft:recipe_unlocked',
                                        'conditions': {'recipe': 'skysbuildingpieces:' + path}}},
                 'requirements': [['has_ingredient', 'has_the_recipe']],
@@ -295,9 +295,9 @@ def main():
     parser.add_argument('--native-jar', type=Path, action='append', required=True)
     parser.add_argument('--write', action='store_true')
     args = parser.parse_args()
-    fixture = Path(__file__).parent / 'fixtures/mineralogy-1.16.5-crafting.json'
+    fixture = Path(__file__).parent / 'fixtures/mineralogy-1.17.1-crafting.json'
     data = fixture.read_bytes()
-    if hashlib.sha256(data).hexdigest().upper() != '76B17AB9977F45910D4EB7786B94D3D296BA2E50D74FB53BB67BDB8A3EC51BA6':
+    if hashlib.sha256(data).hexdigest().upper() != '77B27383AB2D4B6EF07B04EAB72487D4F147457D2F430CF2D92418D67FB44AEF':
         raise ValueError('The locked native Mineralogy crafting fixture changed')
     snapshot = json.loads(data)
     native = list(snapshot['recipes'].values())
@@ -369,7 +369,7 @@ def main():
             'conditions': [exists('mineralogy:' + name)],
             'criteria': {
                 'has_ingredient': {'trigger': 'minecraft:inventory_changed',
-                                   'conditions': {'items': [{'item': ingredient}]}},
+                                   'conditions': {'items': [{'items': [ingredient]}]}},
                 'has_the_recipe': {'trigger': 'minecraft:recipe_unlocked', 'conditions': {'recipe': identity}}},
             'requirements': [['has_ingredient', 'has_the_recipe']], 'rewards': {'recipes': [identity]}}
     manifest = args.resources.parent / 'recipe-book/native-1.14-generated.json'

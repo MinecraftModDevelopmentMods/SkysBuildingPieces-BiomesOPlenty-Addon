@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpiecesbop:siltstone_vertical_step"
+            "items": ["skysbuildingpiecesbop:siltstone_vertical_step"]
           }
         ]
       }

@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpiecesbop:planks_jacaranda_vertical_slab"
+            "items": ["skysbuildingpiecesbop:planks_jacaranda_vertical_slab"]
           }
         ]
       }

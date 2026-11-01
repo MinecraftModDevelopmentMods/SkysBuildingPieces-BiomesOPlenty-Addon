@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpiecesbop:planks_umbran_vertical_step"
+            "items": ["skysbuildingpiecesbop:planks_umbran_vertical_step"]
           }
         ]
       }

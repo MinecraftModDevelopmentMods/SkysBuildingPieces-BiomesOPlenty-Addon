@@ -8,11 +8,11 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.state.Property;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
 /** Named equivalents for native BOP blocks saved before flattening. */
@@ -67,7 +67,7 @@ public final class BopWorldMappings {
 
             state = withProperty(state, property, entry.getValue().getAsString());
         }
-        if (block.hasTileEntity(state)) {
+        if (state.hasBlockEntity()) {
             throw new IllegalStateException("BOP replacements must not introduce a block entity: " + identity);
         }
 

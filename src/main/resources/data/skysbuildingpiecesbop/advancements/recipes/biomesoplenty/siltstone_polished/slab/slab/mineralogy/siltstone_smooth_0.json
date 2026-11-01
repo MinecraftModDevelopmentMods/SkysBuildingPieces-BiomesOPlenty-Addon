@@ -22,7 +22,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "mineralogy:siltstone_smooth"
+                  "items": ["mineralogy:siltstone_smooth"]
                 }
               ]
             }
@@ -67,7 +67,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "skysbuildingpiecesbop:retired_siltstone_smooth"
+                  "items": ["skysbuildingpiecesbop:retired_siltstone_smooth"]
                 }
               ]
             }

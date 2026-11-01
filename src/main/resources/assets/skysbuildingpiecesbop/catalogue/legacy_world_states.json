@@ -204,7 +204,7 @@
       "variant": "loamy"
     },
     "target": {
-      "id": "minecraft:grass_path",
+      "id": "minecraft:dirt_path",
       "properties": {}
     }
   },
@@ -215,7 +215,7 @@
       "variant": "sandy"
     },
     "target": {
-      "id": "minecraft:grass_path",
+      "id": "minecraft:dirt_path",
       "properties": {}
     }
   },
@@ -226,7 +226,7 @@
       "variant": "silty"
     },
     "target": {
-      "id": "minecraft:grass_path",
+      "id": "minecraft:dirt_path",
       "properties": {}
     }
   },

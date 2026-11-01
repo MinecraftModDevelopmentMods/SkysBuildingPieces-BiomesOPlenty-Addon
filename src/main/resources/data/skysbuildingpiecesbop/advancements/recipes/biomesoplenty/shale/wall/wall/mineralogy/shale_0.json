@@ -22,7 +22,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "mineralogy:shale"
+                  "items": ["mineralogy:shale"]
                 }
               ]
             }
@@ -67,7 +67,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "skysbuildingpiecesbop:retired_shale"
+                  "items": ["skysbuildingpiecesbop:retired_shale"]
                 }
               ]
             }

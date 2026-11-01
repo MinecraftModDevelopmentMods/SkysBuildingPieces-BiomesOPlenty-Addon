@@ -22,7 +22,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "mineralogy:shale_smooth"
+                  "items": ["mineralogy:shale_smooth"]
                 }
               ]
             }
@@ -67,7 +67,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "skysbuildingpiecesbop:retired_shale_smooth"
+                  "items": ["skysbuildingpiecesbop:retired_shale_smooth"]
                 }
               ]
             }

@@ -9,15 +9,15 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.util.Map;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.ListNBT;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.ChestTileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Shape;
 import zone.moddev.mc.skysbuildingpieces.content.Pieces;
@@ -26,6 +26,9 @@ import zone.moddev.mc.skysbuildingpieces.legacy.PiecesWorldState;
 
 /** Load every saved position through the real server, including chunks outside spawn. */
 final class ForwardUpgradeChecks {
+    private static final org.apache.logging.log4j.Logger LOGGER =
+            org.apache.logging.log4j.LogManager.getLogger();
+
     private static final JsonObject TARGET_UPGRADES = targetUpgrades();
 
     private ForwardUpgradeChecks() {
@@ -33,13 +36,13 @@ final class ForwardUpgradeChecks {
 
     static void run(MinecraftServer server, File manifestFile) throws Exception {
         JsonObject manifest = read(manifestFile);
-        ServerWorld world = server.getLevel(net.minecraft.world.World.OVERWORLD);
+        ServerLevel world = server.getLevel(net.minecraft.world.level.Level.OVERWORLD);
 
         run(world, manifest);
     }
 
     static void biomesOnly(MinecraftServer server, File manifestFile) throws Exception {
-        checkBiomes(server.getLevel(net.minecraft.world.World.OVERWORLD), read(manifestFile));
+        checkBiomes(server.getLevel(net.minecraft.world.level.Level.OVERWORLD), read(manifestFile));
     }
 
     private static JsonObject read(File manifestFile) throws Exception {
@@ -59,7 +62,7 @@ final class ForwardUpgradeChecks {
         }
     }
 
-    private static void run(ServerWorld world, JsonObject manifest) throws Exception {
+    private static void run(ServerLevel world, JsonObject manifest) throws Exception {
         int states = 0;
         java.util.Map<BlockPos, BlockState> retainedRocks = retainedNamedRocks(manifest);
 
@@ -107,7 +110,7 @@ final class ForwardUpgradeChecks {
 
             // Connections and snow are derived from neighbours. The palette metadata and persisted orientation still
             // have to match exactly.
-            for (Map.Entry<net.minecraft.state.Property<?>, Comparable<?>> property : expected.getValues()
+            for (Map.Entry<net.minecraft.world.level.block.state.properties.Property<?>, Comparable<?>> property : expected.getValues()
                     .entrySet()) {
                 String name = property.getKey().getName();
 
@@ -132,12 +135,12 @@ final class ForwardUpgradeChecks {
             BlockPos chestPosition = position(row);
 
             world.getChunk(chestPosition.getX() >> 4, chestPosition.getZ() >> 4);
-            require(world.getBlockEntity(chestPosition) instanceof ChestTileEntity,
+            require(world.getBlockEntity(chestPosition) instanceof ChestBlockEntity,
                     "Saved chest is missing at " + chestPosition + ": " + world.getBlockState(chestPosition));
 
-            ChestTileEntity chest = (ChestTileEntity) world.getBlockEntity(chestPosition);
+            ChestBlockEntity chest = (ChestBlockEntity) world.getBlockEntity(chestPosition);
             ItemStack actual = chest.getItem(row.get("slot").getAsInt());
-            CompoundNBT original = JsonToNBT.parseTag(row.get("item").getAsString());
+            CompoundTag original = TagParser.parseTag(row.get("item").getAsString());
 
             require(actual.getCount() == original.getByte("Count"), "Saved stack count changed: " + row);
 
@@ -145,15 +148,15 @@ final class ForwardUpgradeChecks {
                 require(actual.getItem().getRegistryName().toString().equals("skysbuildingpiecesbop:flower_basket"),
                         "Saved basket became another item");
 
-                ListNBT contents = actual.getTag().getList("Items", 10);
+                ListTag contents = actual.getTag().getList("Items", 10);
                 int expectedUnits = 0;
-                ListNBT source = original.getCompound("tag").getList("Items", 10);
+                ListTag source = original.getCompound("tag").getList("Items", 10);
 
                 require(contents.size() == source.size(), "A basket lost stored slots: " + row.get("basket"));
 
                 for (int slot = 0; slot < source.size(); slot++) {
-                    CompoundNBT before = source.getCompound(slot);
-                    CompoundNBT after = contents.getCompound(slot);
+                    CompoundTag before = source.getCompound(slot);
+                    CompoundTag after = contents.getCompound(slot);
 
                     require(before.getByte("Slot") == after.getByte("Slot")
                             && before.getByte("Count") == after.getByte("Count"), "Basket slot/count changed");
@@ -185,12 +188,12 @@ final class ForwardUpgradeChecks {
 
         world.getChunk(shovelPosition.getX() >> 4, shovelPosition.getZ() >> 4);
 
-        ItemStack shovel = ((ChestTileEntity) world.getBlockEntity(shovelPosition)).getItem(0);
+        ItemStack shovel = ((ChestBlockEntity) world.getBlockEntity(shovelPosition)).getItem(0);
 
-        require(shovel.getItem() == net.minecraft.item.Items.DIAMOND_SHOVEL && shovel.getDamageValue() == 17
+        require(shovel.getItem() == net.minecraft.world.item.Items.DIAMOND_SHOVEL && shovel.getDamageValue() == 17
                 && shovel.getHoverName().getString().equals("A saved slope shovel")
-                && net.minecraft.enchantment.EnchantmentHelper
-                        .getItemEnchantmentLevel(net.minecraft.enchantment.Enchantments.BLOCK_EFFICIENCY, shovel) == 3,
+                && net.minecraft.world.item.enchantment.EnchantmentHelper
+                        .getItemEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.BLOCK_EFFICIENCY, shovel) == 3,
                 "Saved shovel identity, damage, name or enchantment changed");
         require(state.blocks == 17 && state.items == 31 && state.chunks == 7, "Existing vanilla totals changed");
 
@@ -205,11 +208,11 @@ final class ForwardUpgradeChecks {
 
         checkSavedRecoveryData(world);
 
-        System.out.println("BUILDING_PIECES_BOP_FORWARD_UPGRADE_PASS states=" + states + " baskets=" + baskets
+        LOGGER.info("BUILDING_PIECES_BOP_FORWARD_UPGRADE_PASS states=" + states + " baskets=" + baskets
                 + " units=" + units);
     }
 
-    private static void checkSavedRecoveryData(ServerWorld world) throws Exception {
+    static void checkSavedRecoveryData(ServerLevel world) throws Exception {
         File first = new File("first-save/data");
 
         // Delayed profiles deliberately open additional chunks after the first save.
@@ -219,7 +222,7 @@ final class ForwardUpgradeChecks {
 
         world.getServer().saveAllChunks(true, true, true);
         File current = new File(world.getServer()
-                .getWorldPath(net.minecraft.world.storage.FolderName.ROOT).toFile(), "data");
+                .getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(), "data");
         int checked = 0;
 
         for (String name : new String[] {"skysbuildingpieces_world_state.dat",
@@ -232,8 +235,8 @@ final class ForwardUpgradeChecks {
             if (before.isFile()) {
                 try (InputStream original = new FileInputStream(before);
                         InputStream reloaded = new FileInputStream(after)) {
-                    require(net.minecraft.nbt.CompressedStreamTools.readCompressed(original)
-                                    .equals(net.minecraft.nbt.CompressedStreamTools.readCompressed(reloaded)),
+                    require(net.minecraft.nbt.NbtIo.readCompressed(original)
+                                    .equals(net.minecraft.nbt.NbtIo.readCompressed(reloaded)),
                             "Saved recovery data changed on reload: " + name);
                 }
                 checked++;
@@ -241,7 +244,7 @@ final class ForwardUpgradeChecks {
         }
 
         require(checked > 0, "The reload profile has no saved recovery data");
-        System.out.println("BOP_RECOVERY_DATA_RELOAD_PASS files=" + checked);
+        LOGGER.info("BOP_RECOVERY_DATA_RELOAD_PASS files=" + checked);
     }
 
     private static java.util.Map<BlockPos, BlockState> retainedNamedRocks(JsonObject manifest) throws Exception {
@@ -250,12 +253,12 @@ final class ForwardUpgradeChecks {
         if (manifest.has("source_saved_states")) {
             for (JsonElement element : manifest.getAsJsonArray("source_saved_states")) {
                 JsonObject row = element.getAsJsonObject();
-                CompoundNBT saved = JsonToNBT.parseTag(row.get("state").getAsString());
+                CompoundTag saved = TagParser.parseTag(row.get("state").getAsString());
 
                 // Installing Mineralogy later does not replace an already named fallback block.
                 // Its bridge recipe is the player's explicit conversion route.
                 if (saved.getString("Name").equals("skysbuildingpiecesbop:retired_rocks")) {
-                    BlockState state = net.minecraft.nbt.NBTUtil.readBlockState(saved);
+                    BlockState state = net.minecraft.nbt.NbtUtils.readBlockState(saved);
 
                     require(state.getBlock() == zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks.BLOCK,
                             "A named fallback rock no longer resolves");
@@ -266,7 +269,7 @@ final class ForwardUpgradeChecks {
         return states;
     }
 
-    private static void checkBiomes(ServerWorld world, JsonObject manifest) {
+    private static void checkBiomes(ServerLevel world, JsonObject manifest) {
         require(manifest.has("biomes") && manifest.getAsJsonArray("biomes").size() == 73,
                 "The biome regression fixture is incomplete");
 
@@ -281,7 +284,7 @@ final class ForwardUpgradeChecks {
             BlockPos position = position(row);
 
             if ((number++ & 1) != 0 || TARGET_UPGRADES.getAsJsonObject("biomes").has(row.get("id").getAsString())) {
-                deferred.add(net.minecraft.util.math.ChunkPos.asLong(position.getX() >> 4, position.getZ() >> 4));
+                deferred.add(net.minecraft.world.level.ChunkPos.asLong(position.getX() >> 4, position.getZ() >> 4));
             }
         }
 
@@ -291,7 +294,7 @@ final class ForwardUpgradeChecks {
             JsonObject row = element.getAsJsonObject();
             BlockPos position = position(row);
 
-            if (first && deferred.contains(net.minecraft.util.math.ChunkPos.asLong(
+            if (first && deferred.contains(net.minecraft.world.level.ChunkPos.asLong(
                     position.getX() >> 4, position.getZ() >> 4))) {
                 require(world.getChunkSource().getChunkNow(position.getX() >> 4, position.getZ() >> 4)
                         == null, "A deferred biome chunk was loaded during the first pass");
@@ -319,10 +322,10 @@ final class ForwardUpgradeChecks {
             require(checked == 73, "A saved biome was not checked");
         }
 
-        System.out.println("BOP_NATIVE_BIOMES_PASS biomes=" + checked + " loaded_chunks=true delayed_first=" + first);
+        LOGGER.info("BOP_NATIVE_BIOMES_PASS biomes=" + checked + " loaded_chunks=true delayed_first=" + first);
     }
 
-    private static String plant(CompoundNBT original) {
+    private static String plant(CompoundTag original) {
         String id = original.getString("id");
         int metadata = original.getShort("Damage");
 
@@ -356,7 +359,7 @@ final class ForwardUpgradeChecks {
 
     private static JsonObject targetUpgrades() {
         try (java.io.InputStreamReader reader = new java.io.InputStreamReader(
-                ForwardUpgradeChecks.class.getResourceAsStream(
+                zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks.class.getResourceAsStream(
                         "/assets/skysbuildingpiecesbop/catalogue/named_legacy.json"),
                 java.nio.charset.StandardCharsets.UTF_8)) {
             return new JsonParser().parse(reader).getAsJsonObject();
@@ -366,6 +369,9 @@ final class ForwardUpgradeChecks {
     }
 
     private static String currentTarget(String group, String id) {
+        if ((group.equals("blocks") || group.equals("items")) && id.equals("minecraft:grass_path")) {
+            return "minecraft:dirt_path";
+        }
         JsonObject mappings = TARGET_UPGRADES.getAsJsonObject(group);
 
         String target = mappings.has(id) ? mappings.get(id).getAsString() : id;

@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpieces:planks_birch_vertical_slab"
+            "items": ["skysbuildingpieces:planks_birch_vertical_slab"]
           }
         ]
       }

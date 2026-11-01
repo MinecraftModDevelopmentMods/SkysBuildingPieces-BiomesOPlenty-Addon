@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "biomesoplenty:fir_slab"
+            "items": ["biomesoplenty:fir_slab"]
           }
         ]
       }

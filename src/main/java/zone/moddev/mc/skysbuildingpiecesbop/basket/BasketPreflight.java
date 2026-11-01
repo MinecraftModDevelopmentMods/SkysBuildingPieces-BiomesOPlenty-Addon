@@ -4,7 +4,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.Iterator;
 import java.util.zip.*;
-import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.MinecraftServer;
 
 /** Validate saved baskets before a chunk loader can catch an error and generate a replacement chunk. */
@@ -24,7 +24,7 @@ public final class BasketPreflight {
     }
 
     public static void check(MinecraftServer server) throws IOException {
-        File world = server.getWorldPath(net.minecraft.world.storage.FolderName.LEVEL_DATA_FILE).toFile().getParentFile();
+        File world = server.getWorldPath(net.minecraft.world.level.storage.LevelResource.LEVEL_DATA_FILE).toFile().getParentFile();
 
         if (!world.isDirectory()) {
             return;
@@ -81,7 +81,7 @@ public final class BasketPreflight {
                                     throw new IOException("Unsupported chunk compression: " + compression);
                                 }
                                 try (DataInputStream data = new DataInputStream(input)) {
-                                    validator.fixTagCompound(CompressedStreamTools.read(data));
+                                    validator.fixTagCompound(NbtIo.read(data));
                                 } catch (IllegalStateException failure) {
                                     throw new IllegalStateException(
                                             name + " / chunk slot " + slot + ": " + failure.getMessage(), failure);
@@ -103,9 +103,9 @@ public final class BasketPreflight {
                             input.unread(first);
                         }
                         if (first == 31 && second == 139) {
-                            validator.fixTagCompound(CompressedStreamTools.readCompressed(input));
+                            validator.fixTagCompound(NbtIo.readCompressed(input));
                         } else {
-                            validator.fixTagCompound(CompressedStreamTools.read(new DataInputStream(input)));
+                            validator.fixTagCompound(NbtIo.read(new DataInputStream(input)));
                         }
                     } catch (IllegalStateException failure) {
                         throw new IllegalStateException(name + ": " + failure.getMessage(), failure);

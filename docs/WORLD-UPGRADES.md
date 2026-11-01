@@ -1,5 +1,20 @@
 # Existing worlds
 
+## Moving to Minecraft 1.17.1
+
+BOP removed nether crystals and nether crystal blocks. They become rose quartz
+clusters and rose quartz blocks. Placed clusters keep their floor, ceiling or
+wall attachment; stored items keep their counts, names and custom data. The
+original crystals were dry, so their replacements start dry too.
+
+Existing building pieces keep their material palettes and orientations. Old
+palette holders can become equivalent native BOP pieces when loaded. Flower
+Baskets retain their slots and contents. Earlier plant and biome replacements
+continue to use the matching current names; terrain is not regenerated.
+
+This covers supported blocks and items. It does not recover old BOP boat
+entities. Check the whole modpack on a backup copy before upgrading.
+
 ## Moving to Minecraft 1.16.5
 
 The piece catalogue keeps its existing materials, IDs and orientations. BOP

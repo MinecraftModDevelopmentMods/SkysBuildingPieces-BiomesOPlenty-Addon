@@ -5,7 +5,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
+import net.minecraftforge.fmlserverevents.FMLServerStartedEvent;
 
 /** Build-only listeners for real basket windows and copied-world audits. */
 @Mod("basketsprobe")

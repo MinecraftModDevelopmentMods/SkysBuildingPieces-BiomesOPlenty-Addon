@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpiecesbop:retired_gabbro"
+            "items": ["skysbuildingpiecesbop:retired_gabbro"]
           }
         ]
       }

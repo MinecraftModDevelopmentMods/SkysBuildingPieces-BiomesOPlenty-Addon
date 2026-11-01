@@ -22,7 +22,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "skysbuildingpiecesbop:shale_slab"
+                  "items": ["skysbuildingpiecesbop:shale_slab"]
                 }
               ]
             }
@@ -67,7 +67,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "skysbuildingpiecesbop:shale_slab"
+                  "items": ["skysbuildingpiecesbop:shale_slab"]
                 }
               ]
             }

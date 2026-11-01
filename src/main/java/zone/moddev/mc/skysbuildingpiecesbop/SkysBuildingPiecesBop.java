@@ -1,16 +1,16 @@
 package zone.moddev.mc.skysbuildingpiecesbop;
 
 import java.io.IOException;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 import zone.moddev.mc.skysbuildingpieces.api.BuildingPiecesApi;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue;
 import zone.moddev.mc.skysbuildingpieces.legacy.HistoricalFullBlocks;
@@ -21,7 +21,7 @@ import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketPreflight;
 @Mod(SkysBuildingPiecesBop.ID)
 public final class SkysBuildingPiecesBop {
     public static final String ID = "skysbuildingpiecesbop";
-    public static final String VERSION = "0.2.4.116051";
+    public static final String VERSION = "0.2.4.117011";
 
     public SkysBuildingPiecesBop() {
         if (BuildingPiecesApi.VERSION != 1) {
@@ -78,13 +78,9 @@ public final class SkysBuildingPiecesBop {
         }
 
         @SubscribeEvent
-        public static void containers(RegistryEvent.Register<ContainerType<?>> event) {
+        public static void containers(RegistryEvent.Register<MenuType<?>> event) {
             event.getRegistry().register(Baskets.TYPE);
         }
 
-        @SubscribeEvent
-        public static void missingItems(RegistryEvent.MissingMappings<Item> event) {
-            Baskets.missing(event);
-        }
     }
 }

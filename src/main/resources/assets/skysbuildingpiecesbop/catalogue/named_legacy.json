@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "minecraft": "1.16.5",
+  "minecraft": "1.17.1",
   "blocks": {
     "biomesoplenty:dried_sand": "biomesoplenty:dried_salt",
     "biomesoplenty:ethereal_button": "minecraft:birch_button",
@@ -22,7 +22,9 @@
     "biomesoplenty:ash_block": "minecraft:basalt",
     "biomesoplenty:root": "biomesoplenty:dead_grass",
     "biomesoplenty:tall_cattail": "biomesoplenty:cattail",
-    "biomesoplenty:tall_wheat": "biomesoplenty:barley"
+    "biomesoplenty:tall_wheat": "biomesoplenty:barley",
+    "biomesoplenty:nether_crystal": "biomesoplenty:rose_quartz_cluster",
+    "biomesoplenty:nether_crystal_block": "biomesoplenty:rose_quartz_block"
   },
   "items": {
     "biomesoplenty:ethereal_boat": "minecraft:birch_boat"

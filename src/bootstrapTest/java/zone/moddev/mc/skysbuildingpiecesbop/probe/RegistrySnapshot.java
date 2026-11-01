@@ -6,8 +6,8 @@ import com.google.gson.JsonObject;
 import java.io.OutputStreamWriter;
 import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
 /** Keep the target's actual registry states beside the disposable upgrade receipts. */

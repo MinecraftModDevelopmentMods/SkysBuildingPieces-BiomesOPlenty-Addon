@@ -2,24 +2,27 @@ package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
 import java.util.EnumSet;
 import java.util.Set;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.VineBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.VineBlock;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import zone.moddev.mc.skysbuildingpieces.legacy.HistoricalFullBlocks;
 import zone.moddev.mc.skysbuildingpieces.legacy.LegacyBridge;
 import zone.moddev.mc.skysbuildingpiecesbop.RetiredDecorations;
 
 /** Check actual decoration geometry, drops and the saved vine attachment bits. */
 final class DecorationChecks {
+    private static final org.apache.logging.log4j.Logger LOGGER =
+            org.apache.logging.log4j.LogManager.getLogger();
+
     private DecorationChecks() {
     }
 
-    static void run(ServerWorld world) {
+    static void run(ServerLevel world) {
         BlockPos position = new BlockPos(930, 90, 930);
         BlockState original = world.getBlockState(position);
         BlockState above = world.getBlockState(position.above());
@@ -55,14 +58,14 @@ final class DecorationChecks {
 
             world.setBlock(position, poison, 2);
             require(poison.getCollisionShape(world, position).bounds().equals(
-                    new net.minecraft.util.math.AxisAlignedBB(0, 0, 0, 1, 1, 1)), "Poison keeps full collision");
-            require(poison.getBlock().getSlipperiness(poison, world, position, null) == .9f
+                    new net.minecraft.world.phys.AABB(0, 0, 0, 1, 1, 1)), "Poison keeps full collision");
+            require(poison.getBlock().getFriction(poison, world, position, null) == .9f
                     && poison.getDestroySpeed(world, position) == .4f, "Poison friction and hardness");
 
             java.util.List<ItemStack> drops = Block.getDrops(poison, world, position, null);
 
             require(drops.size() == 1
-                    && drops.get(0).getItem() == net.minecraft.item.Item.byBlock(poison.getBlock()),
+                    && drops.get(0).getItem() == net.minecraft.world.item.Item.byBlock(poison.getBlock()),
                     "Poison drops itself");
 
             for (int metadata = 0; metadata < 16; metadata++) {
@@ -73,13 +76,13 @@ final class DecorationChecks {
                         && vine.getValue(VineBlock.NORTH) == ((metadata & 4) != 0)
                         && vine.getValue(VineBlock.EAST) == ((metadata & 8) != 0), "Saved vine orientation " + metadata);
 
-                CompoundNBT stack = new CompoundNBT();
+                CompoundTag stack = new CompoundTag();
 
                 stack.putString("id", "skysbuildingpiecesbop:legacy_bop_tree_moss");
                 stack.putByte("Count", (byte) 37);
                 stack.putShort("Damage", (short) metadata);
 
-                CompoundNBT tag = new CompoundNBT();
+                CompoundTag tag = new CompoundTag();
 
                 tag.putString("custom", "Preserved decoration");
                 stack.put("tag", tag);
@@ -88,11 +91,11 @@ final class DecorationChecks {
                 ItemStack decoded = ItemStack.of(stack);
 
                 require(decoded.getCount() == 37 && decoded.getTag().equals(tag)
-                        && decoded.getItem() == net.minecraft.item.Item.byBlock(vine.getBlock()),
+                        && decoded.getItem() == net.minecraft.world.item.Item.byBlock(vine.getBlock()),
                         "Vine item identity, count and custom data");
             }
 
-            System.out.println(
+            LOGGER.info(
                     "BOP_NATIVE_DECORATIONS_PASS profiles=8 vine_states=16 collision=true drops=true NBT=true");
         } finally {
             world.setBlock(position, original, 2);

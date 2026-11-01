@@ -20,7 +20,7 @@ def compileBootstrap = tasks.register('compileNativeBootstrap', JavaCompile) {
     ['NativeLegacyChecks', 'DirtCoverageChecks', 'CoverageContributor'].each { name ->
         source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/' + name + '.java'))
     }
-    source fileTree(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/legacy'))
+    source fileTree(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/legacy'))
     ['ClientProbe', 'ClientStatus', 'ProbeProxy', 'RecipePreviewModels', 'PresentationChecks'].each { name ->
         source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/' + name + '.java'))
     }
@@ -38,6 +38,8 @@ def bootstrapJar = tasks.register('nativeBootstrapJar', Jar) {
     from 'src/bootstrapTest/resources'
     from('src/testFixtures/bop-1.14.4-native-catalogue.json') { into 'fixtures' }
     from('src/testFixtures/bop-1.15.2-native-catalogue.json') { into 'fixtures' }
+    from('src/testFixtures/bop-1.16.5-native-catalogue.json') { into 'fixtures' }
+    from('src/testFixtures/bop-1.17.1-native-catalogue.json') { into 'fixtures' }
 }
 def packagedProbe = renamer.classes(bootstrapJar) {
     map.from minecraft.dependency.toSrgFile
@@ -129,6 +131,9 @@ def prepare = tasks.register('prepareNativeBootstrap') {
             copy { from companionJars; into new File(target, 'mods') }
         }
         copy { from new File(coreDirectory, 'src/bootstrapTest/defaultconfigs'); into target }
+        if (hasForward) {
+            copy { from new File(target, 'world/level.dat'); into target; rename { 'source-level.dat' } }
+        }
         new File(target, 'eula.txt').text = 'eula=true\n'
         ['banned-players.json', 'banned-ips.json', 'ops.json', 'whitelist.json'].each {
             new File(target, it).text = '[]\n'
@@ -268,39 +273,17 @@ def clientAssets = providers.gradleProperty('forgeClientAssets').orElse(
 def clientNatives = providers.gradleProperty('forgeClientNatives').orElse(
         new File(gradle.gradleUserHomeDir,
                 "caches/minecraftforge/forgegradle/slime-launcher/cache/net/minecraftforge/forge/${minecraft_version}-${forge_version}/natives").absolutePath)
-def clientJava = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(8) }
-tasks.register('nativeClientTest', Exec) {
+tasks.register('nativeClientTest', JavaExec) {
     dependsOn prepareClient
-    dependsOn {
-        JavaExec run = tasks.getByName('runClient') as JavaExec
-        run.taskDependencies.getDependencies(run)
-    }
+    workingDir clientDirectory
+    systemProperty 'skysbuildingpieces.integrationPhase', clientPhase.get()
+    project.ext.configureRecipeBookRun(delegate, 'runClient')
     doFirst {
-        JavaExec run = tasks.getByName('runClient') as JavaExec
         File assets = file(clientAssets.get())
         File natives = file(clientNatives.get())
-        [new File(assets, 'indexes/1.16.json'), natives].each {
+        [new File(assets, 'indexes/1.17.json'), natives].each {
             if (!it.exists()) throw new GradleException('Incomplete native client runtime: ' + it)
         }
-        File classpathJar = layout.buildDirectory.file('native-bootstrap/client-classpath.jar').get().asFile
-        java.util.jar.Manifest manifest = new java.util.jar.Manifest()
-        manifest.mainAttributes.put(java.util.jar.Attributes.Name.MANIFEST_VERSION, '1.0')
-        manifest.mainAttributes.put(java.util.jar.Attributes.Name.CLASS_PATH,
-                run.classpath.files.collect { it.toURI().toASCIIString() }.join(' '))
-        classpathJar.withOutputStream { new java.util.jar.JarOutputStream(it, manifest).close() }
-        Map<String, Object> launchEnvironment = new LinkedHashMap<>(run.environment)
-        launchEnvironment.putAll([
-                target: 'fmluserdevclient', MCP_MAPPINGS: "${mapping_channel}_${mapping_version}",
-                MCP_VERSION: mcp_version, FORGE_VERSION: forge_version, FORGE_GROUP: 'net.minecraftforge',
-                MC_VERSION: minecraft_version, assetDirectory: assets.absolutePath, assetIndex: '1.16',
-                nativesDirectory: natives.absolutePath,
-                MOD_CLASSES: "${mod_id}%%${buildDir}/forge-run-mod-classes/main${File.pathSeparator}" +
-                        "${mod_id}%%${buildDir}/forge-run-mod-classes/main"])
-        workingDir clientDirectory
-        environment launchEnvironment
-        commandLine clientJava.get().executablePath.asFile.absolutePath, '-Xmx2g',
-                '-Dskysbuildingpieces.integrationPhase=' + clientPhase.get(),
-                '-cp', classpathJar.absolutePath, 'net.minecraftforge.userdev.LaunchTesting'
     }
     doLast {
         logger.lifecycle(providers.exec {
@@ -318,3 +301,77 @@ tasks.register('nativeClientTest', Exec) {
         }
     }
 }
+
+// Use a labelled test fixture to check installed-mod policy without bundling
+// the abandoned mod or adding it to ordinary development launches.
+def policyClasses = layout.buildDirectory.dir('legacy-policy-fixture/classes')
+def compilePolicy = tasks.register('compileBopLegacyPolicyFixture', JavaCompile) {
+    source fileTree(new File(coreDirectory, 'src/compatibilityTest/java'))
+    classpath = files(sourceSets.main.output, sourceSets.main.runtimeClasspath)
+    destinationDirectory = policyClasses
+}
+def policyJar = tasks.register('bopLegacyPolicyFixtureJar', Jar) {
+    dependsOn compilePolicy
+    archiveFileName = 'legacy-piece-policy-fixture.jar'
+    destinationDirectory = layout.buildDirectory.dir('legacy-policy-fixture')
+    from policyClasses
+    from 'src/compatibilityTest/resources'
+}
+def packagedPolicy = renamer.classes(policyJar) {
+    map.from minecraft.dependency.toSrgFile
+    libraries.from sourceSets.main.compileClasspath
+    output = layout.buildDirectory.file('legacy-policy-fixture/legacy-piece-policy-fixture-reobf.jar')
+}
+tasks.register('preparePackagedBopPolicyFixture') { dependsOn packagedPolicy }
+
+def policyDirectory = layout.buildDirectory.dir('legacy-policy-test-run')
+def preparePolicy = tasks.register('prepareBopInstalledPolicyTest') {
+    dependsOn policyJar, bootstrapJar, project.ext.bopDevelopmentTask
+    doLast {
+        File target = policyDirectory.get().asFile
+        if (target.canonicalFile != new File(buildDir, 'legacy-policy-test-run').canonicalFile) {
+            throw new GradleException('Policy checks must remain inside their build directory')
+        }
+        if (target.exists()) {
+            throw new GradleException('Preserve the existing policy evidence before another run: ' + target)
+        }
+        copy { from 'src/bootstrapTest/defaultconfigs'; into target }
+        copy {
+            from policyJar.flatMap { it.archiveFile }, bootstrapJar.flatMap { it.archiveFile }
+            from project.ext.bopDevelopmentJar, coreDevelopmentJar
+            into new File(target, 'mods')
+        }
+        new File(target, 'eula.txt').text = 'eula=true\n'
+        ['banned-players.json', 'banned-ips.json', 'ops.json', 'whitelist.json'].each {
+            new File(target, it).text = '[]\n'
+        }
+        new File(target, 'server.properties').text = '''level-name=world
+level-seed=4815162342
+online-mode=false
+server-ip=127.0.0.1
+server-port=0
+generate-structures=false
+spawn-animals=false
+spawn-monsters=false
+max-tick-time=120000
+'''
+    }
+}
+tasks.register('nativeInstalledBopPolicyTest', JavaExec) {
+    dependsOn preparePolicy
+    workingDir policyDirectory
+    systemProperty 'skysbuildingpieces.bopInstalledPolicy', 'true'
+    project.ext.configureRecipeBookRun(delegate, 'runServer')
+    doLast {
+        File target = policyDirectory.get().asFile
+        auditServerLogs(target, 'installed-policy')
+        String text = new File(target, 'logs/latest.log').getText('UTF-8')
+        if (!text.contains('BOP_INSTALLED_POLICY_PASS materials=33 installed_fixture=true')
+                || !text.contains('BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS')
+                || !text.contains('Done (') || !fileTree(new File(target, 'crash-reports')).isEmpty()) {
+            throw new GradleException('Installed-mod BOP replacement checks did not finish')
+        }
+    }
+}
+
+tasks.named('check') { dependsOn tasks.named('nativeInstalledBopPolicyTest') }

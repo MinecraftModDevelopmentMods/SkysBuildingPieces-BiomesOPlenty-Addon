@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpiecesbop:shale_polished_horizontal_step"
+            "items": ["skysbuildingpiecesbop:shale_polished_horizontal_step"]
           }
         ]
       }

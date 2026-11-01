@@ -2,31 +2,31 @@ package zone.moddev.mc.skysbuildingpiecesbop;
 
 import java.util.Collections;
 import java.util.List;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.VineBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.loot.LootContext;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.VineBlock;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.Direction;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -59,7 +59,7 @@ public final class RetiredDecorations {
     private static BlockState vine(int metadata) {
         Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("biomesoplenty", "willow_vine"));
 
-        if (block == null || block == net.minecraft.block.Blocks.AIR || metadata < 0 || metadata > 15) {
+        if (block == null || block == net.minecraft.world.level.block.Blocks.AIR || metadata < 0 || metadata > 15) {
             return null;
         }
 
@@ -76,12 +76,12 @@ public final class RetiredDecorations {
     @SubscribeEvent
     public static void items(RegistryEvent.Register<Item> event) {
         for (Block block : new Block[] { STONE_FORMATIONS, JELLED_POISON }) {
-            event.getRegistry().register(new BlockItem(block, new Item.Properties().tab(ItemGroup.TAB_DECORATIONS))
+            event.getRegistry().register(new BlockItem(block, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS))
                     .setRegistryName(block.getRegistryName()));
         }
     }
 
-    public enum Form implements IStringSerializable {
+    public enum Form implements StringRepresentable {
         FLOOR, CEILING, SINGLE, CONNECTOR, FLOOR_BASE, CEILING_BASE, FLOOR_TIP, CEILING_TIP;
 
         @Override
@@ -95,7 +95,7 @@ public final class RetiredDecorations {
         private static final VoxelShape OUTLINE = Block.box(1.6, 0, 1.6, 14.4, 16, 14.4);
 
         private Formation() {
-            super(AbstractBlock.Properties.of(Material.STONE).strength(1).sound(SoundType.STONE).noOcclusion()
+            super(BlockBehaviour.Properties.of(Material.STONE).strength(1).sound(SoundType.STONE).noOcclusion()
                     .isRedstoneConductor((state, world, position) -> false));
             setRegistryName(SkysBuildingPiecesBop.ID, "stone_formations");
             registerDefaultState(stateDefinition.any().setValue(FORM, Form.FLOOR));
@@ -103,7 +103,7 @@ public final class RetiredDecorations {
         }
 
         @Override
-        protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+        protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
             builder.add(FORM);
         }
 
@@ -119,7 +119,7 @@ public final class RetiredDecorations {
             return 0;
         }
 
-        public BlockState getActualState(BlockState state, IBlockReader world, BlockPos position) {
+        public BlockState getActualState(BlockState state, BlockGetter world, BlockPos position) {
             BlockState above = world.getBlockState(position.above());
             BlockState below = world.getBlockState(position.below());
             boolean continuesAbove = above.getBlock() == this;
@@ -141,24 +141,24 @@ public final class RetiredDecorations {
             return state.setValue(FORM, form);
         }
 
-        private boolean fullSupport(BlockState state, IBlockReader world, BlockPos position) {
-            return !VoxelShapes.joinIsNotEmpty(state.getShape(world, position), VoxelShapes.block(),
-                    IBooleanFunction.NOT_SAME);
+        private boolean fullSupport(BlockState state, BlockGetter world, BlockPos position) {
+            return !Shapes.joinIsNotEmpty(state.getShape(world, position), Shapes.block(),
+                    BooleanOp.NOT_SAME);
         }
 
         @Override
-        public BlockState getStateForPlacement(BlockItemUseContext context) {
+        public BlockState getStateForPlacement(BlockPlaceContext context) {
             return getActualState(defaultBlockState(), context.getLevel(), context.getClickedPos());
         }
 
         @Override
-        public BlockState updateShape(BlockState state, Direction direction, BlockState neighbour, IWorld world,
+        public BlockState updateShape(BlockState state, Direction direction, BlockState neighbour, LevelAccessor world,
                 BlockPos position, BlockPos neighbourPosition) {
             return getActualState(state, world, position);
         }
 
         @Override
-        public void onPlace(BlockState state, World world, BlockPos position, BlockState previous,
+        public void onPlace(BlockState state, Level world, BlockPos position, BlockState previous,
                 boolean moving) {
             BlockState actual = getActualState(state, world, position);
 
@@ -168,14 +168,14 @@ public final class RetiredDecorations {
         }
 
         @Override
-        public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos position, ISelectionContext context) {
+        public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos position, CollisionContext context) {
             return OUTLINE;
         }
 
         @Override
-        public VoxelShape getCollisionShape(BlockState state, IBlockReader world, BlockPos position,
-                ISelectionContext context) {
-            return VoxelShapes.empty();
+        public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos position,
+                CollisionContext context) {
+            return Shapes.empty();
         }
 
         @Override
@@ -186,7 +186,7 @@ public final class RetiredDecorations {
 
     private static final class JelledPoison extends Block {
         private JelledPoison() {
-            super(AbstractBlock.Properties.of(Material.CLAY).strength(.4f).sound(SoundType.SLIME_BLOCK)
+            super(BlockBehaviour.Properties.of(Material.CLAY).strength(.4f).sound(SoundType.SLIME_BLOCK)
                     .friction(.9f).noOcclusion());
             setRegistryName(SkysBuildingPiecesBop.ID, "jelled_poison");
         }

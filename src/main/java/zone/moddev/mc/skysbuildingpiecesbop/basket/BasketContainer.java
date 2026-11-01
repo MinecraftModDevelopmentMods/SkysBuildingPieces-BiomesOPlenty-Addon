@@ -1,28 +1,30 @@
 package zone.moddev.mc.skysbuildingpiecesbop.basket;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.*;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.*;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
 
 /** The open basket cannot be moved into its own inventory or swapped underneath the GUI. */
-public final class BasketContainer extends Container {
-    private final PlayerEntity player;
+public final class BasketContainer extends AbstractContainerMenu {
+    private final Player player;
     private final int ownerSlot;
     public final BasketInventory basket;
 
-    public BasketContainer(int windowId, PlayerInventory inventory, PacketBuffer data) {
-        this(windowId, inventory.player, data.readEnum(Hand.class));
+    public BasketContainer(int windowId, Inventory inventory, FriendlyByteBuf data) {
+        this(windowId, inventory.player, data.readEnum(InteractionHand.class));
     }
 
-    public BasketContainer(int windowId, PlayerEntity player, Hand hand) {
+    public BasketContainer(int windowId, Player player, InteractionHand hand) {
         super(Baskets.TYPE, windowId);
         this.player = player;
-        ownerSlot = hand == Hand.MAIN_HAND ? player.inventory.selected : 40;
+        ownerSlot = hand == InteractionHand.MAIN_HAND ? player.getInventory().selected : 40;
 
-        ItemStack held = player.inventory.getItem(ownerSlot);
+        ItemStack held = player.getInventory().getItem(ownerSlot);
 
         if (!(held.getItem() instanceof BasketItem) || held.getCount() != 1) {
             throw new IllegalArgumentException("The selected hand does not hold one flower basket");
@@ -51,9 +53,9 @@ public final class BasketContainer extends Container {
     }
 
     private void addPlayerSlot(int slot, int screenX, int screenY) {
-        addSlot(new Slot(player.inventory, slot, screenX, screenY) {
+        addSlot(new Slot(player.getInventory(), slot, screenX, screenY) {
             @Override
-            public boolean mayPickup(PlayerEntity viewingPlayer) {
+            public boolean mayPickup(Player viewingPlayer) {
                 return getSlotIndex() != ownerSlot;
             }
 
@@ -65,60 +67,60 @@ public final class BasketContainer extends Container {
     }
 
     @Override
-    public boolean stillValid(PlayerEntity viewingPlayer) {
+    public boolean stillValid(Player viewingPlayer) {
         // Window sync replaces client stack objects; the exact-reference lock belongs only to the server.
         if (viewingPlayer.level.isClientSide) {
             return viewingPlayer == player && viewingPlayer.isAlive()
-                    && viewingPlayer.inventory.getItem(ownerSlot).getItem() instanceof BasketItem
-                    && viewingPlayer.inventory.getItem(ownerSlot).getCount() == 1;
+                    && viewingPlayer.getInventory().getItem(ownerSlot).getItem() instanceof BasketItem
+                    && viewingPlayer.getInventory().getItem(ownerSlot).getCount() == 1;
         }
         if (viewingPlayer != player || !viewingPlayer.isAlive() || basket.owner().getCount() != 1) {
             return false;
         }
         // Hand-swap packets bypass slot clicks. Restore the original stack, never a matching copy.
-        if (viewingPlayer.inventory.getItem(ownerSlot) != basket.owner()) {
-            for (int slotIndex = 0; slotIndex < viewingPlayer.inventory.getContainerSize(); slotIndex++) {
-                if (viewingPlayer.inventory.getItem(slotIndex) == basket.owner()) {
-                    ItemStack displaced = viewingPlayer.inventory.getItem(ownerSlot);
+        if (viewingPlayer.getInventory().getItem(ownerSlot) != basket.owner()) {
+            for (int slotIndex = 0; slotIndex < viewingPlayer.getInventory().getContainerSize(); slotIndex++) {
+                if (viewingPlayer.getInventory().getItem(slotIndex) == basket.owner()) {
+                    ItemStack displaced = viewingPlayer.getInventory().getItem(ownerSlot);
 
-                    viewingPlayer.inventory.setItem(ownerSlot, basket.owner());
-                    viewingPlayer.inventory.setItem(slotIndex, displaced);
-                    viewingPlayer.inventory.setChanged();
+                    viewingPlayer.getInventory().setItem(ownerSlot, basket.owner());
+                    viewingPlayer.getInventory().setItem(slotIndex, displaced);
+                    viewingPlayer.getInventory().setChanged();
                     break;
                 }
             }
         }
 
-        return viewingPlayer.inventory.getItem(ownerSlot) == basket.owner();
+        return viewingPlayer.getInventory().getItem(ownerSlot) == basket.owner();
     }
 
     @Override
-    public ItemStack clicked(int slot, int button, ClickType type, PlayerEntity viewingPlayer) {
+    public void clicked(int slot, int button, ClickType type, Player viewingPlayer) {
         if (!stillValid(viewingPlayer)) {
-            return ItemStack.EMPTY;
+            return;
         }
         if (slot >= 0 && slot < slots.size()) {
             Slot selected = slots.get(slot);
 
-            if (selected.container == player.inventory && selected.getSlotIndex() == ownerSlot) {
-                return ItemStack.EMPTY;
+            if (selected.container == player.getInventory() && selected.getSlotIndex() == ownerSlot) {
+                return;
             }
         }
         if (type == ClickType.SWAP && button == ownerSlot) {
-            return ItemStack.EMPTY;
+            return;
         }
 
-        return super.clicked(slot, button, type, viewingPlayer);
+        super.clicked(slot, button, type, viewingPlayer);
     }
 
     @Override
     public boolean canTakeItemForPickAll(ItemStack stack, Slot slot) {
-        return !(slot.container == player.inventory && slot.getSlotIndex() == ownerSlot)
+        return !(slot.container == player.getInventory() && slot.getSlotIndex() == ownerSlot)
                 && super.canTakeItemForPickAll(stack, slot);
     }
 
     @Override
-    public ItemStack quickMoveStack(PlayerEntity viewingPlayer, int index) {
+    public ItemStack quickMoveStack(Player viewingPlayer, int index) {
         if (!stillValid(viewingPlayer) || index < 0 || index >= slots.size()) {
             return ItemStack.EMPTY;
         }
@@ -160,7 +162,7 @@ public final class BasketContainer extends Container {
     }
 
     @Override
-    public void removed(PlayerEntity viewingPlayer) {
+    public void removed(Player viewingPlayer) {
         basket.setChanged();
         super.removed(viewingPlayer);
     }

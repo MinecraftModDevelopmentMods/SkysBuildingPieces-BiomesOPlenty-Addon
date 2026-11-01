@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.4.117011 - Minecraft 1.17.1 (unreleased)
+
+- Bring the existing BOP pieces, decorations and Flower Basket to Minecraft 1.17.1.
+- Keep saved material palettes, orientations, waterlogging and basket contents.
+- Replace removed nether crystals with rose quartz, keeping their attachment directions.
+- Keep recipe-book unlocks and translated material names working with the matching core.
+
 ## 0.2.4.116051
 
 - Added the Minecraft 1.16.5 port for Forge 36.2.34 and BOP 13.1.0.488.

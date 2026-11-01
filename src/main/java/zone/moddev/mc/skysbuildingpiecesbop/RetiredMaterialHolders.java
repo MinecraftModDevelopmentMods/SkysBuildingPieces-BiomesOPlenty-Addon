@@ -1,14 +1,14 @@
 package zone.moddev.mc.skysbuildingpiecesbop;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.Item;
-import net.minecraft.item.BlockItem;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -44,7 +44,6 @@ public final class RetiredMaterialHolders {
         }
     }
 
-    @SubscribeEvent
     public static void missingBlocks(RegistryEvent.MissingMappings<Block> event) {
         for (RegistryEvent.MissingMappings.Mapping<Block> mapping : event.getAllMappings()) {
             for (int legacyIdIndex = 0; legacyIdIndex < OLD_IDS.length; legacyIdIndex++) {
@@ -55,7 +54,6 @@ public final class RetiredMaterialHolders {
         }
     }
 
-    @SubscribeEvent
     public static void missingItems(RegistryEvent.MissingMappings<Item> event) {
         for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getAllMappings()) {
             for (int legacyIdIndex = 0; legacyIdIndex < OLD_IDS.length; legacyIdIndex++) {
@@ -70,13 +68,13 @@ public final class RetiredMaterialHolders {
         private static final IntegerProperty META = IntegerProperty.create("metadata", 0, 15);
 
         Holder(String name) {
-            super(AbstractBlock.Properties.of(Material.STONE).strength(-1, 3600000));
+            super(BlockBehaviour.Properties.of(Material.STONE).strength(-1, 3600000));
             setRegistryName(SkysBuildingPiecesBop.ID, name);
             registerDefaultState(stateDefinition.any().setValue(META, 0));
         }
 
         @Override
-        protected void createBlockStateDefinition(StateContainer.Builder<Block, net.minecraft.block.BlockState> builder) {
+        protected void createBlockStateDefinition(StateDefinition.Builder<Block, net.minecraft.world.level.block.state.BlockState> builder) {
             builder.add(META);
         }
 

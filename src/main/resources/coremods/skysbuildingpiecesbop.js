@@ -21,14 +21,14 @@ function hasCall(method, owner, name) {
 function initializeCoreMod() {
     return {
         'skysbuildingpiecesbop_retired_hardness': {
-            'target': {'type': 'CLASS', 'name': 'net.minecraft.block.AbstractBlock$AbstractBlockState'},
+            'target': {'type': 'CLASS', 'name': 'net.minecraft.world.level.block.state.BlockBehaviour$BlockStateBase'},
             'transformer': function(type) {
                 var matches = 0;
                 var owner = 'zone/moddev/mc/skysbuildingpiecesbop/RetiredRockStateHooks';
                 for (var index = 0; index < type.methods.size(); index++) {
                     var method = type.methods.get(index);
-                    if ((method.name !== 'getDestroySpeed' && method.name !== 'func_185887_b')
-                            || method.desc !== '(Lnet/minecraft/world/IBlockReader;Lnet/minecraft/util/math/BlockPos;)F') {
+                    if ((method.name !== 'getDestroySpeed' && method.name !== 'm_60800_')
+                            || method.desc !== '(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)F') {
                         continue;
                     }
                     matches++;
@@ -42,8 +42,8 @@ function initializeCoreMod() {
                             hook.add(new VarInsnNode(Opcodes.ALOAD, 1));
                             hook.add(new VarInsnNode(Opcodes.ALOAD, 2));
                             hook.add(new MethodInsnNode(Opcodes.INVOKESTATIC, owner, 'destroySpeed',
-                                    '(FLnet/minecraft/block/AbstractBlock$AbstractBlockState;'
-                                    + 'Lnet/minecraft/world/IBlockReader;Lnet/minecraft/util/math/BlockPos;)F', false));
+                                    '(FLnet/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase;'
+                                    + 'Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)F', false));
                             method.instructions.insertBefore(instruction, hook);
                             returns++;
                         }
@@ -52,7 +52,7 @@ function initializeCoreMod() {
                     method.maxStack = Math.max(method.maxStack, 4);
                 }
                 if (matches !== 1) {
-                    throw new Error("Sky's Building Pieces BOP: expected one Forge 36 hardness method, found " + matches);
+                    throw new Error("Sky's Building Pieces BOP: expected one Forge 37 hardness method, found " + matches);
                 }
                 return type;
             }

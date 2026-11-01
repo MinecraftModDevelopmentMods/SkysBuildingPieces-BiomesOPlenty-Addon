@@ -6,19 +6,22 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.Dynamic;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTDynamicOps;
-import net.minecraft.nbt.NBTUtil;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.SharedConstants;
-import net.minecraft.util.datafix.TypeReferences;
+import net.minecraft.SharedConstants;
+import net.minecraft.util.datafix.fixes.References;
 import zone.moddev.mc.skysbuildingpiecesbop.LegacyItemRecovery;
 
 /** The old native BOP wall states must retain every arm through vanilla's real state fixer. */
 final class WallRecoveryChecks {
+    private static final org.apache.logging.log4j.Logger LOGGER =
+            org.apache.logging.log4j.LogManager.getLogger();
+
     static void run(MinecraftServer server) throws Exception {
         JsonObject source;
         try (InputStreamReader input = new InputStreamReader(WallRecoveryChecks.class.getResourceAsStream(
@@ -32,17 +35,17 @@ final class WallRecoveryChecks {
             if (!name.equals("biomesoplenty:white_sandstone_wall")
                     && !name.equals("biomesoplenty:mud_brick_wall")) continue;
             for (JsonElement value : block.getAsJsonArray("states")) {
-                CompoundNBT state = JsonToNBT.parseTag(value.getAsString());
-                CompoundNBT root = palette(state.copy());
+                CompoundTag state = TagParser.parseTag(value.getAsString());
+                CompoundTag root = palette(state.copy());
                 new LegacyItemRecovery().fixTagCompound(root);
-                CompoundNBT prepared = root.getCompound("Level").getList("Sections", 10).getCompound(0)
+                CompoundTag prepared = root.getCompound("Level").getList("Sections", 10).getCompound(0)
                         .getList("Palette", 10).getCompound(0);
-                CompoundNBT fixed = (CompoundNBT) server.getFixerUpper().update(TypeReferences.BLOCK_STATE,
-                        new Dynamic<>(NBTDynamicOps.INSTANCE, prepared), 2230,
+                CompoundTag fixed = (CompoundTag) server.getFixerUpper().update(References.BLOCK_STATE,
+                        new Dynamic<>(NbtOps.INSTANCE, prepared), 2230,
                         SharedConstants.getCurrentVersion().getWorldVersion()).getValue();
-                BlockState actual = NBTUtil.readBlockState(fixed);
-                CompoundNBT result = NBTUtil.writeBlockState(actual).getCompound("Properties");
-                CompoundNBT original = state.getCompound("Properties");
+                BlockState actual = NbtUtils.readBlockState(fixed);
+                CompoundTag result = NbtUtils.writeBlockState(actual).getCompound("Properties");
+                CompoundTag original = state.getCompound("Properties");
                 for (String direction : new String[] {"north", "south", "east", "west"}) {
                     String expected = original.getString(direction).equals("true") ? "low" : "none";
                     if (!result.getString(direction).equals(expected)) {
@@ -54,11 +57,11 @@ final class WallRecoveryChecks {
                         throw new AssertionError("Native BOP wall changed " + property + ": " + state);
                     }
                 }
-                CompoundNBT stack = new CompoundNBT();
+                CompoundTag stack = new CompoundTag();
                 stack.putString("id", name);
                 stack.putByte("Count", (byte) 37);
                 stack.putByte("Slot", (byte) 11);
-                CompoundNBT itemData = new CompoundNBT();
+                CompoundTag itemData = new CompoundTag();
                 itemData.put("BlockStateTag", original.copy());
                 itemData.putString("custom_data", "Keep this exactly");
                 stack.put("tag", itemData);
@@ -73,31 +76,31 @@ final class WallRecoveryChecks {
                         throw new AssertionError("BOP wall item lost its " + direction + " connection");
                     }
                 }
-                CompoundNBT once = stack.copy();
+                CompoundTag once = stack.copy();
                 new LegacyItemRecovery().fixTagCompound(stack);
                 if (!once.equals(stack)) {
                     throw new AssertionError("BOP wall item changed on reload");
                 }
-                CompoundNBT before = root.copy();
+                CompoundTag before = root.copy();
                 new LegacyItemRecovery().fixTagCompound(root);
                 if (!before.equals(root)) throw new AssertionError("BOP wall recovery repeated");
                 checked++;
             }
         }
         if (checked != 128) throw new AssertionError("Native wall coverage changed: " + checked);
-        System.out.println("BOP_NATIVE_WALL_RECOVERY_PASS states=" + checked);
+        LOGGER.info("BOP_NATIVE_WALL_RECOVERY_PASS states=" + checked);
     }
 
-    private static CompoundNBT palette(CompoundNBT state) {
-        ListNBT palette = new ListNBT();
+    private static CompoundTag palette(CompoundTag state) {
+        ListTag palette = new ListTag();
         palette.add(state);
-        CompoundNBT section = new CompoundNBT();
+        CompoundTag section = new CompoundTag();
         section.put("Palette", palette);
-        ListNBT sections = new ListNBT();
+        ListTag sections = new ListTag();
         sections.add(section);
-        CompoundNBT level = new CompoundNBT();
+        CompoundTag level = new CompoundTag();
         level.put("Sections", sections);
-        CompoundNBT root = new CompoundNBT();
+        CompoundTag root = new CompoundTag();
         root.put("Level", level);
         return root;
     }

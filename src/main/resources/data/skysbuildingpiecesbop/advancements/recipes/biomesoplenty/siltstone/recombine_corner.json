@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpiecesbop:siltstone_corner"
+            "items": ["skysbuildingpiecesbop:siltstone_corner"]
           }
         ]
       }

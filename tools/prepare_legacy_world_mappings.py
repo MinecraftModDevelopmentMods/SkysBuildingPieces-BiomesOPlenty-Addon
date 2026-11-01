@@ -61,7 +61,7 @@ def equivalent(row):
     elif name == 'mud_brick_block':
         target = 'biomesoplenty:mud_bricks'
     elif name == 'grass_path':
-        target = 'minecraft:grass_path'
+        target = 'minecraft:dirt_path'
     elif name.startswith('farmland_'):
         target = 'minecraft:farmland'
         target_properties['moisture'] = props['moisture']

@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:magenta_terracotta"
+            "items": ["minecraft:magenta_terracotta"]
           }
         ]
       }

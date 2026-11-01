@@ -22,7 +22,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "skysbuildingpiecesbop:crag_rock_slab"
+                  "items": ["skysbuildingpiecesbop:crag_rock_slab"]
                 }
               ]
             }
@@ -67,7 +67,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "skysbuildingpiecesbop:crag_rock_slab"
+                  "items": ["skysbuildingpiecesbop:crag_rock_slab"]
                 }
               ]
             }

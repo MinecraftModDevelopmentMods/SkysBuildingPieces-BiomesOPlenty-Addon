@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpiecesbop:retired_siltstone_smooth"
+            "items": ["skysbuildingpiecesbop:retired_siltstone_smooth"]
           }
         ]
       }

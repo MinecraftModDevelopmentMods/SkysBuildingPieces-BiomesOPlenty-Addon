@@ -16,11 +16,11 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,7 +31,7 @@ class NativeRegistryNoticeProofTest {
         JsonObject profiles = new JsonParser().parse(new String(
                 Files.readAllBytes(Paths.get("tools/native-log-profiles.json")), StandardCharsets.UTF_8))
                 .getAsJsonObject().getAsJsonObject("profiles");
-        assertEquals(4, profiles.size());
+        assertEquals(5, profiles.size());
 
         for (java.util.Map.Entry<String, com.google.gson.JsonElement> entry : profiles.entrySet()) {
             JsonObject profile = entry.getValue().getAsJsonObject();
@@ -43,7 +43,11 @@ class NativeRegistryNoticeProofTest {
                     names.add(mapping.getKey());
                 }
             }
-            assertEquals(10, names.size());
+            if (entry.getKey().equals("FBF62E044298691AFA51F53FB5AD47EC87BB9DA9702D564EC85D445EF5E254DE")) {
+                assertEquals(java.util.Collections.singleton("biomesoplenty:boat"), names);
+            } else {
+                assertEquals(10, names.size());
+            }
             int records = 0;
 
             try (ZipFile archive = new ZipFile(profile.get("fixture").getAsString())) {
@@ -53,7 +57,7 @@ class NativeRegistryNoticeProofTest {
                     String label = member.getName();
                     try (InputStream input = archive.getInputStream(member)) {
                         if (label.endsWith(".dat") || label.endsWith(".dat_old")) {
-                            CompoundNBT root = CompressedStreamTools.readCompressed(input);
+                            CompoundTag root = NbtIo.readCompressed(input);
                             // Registry availability is not a saved block, entity or inventory use.
                             root.remove("FML");
                             root.remove("fml");
@@ -94,25 +98,25 @@ class NativeRegistryNoticeProofTest {
                 assertEquals(3, compression, "Unexpected fixture compression: " + label);
             }
             try (DataInputStream input = new DataInputStream(payload)) {
-                inspect(CompressedStreamTools.read(input), names, label + ":" + slot);
+                inspect(NbtIo.read(input), names, label + ":" + slot);
             }
             records++;
         }
         return records;
     }
 
-    private static void inspect(INBT value, Set<String> names, String label) {
-        if (value instanceof CompoundNBT) {
-            CompoundNBT compound = (CompoundNBT) value;
+    private static void inspect(Tag value, Set<String> names, String label) {
+        if (value instanceof CompoundTag) {
+            CompoundTag compound = (CompoundTag) value;
             for (String key : compound.getAllKeys()) {
                 assertFalse(names.contains(key), "Saved registry-name key in " + label + ": " + key);
                 inspect(compound.get(key), names, label + "/" + key);
             }
-        } else if (value instanceof ListNBT) {
-            for (INBT entry : (ListNBT) value) {
+        } else if (value instanceof ListTag) {
+            for (Tag entry : (ListTag) value) {
                 inspect(entry, names, label);
             }
-        } else if (value instanceof StringNBT) {
+        } else if (value instanceof StringTag) {
             assertFalse(names.contains(value.getAsString()), "Saved registry-name value in " + label);
         }
     }

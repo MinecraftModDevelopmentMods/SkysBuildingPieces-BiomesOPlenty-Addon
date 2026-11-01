@@ -22,7 +22,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "skysbuildingpiecesbop:limestone_polished_slab"
+                  "items": ["skysbuildingpiecesbop:limestone_polished_slab"]
                 }
               ]
             }
@@ -67,7 +67,7 @@
             "conditions": {
               "items": [
                 {
-                  "item": "skysbuildingpiecesbop:limestone_polished_slab"
+                  "items": ["skysbuildingpiecesbop:limestone_polished_slab"]
                 }
               ]
             }

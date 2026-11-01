@@ -1,9 +1,17 @@
 package zone.moddev.mc.skysbuildingpiecesbop;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.decoration.ItemFrame;
+import net.minecraft.world.entity.player.Inventory;
+
 import java.util.*;
-import net.minecraft.item.*;
+import net.minecraft.world.item.*;
 import net.minecraft.nbt.*;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -27,11 +35,11 @@ public final class LegacyItemRecovery {
 
             HOLDERS[holderIndex] = new Item(new Item.Properties()) {
                 @Override
-                public net.minecraft.util.text.ITextComponent getName(ItemStack stack) {
+                public net.minecraft.network.chat.Component getName(ItemStack stack) {
                     Item target = ForgeRegistries.ITEMS.getValue(new ResourceLocation(TARGET[targetIndex]));
 
-                    return target == null || target == net.minecraft.item.Items.AIR
-                            ? new net.minecraft.util.text.TranslationTextComponent(
+                    return target == null || target == net.minecraft.world.item.Items.AIR
+                            ? new net.minecraft.network.chat.TranslatableComponent(
                                     "item.skysbuildingpiecesbop.retired_item")
                             : new ItemStack(target).getHoverName();
                 }
@@ -39,12 +47,12 @@ public final class LegacyItemRecovery {
         }
     }
 
-    public CompoundNBT fixTagCompound(CompoundNBT root) {
+    public CompoundTag fixTagCompound(CompoundTag root) {
         if (!isRelevant(root)) {
             return root;
         }
 
-        CompoundNBT copy = root.copy();
+        CompoundTag copy = root.copy();
 
         NamedBopRecovery.rewrite(copy);
         LegacyPlantItems.rewrite(copy, false, 0);
@@ -74,15 +82,15 @@ public final class LegacyItemRecovery {
         return -1;
     }
 
-    public boolean isRelevant(CompoundNBT root) {
+    public boolean isRelevant(CompoundTag root) {
         return related(root, 0) || NamedBopRecovery.relevant(root);
     }
 
-    private static boolean related(INBT value, int depth) {
+    private static boolean related(Tag value, int depth) {
         depth(depth);
 
-        if (value instanceof CompoundNBT) {
-            CompoundNBT compoundTag = (CompoundNBT) value;
+        if (value instanceof CompoundTag) {
+            CompoundTag compoundTag = (CompoundTag) value;
 
             if (compoundTag.contains("id", 8)
                     && (index(compoundTag.getString("id")) >= 0 || BasketData.isBasket(compoundTag.getString("id"))
@@ -94,8 +102,8 @@ public final class LegacyItemRecovery {
                     return true;
                 }
             }
-        } else if (value instanceof ListNBT) {
-            for (INBT child : (ListNBT) value) {
+        } else if (value instanceof ListTag) {
+            for (Tag child : (ListTag) value) {
                 if (related(child, depth + 1)) {
                     return true;
                 }
@@ -105,14 +113,14 @@ public final class LegacyItemRecovery {
         return false;
     }
 
-    private static void rewrite(INBT value, int basketSlots, int depth) {
+    private static void rewrite(Tag value, int basketSlots, int depth) {
         depth(depth);
 
-        if (value instanceof CompoundNBT) {
-            CompoundNBT compoundTag = (CompoundNBT) value;
+        if (value instanceof CompoundTag) {
+            CompoundTag compoundTag = (CompoundTag) value;
 
             if (index(compoundTag.getString("id")) >= 0) {
-                List<CompoundNBT> parts = convert(compoundTag);
+                List<CompoundTag> parts = convert(compoundTag);
 
                 if (parts.size() != 1) {
                     throw invalid(
@@ -135,29 +143,29 @@ public final class LegacyItemRecovery {
                 }
             }
             for (String key : compoundTag.getAllKeys()) {
-                INBT child = compoundTag.get(key);
+                Tag child = compoundTag.get(key);
 
-                if (child instanceof ListNBT) {
-                    rewriteList((ListNBT) child, capacity(compoundTag, key, basketSlots), depth + 1);
+                if (child instanceof ListTag) {
+                    rewriteList((ListTag) child, capacity(compoundTag, key, basketSlots), depth + 1);
                 } else {
                     rewrite(child, key.equals("tag") && BasketData.isBasket(registryId) ? BasketData.SIZE : 0,
                             depth + 1);
                 }
             }
-        } else if (value instanceof ListNBT) {
-            rewriteList((ListNBT) value, 0, depth + 1);
+        } else if (value instanceof ListTag) {
+            rewriteList((ListTag) value, 0, depth + 1);
         }
     }
 
-    private static void rewriteList(ListNBT list, int capacity, int depth) {
+    private static void rewriteList(ListTag list, int capacity, int depth) {
         depth(depth);
 
         BitSet occupied = new BitSet();
 
         if (capacity > 0) {
-            for (INBT value : list) {
-                if (value instanceof CompoundNBT) {
-                    CompoundNBT compoundTag = (CompoundNBT) value;
+            for (Tag value : list) {
+                if (value instanceof CompoundTag) {
+                    CompoundTag compoundTag = (CompoundTag) value;
 
                     if (compoundTag.contains("Slot", 99)) {
                         int slot = compoundTag.getInt("Slot");
@@ -172,12 +180,12 @@ public final class LegacyItemRecovery {
             }
         }
 
-        List<CompoundNBT> extras = new ArrayList<CompoundNBT>();
+        List<CompoundTag> extras = new ArrayList<CompoundTag>();
 
-        for (INBT value : list) {
-            if (value instanceof CompoundNBT && index(((CompoundNBT) value).getString("id")) >= 0) {
-                CompoundNBT compoundTag = (CompoundNBT) value;
-                List<CompoundNBT> parts = convert(compoundTag);
+        for (Tag value : list) {
+            if (value instanceof CompoundTag && index(((CompoundTag) value).getString("id")) >= 0) {
+                CompoundTag compoundTag = (CompoundTag) value;
+                List<CompoundTag> parts = convert(compoundTag);
 
                 if (parts.size() > 1 && (capacity == 0 || !compoundTag.contains("Slot", 99))) {
                     throw invalid(
@@ -196,7 +204,7 @@ public final class LegacyItemRecovery {
 
                     occupied.set(free);
 
-                    CompoundNBT extra = parts.get(stackPartIndex);
+                    CompoundTag extra = parts.get(stackPartIndex);
 
                     extra.putByte("Slot", (byte) free);
                     extras.add(extra);
@@ -205,12 +213,12 @@ public final class LegacyItemRecovery {
 
             rewrite(value, 0, depth + 1);
         }
-        for (CompoundNBT extra : extras) {
+        for (CompoundTag extra : extras) {
             list.add(extra);
         }
     }
 
-    private static int capacity(CompoundNBT owner, String key, int basketSlots) {
+    private static int capacity(CompoundTag owner, String key, int basketSlots) {
         if (key.equals("EnderItems")) {
             return 27;
         }
@@ -234,7 +242,7 @@ public final class LegacyItemRecovery {
         return 0;
     }
 
-    private static List<CompoundNBT> convert(CompoundNBT old) {
+    private static List<CompoundTag> convert(CompoundTag old) {
         int legacyItemIndex = index(old.getString("id"));
 
         if (!integer(old, "Count") || old.getInt("Count") <= 0 || old.getInt("Count") > 64
@@ -248,16 +256,16 @@ public final class LegacyItemRecovery {
 
         Item target = ForgeRegistries.ITEMS.getValue(new ResourceLocation(TARGET[legacyItemIndex]));
 
-        if (target == null || target == net.minecraft.item.Items.AIR) {
+        if (target == null || target == net.minecraft.world.item.Items.AIR) {
             throw invalid("replacement " + TARGET[legacyItemIndex] + " is unavailable for " + OLD[legacyItemIndex]
                     + "; install its original supported mod before upgrading");
         }
 
         int remaining = old.getInt("Count") * MULTIPLIER[legacyItemIndex];
-        List<CompoundNBT> output = new ArrayList<CompoundNBT>();
+        List<CompoundTag> output = new ArrayList<CompoundTag>();
 
         while (remaining > 0) {
-            CompoundNBT part = old.copy();
+            CompoundTag part = old.copy();
 
             part.putString("id", TARGET[legacyItemIndex]);
             part.putShort("Damage", (short) 0);
@@ -265,7 +273,7 @@ public final class LegacyItemRecovery {
             // A different item may not implement the old capabilities. Keep an exact archive rather than rely on its
             // serializer retaining them.
             if (old.contains("ForgeCaps", 10)) {
-                CompoundNBT tag = part.getCompound("tag");
+                CompoundTag tag = part.getCompound("tag");
                 String archive = SkysBuildingPiecesBop.ID + ":legacy_capabilities";
 
                 if (tag.contains(archive)) {
@@ -296,13 +304,13 @@ public final class LegacyItemRecovery {
         return output;
     }
 
-    private static void replace(CompoundNBT targetData, CompoundNBT from) {
+    private static void replace(CompoundTag targetData, CompoundTag from) {
         for (String key : from.getAllKeys()) {
             targetData.put(key, from.get(key));
         }
     }
 
-    private static boolean integer(CompoundNBT compoundTag, String key) {
+    private static boolean integer(CompoundTag compoundTag, String key) {
         return compoundTag.contains(key, 99) && compoundTag.get(key).getId() >= 1 && compoundTag.get(key).getId() <= 3;
     }
 
@@ -322,7 +330,6 @@ public final class LegacyItemRecovery {
         event.getRegistry().registerAll(HOLDERS);
     }
 
-    @SubscribeEvent
     public static void missing(RegistryEvent.MissingMappings<Item> event) {
         for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getAllMappings()) {
             int legacyItemIndex = index(mapping.key.toString());

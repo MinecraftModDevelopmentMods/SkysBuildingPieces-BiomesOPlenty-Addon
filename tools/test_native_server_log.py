@@ -1,4 +1,4 @@
-"""Negative controls for Forge 31 server completion and native settings."""
+"""Negative controls for Forge 37 server completion and native settings."""
 
 from pathlib import Path
 import shutil
@@ -75,6 +75,8 @@ class NativeRegistryNoticeTest(unittest.TestCase):
 
     def test_exact_native_notices_and_a_clean_reload_pass(self):
         self.assertEqual(len(self.check(self.valid, self.profile)), 5)
+        short = self.valid.replace(" [net.minecraftforge.registries.GameData/REGISTRIES]", "")
+        self.assertEqual(len(self.check(short, self.profile)), 5)
         self.assertEqual(self.check("A clean native reload", None), [])
 
     def test_every_notice_boundary_is_enforced(self):

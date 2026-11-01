@@ -1,13 +1,13 @@
 package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
 import java.util.List;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.registries.ForgeRegistries;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Geometry;
@@ -18,15 +18,19 @@ import zone.moddev.mc.skysbuildingpiecesbop.SkysBuildingPiecesBop;
 
 /** Exercise the complete resolved catalogue with the real native block classes. */
 final class MaterialChecks {
+    private static final org.apache.logging.log4j.Logger LOGGER =
+            org.apache.logging.log4j.LogManager.getLogger();
+
     private MaterialChecks() {
     }
 
-    static void run(ServerWorld world) {
+    static void run(ServerLevel world) {
         BlockPos position = new BlockPos(-700, 90, -700);
         BlockState previous = world.getBlockState(position);
         int checked = 0;
 
         try {
+            retiredMining(world, position);
             for (Catalogue.MaterialDef material : Catalogue.INSTANCE.modules.get("biomesoplenty").materials.values()) {
                 BlockState full = Pieces.nativeState(material, "full");
 
@@ -73,7 +77,7 @@ final class MaterialChecks {
                                     "Material fire spread " + material.id);
                         }
                         if (shape != Shape.WALL) {
-                            List<AxisAlignedBB> boxes = state.getCollisionShape(world, position).toAabbs();
+                            List<AABB> boxes = state.getCollisionShape(world, position).toAabbs();
                             int occupied = 0;
 
                             for (int cellY = 0; cellY < 2; cellY++) {
@@ -94,14 +98,14 @@ final class MaterialChecks {
                                     + " / " + shape + " / " + orientation + ": " + occupied);
                         }
 
-                        if (state.hasProperty(net.minecraft.block.SlabBlock.WATERLOGGED)) {
-                            BlockState wet = state.setValue(net.minecraft.block.SlabBlock.WATERLOGGED, true);
+                        if (state.hasProperty(net.minecraft.world.level.block.SlabBlock.WATERLOGGED)) {
+                            BlockState wet = state.setValue(net.minecraft.world.level.block.SlabBlock.WATERLOGGED, true);
 
                             world.setBlock(position, wet, 2);
-                            require(world.getFluidState(position).getType() == net.minecraft.fluid.Fluids.WATER,
+                            require(world.getFluidState(position).getType() == net.minecraft.world.level.material.Fluids.WATER,
                                     "Waterlogged material lost its fluid: " + material.id + " / " + shape);
-                            require(net.minecraft.nbt.NBTUtil.readBlockState(
-                                    net.minecraft.nbt.NBTUtil.writeBlockState(wet)).equals(wet),
+                            require(net.minecraft.nbt.NbtUtils.readBlockState(
+                                    net.minecraft.nbt.NbtUtils.writeBlockState(wet)).equals(wet),
                                     "Waterlogged orientation did not survive serialization: " + material.id);
                             world.setBlock(position, state, 2);
                         }
@@ -115,10 +119,43 @@ final class MaterialChecks {
                     .filter(block -> block.getRegistryName().getNamespace().equals(SkysBuildingPiecesBop.ID)).count();
 
             require(registered == 74 && registered <= 80, "Complete add-on block budget: " + registered);
-            System.out.println("BOP_NATIVE_MATERIALS_PASS states=" + checked + " blocks=" + registered);
+            LOGGER.info("BOP_NATIVE_MATERIALS_PASS states=" + checked + " blocks=" + registered);
         } finally {
             world.setBlock(position, previous, 2);
         }
+    }
+
+    private static void retiredMining(ServerLevel world, BlockPos position) {
+        net.minecraftforge.common.util.FakePlayer player = net.minecraftforge.common.util.FakePlayerFactory.get(world,
+                new com.mojang.authlib.GameProfile(java.util.UUID.fromString("f8ca0294-a7f9-453f-9533-66fc7c45d698"),
+                        "RetiredRockProbe"));
+        net.minecraft.world.item.Item[] tools = {
+                net.minecraft.world.item.Items.WOODEN_PICKAXE, net.minecraft.world.item.Items.STONE_PICKAXE,
+                net.minecraft.world.item.Items.GOLDEN_PICKAXE, net.minecraft.world.item.Items.IRON_PICKAXE,
+                net.minecraft.world.item.Items.DIAMOND_PICKAXE, net.minecraft.world.item.Items.NETHERITE_PICKAXE
+        };
+        float[] hardness = { 5, 1.5f, 1.5f, 1.5f, 1.5f, 1, 1 };
+        int checked = 0;
+        for (int variant = 0; variant < hardness.length; variant++) {
+            BlockState state = zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks.BLOCK.getStateFromMeta(variant);
+            world.setBlock(position, state, 2);
+            require(state.getDestroySpeed(world, position) == hardness[variant], "Retired-rock hardness " + variant);
+            for (int tool = -1; tool < tools.length; tool++) {
+                ItemStack held = tool < 0 ? ItemStack.EMPTY : new ItemStack(tools[tool]);
+                player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, held);
+                boolean expected = tool >= 0 && (variant != 0 || tool >= 3);
+                require(state.canHarvestBlock(world, position, player) == expected,
+                        "Retired-rock tool tier " + variant + " / " + tool);
+                BlockState reference = (variant == 0 ? net.minecraft.world.level.block.Blocks.DIAMOND_ORE
+                        : net.minecraft.world.level.block.Blocks.STONE).defaultBlockState();
+                float progress = player.getDigSpeed(reference, position) / hardness[variant] / (expected ? 30 : 100);
+                require(Math.abs(state.getDestroyProgress(player, world, position) - progress) < .000001f,
+                        "Retired-rock mining speed " + variant + " / " + tool);
+                checked++;
+            }
+        }
+        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+        LOGGER.info("BOP_RETIRED_MINING_PASS variants=7 tools=6 empty_hand=true checks=" + checked);
     }
 
     private static void require(boolean value, String message) {

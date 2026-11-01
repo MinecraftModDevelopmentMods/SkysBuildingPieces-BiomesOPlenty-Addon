@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpieces:stained_hardened_clay_red_corner"
+            "items": ["skysbuildingpieces:stained_hardened_clay_red_corner"]
           }
         ]
       }

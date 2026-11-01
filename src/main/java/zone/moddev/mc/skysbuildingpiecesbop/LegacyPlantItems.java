@@ -6,13 +6,13 @@ import com.mojang.serialization.Dynamic;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTDynamicOps;
-import net.minecraft.util.SharedConstants;
-import net.minecraft.util.datafix.DataFixesManager;
-import net.minecraft.util.datafix.TypeReferences;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.SharedConstants;
+import net.minecraft.util.datafix.DataFixers;
+import net.minecraft.util.datafix.fixes.References;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketData;
 
 /** Update saved BOP item identities before a basket or container reads its inventory. */
@@ -50,12 +50,12 @@ final class LegacyPlantItems {
         return PLANTS.has(identifier);
     }
 
-    static void rewrite(INBT value, boolean basketContents, int depth) {
+    static void rewrite(Tag value, boolean basketContents, int depth) {
         if (depth > 64) {
             throw new IllegalStateException("Saved plant inventory nesting exceeds 64 levels");
         }
-        if (value instanceof CompoundNBT) {
-            CompoundNBT compound = (CompoundNBT) value;
+        if (value instanceof CompoundTag) {
+            CompoundTag compound = (CompoundTag) value;
             String identifier = compound.getString("id");
             boolean basket = BasketData.isBasket(identifier);
             String nativeTarget = null;
@@ -82,8 +82,8 @@ final class LegacyPlantItems {
                 if (basketContents && (identifier.startsWith("minecraft:") || matches(identifier))) {
                     // Call vanilla directly. NBTUtil is already wrapped by the core's early inventory hook, so entering
                     // it here would recurse.
-                    CompoundNBT fixed = (CompoundNBT) DataFixesManager.getDataFixer()
-                            .update(TypeReferences.ITEM_STACK, new Dynamic<>(NBTDynamicOps.INSTANCE, compound.copy()),
+                    CompoundTag fixed = (CompoundTag) DataFixers.getDataFixer()
+                            .update(References.ITEM_STACK, new Dynamic<>(NbtOps.INSTANCE, compound.copy()),
                                     1343, SharedConstants.getCurrentVersion().getWorldVersion())
                             .getValue();
 
@@ -101,8 +101,8 @@ final class LegacyPlantItems {
             for (String key : new ArrayList<>(compound.getAllKeys())) {
                 rewrite(compound.get(key), basketContents || basket && key.equals("tag"), depth + 1);
             }
-        } else if (value instanceof ListNBT) {
-            for (INBT child : (ListNBT) value) {
+        } else if (value instanceof ListTag) {
+            for (Tag child : (ListTag) value) {
                 rewrite(child, basketContents, depth + 1);
             }
         }

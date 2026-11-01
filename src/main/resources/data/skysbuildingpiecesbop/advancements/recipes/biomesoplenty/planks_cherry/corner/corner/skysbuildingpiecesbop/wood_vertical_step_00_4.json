@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "skysbuildingpiecesbop:planks_cherry_vertical_step"
+            "items": ["skysbuildingpiecesbop:planks_cherry_vertical_step"]
           }
         ]
       }
