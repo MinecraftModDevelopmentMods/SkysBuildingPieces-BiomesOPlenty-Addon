@@ -21,7 +21,9 @@ class NamedRecoveryContractTest {
                     .filter(path -> !path.toString().contains("testFixtures"))
                     .collect(java.util.stream.Collectors.toList());
 
-            assertEquals(2, packs.size());
+            assertEquals(Set.of(Paths.get("src/main/resources/pack.mcmeta"),
+                    Paths.get("src/bootstrapTest/resources/pack.mcmeta"),
+                    Paths.get("src/compatibilityTest/resources/pack.mcmeta")), new HashSet<>(packs));
             for (java.nio.file.Path pack : packs) {
                 assertEquals(7, read(pack.toString()).getAsJsonObject("pack").get("pack_format").getAsInt(),
                         pack.toString());
