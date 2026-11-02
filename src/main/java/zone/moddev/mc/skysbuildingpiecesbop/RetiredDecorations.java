@@ -39,8 +39,8 @@ import zone.moddev.mc.skysbuildingpieces.legacy.HistoricalFullBlocks;
         bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class RetiredDecorations {
     public static final String MODULE = "retired_bop_decorations";
-    public static final Formation STONE_FORMATIONS = new Formation();
-    public static final Block JELLED_POISON = new JelledPoison();
+    public static Formation STONE_FORMATIONS;
+    public static Block JELLED_POISON;
 
     private RetiredDecorations() {
     }
@@ -70,6 +70,8 @@ public final class RetiredDecorations {
 
     @SubscribeEvent
     public static void blocks(RegistryEvent.Register<Block> event) {
+        STONE_FORMATIONS = new Formation();
+        JELLED_POISON = new JelledPoison();
         event.getRegistry().registerAll(STONE_FORMATIONS, JELLED_POISON);
     }
 

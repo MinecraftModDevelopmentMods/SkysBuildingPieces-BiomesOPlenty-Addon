@@ -19,12 +19,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
         modid = SkysBuildingPiecesBop.ID,
         bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class RetiredMaterialHolders {
-    public static final Block STONE = new Holder("legacy_bop_stone");
-    public static final Block CRAG = new Holder("legacy_bop_crag_rock");
-    public static final Block FORMATIONS = new Holder("legacy_bop_stone_formations");
-    public static final Block POISON = new Holder("legacy_bop_jelled_poison");
-    public static final Block MOSS = new Holder("legacy_bop_tree_moss");
-    public static final Block[] BLOCKS = { STONE, CRAG, FORMATIONS, POISON, MOSS };
+    public static Block STONE;
+    public static Block CRAG;
+    public static Block FORMATIONS;
+    public static Block POISON;
+    public static Block MOSS;
+    public static final Block[] BLOCKS = new Block[5];
     private static final String[] OLD_IDS = { "stone", "crag_rock", "stone_formations", "jelled_poison", "tree_moss" };
 
     private RetiredMaterialHolders() {
@@ -33,6 +33,13 @@ public final class RetiredMaterialHolders {
     @SubscribeEvent(
             priority = EventPriority.HIGHEST)
     public static void blocks(RegistryEvent.Register<Block> event) {
+        STONE = new Holder("legacy_bop_stone");
+        CRAG = new Holder("legacy_bop_crag_rock");
+        FORMATIONS = new Holder("legacy_bop_stone_formations");
+        POISON = new Holder("legacy_bop_jelled_poison");
+        MOSS = new Holder("legacy_bop_tree_moss");
+        Block[] holders = { STONE, CRAG, FORMATIONS, POISON, MOSS };
+        System.arraycopy(holders, 0, BLOCKS, 0, holders.length);
         event.getRegistry().registerAll(BLOCKS);
     }
 

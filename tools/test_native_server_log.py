@@ -1,4 +1,4 @@
-"""Negative controls for Forge 37 server completion and native settings."""
+"""Negative controls for Forge 40 server completion and native settings."""
 
 from pathlib import Path
 import shutil
@@ -78,6 +78,18 @@ class NativeRegistryNoticeTest(unittest.TestCase):
         short = self.valid.replace(" [net.minecraftforge.registries.GameData/REGISTRIES]", "")
         self.assertEqual(len(self.check(short, self.profile)), 5)
         self.assertEqual(self.check("A clean native reload", None), [])
+
+    def test_used_biomes_require_the_complete_volume_check(self):
+        from native_registry_notices import audit_biome_proof
+        proof = self.profile['native_biome_contract']
+        marker = ('BOP_SAVED_BIOME_VOLUME_PASS source=' + proof['source']
+                  + ' cells=' + str(proof['checked_cells'])
+                  + ' renamed=' + str(proof['renamed_cells']))
+        audit_biome_proof(self.valid + '\n[server/INFO]: ' + marker, self.profile)
+        for incomplete in (self.valid, marker.replace('cells=' + str(proof['checked_cells']), 'cells=1'),
+                           marker.replace('source=' + proof['source'], 'source=unknown')):
+            with self.subTest(log=incomplete[-100:]), self.assertRaises(ValueError):
+                audit_biome_proof(incomplete, self.profile)
 
     def test_every_notice_boundary_is_enforced(self):
         candidates = [

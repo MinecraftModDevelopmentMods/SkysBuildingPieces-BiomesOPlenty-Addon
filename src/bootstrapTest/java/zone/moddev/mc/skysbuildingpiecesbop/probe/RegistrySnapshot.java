@@ -52,14 +52,14 @@ final class RegistrySnapshot {
 
         JsonArray biomes = new JsonArray();
 
-        ForgeRegistries.BIOMES.getValues().forEach(biome -> {
+        var biomeRegistry = net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
+                .registryOrThrow(net.minecraft.core.Registry.BIOME_REGISTRY);
+        biomeRegistry.forEach(biome -> {
             JsonObject row = new JsonObject();
 
-            row.addProperty("id", biome.getRegistryName().toString());
+            row.addProperty("id", biomeRegistry.getKey(biome).toString());
             row.addProperty("temperature", biome.getBaseTemperature());
             row.addProperty("rainfall", biome.getDownfall());
-            row.addProperty("depth", biome.getDepth());
-            row.addProperty("scale", biome.getScale());
             biomes.add(row);
         });
 

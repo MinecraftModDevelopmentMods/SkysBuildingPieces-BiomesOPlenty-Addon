@@ -4,7 +4,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmlserverevents.FMLServerStartedEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue;
 import zone.moddev.mc.skysbuildingpieces.content.Pieces;
 import zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks;
@@ -33,7 +33,7 @@ public final class NativeBootstrap {
         });
     }
 
-    private void started(FMLServerStartedEvent event) {
+    private void started(ServerStartedEvent event) {
         try {
             if (NativeNamedForwardChecks.applies(new java.io.File("forward-fixture.json"))) {
                 pendingServer = event.getServer();
@@ -70,6 +70,10 @@ public final class NativeBootstrap {
 
         try {
             RegistrySnapshot.write();
+            if (Boolean.getBoolean("skysbuildingpieces.bopBiomeFixerOnly")) {
+                NamedRecoveryChecks.nativeBiomeDatafix(server);
+                return;
+            }
             if (Boolean.getBoolean("skysbuildingpieces.bopRegistryOnly")) {
                 LOGGER.info("BUILDING_PIECES_BOP_REGISTRY_ONLY_PASS");
                 return;
@@ -99,6 +103,11 @@ public final class NativeBootstrap {
             java.io.File manifest = new java.io.File("forward-fixture.json");
 
             if (manifest.isFile()) {
+                if (!NativeNamedForwardChecks.applies(manifest)) {
+                    NativeSavedBiomeChecks.prepare(server.getLevel(net.minecraft.world.level.Level.OVERWORLD),
+                            new java.util.LinkedHashSet<>());
+                    NativeSavedBiomeChecks.verify(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
+                }
                 if (NativeNamedForwardChecks.applies(manifest)) {
                     NativeNamedForwardChecks.run(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
                 } else if (Boolean.getBoolean("skysbuildingpieces.bopBiomeOnly")) {
@@ -140,7 +149,7 @@ public final class NativeBootstrap {
             if (client) {
                 net.minecraftforge.fml.DistExecutor.runWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT,
                         () -> () -> net.minecraft.client.Minecraft.getInstance().delayCrash(
-                                net.minecraft.CrashReport.forThrowable(failure, "BOP client verification failed")));
+                                () -> net.minecraft.CrashReport.forThrowable(failure, "BOP client verification failed")));
             }
         } finally {
             if (!client || !success) {

@@ -1,5 +1,22 @@
 # Existing worlds
 
+## Moving to Minecraft 1.18.2
+
+The pieces and Flower Basket retain their saved identities and contents. BOP
+now uses TerraBlender; install it alongside BOP on both the client and server.
+
+Removed tree roots become weeping vines, keeping their growth age and hanging
+stems. Mangrove roots become small dripleaves, keeping both halves and their
+water. These use the replacement plants' appearance and behaviour.
+The older single-block root from 1.12 stays one block tall as BOP dead grass.
+
+Several biome variants were removed or renamed. Saved biome identities use
+similar surviving biomes: Meadow becomes Field, Grove becomes Mediterranean
+Forest, Highland Crag becomes Crag, and the alpine pair uses Frozen Peaks and
+Snowy Slopes. Existing terrain stays in place. Biome names are retained through
+Minecraft's conversion to section palettes, including chunks opened later.
+Keep both registry sidecars with the world and its backups.
+
 ## Moving to Minecraft 1.17.1
 
 BOP removed nether crystals and nether crystal blocks. They become rose quartz

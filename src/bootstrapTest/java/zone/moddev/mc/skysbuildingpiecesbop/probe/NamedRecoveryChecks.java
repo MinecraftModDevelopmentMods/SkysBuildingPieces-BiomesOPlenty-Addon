@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.NbtUtils;
 import zone.moddev.mc.skysbuildingpiecesbop.LegacyItemRecovery;
 
@@ -18,6 +19,56 @@ final class NamedRecoveryChecks {
             org.apache.logging.log4j.LogManager.getLogger();
 
     private NamedRecoveryChecks() {
+    }
+
+    static void nativeBiomeDatafix(net.minecraft.server.MinecraftServer server) throws Exception {
+        JsonObject receipt = read("/fixtures/biomes/saved-bop-1.15.2.json");
+        byte[] bytes;
+        try (java.io.InputStream input = NamedRecoveryChecks.class.getResourceAsStream(
+                "/fixtures/biomes/saved-bop-1.15.2.nbt")) {
+            bytes = input.readAllBytes();
+        }
+        require(java.util.HexFormat.of().withUpperCase().formatHex(
+                java.security.MessageDigest.getInstance("SHA-256").digest(bytes))
+                .equals(receipt.get("source_chunk_sha256").getAsString()), "Saved biome fixture changed");
+        CompoundTag source = net.minecraft.nbt.NbtIo.readCompressed(new java.io.ByteArrayInputStream(bytes));
+        CompoundTag original = source.copy();
+        java.lang.reflect.Field snapshots = Class.forName(
+                "zone.moddev.mc.skysbuildingpiecesbop.NamedBopRecovery").getDeclaredField("biomeSnapshots");
+        snapshots.setAccessible(true);
+        Object previous = snapshots.get(null);
+        java.util.Map<Integer, String> table = new java.util.LinkedHashMap<>();
+        receipt.getAsJsonObject("source_ids").entrySet().forEach(entry ->
+                table.put(Integer.parseInt(entry.getKey()), receipt.get("target").getAsString()));
+        java.util.NavigableMap<Integer, java.util.Map<Integer, String>> saved = new java.util.TreeMap<>();
+        saved.put(source.getInt("DataVersion"), table);
+        java.nio.file.Path temporary = java.nio.file.Files.createTempDirectory(
+                java.nio.file.Path.of("."), "named-biome-fixer-");
+        try (net.minecraft.world.level.chunk.storage.ChunkStorage storage =
+                new net.minecraft.world.level.chunk.storage.ChunkStorage(temporary, server.getFixerUpper(), false)) {
+            snapshots.set(null, saved);
+            CompoundTag fixed = storage.upgradeChunkTag(net.minecraft.world.level.Level.OVERWORLD,
+                    () -> null, source.copy(), java.util.Optional.empty());
+            ListTag sections = fixed.getList("sections", 10);
+            require(sections.size() >= 16, "Native chunk conversion did not produce biome sections");
+            int cells = 0;
+            for (Tag entry : sections) {
+                CompoundTag section = (CompoundTag) entry;
+                int height = section.getByte("Y");
+                if (height < 0 || height >= 16) {
+                    continue;
+                }
+                ListTag palette = section.getCompound("biomes").getList("palette", 8);
+                require(palette.size() == 1 && palette.getString(0).equals(receipt.get("target").getAsString()),
+                        "Saved BOP biome was lost through native chunk fixing: section=" + height + " " + palette);
+                cells += 64;
+            }
+            require(cells == receipt.get("cells").getAsInt(), "Incomplete saved biome volume check");
+            require(source.equals(original), "Native recovery changed the independent source tag");
+            LOGGER.info("BOP_NATIVE_NAMED_BIOME_FIXER_PASS cells={} source=1.15.2 target=1.18.2", cells);
+        } finally {
+            snapshots.set(null, previous);
+        }
     }
 
     static void run() throws Exception {
@@ -129,10 +180,82 @@ final class NamedRecoveryChecks {
             require(malformed.equals(before), "Failed named conversion changed its source");
         }
 
-        require(items == 20 && states > 300 && rejected > 0, "Named coverage is incomplete: items=" + items + " states=" + states + " rejected=" + rejected);
+        require(items == 21 && states > 300 && rejected > 0, "Named coverage is incomplete: items=" + items + " states=" + states + " rejected=" + rejected);
         biomeSnapshotControls();
+        nativeBiomeDatafix(net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer());
+        removedRoots();
         LOGGER.info("BOP_NAMED_RECOVERY_PASS states=" + states + " items=" + items
                 + " invalid_wet_double_refusals=" + rejected + " properties=true counts=true atomic=true");
+    }
+
+    private static void removedRoots() throws Exception {
+        JsonObject catalogue = read("/fixtures/bop-1.17.1-native-catalogue.json");
+        JsonObject mappings = read("/assets/skysbuildingpiecesbop/catalogue/named_legacy.json");
+        int checked = 0;
+        for (JsonElement entry : catalogue.getAsJsonArray("blocks")) {
+            JsonObject block = entry.getAsJsonObject();
+            String source = block.get("id").getAsString();
+            if (!source.equals("biomesoplenty:mangrove_root") && !source.equals("biomesoplenty:tree_roots")
+                    && !source.equals("biomesoplenty:tree_roots_stem")) {
+                continue;
+            }
+            for (JsonElement variant : block.getAsJsonArray("states")) {
+                CompoundTag state = new CompoundTag();
+                CompoundTag properties = new CompoundTag();
+                state.putString("Name", source);
+                variant.getAsJsonObject().entrySet().forEach(property ->
+                        properties.putString(property.getKey(), property.getValue().getAsString()));
+                state.put("Properties", properties);
+                CompoundTag root = palette(state);
+                new LegacyItemRecovery().fixTagCompound(root);
+                CompoundTag result = state(root);
+                require(result.getString("Name").equals(mappings.getAsJsonObject("blocks").get(source).getAsString()),
+                        "Removed root replacement changed: " + source);
+                for (String property : properties.getAllKeys()) {
+                    require(properties.getString(property).equals(result.getCompound("Properties").getString(property)),
+                            "A removed root lost " + property + ": " + result);
+                }
+                CompoundTag once = root.copy();
+                new LegacyItemRecovery().fixTagCompound(root);
+                require(root.equals(once), "Root recovery repeated");
+                checked++;
+            }
+            CompoundTag stack = new CompoundTag();
+            stack.putString("id", source);
+            stack.putByte("Count", (byte) 37);
+            CompoundTag custom = new CompoundTag();
+            custom.putString("Keep", "Stored root data");
+            stack.put("tag", custom);
+            new LegacyItemRecovery().fixTagCompound(stack);
+            String target = source.equals("biomesoplenty:tree_roots_stem") ? "minecraft:weeping_vines"
+                    : mappings.getAsJsonObject("blocks").get(source).getAsString();
+            require(stack.getString("id").equals(target) && stack.getByte("Count") == 37
+                    && stack.getCompound("tag").equals(custom), "A removed root item lost its data");
+            require(!net.minecraft.world.item.ItemStack.of(stack).isEmpty(), "A root became an itemless block");
+        }
+        require(checked == 31, "Incomplete removed-root state coverage: " + checked);
+        net.minecraft.server.level.ServerLevel world = net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer()
+                .getLevel(net.minecraft.world.level.Level.OVERWORLD);
+        net.minecraft.core.BlockPos position = new net.minecraft.core.BlockPos(112, 180, 112);
+        for (boolean water : new boolean[] {false, true}) {
+            world.setBlock(position.below(), net.minecraftforge.registries.ForgeRegistries.BLOCKS.getValue(
+                    new net.minecraft.resources.ResourceLocation("biomesoplenty:rooted_sand")).defaultBlockState(), 18);
+            BlockState lower = Blocks.SMALL_DRIPLEAF.defaultBlockState()
+                    .setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED, water);
+            BlockState upper = lower.setValue(net.minecraft.world.level.block.DoublePlantBlock.HALF,
+                    net.minecraft.world.level.block.state.properties.DoubleBlockHalf.UPPER);
+            world.setBlock(position, lower, 18);
+            world.setBlock(position.above(), upper, 18);
+            require(lower.canSurvive(world, position) && upper.canSurvive(world, position.above()),
+                    "A recovered mangrove plant lost its support, water=" + water);
+        }
+        world.setBlock(position.above(), Blocks.OAK_LOG.defaultBlockState(), 18);
+        world.setBlock(position, Blocks.WEEPING_VINES_PLANT.defaultBlockState(), 18);
+        world.setBlock(position.below(), Blocks.WEEPING_VINES.defaultBlockState(), 18);
+        require(world.getBlockState(position).canSurvive(world, position)
+                && world.getBlockState(position.below()).canSurvive(world, position.below()),
+                "A recovered root strand lost its support");
+        LOGGER.info("BOP_REMOVED_ROOTS_PASS states=31 item_units=111 water=true support=true idempotent=true");
     }
 
     private static void biomeSnapshotControls() throws Exception {
@@ -153,10 +276,10 @@ final class NamedRecoveryChecks {
 
             new LegacyItemRecovery().fixTagCompound(source);
 
-            net.minecraft.world.level.biome.Biome target = net.minecraftforge.fmllegacy.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
+            net.minecraft.world.level.biome.Biome target = net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
                     .registryOrThrow(net.minecraft.core.Registry.BIOME_REGISTRY)
                     .get(new net.minecraft.resources.ResourceLocation("biomesoplenty:undergrowth"));
-            int targetId = net.minecraftforge.fmllegacy.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
+            int targetId = net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
                             .registryOrThrow(net.minecraft.core.Registry.BIOME_REGISTRY).getId(target);
 
             require(source.getCompound("Level").getIntArray("Biomes")[0] == targetId,

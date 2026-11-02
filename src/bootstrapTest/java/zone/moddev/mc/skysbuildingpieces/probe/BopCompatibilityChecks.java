@@ -201,7 +201,7 @@ public final class BopCompatibilityChecks {
         world.setBlock(position, old, 2);
 
         BlockEntity tile = world.getBlockEntity(position);
-        CompoundTag tag = tile.save(new CompoundTag());
+        CompoundTag tag = tile.saveWithFullMetadata();
 
         tag.putString("material", material);
         tag.putString("custom", "Keep the old tile in coverage");

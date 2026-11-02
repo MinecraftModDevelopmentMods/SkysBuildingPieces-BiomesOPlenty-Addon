@@ -5,7 +5,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmlserverevents.FMLServerStartedEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 
 /** Build-only listeners for real basket windows and copied-world audits. */
 @Mod("basketsprobe")
@@ -20,7 +20,7 @@ public final class BasketProbe {
         });
     }
 
-    private void started(FMLServerStartedEvent event) {
+    private void started(ServerStartedEvent event) {
         String phase = System.getProperty("skysbuildingpieces.integrationPhase", "");
 
         if (phase.startsWith("sylvester-baskets-") || phase.startsWith("sylvester-items-")) {

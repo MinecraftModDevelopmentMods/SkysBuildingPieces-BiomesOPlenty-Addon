@@ -14,7 +14,7 @@ import net.minecraft.nbt.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import net.minecraftforge.eventbus.api.*;
 import net.minecraftforge.event.TickEvent;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketData;

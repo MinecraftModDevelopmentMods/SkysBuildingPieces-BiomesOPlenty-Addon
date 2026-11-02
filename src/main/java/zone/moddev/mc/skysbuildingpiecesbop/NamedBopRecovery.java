@@ -143,7 +143,7 @@ public final class NamedBopRecovery {
 
     private static Registry<Biome> biomeRegistry() {
         // The active world's registry owns the saved numeric IDs, not Forge's registration objects.
-        return net.minecraftforge.fmllegacy.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
+        return net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
                 .registryOrThrow(Registry.BIOME_REGISTRY);
     }
 
@@ -290,6 +290,7 @@ public final class NamedBopRecovery {
             if (biomes != null) {
                 CompoundTag level = tag.getCompound("Level");
                 int[] values = level.getIntArray("Biomes");
+                int[] originalValues = values.clone();
                 Map<Integer, Integer> currentIds = new LinkedHashMap<>();
 
                 if (values.length != 256 && values.length != 1024) {
@@ -311,6 +312,7 @@ public final class NamedBopRecovery {
                     values[index] = currentIds.getOrDefault(values[index], values[index]);
                 }
                 level.putIntArray("Biomes", values);
+                zone.moddev.mc.skysbuildingpieces.legacy.HistoricalBiomes.preserveNamed(tag, originalValues, biomes);
                 // The early inventory wrapper can see the same tag again before vanilla updates DataVersion.
                 level.putInt(BIOME_MARKER, SharedConstants.getCurrentVersion().getWorldVersion());
             }

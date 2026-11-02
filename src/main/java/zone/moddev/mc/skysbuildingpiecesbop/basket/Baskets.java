@@ -10,15 +10,14 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import zone.moddev.mc.skysbuildingpiecesbop.SkysBuildingPiecesBop;
 
 public final class Baskets {
-    public static final BasketItem ITEM = new BasketItem(false), HOLDER = new BasketItem(true);
-    public static final MenuType<BasketContainer> TYPE = IForgeContainerType.create(BasketContainer::new);
-    static {
-        TYPE.setRegistryName(SkysBuildingPiecesBop.ID, "flower_basket");
-    }
+    // Forge opens these registries after mod construction.
+    public static BasketItem ITEM;
+    public static BasketItem HOLDER;
+    public static MenuType<BasketContainer> TYPE;
 
     private Baskets() {
     }
@@ -32,7 +31,15 @@ public final class Baskets {
 
     @SubscribeEvent
     public static void items(RegistryEvent.Register<Item> event) {
+        ITEM = new BasketItem(false);
+        HOLDER = new BasketItem(true);
         event.getRegistry().registerAll(ITEM, HOLDER);
+    }
+
+    public static void containers(RegistryEvent.Register<MenuType<?>> event) {
+        TYPE = IForgeMenuType.create(BasketContainer::new);
+        TYPE.setRegistryName(SkysBuildingPiecesBop.ID, "flower_basket");
+        event.getRegistry().register(TYPE);
     }
 
     @SubscribeEvent
@@ -104,7 +111,7 @@ public final class Baskets {
             entity.setItem(remainder);
         }
 
-        net.minecraftforge.fmllegacy.hooks.BasicEventHooks.firePlayerItemPickupEvent(player, entity, pickedUp);
+        net.minecraftforge.event.ForgeEventFactory.firePlayerItemPickupEvent(player, entity, pickedUp);
         player.getInventory().setChanged();
         player.containerMenu.broadcastChanges();
     }

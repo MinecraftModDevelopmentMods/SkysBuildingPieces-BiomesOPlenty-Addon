@@ -1,6 +1,6 @@
 # Preparing a release
 
-The 1.17.1 port is a local test candidate. Publication is disabled in its build
+The 1.18.2 port is a local test candidate. Publication is disabled in its build
 metadata until qualification and manual testing are complete. The process below
 describes the existing release pipeline; it does not publish a local build.
 

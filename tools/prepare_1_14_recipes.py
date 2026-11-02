@@ -295,9 +295,9 @@ def main():
     parser.add_argument('--native-jar', type=Path, action='append', required=True)
     parser.add_argument('--write', action='store_true')
     args = parser.parse_args()
-    fixture = Path(__file__).parent / 'fixtures/mineralogy-1.17.1-crafting.json'
+    fixture = Path(__file__).parent / 'fixtures/mineralogy-1.18.2-crafting.json'
     data = fixture.read_bytes()
-    if hashlib.sha256(data).hexdigest().upper() != '77B27383AB2D4B6EF07B04EAB72487D4F147457D2F430CF2D92418D67FB44AEF':
+    if hashlib.sha256(data).hexdigest().upper() != '97B979860D009E42BCF9D2B1950405F8A13BFFEBFC7082C04F0379CF97779648':
         raise ValueError('The locked native Mineralogy crafting fixture changed')
     snapshot = json.loads(data)
     native = list(snapshot['recipes'].values())

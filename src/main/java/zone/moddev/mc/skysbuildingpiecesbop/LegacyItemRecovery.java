@@ -29,7 +29,7 @@ public final class LegacyItemRecovery {
             "minecraft:oxeye_daisy" };
     private static final int[] MULTIPLIER = { 1, 2, 8 };
     public static final Item[] HOLDERS = new Item[3];
-    static {
+    private static void createHolders() {
         for (int holderIndex = 0; holderIndex < HOLDERS.length; holderIndex++) {
             final int targetIndex = holderIndex;
 
@@ -327,6 +327,7 @@ public final class LegacyItemRecovery {
 
     @SubscribeEvent
     public static void register(RegistryEvent.Register<Item> event) {
+        createHolders();
         event.getRegistry().registerAll(HOLDERS);
     }
 

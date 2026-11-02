@@ -67,6 +67,28 @@ class WorldMappingsTest {
         assertEquals(source.keySet(), assigned);
     }
 
+    @Test
+    void numericWorldMappingsDoNotTargetRemovedBopBlocks() throws Exception {
+        JsonObject nativeCatalogue = new JsonParser().parse(Files.readString(
+                Paths.get("src/testFixtures/bop-1.18.2-native-catalogue.json"))).getAsJsonObject();
+        Set<String> current = new HashSet<>();
+        for (JsonElement block : nativeCatalogue.getAsJsonArray("blocks")) {
+            current.add(block.getAsJsonObject().get("id").getAsString());
+        }
+        for (JsonElement value : read("src/main/resources/assets/skysbuildingpiecesbop/catalogue/legacy_world_states.json")) {
+            JsonObject row = value.getAsJsonObject();
+            JsonObject target = row.getAsJsonObject("target");
+            if (!target.has("id")) continue;
+            String identity = target.get("id").getAsString();
+            if (row.get("id").getAsString().equals("biomesoplenty:plant_1") && row.get("meta").getAsInt() == 9) {
+                assertEquals("biomesoplenty:dead_grass", identity, "The old root must stay one block tall");
+            }
+            if (identity.startsWith("biomesoplenty:")) {
+                assertTrue(current.contains(identity), "Removed numeric-world target: " + row);
+            }
+        }
+    }
+
     private JsonArray read(String path) throws Exception {
         return new JsonParser().parse(new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8))
                 .getAsJsonArray();

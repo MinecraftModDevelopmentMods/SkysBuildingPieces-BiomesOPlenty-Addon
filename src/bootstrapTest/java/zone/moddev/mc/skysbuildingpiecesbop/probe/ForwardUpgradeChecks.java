@@ -64,67 +64,145 @@ final class ForwardUpgradeChecks {
 
     private static void run(ServerLevel world, JsonObject manifest) throws Exception {
         int states = 0;
+        java.util.Map<BlockPos, java.util.List<BlockState>> doors = SourceNeighbourChecks.expectedDoors(
+                world, TARGET_UPGRADES.getAsJsonObject("blocks"));
+        int normalisedDoors = doors.size();
+        int nativePlantNormalisations = 0;
+        int flowingSamples = 0;
+        java.util.Set<BlockPos> verifiedFlows = SourceFluidChecks.verify(world);
         java.util.Map<BlockPos, BlockState> retainedRocks = retainedNamedRocks(manifest);
+        java.util.Map<BlockPos, CompoundTag> sourceStates = new java.util.HashMap<>();
+        if (manifest.has("source_saved_states")) {
+            for (JsonElement value : manifest.getAsJsonArray("source_saved_states")) {
+                JsonObject row = value.getAsJsonObject();
+                sourceStates.put(position(row), TagParser.parseTag(row.get("state").getAsString()));
+            }
+        }
 
+        java.util.List<String> blockFailures = new java.util.ArrayList<>();
         for (JsonElement element : manifest.getAsJsonArray("blocks")) {
-            JsonObject row = element.getAsJsonObject();
-            BlockPos position = position(row);
-            BlockState actual = world.getBlockState(position);
-            BlockState expected;
+            try {
+                JsonObject row = element.getAsJsonObject();
+                BlockPos position = position(row);
+                BlockState actual = world.getBlockState(position);
+                BlockState expected;
 
-            if (retainedRocks.containsKey(position)) {
-                expected = retainedRocks.get(position);
-            } else if (row.has("role") && row.get("role").getAsString().equals("world")) {
-                JsonObject target = new JsonParser().parse(row.getAsJsonObject("target").toString())
-                        .getAsJsonObject();
+                if (retainedRocks.containsKey(position)) {
+                    expected = retainedRocks.get(position);
+                } else if (row.has("role") && row.get("role").getAsString().equals("world")) {
+                    JsonObject target = new JsonParser().parse(row.getAsJsonObject("target").toString())
+                            .getAsJsonObject();
 
-                target.addProperty("id", currentTarget("blocks", target.get("id").getAsString()));
-                if (target.get("id").getAsString().equals("biomesoplenty:cattail")
-                        && !target.getAsJsonObject("properties").has("half")) {
-                    target.addProperty("id", "biomesoplenty:dead_grass");
-                }
-                if (target.get("id").getAsString().equals("biomesoplenty:white_sandstone_wall")
-                        || target.get("id").getAsString().equals("biomesoplenty:mud_brick_wall")) {
-                    JsonObject properties = target.getAsJsonObject("properties");
-                    for (String direction : new String[] {"north", "south", "east", "west"}) {
-                        if (!properties.has(direction)) continue;
-                        String value = properties.get(direction).getAsString();
-                        if (value.equals("true") || value.equals("false")) {
-                            properties.addProperty(direction, value.equals("true") ? "low" : "none");
+                    target.addProperty("id", currentTarget("blocks", target.get("id").getAsString()));
+                    // The numeric source had a single root, before BOP's later two-block mangrove plant.
+                    if (!manifest.has("source_saved_states") && row.get("id").getAsString().equals("biomesoplenty:plant_1")
+                            && row.get("meta").getAsInt() == 9) {
+                        target.addProperty("id", "biomesoplenty:dead_grass");
+                    }
+                    if (target.get("id").getAsString().equals("biomesoplenty:cattail")
+                            && !target.getAsJsonObject("properties").has("half")) {
+                        target.addProperty("id", "biomesoplenty:dead_grass");
+                    }
+                    if (target.get("id").getAsString().equals("biomesoplenty:white_sandstone_wall")
+                            || target.get("id").getAsString().equals("biomesoplenty:mud_brick_wall")) {
+                        JsonObject properties = target.getAsJsonObject("properties");
+                        for (String direction : new String[] {"north", "south", "east", "west"}) {
+                            if (!properties.has(direction)) continue;
+                            String value = properties.get(direction).getAsString();
+                            if (value.equals("true") || value.equals("false")) {
+                                properties.addProperty(direction, value.equals("true") ? "low" : "none");
+                            }
                         }
                     }
-                }
-                expected = zone.moddev.mc.skysbuildingpiecesbop.BopWorldMappings.state(target);
-            } else if (row.has("role") || row.has("owned_decoration")) {
-                expected = HistoricalFullBlocks.resolve(row.get("id").getAsString(), row.get("meta").getAsInt());
-            } else if (row.get("shape").getAsString().equals("FULL")) {
-                expected = Pieces.nativeState(Catalogue.INSTANCE.materials.get(row.get("material").getAsString()),
-                        "full");
-            } else {
-                expected = Pieces.state(row.get("material").getAsString(),
-                        Shape.valueOf(row.get("shape").getAsString()), row.get("orientation").getAsInt());
-            }
-
-            require(actual.getBlock() == expected.getBlock(),
-                    "Wrong saved block at " + position + ": " + actual + ", expected " + expected);
-
-            // Connections and snow are derived from neighbours. The palette metadata and persisted orientation still
-            // have to match exactly.
-            for (Map.Entry<net.minecraft.world.level.block.state.properties.Property<?>, Comparable<?>> property : expected.getValues()
-                    .entrySet()) {
-                String name = property.getKey().getName();
-
-                if (name.equals("north") || name.equals("south") || name.equals("east") || name.equals("west")
-                        || name.equals("up") || name.equals("snowy") || name.equals("in_wall")
-                        || name.equals("lowered_support") || name.equals("shape")) {
-                    continue;
+                    expected = zone.moddev.mc.skysbuildingpiecesbop.BopWorldMappings.state(target);
+                } else if (row.has("role") || row.has("owned_decoration")) {
+                    expected = HistoricalFullBlocks.resolve(row.get("id").getAsString(), row.get("meta").getAsInt());
+                } else if (row.get("shape").getAsString().equals("FULL")) {
+                    expected = Pieces.nativeState(Catalogue.INSTANCE.materials.get(row.get("material").getAsString()),
+                            "full");
+                } else {
+                    expected = Pieces.state(row.get("material").getAsString(),
+                            Shape.valueOf(row.get("shape").getAsString()), row.get("orientation").getAsInt());
                 }
 
-                require(property.getValue().equals(actual.getValues().get(property.getKey())),
-                        "Wrong " + name + " at " + position + ": " + actual + ", expected " + expected);
-            }
+                // These older range fixtures include unsupported plants and incomplete tall plants.
+                // Keep their saved properties, then use the same native neighbour validation as chunk loading.
+                if (manifest.has("source_saved_states")
+                        && (expected.getBlock() instanceof net.minecraft.world.level.block.BushBlock
+                        || expected.getBlock() instanceof net.minecraft.world.level.block.VineBlock)) {
+                    CompoundTag original = sourceStates.get(position);
+                    if (original != null) {
+                        for (String key : original.getCompound("Properties").getAllKeys()) {
+                            var property = expected.getBlock().getStateDefinition().getProperty(key);
+                            if (property != null) {
+                                expected = sourceProperty(expected, property, original.getCompound("Properties").getString(key));
+                            }
+                        }
+                    }
+                    BlockState validated = net.minecraft.world.level.block.Block.updateFromNeighbourShapes(expected, world, position);
+                    // Border updates can remain pending. A valid plant still has just one permitted state;
+                    // an unsupported fixture plant may be unchanged or have its native update applied.
+                    if (actual != expected) {
+                        expected = validated;
+                        nativePlantNormalisations++;
+                    }
+                }
 
-            states++;
+                CompoundTag sourceState = sourceStates.get(position);
+                if (verifiedFlows.contains(position) && expected.is(net.minecraft.world.level.block.Blocks.WATER)
+                        && sourceState != null && sourceState.getString("Name").equals("minecraft:water")
+                        && Integer.parseInt(sourceState.getCompound("Properties").getString("level")) > 0) {
+                    // The native data fixer preserved this exact source state. Ticking can then move its water.
+                    // Source water and waterlogged pieces retain their usual exact-state checks.
+                    require(actual.isAir() || actual.is(net.minecraft.world.level.block.Blocks.WATER),
+                            "A flowing-water sample became an unrelated block at " + position + ": " + actual);
+                    expected = actual;
+                    flowingSamples++;
+                }
+
+                require(actual.getBlock() == expected.getBlock(),
+                        "Wrong saved block at " + position + ": " + actual + ", expected " + expected);
+
+                java.util.List<BlockState> doorStates = doors.remove(position);
+                if (doorStates != null) {
+                    require(expected.getBlock() == doorStates.get(0).getBlock(), "A source door changed identity");
+                    require(doorStates.contains(actual), "A source door matches neither its original state nor native updates at "
+                            + position + ": " + actual + ", expected one of " + doorStates);
+                    expected = actual;
+                }
+
+                // Connections and snow are derived from neighbours. The palette metadata and persisted orientation still
+                // have to match exactly.
+                for (Map.Entry<net.minecraft.world.level.block.state.properties.Property<?>, Comparable<?>> property : expected.getValues()
+                        .entrySet()) {
+                    String name = property.getKey().getName();
+
+                    if (name.equals("north") || name.equals("south") || name.equals("east") || name.equals("west")
+                            || name.equals("up") || name.equals("down") || name.equals("snowy") || name.equals("in_wall")
+                            || name.equals("lowered_support") || name.equals("shape") || name.equals("connections")) {
+                        continue;
+                    }
+
+                    require(property.getValue().equals(actual.getValues().get(property.getKey())),
+                            "Wrong " + name + " at " + position + ": " + actual + ", expected " + expected);
+                }
+
+                states++;
+            } catch (AssertionError failure) {
+                blockFailures.add(failure.getMessage());
+            }
+        }
+        require(blockFailures.isEmpty(), "Saved block mismatches (" + blockFailures.size() + "):\n"
+                + String.join("\n", blockFailures.subList(0, Math.min(100, blockFailures.size()))));
+
+        if (flowingSamples > 0) {
+            LOGGER.info("BOP_NATIVE_FLOW_UPDATES_PASS dynamic_cells=" + flowingSamples + " datafix_verified=true");
+        }
+        LOGGER.info("BOP_NATIVE_PLANT_NORMALIZATION_PASS applied=" + nativePlantNormalisations
+                + " source_bound=true native_updates=true");
+        require(doors.isEmpty(), "Some source door controls were not checked");
+        if (normalisedDoors > 0) {
+            LOGGER.info("BOP_NATIVE_DOOR_NORMALIZATION_PASS doors=" + normalisedDoors);
         }
 
         int baskets = 0;
@@ -138,11 +216,12 @@ final class ForwardUpgradeChecks {
             require(world.getBlockEntity(chestPosition) instanceof ChestBlockEntity,
                     "Saved chest is missing at " + chestPosition + ": " + world.getBlockState(chestPosition));
 
-            ChestBlockEntity chest = (ChestBlockEntity) world.getBlockEntity(chestPosition);
+            BlockPos storagePosition = SourceNeighbourChecks.containerPosition(world, chestPosition);
+            ChestBlockEntity chest = (ChestBlockEntity) world.getBlockEntity(storagePosition);
             ItemStack actual = chest.getItem(row.get("slot").getAsInt());
             CompoundTag original = TagParser.parseTag(row.get("item").getAsString());
 
-            require(actual.getCount() == original.getByte("Count"), "Saved stack count changed: " + row);
+            require(actual.getCount() == original.getByte("Count"), "Saved stack count changed: " + row + ", actual " + actual);
 
             if (row.has("basket")) {
                 require(actual.getItem().getRegistryName().toString().equals("skysbuildingpiecesbop:flower_basket"),
@@ -188,7 +267,8 @@ final class ForwardUpgradeChecks {
 
         world.getChunk(shovelPosition.getX() >> 4, shovelPosition.getZ() >> 4);
 
-        ItemStack shovel = ((ChestBlockEntity) world.getBlockEntity(shovelPosition)).getItem(0);
+        ItemStack shovel = ((ChestBlockEntity) world.getBlockEntity(
+                SourceNeighbourChecks.containerPosition(world, shovelPosition))).getItem(0);
 
         require(shovel.getItem() == net.minecraft.world.item.Items.DIAMOND_SHOVEL && shovel.getDamageValue() == 17
                 && shovel.getHoverName().getString().equals("A saved slope shovel")
@@ -235,9 +315,23 @@ final class ForwardUpgradeChecks {
             if (before.isFile()) {
                 try (InputStream original = new FileInputStream(before);
                         InputStream reloaded = new FileInputStream(after)) {
-                    require(net.minecraft.nbt.NbtIo.readCompressed(original)
-                                    .equals(net.minecraft.nbt.NbtIo.readCompressed(reloaded)),
-                            "Saved recovery data changed on reload: " + name);
+                    CompoundTag firstData = net.minecraft.nbt.NbtIo.readCompressed(original);
+                    CompoundTag currentData = net.minecraft.nbt.NbtIo.readCompressed(reloaded);
+                    if (name.equals("skysbuildingpieces_world_state.dat")) {
+                        require(firstData.contains("data", 10) && currentData.contains("data", 10),
+                                "The saved-data wrapper is missing its contents");
+                        int previousVersion = firstData.getInt("DataVersion");
+                        int currentVersion = currentData.getInt("DataVersion");
+                        int targetVersion = net.minecraft.SharedConstants.getCurrentVersion().getWorldVersion();
+                        require(previousVersion <= targetVersion
+                                && (currentVersion == previousVersion || currentVersion == targetVersion),
+                                "Unexpected saved-data version change");
+                        // Minecraft may stamp an unchanged old SavedData wrapper on its next save.
+                        // The complete mod data and every other wrapper field must still match.
+                        firstData.remove("DataVersion");
+                        currentData.remove("DataVersion");
+                    }
+                    require(firstData.equals(currentData), "Saved recovery data changed on reload: " + name);
                 }
                 checked++;
             }
@@ -303,7 +397,8 @@ final class ForwardUpgradeChecks {
 
             world.getChunk(position(row));
 
-            String actual = world.getBiome(position(row)).getRegistryName().toString();
+            String actual = world.registryAccess().registryOrThrow(net.minecraft.core.Registry.BIOME_REGISTRY)
+                    .getKey(world.getBiome(position(row)).value()).toString();
 
             require(actual.equals(currentTarget("biomes", row.get("target_biome").getAsString())),
                     "Saved BOP biome changed after loading its chunk: " + row + ", actual " + actual);
@@ -376,12 +471,22 @@ final class ForwardUpgradeChecks {
 
         String target = mappings.has(id) ? mappings.get(id).getAsString() : id;
 
-        // The sealed older fixtures keep the vanilla biome name used before 1.16.
-        return group.equals("biomes") && target.equals("minecraft:nether") ? "minecraft:nether_wastes" : target;
+        if (group.equals("biomes")) {
+            if (target.equals("minecraft:nether")) return "minecraft:nether_wastes";
+            if (target.equals("minecraft:deep_warm_ocean")) return "minecraft:warm_ocean";
+            return net.minecraft.util.datafix.fixes.CavesAndCliffsRenames.RENAMES.getOrDefault(target, target);
+        }
+        return target;
     }
 
     private static String currentItemTarget(String id) {
         return currentTarget("items", currentTarget("blocks", id));
+    }
+
+    private static <T extends Comparable<T>> BlockState sourceProperty(BlockState state,
+            net.minecraft.world.level.block.state.properties.Property<T> property, String value) {
+        return state.setValue(property, property.getValue(value).orElseThrow(
+                () -> new AssertionError("A saved plant property cannot be recovered: " + property.getName() + "=" + value)));
     }
 
     private static BlockPos position(JsonObject row) {

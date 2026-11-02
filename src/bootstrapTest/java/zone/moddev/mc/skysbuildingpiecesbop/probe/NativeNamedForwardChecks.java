@@ -45,9 +45,10 @@ final class NativeNamedForwardChecks {
         }
     }
 
-    static void prepare(ServerLevel world) {
+    static void prepare(ServerLevel world) throws Exception {
         CHUNKS.clear();
         ENTITIES.clear();
+        NativeSavedBiomeChecks.prepare(world, CHUNKS);
         for (String list : new String[] { "states", "containers", "entities" }) {
             for (JsonElement value : fixture.getAsJsonArray(list)) {
                 JsonObject saved = value.getAsJsonObject();
@@ -65,7 +66,8 @@ final class NativeNamedForwardChecks {
 
     static boolean ready(ServerLevel world) {
         for (ChunkPos chunk : CHUNKS) {
-            if (!world.isPositionTickingWithEntitiesLoaded(new BlockPos(chunk.x << 4, 0, chunk.z << 4))) {
+            if (!world.areEntitiesLoaded(chunk.toLong())
+                    || !world.getChunkSource().isPositionTicking(chunk.toLong())) {
                 return false;
             }
         }
@@ -73,13 +75,23 @@ final class NativeNamedForwardChecks {
     }
 
     static void run(ServerLevel world) throws Exception {
+        NativeSavedBiomeChecks.verify(world);
         int states = 0;
         int crystals = 0;
         for (JsonElement value : fixture.getAsJsonArray("states")) {
             JsonObject saved = value.getAsJsonObject();
             CompoundTag expected = TagParser.parseTag(saved.get("state").getAsString());
             String source = expected.getString("Name");
-            if (source.equals("biomesoplenty:nether_crystal")) {
+            if (source.equals("biomesoplenty:rose_quartz_cluster") || source.equals("biomesoplenty:rose_quartz_block")) {
+                crystals++;
+            } else if (source.equals("biomesoplenty:mangrove_root")) {
+                expected.putString("Name", "minecraft:small_dripleaf");
+                expected.getCompound("Properties").putString("facing", "north");
+            } else if (source.equals("biomesoplenty:tree_roots")) {
+                expected.putString("Name", "minecraft:weeping_vines");
+            } else if (source.equals("biomesoplenty:tree_roots_stem")) {
+                expected.putString("Name", "minecraft:weeping_vines_plant");
+            } else if (source.equals("biomesoplenty:nether_crystal")) {
                 CompoundTag properties = expected.getCompound("Properties");
                 String face = properties.getString("face");
                 String direction = face.equals("floor") ? "up"
@@ -182,6 +194,10 @@ final class NativeNamedForwardChecks {
                 String id = saved.getString("id");
                 if (id.equals("minecraft:grass_path")) {
                     saved.putString("id", "minecraft:dirt_path");
+                } else if (id.equals("biomesoplenty:mangrove_root")) {
+                    saved.putString("id", "minecraft:small_dripleaf");
+                } else if (id.equals("biomesoplenty:tree_roots") || id.equals("biomesoplenty:tree_roots_stem")) {
+                    saved.putString("id", "minecraft:weeping_vines");
                 } else if (id.equals("biomesoplenty:nether_crystal_block")) {
                     saved.putString("id", "biomesoplenty:rose_quartz_block");
                 } else if (id.equals("biomesoplenty:nether_crystal")) {

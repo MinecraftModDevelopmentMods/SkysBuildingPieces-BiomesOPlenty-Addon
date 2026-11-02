@@ -9,7 +9,7 @@ stairs and stone walls, using the textures of the original BOP blocks.
 ## Building with BOP materials
 
 Build with the woods and stone materials in Biomes O' Plenty for Minecraft
-1.17.1. Where BOP already has a suitable slab, stair or wall, the add-on uses
+1.18.2. Where BOP already has a suitable slab, stair or wall, the add-on uses
 it rather than adding another copy.
 
 Craft pieces from matching blocks, slabs and steps, following the core mod's
@@ -36,13 +36,13 @@ It doesn't accept unrelated items.
 
 ## Installation
 
-Use the versions for **Minecraft 1.17.1**, with **Forge 37.1.1** and
-**Java 16**. You'll need:
+Use the versions for **Minecraft 1.18.2**, with **Forge 40.3.0** and
+**Java 17**. You'll need:
 
-- **Sky's Building Pieces 0.3.8.117011** and this add-on.
-- **Biomes O' Plenty 14.0.0.43**.
+- **Sky's Building Pieces 0.3.8.118021** and this add-on.
+- **Biomes O' Plenty 16.0.0.134** and **TerraBlender 1.2.0.126**.
 
-Put all three main jars in `mods` on both the client and server.
+Put all four main jars in `mods` on both the client and server.
 Downloads are on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/skysbuildingpiecesbop).
 
 For smoother BOP grass and soil, use the separate

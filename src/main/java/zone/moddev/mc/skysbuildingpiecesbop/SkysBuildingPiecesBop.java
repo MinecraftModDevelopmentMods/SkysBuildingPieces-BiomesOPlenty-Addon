@@ -10,7 +10,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import zone.moddev.mc.skysbuildingpieces.api.BuildingPiecesApi;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue;
 import zone.moddev.mc.skysbuildingpieces.legacy.HistoricalFullBlocks;
@@ -21,7 +21,7 @@ import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketPreflight;
 @Mod(SkysBuildingPiecesBop.ID)
 public final class SkysBuildingPiecesBop {
     public static final String ID = "skysbuildingpiecesbop";
-    public static final String VERSION = "0.2.4.117011";
+    public static final String VERSION = "0.2.4.118021";
 
     public SkysBuildingPiecesBop() {
         if (BuildingPiecesApi.VERSION != 1) {
@@ -50,7 +50,7 @@ public final class SkysBuildingPiecesBop {
                 () -> zone.moddev.mc.skysbuildingpiecesbop.client.RetiredRockModels::register);
     }
 
-    private void beforeServer(FMLServerAboutToStartEvent event) {
+    private void beforeServer(ServerAboutToStartEvent event) {
         try {
             NamedBopRecovery.begin(event.getServer());
             BasketPreflight.check(event.getServer());
@@ -79,7 +79,7 @@ public final class SkysBuildingPiecesBop {
 
         @SubscribeEvent
         public static void containers(RegistryEvent.Register<MenuType<?>> event) {
-            event.getRegistry().register(Baskets.TYPE);
+            Baskets.containers(event);
         }
 
     }

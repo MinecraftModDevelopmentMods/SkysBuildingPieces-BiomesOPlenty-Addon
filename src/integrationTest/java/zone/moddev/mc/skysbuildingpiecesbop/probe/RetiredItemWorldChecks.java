@@ -9,7 +9,7 @@ import java.io.*;
 import java.nio.file.*;
 import net.minecraft.nbt.*;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.event.TickEvent;
 import zone.moddev.mc.skysbuildingpieces.legacy.*;

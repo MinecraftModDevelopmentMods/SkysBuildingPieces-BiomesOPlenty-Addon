@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.4.118021 - Minecraft 1.18.2 (unreleased)
+
+- Bring the BOP pieces and Flower Basket to Minecraft 1.18.2.
+- Use BOP with TerraBlender and the matching core.
+- Replace removed roots with similar plants, keeping water and growth states.
+- Retain saved biome identities through the new chunk format.
+
 ## 0.2.4.117011 - Minecraft 1.17.1 (unreleased)
 
 - Bring the existing BOP pieces, decorations and Flower Basket to Minecraft 1.17.1.

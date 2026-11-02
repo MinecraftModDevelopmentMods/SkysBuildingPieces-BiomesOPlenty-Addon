@@ -38,7 +38,7 @@ public final class RetiredRocks extends Block {
             "siltstone", "siltstone_smooth" };
     private static final float[] HARDNESS = { 5, 1.5f, 1.5f, 1.5f, 1.5f, 1, 1 };
     public static final IntegerProperty VARIANT = IntegerProperty.create("variant", 0, 6);
-    public static final RetiredRocks BLOCK = new RetiredRocks();
+    public static RetiredRocks BLOCK;
     public static final Item[] ITEMS = new Item[NAMES.length];
 
     private RetiredRocks() {
@@ -102,7 +102,7 @@ public final class RetiredRocks extends Block {
     }
 
     @Override
-    public ItemStack getPickBlock(BlockState state, HitResult hit, BlockGetter world, BlockPos position,
+    public ItemStack getCloneItemStack(BlockState state, HitResult hit, BlockGetter world, BlockPos position,
             Player player) {
         return new ItemStack(item(state));
     }
@@ -110,6 +110,7 @@ public final class RetiredRocks extends Block {
     @SubscribeEvent(
             priority = EventPriority.HIGHEST)
     public static void blocks(RegistryEvent.Register<Block> event) {
+        BLOCK = new RetiredRocks();
         event.getRegistry().register(BLOCK);
     }
 

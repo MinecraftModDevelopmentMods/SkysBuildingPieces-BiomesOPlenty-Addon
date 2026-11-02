@@ -1,11 +1,18 @@
 // Target-native startup checks remain separate from ordinary game launches.
 
 def auditServerLogs = { File directory, String phase ->
-    logger.lifecycle(providers.exec {
+    def audit = providers.exec {
         commandLine providers.gradleProperty('pythonExecutable').getOrElse('python'),
                 file('tools/native_client_log.py'), '--server', '--directory', directory,
                 '--phase', phase
-    }.standardOutput.asText.get().trim())
+        ignoreExitValue = true
+    }
+    logger.lifecycle(audit.standardOutput.asText.get().trim())
+    String failure = audit.standardError.asText.get().trim()
+    if (!failure.isEmpty()) logger.lifecycle(failure)
+    if (audit.result.get().exitValue != 0) {
+        throw new GradleException('The complete native server log audit failed; see its diagnostic above')
+    }
 }
 
 def bootstrapClasses = layout.buildDirectory.dir('native-bootstrap/classes')
@@ -41,6 +48,8 @@ def bootstrapJar = tasks.register('nativeBootstrapJar', Jar) {
     from('src/testFixtures/bop-1.15.2-native-catalogue.json') { into 'fixtures' }
     from('src/testFixtures/bop-1.16.5-native-catalogue.json') { into 'fixtures' }
     from('src/testFixtures/bop-1.17.1-native-catalogue.json') { into 'fixtures' }
+    from('src/testFixtures/bop-1.18.2-native-catalogue.json') { into 'fixtures' }
+    from('src/testFixtures/biomes') { into 'fixtures/biomes' }
 }
 def packagedProbe = renamer.classes(bootstrapJar) {
     map.from minecraft.dependency.toSrgFile
@@ -111,6 +120,14 @@ def prepare = tasks.register('prepareNativeBootstrap') {
             if (checksum != metadata.archive_sha256) throw new GradleException('The sealed source fixture changed')
             copy { from zipTree(archive); into new File(target, 'world') }
             copy { from receipt; into target; rename { 'forward-fixture.json' } }
+            File doors = file(archive.path.replaceFirst(/\.zip$/, '.neighbours.json'))
+            if (doors.isFile()) {
+                copy { from doors; into target; rename { 'forward-neighbours.json' } }
+            }
+            File biomes = file(archive.path.replaceFirst(/\.zip$/, '.biomes.json'))
+            if (biomes.isFile()) {
+                copy { from biomes; into target; rename { 'forward-biomes.json' } }
+            }
         }
         if (forwardFixture.isPresent()) {
             File source = file(forwardFixture.get()).canonicalFile
@@ -125,6 +142,7 @@ def prepare = tasks.register('prepareNativeBootstrap') {
         copy {
             from bootstrapJar.flatMap { it.archiveFile }
             from project.ext.bopDevelopmentJar
+            from project.ext.terraBlenderDevelopmentJar
             from coreDevelopmentJar
             into new File(target, 'mods')
         }
@@ -163,6 +181,21 @@ tasks.register('nativeRegistryTest', JavaExec) {
         if (!log.contains('BUILDING_PIECES_BOP_REGISTRY_ONLY_PASS') || !log.contains('Done (')
                 || !fileTree(new File(directory.get().asFile, 'crash-reports')).isEmpty()) {
             throw new GradleException('Target BOP registry startup did not complete cleanly')
+        }
+    }
+}
+
+tasks.register('nativeBiomeUpgradeTest', JavaExec) {
+    dependsOn prepare
+    workingDir directory
+    project.ext.configureRecipeBookRun(delegate, 'runServer')
+    systemProperty 'skysbuildingpieces.bopBiomeFixerOnly', 'true'
+    doLast {
+        auditServerLogs(directory.get().asFile, 'biome-fixer')
+        String log = new File(directory.get().asFile, 'logs/latest.log').getText('UTF-8')
+        if (!log.contains('BOP_NATIVE_NAMED_BIOME_FIXER_PASS') || !log.contains('Done (')
+                || !fileTree(new File(directory.get().asFile, 'crash-reports')).isEmpty()) {
+            throw new GradleException('Native BOP biome fixing did not complete cleanly')
         }
     }
 }
@@ -256,6 +289,7 @@ def prepareClient = tasks.register('prepareNativeClientTest') {
         copy {
             from bootstrapJar.flatMap { it.archiveFile }
             from project.ext.bopDevelopmentJar
+            from project.ext.terraBlenderDevelopmentJar
             from coreDevelopmentJar
             into new File(target, 'mods')
         }
@@ -282,7 +316,7 @@ tasks.register('nativeClientTest', JavaExec) {
     doFirst {
         File assets = file(clientAssets.get())
         File natives = file(clientNatives.get())
-        [new File(assets, 'indexes/1.17.json'), natives].each {
+        [new File(assets, 'indexes/1.18.json'), natives].each {
             if (!it.exists()) throw new GradleException('Incomplete native client runtime: ' + it)
         }
     }
@@ -339,7 +373,8 @@ def preparePolicy = tasks.register('prepareBopInstalledPolicyTest') {
         copy { from 'src/bootstrapTest/defaultconfigs'; into target }
         copy {
             from policyJar.flatMap { it.archiveFile }, bootstrapJar.flatMap { it.archiveFile }
-            from project.ext.bopDevelopmentJar, coreDevelopmentJar
+            from project.ext.bopDevelopmentJar
+            from project.ext.terraBlenderDevelopmentJar, coreDevelopmentJar
             into new File(target, 'mods')
         }
         new File(target, 'eula.txt').text = 'eula=true\n'
