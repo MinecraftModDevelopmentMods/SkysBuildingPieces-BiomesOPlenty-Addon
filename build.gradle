@@ -198,6 +198,7 @@ def configureFromForgeRun = { JavaExec process, String runTaskName, boolean incl
             run.jvmArgs(process.jvmArgs)
             run.systemProperties(process.systemProperties)
             run.environment(process.environment)
+            run.maxHeapSize = '3g'
             if (includeMain) {
                 run.environment('MOD_CLASSES',
                         "${mod_id}%%${forgeRunModClassesDirectory}${File.pathSeparator}" +

@@ -19,6 +19,8 @@ public final class NativeBootstrap {
     private int startupTicks;
 
     public NativeBootstrap() {
+        zone.moddev.mc.skysbuildingpieces.probe.PersistenceRegistrationChecks.register(
+                net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus());
         MinecraftForge.EVENT_BUS.addListener(this::started);
         MinecraftForge.EVENT_BUS.addListener(this::tick);
         net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus()
