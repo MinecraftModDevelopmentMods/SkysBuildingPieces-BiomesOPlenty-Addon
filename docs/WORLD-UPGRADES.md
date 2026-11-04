@@ -6,15 +6,15 @@ Old BOP cherry wood uses Minecraft's cherry blocks. Sky's cherry pieces keep
 their saved IDs and shapes and use the vanilla cherry texture. Standing and
 wall signs keep their orientation, text, dye and glow.
 
-White cherry plants use Snowblossom, and the old autumn leaves and saplings
-use the matching maple colours. Overgrown black sand becomes mossy black sand.
-Rose quartz shards become rose quartz chunks. Retired biomes use nearby
-equivalents, such as Cherry Grove, Moor and Lavender Field. Saved terrain
-stays in place.
+White cherry plants become Snowblossom. The original autumn leaves, saplings
+and Lavender Forest are still available in BOP 18. Overgrown black sand becomes
+mossy black sand, and rose quartz shards become rose quartz chunks. Old single
+mangrove roots become dead grass, including roots stored in baskets. Removed
+biomes use nearby equivalents. Saved terrain stays in place.
 
-Use Biomes O' Plenty 19.0.0.96 with TerraBlender and GlitchCore. Keep the
-world's data folder with your backup, since older chunks may still need its
-registry snapshots when you first visit them.
+Use Biomes O' Plenty 18.0.0.598 with TerraBlender 3.0.1.10. Keep worlds that
+already use BOP 19 on their Forge route. Keep the world's data folder with your
+backup, since older chunks may need its registry snapshots when you first visit.
 
 ## Moving to Minecraft 1.19.4
 

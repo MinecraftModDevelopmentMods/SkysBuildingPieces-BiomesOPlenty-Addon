@@ -233,6 +233,7 @@
           "biomesoplenty:highland": 82,
           "biomesoplenty:jade_cliffs": 85,
           "biomesoplenty:lavender_field": 86,
+          "biomesoplenty:lavender_forest": 87,
           "biomesoplenty:lush_desert": 88,
           "biomesoplenty:lush_savanna": 89,
           "biomesoplenty:marsh": 90,
@@ -246,6 +247,7 @@
           "biomesoplenty:redwood_forest": 104,
           "biomesoplenty:scrubland": 106,
           "biomesoplenty:seasonal_forest": 107,
+          "biomesoplenty:seasonal_orchard": 108,
           "biomesoplenty:shrubland": 111,
           "biomesoplenty:snowy_coniferous_forest": 113,
           "biomesoplenty:snowy_fir_clearing": 115,
@@ -345,7 +347,7 @@
       "source_jar_sha256": "2470024008508957A7FAEC5ED9171E56725A00100ADBC4481C3F48C808DBDFC9",
       "non_biome_saved_uses": 0,
       "native_biome_contract": {
-        "path": "src/testFixtures/worlds/building-pieces-bop-1.16.5.forge47-biomes.json",
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.16.5.neo47-biomes.json",
         "sha256": "60F0066891ED3950A3E76AF85F25A7A1BAA0F38D6A392EB937E11A996FC752E4",
         "source": "1.16.5",
         "checked_cells": 622592,
@@ -353,18 +355,18 @@
       },
       "dynamic_biome_saved_uses": 604416,
       "static_biome_contract": {
-        "path": "src/testFixtures/worlds/building-pieces-bop-1.16.5.forge47-registry-biomes.json",
-        "sha256": "DA1C1394E0099E543C108B75E0C3C8371B2FB2DB2DF1F6BE4584818A4F79E5D6"
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.16.5.neo47-registry-biomes.json",
+        "sha256": "DA67750103255E68FD0F45D2BA93F839F32F5171056963F152EFD09D37C9E12D"
       },
       "live_biome_contract": {
-        "path": "src/testFixtures/biomes/bop-1.20.1-live-registry.json",
-        "sha256": "7EEF7AE94AA8BB63C426CE3C3AB675D8118A9C68586A5D6DF8DEB37509315B61"
+        "path": "src/testFixtures/biomes/bop-1.20.1-neo-live-registry.json",
+        "sha256": "FB2C0712F42BD239487C88773CD72750660E48DFBF9778B94C3A71F6492C8FD0"
       },
       "retired_poi_contract": {
-        "path": "src/testFixtures/worlds/building-pieces-bop-1.16.5.forge47-registry-poi.json",
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.16.5.neo47-registry-poi.json",
         "sha256": "344DCF6C41918174DA71A6154544EBF58D01C505E9789EC3D24000D851041EC9"
       },
-      "target_forge": "47.4.10"
+      "target_forge": "47.1.106"
     },
     "69579CBED801CE9FE09559C7D21895EB31639F42ABA511EC3A3AF87EEF72E6DC": {
       "mappings": {
@@ -387,6 +389,7 @@
           "biomesoplenty:highland": 82,
           "biomesoplenty:jade_cliffs": 85,
           "biomesoplenty:lavender_field": 86,
+          "biomesoplenty:lavender_forest": 87,
           "biomesoplenty:lush_desert": 88,
           "biomesoplenty:lush_savanna": 89,
           "biomesoplenty:marsh": 90,
@@ -400,6 +403,7 @@
           "biomesoplenty:redwood_forest": 104,
           "biomesoplenty:scrubland": 106,
           "biomesoplenty:seasonal_forest": 107,
+          "biomesoplenty:seasonal_orchard": 108,
           "biomesoplenty:shrubland": 111,
           "biomesoplenty:snowy_coniferous_forest": 113,
           "biomesoplenty:snowy_fir_clearing": 115,
@@ -500,30 +504,30 @@
       "fixture": "src/testFixtures/worlds/building-pieces-bop-1.17.1.zip",
       "sha256": "69579CBED801CE9FE09559C7D21895EB31639F42ABA511EC3A3AF87EEF72E6DC",
       "source_jar_sha256": "4BD869BCFE8ABAC82D3D073E51982D8726076B3E0B8B510EEF075E242129E99F",
-      "saved_uses": 767475,
+      "saved_uses": 767499,
       "non_biome_saved_uses": 0,
       "inspected_nbt_records": 931,
       "native_biome_contract": {
-        "path": "src/testFixtures/worlds/building-pieces-bop-1.17.1.forge47-biomes.json",
-        "sha256": "D55064BDB492E48CD0C54F695AA4DCBD5E5AA80A00B1D0527C079E9D2BBA7C3E",
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.17.1.neo47-biomes.json",
+        "sha256": "90B9F064E39437EE2B5B83A2DD4BCB359321BF7EC39CED64F8BB2C430F3DBC7E",
         "source": "1.17.1",
         "checked_cells": 768000,
         "renamed_cells": 41472
       },
-      "dynamic_biome_saved_uses": 726003,
+      "dynamic_biome_saved_uses": 726027,
       "static_biome_contract": {
-        "path": "src/testFixtures/worlds/building-pieces-bop-1.17.1.forge47-registry-biomes.json",
-        "sha256": "0F496272310BDFF45388450A08B20A7FF035EB0355F0FFDE1EB84D4780D712C4"
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.17.1.neo47-registry-biomes.json",
+        "sha256": "454C7FB5882C05D989919FFD67D582CDFE39D454E9864EAEBC4BC14751F5BA57"
       },
       "live_biome_contract": {
-        "path": "src/testFixtures/biomes/bop-1.20.1-live-registry.json",
-        "sha256": "7EEF7AE94AA8BB63C426CE3C3AB675D8118A9C68586A5D6DF8DEB37509315B61"
+        "path": "src/testFixtures/biomes/bop-1.20.1-neo-live-registry.json",
+        "sha256": "FB2C0712F42BD239487C88773CD72750660E48DFBF9778B94C3A71F6492C8FD0"
       },
       "retired_poi_contract": {
-        "path": "src/testFixtures/worlds/building-pieces-bop-1.17.1.forge47-registry-poi.json",
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.17.1.neo47-registry-poi.json",
         "sha256": "64FF777E709E89EA2153151A7431210873D95AA6A46D677F64CBA7ED281971EE"
       },
-      "target_forge": "47.4.10"
+      "target_forge": "47.1.106"
     },
     "0A52E35356AE6229E1331A5E4BAAF99CBA22489EC4EC28A87F5BCE024BE918B5": {
       "fixture": "src/testFixtures/worlds/building-pieces-bop-1.18.2.zip",
@@ -535,6 +539,8 @@
         },
         "minecraft:worldgen/biome": {
           "biomesoplenty:bayou": 60,
+          "biomesoplenty:bog": 184,
+          "biomesoplenty:clover_patch": 186,
           "biomesoplenty:cold_desert": 63,
           "biomesoplenty:coniferous_forest": 64,
           "biomesoplenty:crag": 187,
@@ -553,8 +559,10 @@
           "biomesoplenty:highland": 82,
           "biomesoplenty:jade_cliffs": 85,
           "biomesoplenty:lavender_field": 86,
+          "biomesoplenty:lavender_forest": 87,
           "biomesoplenty:lush_desert": 88,
           "biomesoplenty:lush_savanna": 89,
+          "biomesoplenty:maple_woods": 192,
           "biomesoplenty:marsh": 90,
           "biomesoplenty:mediterranean_forest": 193,
           "biomesoplenty:muskeg": 93,
@@ -564,6 +572,7 @@
           "biomesoplenty:ominous_woods": 96,
           "biomesoplenty:orchard": 56,
           "biomesoplenty:origin_valley": 98,
+          "biomesoplenty:pasture": 196,
           "biomesoplenty:prairie": 99,
           "biomesoplenty:pumpkin_patch": 197,
           "biomesoplenty:rainforest": 101,
@@ -651,66 +660,67 @@
           "terrablender:deferred_placeholder": 182
         }
       },
-      "saved_uses": 366627,
-      "dynamic_biome_saved_uses": 366627,
+      "saved_uses": 367227,
+      "dynamic_biome_saved_uses": 367227,
       "non_biome_saved_uses": 0,
       "inspected_nbt_records": 253,
       "source_jar_sha256": "95390406BE1B3B81E6C55E802F970E03753810CBCBB2151CDA26BB1D7AF7A594",
       "native_biome_contract": {
-        "path": "src/testFixtures/worlds/building-pieces-bop-1.18.2.forge47-biomes.json",
-        "sha256": "21BEAB16A39DC78C614FFE1CAF9511C035698AEAF2EBC1C80D147726FE912B3F",
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.18.2.neo47-biomes.json",
+        "sha256": "542C2459AD7D8553EF0C37E5E8CEA659DE35936452A60F2CD69D1692D28DF1F1",
         "source": "1.18.2",
         "checked_cells": 368640,
         "renamed_cells": 0
       },
       "static_biome_contract": {
-        "path": "src/testFixtures/worlds/building-pieces-bop-1.18.2.forge47-registry-biomes.json",
-        "sha256": "2922475110F317CBF138CA8443E41B51A713BC6262B8C0EE750F29AD4E45CE84"
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.18.2.neo47-registry-biomes.json",
+        "sha256": "347A1F335BC5327DC9841A95AAFD6677DEB270AC7981AE86E1DBC363951E1ADD"
       },
       "retired_poi_contract": {
-        "path": "src/testFixtures/worlds/building-pieces-bop-1.18.2.forge47-registry-poi.json",
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.18.2.neo47-registry-poi.json",
         "sha256": "F5812D1E926A988A907A94F9F007925B92B6E9F2A55336F50344A2C3F8CA4486"
       },
       "live_biome_contract": {
-        "path": "src/testFixtures/biomes/bop-1.20.1-live-registry.json",
-        "sha256": "7EEF7AE94AA8BB63C426CE3C3AB675D8118A9C68586A5D6DF8DEB37509315B61"
+        "path": "src/testFixtures/biomes/bop-1.20.1-neo-live-registry.json",
+        "sha256": "FB2C0712F42BD239487C88773CD72750660E48DFBF9778B94C3A71F6492C8FD0"
       },
-      "target_forge": "47.4.10"
+      "target_forge": "47.1.106"
     },
-    "70B9B38FEEAC7FF1845EE8975D58C8616F69B2DB011841D4F8E63653E9677C3B": {
-      "fixture": "src/testFixtures/worlds/building-pieces-bop-1.19.4.zip",
-      "sha256": "70B9B38FEEAC7FF1845EE8975D58C8616F69B2DB011841D4F8E63653E9677C3B",
+    "B74FEE8A07C17F639FE0CBA30C79B0AD668C43F9A5AF76ADC9E1AEE739AB093F": {
+      "fixture": "src/testFixtures/worlds/building-pieces-bop-1.19.4-supported.zip",
+      "sha256": "B74FEE8A07C17F639FE0CBA30C79B0AD668C43F9A5AF76ADC9E1AEE739AB093F",
       "source_jar_sha256": "DCA79750EF7C078D6CE1400366817BA2C998312996BFAE7F130FE0BD46B72339",
       "saved_uses": 0,
       "non_biome_saved_uses": 0,
-      "inspected_nbt_records": 275,
+      "inspected_nbt_records": 271,
       "native_biome_contract": {
-        "path": "src/testFixtures/worlds/building-pieces-bop-1.19.4.biomes.json",
-        "sha256": "1EDB0C72BEED8FFF477937B7E3C9AEBD98369AE0C52FD8EC96ACA434B93623F1",
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.19.4-supported.biomes.json",
+        "sha256": "DFF0F02BBCBAF82701DE9E6E979AA5F2A95EF2871F5A3CFA668AC3C2E73AA185",
         "source": "1.19.4",
         "checked_cells": 405504,
         "renamed_cells": 0
       },
       "mappings": {
         "minecraft:item": {
-          "minecraft:pottery_shard_archer": 2720,
-          "minecraft:pottery_shard_arms_up": 2722,
-          "minecraft:pottery_shard_prize": 2721,
-          "minecraft:pottery_shard_skull": 2723
+          "minecraft:pottery_shard_archer": 1224,
+          "minecraft:pottery_shard_arms_up": 1226,
+          "minecraft:pottery_shard_prize": 1225,
+          "minecraft:pottery_shard_skull": 1227
         },
         "minecraft:sound_event": {
-          "minecraft:item.brush.brush_sand_completed": 1233,
-          "minecraft:item.brush.brushing": 1232,
-          "minecraft:music.overworld.jungle_and_forest": 1370
+          "minecraft:item.brush.brush_sand_completed": 167,
+          "minecraft:item.brush.brushing": 166,
+          "minecraft:music.overworld.jungle_and_forest": 804
         }
       },
       "forge47_unused_registry_contract": {
-        "path": "src/testFixtures/worlds/building-pieces-bop-1.19.4.forge47-unused-registry.json",
-        "sha256": "9767953D9974AE28136E1DAA5E03CAF2BB0016A845A6116B3E05A2F4D5C47426"
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.19.4-supported.forge47-unused-registry.json",
+        "sha256": "963494A0DC2466BEDE721D265A139EB18E55B0263C1386FD523B3E058F51638A"
       },
+      "target_forge": "47.1.106",
       "live_biome_contract": {
-        "path": "src/testFixtures/biomes/bop-1.20.1-live-registry.json",
-        "sha256": "7EEF7AE94AA8BB63C426CE3C3AB675D8118A9C68586A5D6DF8DEB37509315B61"
+        "path": "src/testFixtures/biomes/bop-1.20.1-neo-live-registry.json",
+        "sha256": "FB2C0712F42BD239487C88773CD72750660E48DFBF9778B94C3A71F6492C8FD0"
       }
     }
   },

@@ -36,11 +36,11 @@ It doesn't accept unrelated items.
 
 ## Installation
 
-Use the versions for **Minecraft 1.20.1**, with **Forge 47.4.10** and
+Use the versions for **Minecraft 1.20.1**, with **NeoForge 47.1.106** and
 **Java 17**. You'll need:
 
-- **Sky's Building Pieces 0.3.8.120011** and this add-on.
-- **Biomes O' Plenty 19.0.0.96**, **TerraBlender 3.0.1.10** and **GlitchCore 0.0.1.1**.
+- **Sky's Building Pieces 0.3.8.120012** and this add-on.
+- **Biomes O' Plenty 18.0.0.598** and **TerraBlender 3.0.1.10**.
 
 Put all five main jars in `mods` on both the client and server.
 Downloads are on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/skysbuildingpiecesbop).

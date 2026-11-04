@@ -50,7 +50,7 @@ class NamedRecoveryContractTest {
         removedBlocks.addAll(identities(source18.getAsJsonArray("blocks"), "id"));
         removedBlocks.addAll(identities(source19.getAsJsonArray("blocks"), "id"));
         removedBlocks.removeAll(identities(target.getAsJsonArray("blocks"), "id"));
-        assertEquals(65, removedBlocks.size());
+        assertEquals(55, removedBlocks.size());
         assertEquals(removedBlocks, keys(mapping.getAsJsonObject("blocks")));
 
         Set<String> removedItems = identities(earlier.getAsJsonArray("items"), null);
@@ -63,7 +63,7 @@ class NamedRecoveryContractTest {
         Set<String> itemMappings = new HashSet<>(keys(mapping.getAsJsonObject("blocks")));
         assertTrue(itemMappings.remove("biomesoplenty:cherry_wall_sign"));
         itemMappings.addAll(keys(mapping.getAsJsonObject("items")));
-        assertEquals(70, removedItems.size());
+        assertEquals(60, removedItems.size());
         assertEquals(removedItems, itemMappings);
     }
 

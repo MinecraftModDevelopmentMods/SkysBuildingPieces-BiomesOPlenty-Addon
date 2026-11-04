@@ -183,7 +183,8 @@ class DynamicBiomeProofTest(unittest.TestCase):
         mutations = (
             ('static_biome_contract', lambda proof: proof.update(source_world_sha256='wrong-world')),
             ('static_biome_contract', lambda proof: proof.update(checked_cells=1)),
-            ('static_biome_contract', lambda proof: proof.update(unnoticed_biome_cells=0)),
+            ('static_biome_contract', lambda proof: proof.update(
+                unnoticed_biome_cells=proof['unnoticed_biome_cells'] + 1)),
             ('retired_poi_contract', lambda proof: proof['saved_uses'].update({'minecraft:nitwit': 1})),
             ('retired_poi_contract', lambda proof: proof.update(inspected_nbt_records=1)),
             ('live_biome_contract', lambda proof: proof.update(entries=[])),

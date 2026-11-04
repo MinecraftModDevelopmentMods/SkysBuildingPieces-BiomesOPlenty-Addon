@@ -77,12 +77,12 @@ tasks.named('check') { dependsOn tasks.named('verifyNativeClientLogPolicy') }
 def nativeCompanions = providers.gradleProperty('bopNativeCompanions').getOrElse('false').toBoolean()
 def companionLock = new Properties()
 file('gradle/optional-runtime.properties').withInputStream { companionLock.load(it) }
-def companionJars = ['grass', 'mineralogy', 'orespawn'].collect { name ->
+def companionJars = ['grass'].collect { name ->
     file(companionLock.getProperty(name + '.development.path'))
 }
 def verifyCompanions = tasks.register('verifyBopNativeCompanions') {
     doLast {
-        ['grass', 'mineralogy', 'orespawn'].each { name ->
+        ['grass'].each { name ->
             ['', '.development'].each { kind ->
                 File artifact = file(companionLock.getProperty(name + kind + '.path'))
                 String expected = companionLock.getProperty(name + kind + '.sha256')
@@ -147,7 +147,7 @@ def prepare = tasks.register('prepareNativeBootstrap') {
         copy {
             from bootstrapJar.flatMap { it.archiveFile }
             from project.ext.bopDevelopmentJar
-            from project.ext.terraBlenderDevelopmentJar, project.ext.glitchCoreDevelopmentJar
+            from project.ext.terraBlenderDevelopmentJar
             from coreDevelopmentJar
             into new File(target, 'mods')
         }
@@ -236,7 +236,7 @@ tasks.register('nativeForwardReloadTest', JavaExec) {
                 || !new File(target, 'world/level.dat').isFile()) {
             throw new GradleException('Run the copied forward fixture once before its reload check')
         }
-        [bootstrapJar.get().archiveFile.get().asFile, coreDevelopmentJar, project.ext.bopDevelopmentJar, project.ext.terraBlenderDevelopmentJar, project.ext.glitchCoreDevelopmentJar].each { input ->
+        [bootstrapJar.get().archiveFile.get().asFile, coreDevelopmentJar, project.ext.bopDevelopmentJar, project.ext.terraBlenderDevelopmentJar].each { input ->
             File original = file(input)
             File installed = new File(target, 'mods/' + original.name)
             if (!installed.isFile() || !java.util.Arrays.equals(original.bytes, installed.bytes)) {
@@ -282,7 +282,7 @@ def prepareClient = tasks.register('prepareNativeClientTest') {
                 throw new GradleException('Complete the open-window disconnect before checking its saved player')
             }
             List<File> reloadInputs = [bootstrapJar.get().archiveFile.get().asFile, coreDevelopmentJar,
-                    project.ext.bopDevelopmentJar, project.ext.terraBlenderDevelopmentJar, project.ext.glitchCoreDevelopmentJar]
+                    project.ext.bopDevelopmentJar, project.ext.terraBlenderDevelopmentJar]
             if (nativeCompanions) reloadInputs.addAll(companionJars)
             reloadInputs.each { input ->
                 File original = file(input)
@@ -297,7 +297,7 @@ def prepareClient = tasks.register('prepareNativeClientTest') {
         copy {
             from bootstrapJar.flatMap { it.archiveFile }
             from project.ext.bopDevelopmentJar
-            from project.ext.terraBlenderDevelopmentJar, project.ext.glitchCoreDevelopmentJar
+            from project.ext.terraBlenderDevelopmentJar
             from coreDevelopmentJar
             into new File(target, 'mods')
         }
@@ -373,7 +373,7 @@ def preparePolicy = tasks.register('prepareBopInstalledPolicyTest') {
         copy {
             from policyJar.flatMap { it.archiveFile }, bootstrapJar.flatMap { it.archiveFile }
             from project.ext.bopDevelopmentJar
-            from project.ext.terraBlenderDevelopmentJar, project.ext.glitchCoreDevelopmentJar, coreDevelopmentJar
+            from project.ext.terraBlenderDevelopmentJar, coreDevelopmentJar
             into new File(target, 'mods')
         }
         new File(target, 'eula.txt').text = 'eula=true\n'

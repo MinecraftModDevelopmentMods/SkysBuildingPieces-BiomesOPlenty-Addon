@@ -27,8 +27,12 @@ public final class NativeBopBiomeChecks {
             CompoundTag entry = new CompoundTag();
             entry.putString("K", "biomesoplenty:bog");
             entry.putInt("V", 200);
+            CompoundTag retired = new CompoundTag();
+            retired.putString("K", "biomesoplenty:grassland_clover_patch");
+            retired.putInt("V", 201);
             ListTag entries = new ListTag();
             entries.add(entry);
+            entries.add(retired);
             CompoundTag biomes = new CompoundTag();
             biomes.put("ids", entries);
             CompoundTag registries = new CompoundTag();
@@ -40,16 +44,25 @@ public final class NativeBopBiomeChecks {
             root.putInt("DataVersion", 1343);
             CompoundTag level = new CompoundTag();
             byte[] cells = new byte[256];
-            java.util.Arrays.fill(cells, (byte) 200);
+            java.util.Arrays.fill(cells, 0, 128, (byte) 200);
+            java.util.Arrays.fill(cells, 128, 256, (byte) 201);
             level.putByteArray("Biomes", cells);
             root.put("Level", level);
             invoke("prepare", root);
             invoke("finish", root);
             Registry<net.minecraft.world.level.biome.Biome> current = server.registryAccess()
                     .registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
-            int expected = current.getId(current.get(new ResourceLocation("biomesoplenty:wetland")));
-            if (expected < 0 || root.getCompound("Level").getIntArray("Biomes")[0] != expected) {
-                throw new AssertionError("Pre-flattening BOP biome was not resolved in the active registry");
+            int bog = current.getId(current.get(new ResourceLocation("biomesoplenty:bog")));
+            int cloverPatch = current.getId(current.get(new ResourceLocation("biomesoplenty:clover_patch")));
+            int[] recovered = root.getCompound("Level").getIntArray("Biomes");
+            if (bog < 0 || cloverPatch < 0 || recovered.length != cells.length) {
+                throw new AssertionError("The active registry is missing the expected BOP biomes");
+            }
+            for (int cell = 0; cell < recovered.length; cell++) {
+                int expected = cell < 128 ? bog : cloverPatch;
+                if (recovered[cell] != expected) {
+                    throw new AssertionError("Pre-flattening BOP biome changed at cell " + cell);
+                }
             }
             LOGGER.info("BOP_NATIVE_NUMERIC_BIOME_PASS cells=256 active_registry=true");
         } finally {

@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   cold-forge-bootstrap:
-    name: Cold Forge bootstrap
+    name: Cold NeoForge bootstrap
     runs-on: ubuntu-latest
     timeout-minutes: 60
 

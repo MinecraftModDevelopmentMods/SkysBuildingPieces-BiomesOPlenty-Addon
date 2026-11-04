@@ -31989,7 +31989,7 @@
         "z": 548,
         "slot": 3,
         "native_item": true,
-        "target_item": "biomesoplenty:mangrove_root",
+        "target_item": "biomesoplenty:dead_grass",
         "item": "{id:\"biomesoplenty:plant_1\",Count:37b,tag:{unrelated:\"Keep the native item data\",fixture_index:84},Damage:9s}"
       },
       {
