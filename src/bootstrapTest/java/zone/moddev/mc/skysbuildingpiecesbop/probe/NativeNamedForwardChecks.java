@@ -130,6 +130,15 @@ final class NativeNamedForwardChecks {
                     expected.putString("Name", "minecraft:mud_bricks");
                     expected.remove("Properties");
                 }
+            } else {
+                String replacement = ForwardUpgradeChecks.currentTarget("blocks", source);
+                if (replacement.equals("minecraft:cherry_slab")
+                        && expected.getCompound("Properties").getString("type").equals("double")) {
+                    expected.putString("Name", "minecraft:cherry_planks");
+                    expected.remove("Properties");
+                } else {
+                    expected.putString("Name", replacement);
+                }
             }
             net.minecraft.world.level.block.state.BlockState decoded = NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(), expected);
             if (decoded.getBlock() instanceof zone.moddev.mc.skysbuildingpieces.content.PieceBlock) {
@@ -144,6 +153,7 @@ final class NativeNamedForwardChecks {
             states++;
         }
         require(crystals == 13, "Every native crystal attachment and full block must be exercised");
+        checkSigns(world);
 
         int units = 0;
         int baskets = 0;
@@ -248,6 +258,9 @@ final class NativeNamedForwardChecks {
                         properties.putString("facing", direction);
                         properties.putString("waterlogged", "false");
                     }
+                } else {
+                    String itemTarget = ForwardUpgradeChecks.currentTarget("items", id);
+                    saved.putString("id", ForwardUpgradeChecks.currentTarget("blocks", itemTarget));
                 }
             }
             for (String key : saved.getAllKeys()) {
@@ -262,6 +275,32 @@ final class NativeNamedForwardChecks {
 
     private static BlockPos position(JsonObject value) {
         return new BlockPos(value.get("x").getAsInt(), value.get("y").getAsInt(), value.get("z").getAsInt());
+    }
+
+    private static void checkSigns(ServerLevel world) throws Exception {
+        if (!fixture.has("signs")) {
+            return;
+        }
+        for (JsonElement entry : fixture.getAsJsonArray("signs")) {
+            JsonObject saved = entry.getAsJsonObject();
+            BlockPos position = position(saved);
+            CompoundTag original = TagParser.parseTag(saved.get("tag").getAsString());
+            require(world.getBlockEntity(position) instanceof net.minecraft.world.level.block.entity.SignBlockEntity,
+                    "Saved cherry sign lost its block entity at " + position);
+            var sign = (net.minecraft.world.level.block.entity.SignBlockEntity) world.getBlockEntity(position);
+            require(sign.getType() == net.minecraft.world.level.block.entity.BlockEntityType.SIGN,
+                    "Saved cherry sign still uses an incompatible block entity type at " + position);
+            var front = sign.getFrontText();
+            for (int line = 0; line < 4; line++) {
+                require(front.getMessage(line, false).equals(net.minecraft.network.chat.Component.Serializer
+                        .fromJson(original.getString("Text" + (line + 1)))), "Saved sign text changed at " + position);
+                require(front.getMessage(line, true).equals(net.minecraft.network.chat.Component.Serializer
+                        .fromJson(original.getString("FilteredText" + (line + 1)))), "Saved filtered sign text changed at " + position);
+            }
+            require(front.getColor().getName().equals(original.getString("Color"))
+                    && front.hasGlowingText() == original.getBoolean("GlowingText"),
+                    "Saved sign colour or glow changed at " + position);
+        }
     }
 
     private static void require(boolean condition, String message) {

@@ -5,7 +5,7 @@ import java.util.List;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -22,9 +22,9 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -44,7 +44,7 @@ public final class RetiredRocks extends Block {
     public static final Item[] ITEMS = new Item[NAMES.length];
 
     private RetiredRocks() {
-        super(BlockBehaviour.Properties.of(Material.STONE).strength(1.5f, 6).requiresCorrectToolForDrops());
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5f, 6).requiresCorrectToolForDrops());
 
         registerDefaultState(stateDefinition.any().setValue(VARIANT, 0));
     }
@@ -99,7 +99,7 @@ public final class RetiredRocks extends Block {
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder context) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder context) {
         return Collections.singletonList(new ItemStack(item(state)));
     }
 
@@ -135,8 +135,8 @@ public final class RetiredRocks extends Block {
     }
 
     @SubscribeEvent
-    public static void creativeContents(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() != CreativeModeTabs.BUILDING_BLOCKS) return;
+    public static void creativeContents(BuildCreativeModeTabContentsEvent event) {
+        if (!CreativeModeTabs.BUILDING_BLOCKS.equals(event.getTabKey())) return;
         for (Item item : ITEMS) {
             if (((VariantItem) item).visibleInCreativeTab()) {
                 event.accept(item);

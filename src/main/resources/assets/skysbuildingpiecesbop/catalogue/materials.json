@@ -283,22 +283,22 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:block/cherry_planks",
+    "textures": "minecraft:block/cherry_planks",
     "blocks": {
       "full": {
-        "id": "biomesoplenty:cherry_planks"
+        "id": "minecraft:cherry_planks"
       },
       "slab": {
-        "id": "biomesoplenty:cherry_slab"
+        "id": "minecraft:cherry_slab"
       },
       "stairs": {
-        "id": "biomesoplenty:cherry_stairs"
+        "id": "minecraft:cherry_stairs"
       },
       "fence": {
-        "id": "biomesoplenty:cherry_fence"
+        "id": "minecraft:cherry_fence"
       },
       "fence_gate": {
-        "id": "biomesoplenty:cherry_fence_gate"
+        "id": "minecraft:cherry_fence_gate"
       }
     },
     "group": "wood",

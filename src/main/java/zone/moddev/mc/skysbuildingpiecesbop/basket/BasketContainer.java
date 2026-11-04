@@ -69,7 +69,7 @@ public final class BasketContainer extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player viewingPlayer) {
         // Window sync replaces client stack objects; the exact-reference lock belongs only to the server.
-        if (viewingPlayer.level.isClientSide) {
+        if (viewingPlayer.level().isClientSide) {
             return viewingPlayer == player && viewingPlayer.isAlive()
                     && viewingPlayer.getInventory().getItem(ownerSlot).getItem() instanceof BasketItem
                     && viewingPlayer.getInventory().getItem(ownerSlot).getCount() == 1;

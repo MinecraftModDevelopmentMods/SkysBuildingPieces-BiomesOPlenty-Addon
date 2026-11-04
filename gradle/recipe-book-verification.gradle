@@ -1,13 +1,17 @@
 // Recipe-book checks get their own server runs rather than sharing one long gameplay tick.
-def bookDirectory = layout.buildDirectory.dir('recipe-book-test-run')
+def bookRunName = providers.gradleProperty('bopRecipeBookRunName').getOrElse('recipe-book-test-run-' + UUID.randomUUID())
+if (!(bookRunName ==~ /[a-z0-9-]+/)) {
+    throw new GradleException('Use a simple name for the recipe-book run directory.')
+}
+def bookDirectory = layout.buildDirectory.dir(bookRunName)
 def prepareBook = tasks.register('prepareRecipeBookTest') {
     dependsOn tasks.named('integrationTestModJar'), project.ext.bopDevelopmentTask
     doLast {
         File directory = bookDirectory.get().asFile
-        if (directory.canonicalFile != new File(buildDir, 'recipe-book-test-run').canonicalFile) {
+        if (directory.canonicalFile != new File(buildDir, bookRunName).canonicalFile || directory.exists()) {
             throw new GradleException('Recipe-book verification must stay inside the build directory')
         }
-        delete directory
+        copy { from 'src/bootstrapTest/defaultconfigs'; into directory }
         copy {
             from tasks.named('integrationTestModJar', Jar).flatMap { it.archiveFile }
             into new File(directory, 'mods')
@@ -37,9 +41,9 @@ def bookTasks = [:]
         dependsOn phase == 'fresh' ? prepareBook : bookTasks.fresh
         workingDir bookDirectory
         systemProperty 'skysbuildingpieces.integrationPhase', 'recipe-book-' + phase
-        systemProperty 'log4j.configurationFile', project.ext.recipeBookLogConfiguration
         project.ext.configureRecipeBookRun(delegate, 'runServer')
         doLast {
+            project.ext.auditNativeBopServerLogs(bookDirectory.get().asFile, 'recipe-book-' + phase)
             if (!new File(bookDirectory.get().asFile, 'world/recipe-book-' + phase + '.pass').isFile()) {
                 throw new GradleException('Recipe-book ' + phase + ' verification did not complete')
             }

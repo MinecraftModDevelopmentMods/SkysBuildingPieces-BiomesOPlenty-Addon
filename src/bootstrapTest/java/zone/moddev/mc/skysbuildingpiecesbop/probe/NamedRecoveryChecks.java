@@ -115,8 +115,11 @@ final class NamedRecoveryChecks {
             BlockState actual = NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(), result);
             String target = blocks.get(name).getAsString();
             if (doubleSlab) {
-                target = name.equals("biomesoplenty:mud_brick_slab")
-                        ? "minecraft:mud_bricks" : "minecraft:birch_planks";
+                target = switch (name) {
+                    case "biomesoplenty:mud_brick_slab" -> "minecraft:mud_bricks";
+                    case "biomesoplenty:cherry_slab" -> "minecraft:cherry_planks";
+                    default -> "minecraft:birch_planks";
+                };
             }
 
             require(actual.getBlock() != Blocks.AIR && net.minecraftforge.registries.ForgeRegistries.BLOCKS.getKey(actual.getBlock()).toString().equals(target),
@@ -189,7 +192,7 @@ final class NamedRecoveryChecks {
             require(malformed.equals(before), "Failed named conversion changed its source");
         }
 
-        require(items == 28 && states > 300 && rejected > 0, "Named coverage is incomplete: items=" + items + " states=" + states + " rejected=" + rejected);
+        require(items == 58 && states > 300 && rejected > 0, "Named coverage is incomplete: items=" + items + " states=" + states + " rejected=" + rejected);
         biomeSnapshotControls();
         nativeBiomeDatafix(net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer());
         removedRoots();

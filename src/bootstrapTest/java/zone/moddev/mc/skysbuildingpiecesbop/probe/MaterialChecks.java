@@ -50,7 +50,7 @@ final class MaterialChecks {
                         require(item != null && !item.isEmpty() && item.getCount() == 3, "Piece item " + material.id);
                         require(world.getBlockEntity(position) == null,
                                 "Material pieces must not create block entities");
-                        require(state.getMaterial() == full.getMaterial(), "Native block material " + material.id);
+                        require(state.canBeReplaced() == full.canBeReplaced(), "Native block replaceability " + material.id);
                         require(state.getDestroySpeed(world, position) == full.getDestroySpeed(world, position), "Native hardness " + material.id);
                         Catalogue.MaterialDef placedMaterial = state.getBlock() instanceof PieceBlock
                                 ? ((PieceBlock) state.getBlock()).definition(state) : null;

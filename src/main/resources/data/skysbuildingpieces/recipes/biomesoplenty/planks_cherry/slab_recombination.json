@@ -4,21 +4,21 @@
   "pattern": ["XX"],
   "key": {
     "X": {
-      "item": "biomesoplenty:cherry_slab"
+      "item": "minecraft:cherry_slab"
     }
   },
   "result": {
-    "item": "biomesoplenty:cherry_planks",
+    "item": "minecraft:cherry_planks",
     "count": 1
   },
   "conditions": [
     {
       "type": "forge:item_exists",
-      "item": "biomesoplenty:cherry_planks"
+      "item": "minecraft:cherry_planks"
     },
     {
       "type": "forge:item_exists",
-      "item": "biomesoplenty:cherry_slab"
+      "item": "minecraft:cherry_slab"
     }
   ],
   "category": "building"

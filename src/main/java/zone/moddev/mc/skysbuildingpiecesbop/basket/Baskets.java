@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.MissingMappingsEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraft.world.inventory.MenuType;
@@ -54,8 +54,8 @@ public final class Baskets {
         }
     }
 
-    public static void creativeContents(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+    public static void creativeContents(BuildCreativeModeTabContentsEvent event) {
+        if (CreativeModeTabs.TOOLS_AND_UTILITIES.equals(event.getTabKey())) {
             event.accept(ITEM);
         }
     }
@@ -64,7 +64,7 @@ public final class Baskets {
     public static void pickup(EntityItemPickupEvent event) {
         Player player = event.getEntity();
 
-        if (player.level.isClientSide || event.isCanceled()) {
+        if (player.level().isClientSide || event.isCanceled()) {
             return;
         }
 

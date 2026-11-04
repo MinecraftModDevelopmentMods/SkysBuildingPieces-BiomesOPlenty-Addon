@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.4.120011
+
+- Ported to Minecraft 1.20.1 and Forge 47.4.10.
+- Kept existing pieces and baskets. Added replacements for removed BOP wood,
+  plants and biomes when opening older worlds.
+
 ## 0.2.4.119041
 
 - Added the Minecraft 1.19.4 version for Forge 45.4.0.

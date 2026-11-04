@@ -171,7 +171,7 @@ public final class BasketGuiClientChecks {
                         .insert(new ItemStack(net.minecraft.world.level.block.Blocks.OAK_SAPLING, 3));
                 player.getAbilities().instabuild = false;
                 player.setHealth(0);
-                player.die(player.damageSources().outOfWorld());
+                player.die(player.damageSources().fellOutOfWorld());
             });
             deathCheckAt = ticks + 20;
         } else if (stage == 8 && ticks >= deathCheckAt && !serverChecked) {
@@ -181,7 +181,7 @@ public final class BasketGuiClientChecks {
                         .getPlayer(minecraft.player.getUUID());
                 int dropped = 0;
 
-                for (net.minecraft.world.entity.Entity entity : ((net.minecraft.server.level.ServerLevel) player.level)
+                for (net.minecraft.world.entity.Entity entity : player.serverLevel()
                         .getEntities(net.minecraft.world.entity.EntityType.ITEM, candidate -> true)) {
                     if (entity instanceof net.minecraft.world.entity.item.ItemEntity) {
                         ItemStack stack = ((net.minecraft.world.entity.item.ItemEntity) entity).getItem();

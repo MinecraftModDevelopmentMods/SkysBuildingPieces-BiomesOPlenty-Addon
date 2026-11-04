@@ -8,6 +8,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -29,7 +30,7 @@ import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import zone.moddev.mc.skysbuildingpieces.SkysBuildingPieces;
@@ -171,7 +172,7 @@ public final class BopCompatibilityChecks {
         NativeLegacyChecks.require(MigrationEvents.convert(migrated, world) == migrated,
                 "Live nested inventory is idempotent");
 
-        CraftingContainer grid = new CraftingContainer(new AbstractContainerMenu(null, 0) {
+        CraftingContainer grid = new TransientCraftingContainer(new AbstractContainerMenu(null, 0) {
                         @Override
                         public ItemStack quickMoveStack(Player player, int slot) {
                             return ItemStack.EMPTY;
@@ -259,7 +260,7 @@ public final class BopCompatibilityChecks {
 
         @Override
         public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction side) {
-            return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? optional.cast()
+            return capability == ForgeCapabilities.ITEM_HANDLER ? optional.cast()
                     : super.getCapability(capability, side);
         }
     }

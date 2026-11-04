@@ -26,9 +26,9 @@ class NamedRecoveryContractTest {
                     Paths.get("src/compatibilityTest/resources/pack.mcmeta")), new HashSet<>(packs));
             for (java.nio.file.Path pack : packs) {
                 JsonObject metadata = read(pack.toString()).getAsJsonObject("pack");
-                assertEquals(13, metadata.get("pack_format").getAsInt(), pack.toString());
-                assertEquals(13, metadata.get("forge:resource_pack_format").getAsInt(), pack.toString());
-                assertEquals(12, metadata.get("forge:data_pack_format").getAsInt(), pack.toString());
+                assertEquals(15, metadata.get("pack_format").getAsInt(), pack.toString());
+                assertEquals(15, metadata.get("forge:resource_pack_format").getAsInt(), pack.toString());
+                assertEquals(15, metadata.get("forge:data_pack_format").getAsInt(), pack.toString());
             }
         }
     }
@@ -40,15 +40,17 @@ class NamedRecoveryContractTest {
         JsonObject intervening = read("src/testFixtures/bop-1.16.5-native-catalogue.json");
         JsonObject last = read("src/testFixtures/bop-1.17.1-native-catalogue.json");
         JsonObject source18 = read("src/testFixtures/bop-1.18.2-native-catalogue.json");
-        JsonObject target = read("src/testFixtures/bop-1.19.4-native-catalogue.json");
+        JsonObject source19 = read("src/testFixtures/bop-1.19.4-native-catalogue.json");
+        JsonObject target = read("src/testFixtures/bop-1.20.1-native-catalogue.json");
         JsonObject mapping = read("src/main/resources/assets/skysbuildingpiecesbop/catalogue/named_legacy.json");
         Set<String> removedBlocks = identities(earlier.getAsJsonArray("states"), "id");
         removedBlocks.addAll(identities(previous.getAsJsonArray("blocks"), "id"));
         removedBlocks.addAll(identities(intervening.getAsJsonArray("blocks"), "id"));
         removedBlocks.addAll(identities(last.getAsJsonArray("blocks"), "id"));
         removedBlocks.addAll(identities(source18.getAsJsonArray("blocks"), "id"));
+        removedBlocks.addAll(identities(source19.getAsJsonArray("blocks"), "id"));
         removedBlocks.removeAll(identities(target.getAsJsonArray("blocks"), "id"));
-        assertEquals(32, removedBlocks.size());
+        assertEquals(65, removedBlocks.size());
         assertEquals(removedBlocks, keys(mapping.getAsJsonObject("blocks")));
 
         Set<String> removedItems = identities(earlier.getAsJsonArray("items"), null);
@@ -56,10 +58,12 @@ class NamedRecoveryContractTest {
         removedItems.addAll(identities(intervening.getAsJsonArray("items"), null));
         removedItems.addAll(identities(last.getAsJsonArray("items"), null));
         removedItems.addAll(identities(source18.getAsJsonArray("items"), null));
+        removedItems.addAll(identities(source19.getAsJsonArray("items"), null));
         removedItems.removeAll(identities(target.getAsJsonArray("items"), null));
         Set<String> itemMappings = new HashSet<>(keys(mapping.getAsJsonObject("blocks")));
+        assertTrue(itemMappings.remove("biomesoplenty:cherry_wall_sign"));
         itemMappings.addAll(keys(mapping.getAsJsonObject("items")));
-        assertEquals(35, removedItems.size());
+        assertEquals(70, removedItems.size());
         assertEquals(removedItems, itemMappings);
     }
 
@@ -70,7 +74,8 @@ class NamedRecoveryContractTest {
         JsonObject intervening = read("src/testFixtures/bop-1.16.5-native-catalogue.json");
         JsonObject last = read("src/testFixtures/bop-1.17.1-native-catalogue.json");
         JsonObject source18 = read("src/testFixtures/bop-1.18.2-native-catalogue.json");
-        JsonObject target = read("src/testFixtures/bop-1.19.4-native-catalogue.json");
+        JsonObject source19 = read("src/testFixtures/bop-1.19.4-native-catalogue.json");
+        JsonObject target = read("src/testFixtures/bop-1.20.1-native-catalogue.json");
         JsonObject mapping = read("src/main/resources/assets/skysbuildingpiecesbop/catalogue/named_legacy.json")
                 .getAsJsonObject("biomes");
         Set<String> removed = identities(earlier.getAsJsonArray("biomes"), "id");
@@ -78,6 +83,7 @@ class NamedRecoveryContractTest {
         removed.addAll(identities(intervening.getAsJsonArray("biomes"), null));
         removed.addAll(identities(last.getAsJsonArray("biomes"), null));
         removed.addAll(identities(source18.getAsJsonArray("biomes"), null));
+        removed.addAll(identities(source19.getAsJsonArray("biomes"), null));
         removed.removeAll(identities(target.getAsJsonArray("biomes"), null));
         assertTrue(removed.size() > 60);
         assertTrue(keys(mapping).containsAll(removed), "Every removed biome needs an explicit replacement");
@@ -100,7 +106,7 @@ class NamedRecoveryContractTest {
         JsonObject fixture = read("src/testFixtures/worlds/building-pieces-bop-biomes-1.12.2.json")
                 .getAsJsonObject("manifest");
         JsonObject aliases = read("src/main/resources/assets/skysbuildingpiecesbop/catalogue/legacy_biomes.json");
-        Set<String> current = identities(read("src/testFixtures/bop-1.19.4-native-catalogue.json")
+        Set<String> current = identities(read("src/testFixtures/bop-1.20.1-native-catalogue.json")
                 .getAsJsonArray("biomes"), null);
 
         assertEquals(73, fixture.getAsJsonArray("biomes").size());

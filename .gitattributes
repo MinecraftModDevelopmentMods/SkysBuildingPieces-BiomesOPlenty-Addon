@@ -20,3 +20,6 @@ gradlew text eol=lf
 *.js text eol=lf
 *.yml text eol=lf
 ci-fixtures/tools/** -text
+*.mcmeta text eol=lf
+*.toml text eol=lf
+*.py text eol=lf

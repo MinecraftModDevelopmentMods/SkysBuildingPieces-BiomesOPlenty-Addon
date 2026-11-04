@@ -304,12 +304,17 @@ final class ForwardUpgradeChecks {
         File current = new File(world.getServer()
                 .getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(), "data");
         int checked = 0;
+        int restoredOptionalSidecars = 0;
 
         for (String name : new String[] {"skysbuildingpieces_world_state.dat",
                 "skysbuildingpieces_legacy_registry.dat", "skysbuildingpiecesbop_named_registry.dat",
                 "skysgrassslabs_legacy_registry.dat", "mineralogy_legacy_registry.dat"}) {
             File before = new File(first, name);
             File after = new File(current, name);
+            if (!before.isFile() && after.isFile() && copiedOptionalRegistry(first, after)) {
+                restoredOptionalSidecars++;
+                continue;
+            }
             require(before.isFile() == after.isFile(), "Recovery data appeared or disappeared on reload: " + name);
 
             if (before.isFile()) {
@@ -338,7 +343,40 @@ final class ForwardUpgradeChecks {
         }
 
         require(checked > 0, "The reload profile has no saved recovery data");
-        LOGGER.info("BOP_RECOVERY_DATA_RELOAD_PASS files=" + checked);
+        LOGGER.info("BOP_RECOVERY_DATA_RELOAD_PASS files={} copied_optional_registries={}",
+                checked, restoredOptionalSidecars);
+    }
+
+    private static boolean copiedOptionalRegistry(File first, File after) throws Exception {
+        boolean grass = after.getName().equals("skysgrassslabs_legacy_registry.dat");
+        if (!grass && !after.getName().equals("mineralogy_legacy_registry.dat")) {
+            return false;
+        }
+        CompoundTag source = readCompressed(new File("source-level.dat"));
+        if (source.contains("FML", 10) || source.getCompound("Data").getInt("DataVersion") < 1451) {
+            return false;
+        }
+        // A named source can carry the old FML table in the core sidecar
+        // alone. Forge writes it to level.dat on the first save, where the
+        // other mods can read it on the next start.
+        File coreSidecar = new File(first, "skysbuildingpieces_legacy_registry.dat");
+        if (!coreSidecar.isFile()) {
+            return false;
+        }
+        CompoundTag fml = readCompressed(coreSidecar).getCompound("FML");
+        CompoundTag blocks = fml.getCompound("Registries").getCompound("minecraft:blocks");
+        CompoundTag expected = new CompoundTag();
+        expected.put("Blocks", blocks);
+        if (grass) {
+            expected.put("FML", fml);
+        }
+        return !blocks.isEmpty() && expected.equals(readCompressed(after));
+    }
+
+    private static CompoundTag readCompressed(File file) throws java.io.IOException {
+        try (InputStream input = new FileInputStream(file)) {
+            return net.minecraft.nbt.NbtIo.readCompressed(input);
+        }
     }
 
     private static java.util.Map<BlockPos, BlockState> retainedNamedRocks(JsonObject manifest) throws Exception {
@@ -463,7 +501,7 @@ final class ForwardUpgradeChecks {
         }
     }
 
-    private static String currentTarget(String group, String id) {
+    static String currentTarget(String group, String id) {
         if ((group.equals("blocks") || group.equals("items")) && id.equals("minecraft:grass_path")) {
             return "minecraft:dirt_path";
         }
@@ -480,7 +518,7 @@ final class ForwardUpgradeChecks {
     }
 
     private static String currentItemTarget(String id) {
-        return currentTarget("items", currentTarget("blocks", id));
+        return currentTarget("blocks", currentTarget("items", id));
     }
 
     private static <T extends Comparable<T>> BlockState sourceProperty(BlockState state,

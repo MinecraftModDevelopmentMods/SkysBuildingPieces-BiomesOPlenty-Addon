@@ -46,7 +46,7 @@ public final class BasketChecks {
         player.getInventory().selected = 0;
 
         try {
-            net.minecraft.world.inventory.CraftingContainer crafting = new net.minecraft.world.inventory.CraftingContainer(
+            net.minecraft.world.inventory.CraftingContainer crafting = new net.minecraft.world.inventory.TransientCraftingContainer(
                     new net.minecraft.world.inventory.AbstractContainerMenu(null, 0) {
                         @Override
                         public ItemStack quickMoveStack(Player player, int slot) {

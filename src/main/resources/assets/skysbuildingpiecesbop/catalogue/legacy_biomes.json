@@ -1,7 +1,7 @@
 {
   "biomesoplenty:alps": "minecraft:frozen_peaks",
   "biomesoplenty:alps_foothills": "minecraft:snowy_slopes",
-  "biomesoplenty:bamboo_blossom_grove": "biomesoplenty:bamboo_grove",
+  "biomesoplenty:bamboo_blossom_grove": "minecraft:bamboo_jungle",
   "biomesoplenty:bayou_mangrove": "biomesoplenty:bayou",
   "biomesoplenty:burnt_forest": "biomesoplenty:dead_forest",
   "biomesoplenty:coniferous_lakes": "biomesoplenty:coniferous_forest",
@@ -13,7 +13,7 @@
   "biomesoplenty:flower_meadow": "biomesoplenty:field",
   "biomesoplenty:fungal_field": "biomesoplenty:fungal_jungle",
   "biomesoplenty:golden_prairie": "biomesoplenty:pasture",
-  "biomesoplenty:grassland_clover_patch": "biomesoplenty:clover_patch",
+  "biomesoplenty:grassland_clover_patch": "biomesoplenty:grassland",
   "biomesoplenty:gravel_beach": "minecraft:stony_shore",
   "biomesoplenty:grove": "biomesoplenty:mediterranean_forest",
   "biomesoplenty:grove_clearing": "biomesoplenty:mediterranean_forest",
@@ -66,7 +66,7 @@
   "biomesoplenty:mangrove": "biomesoplenty:bayou",
   "biomesoplenty:maple_woods": "biomesoplenty:seasonal_forest",
   "biomesoplenty:mire": "biomesoplenty:ominous_woods",
-  "biomesoplenty:moor": "biomesoplenty:highland_moor",
+  "biomesoplenty:moor": "biomesoplenty:moor",
   "biomesoplenty:mountain": "biomesoplenty:highland",
   "biomesoplenty:mountain_foothills": "biomesoplenty:highland",
   "biomesoplenty:oasis": "biomesoplenty:lush_desert",
@@ -95,5 +95,13 @@
   "biomesoplenty:volcanic_island": "biomesoplenty:volcano",
   "biomesoplenty:volcano_edge": "biomesoplenty:volcanic_plains",
   "biomesoplenty:white_beach": "biomesoplenty:tropics",
-  "biomesoplenty:xeric_shrubland": "biomesoplenty:dryland"
+  "biomesoplenty:xeric_shrubland": "biomesoplenty:dryland",
+  "biomesoplenty:rainbow_hills": "biomesoplenty:auroral_garden",
+  "biomesoplenty:wooded_scrubland": "biomesoplenty:scrubland",
+  "biomesoplenty:wooded_wasteland": "biomesoplenty:wasteland",
+  "biomesoplenty:bamboo_grove": "minecraft:bamboo_jungle",
+  "biomesoplenty:cherry_blossom_grove": "minecraft:cherry_grove",
+  "biomesoplenty:clover_patch": "biomesoplenty:grassland",
+  "biomesoplenty:highland_moor": "biomesoplenty:moor",
+  "biomesoplenty:lavender_forest": "biomesoplenty:lavender_field"
 }

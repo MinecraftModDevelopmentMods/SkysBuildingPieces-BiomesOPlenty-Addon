@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": ["biomesoplenty:cherry_slab"]
+            "items": ["minecraft:cherry_slab"]
           }
         ]
       }
@@ -26,11 +26,11 @@
   "conditions": [
     {
       "type": "forge:item_exists",
-      "item": "biomesoplenty:cherry_planks"
+      "item": "minecraft:cherry_planks"
     },
     {
       "type": "forge:item_exists",
-      "item": "biomesoplenty:cherry_slab"
+      "item": "minecraft:cherry_slab"
     }
   ]
 }

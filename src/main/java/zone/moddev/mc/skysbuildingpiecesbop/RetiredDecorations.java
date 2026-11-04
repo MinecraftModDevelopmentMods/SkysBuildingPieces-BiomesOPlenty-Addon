@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.VineBlock;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.Item;
@@ -26,9 +26,9 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -88,8 +88,8 @@ public final class RetiredDecorations {
     }
 
     @SubscribeEvent
-    public static void creativeContents(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() == CreativeModeTabs.NATURAL_BLOCKS) {
+    public static void creativeContents(BuildCreativeModeTabContentsEvent event) {
+        if (CreativeModeTabs.NATURAL_BLOCKS.equals(event.getTabKey())) {
             event.accept(STONE_FORMATIONS);
             event.accept(JELLED_POISON);
         }
@@ -109,7 +109,7 @@ public final class RetiredDecorations {
         private static final VoxelShape OUTLINE = Block.box(1.6, 0, 1.6, 14.4, 16, 14.4);
 
         private Formation() {
-            super(BlockBehaviour.Properties.of(Material.STONE).strength(1).sound(SoundType.STONE).noOcclusion()
+            super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1).sound(SoundType.STONE).noOcclusion()
                     .isRedstoneConductor((state, world, position) -> false));
 
             registerDefaultState(stateDefinition.any().setValue(FORM, Form.FLOOR));
@@ -193,14 +193,14 @@ public final class RetiredDecorations {
         }
 
         @Override
-        public List<ItemStack> getDrops(BlockState state, LootContext.Builder context) {
+        public List<ItemStack> getDrops(BlockState state, LootParams.Builder context) {
             return Collections.emptyList();
         }
     }
 
     private static final class JelledPoison extends Block {
         private JelledPoison() {
-            super(BlockBehaviour.Properties.of(Material.CLAY).strength(.4f).sound(SoundType.SLIME_BLOCK)
+            super(BlockBehaviour.Properties.of().mapColor(MapColor.CLAY).strength(.4f).sound(SoundType.SLIME_BLOCK)
                     .friction(.9f).noOcclusion());
 
         }

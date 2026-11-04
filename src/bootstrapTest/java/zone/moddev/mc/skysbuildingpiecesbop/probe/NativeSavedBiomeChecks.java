@@ -84,6 +84,7 @@ public final class NativeSavedBiomeChecks {
         JsonObject data = contract();
         JsonObject names = data.getAsJsonObject("source_names");
         boolean expandedHeight = data.get("format").getAsString().equals("zlib-u8-quart-volume-v2");
+        boolean numericBlocks = data.get("source_minecraft").getAsString().equals("1.12.2");
         int minimumQuartY = expandedHeight ? data.get("min_quart_y").getAsInt() : 0;
         int expectedCells = expandedHeight ? data.get("quart_height").getAsInt() * 16 : 1024;
         var registry = world.registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
@@ -113,7 +114,13 @@ public final class NativeSavedBiomeChecks {
                 var chunk = unopened ? null : world.getChunk(chunkX, chunkZ);
                 for (int cell = 0; cell < source.length; cell++) {
                     String oldName = names.get(Integer.toString(Byte.toUnsignedInt(source[cell]))).getAsString();
-                    String expected = data.getAsJsonObject("target_names").get(oldName).getAsString();
+                    String priorTarget = data.getAsJsonObject("target_names").get(oldName).getAsString();
+                    String expected = oldName.startsWith("biomesoplenty:") && !numericBlocks
+                            ? ForwardUpgradeChecks.currentTarget(expandedHeight ? "section_biomes" : "biomes", oldName)
+                            : priorTarget;
+                    if (numericBlocks || expected.equals(oldName)) {
+                        expected = ForwardUpgradeChecks.currentTarget("section_biomes", priorTarget);
+                    }
                     String actual = unopened ? convertedBiome(converted, cell, minimumQuartY)
                             : registry.getKey(chunk.getNoiseBiome((chunkX << 2) + (cell & 3),
                                     minimumQuartY + (cell >> 4), (chunkZ << 2) + (cell >> 2 & 3)).value()).toString();
@@ -121,7 +128,7 @@ public final class NativeSavedBiomeChecks {
                             "Native biome conversion at " + chunkX + "," + chunkZ + " cell=" + cell
                                     + " expected=" + expected + " actual=" + actual);
                     cells++;
-                    if (oldName.startsWith("minecraft:") && !oldName.equals(expected)) {
+                    if (oldName.startsWith("minecraft:") && !oldName.equals(priorTarget)) {
                         renamed++;
                     }
                 }

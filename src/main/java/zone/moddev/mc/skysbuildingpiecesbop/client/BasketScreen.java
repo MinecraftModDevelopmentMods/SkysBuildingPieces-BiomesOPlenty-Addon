@@ -1,7 +1,6 @@
 package zone.moddev.mc.skysbuildingpiecesbop.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.resources.ResourceLocation;
@@ -19,18 +18,15 @@ public final class BasketScreen extends AbstractContainerScreen<BasketContainer>
     }
 
     @Override
-    public void render(PoseStack pose, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(pose);
-        super.render(pose, mouseX, mouseY, partialTicks);
-        renderTooltip(pose, mouseX, mouseY);
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+        renderBackground(graphics);
+        super.render(graphics, mouseX, mouseY, partialTicks);
+        renderTooltip(graphics, mouseX, mouseY);
     }
 
     @Override
-    protected void renderBg(PoseStack pose, float ticks, int mouseX, int mouseY) {
-        RenderSystem.setShader(net.minecraft.client.renderer.GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1, 1, 1, 1);
-        RenderSystem.setShaderTexture(0, TEXTURE);
-        blit(pose, leftPos, topPos, 0, 0, imageWidth, 53);
-        blit(pose, leftPos, topPos + 53, 0, 126, imageWidth, 97);
+    protected void renderBg(GuiGraphics graphics, float ticks, int mouseX, int mouseY) {
+        graphics.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, 53);
+        graphics.blit(TEXTURE, leftPos, topPos + 53, 0, 126, imageWidth, 97);
     }
 }

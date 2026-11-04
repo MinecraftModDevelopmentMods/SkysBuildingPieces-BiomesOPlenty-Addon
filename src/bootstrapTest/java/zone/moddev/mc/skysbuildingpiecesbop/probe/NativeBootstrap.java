@@ -130,8 +130,11 @@ public final class NativeBootstrap {
                         .run(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
                 zone.moddev.mc.skysbuildingpieces.probe.RecipeChecks
                         .run(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
-                zone.moddev.mc.skysbuildingpieces.probe.RecipeBookChecks
-                        .run(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
+                if (!client) {
+                    // A deliberate reload here can interrupt an integrated client's login.
+                    zone.moddev.mc.skysbuildingpieces.probe.RecipeBookChecks
+                            .run(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
+                }
             }
 
             BopPersistenceOrderChecks.verify(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));

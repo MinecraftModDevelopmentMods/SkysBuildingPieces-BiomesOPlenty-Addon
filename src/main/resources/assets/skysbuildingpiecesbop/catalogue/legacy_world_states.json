@@ -1032,7 +1032,7 @@
       "variant": "cherry"
     },
     "target": {
-      "id": "biomesoplenty:cherry_log",
+      "id": "minecraft:cherry_log",
       "properties": {
         "axis": "x"
       }
@@ -1088,7 +1088,7 @@
       "variant": "cherry"
     },
     "target": {
-      "id": "biomesoplenty:cherry_log",
+      "id": "minecraft:cherry_log",
       "properties": {
         "axis": "y"
       }
@@ -1144,7 +1144,7 @@
       "variant": "cherry"
     },
     "target": {
-      "id": "biomesoplenty:cherry_log",
+      "id": "minecraft:cherry_log",
       "properties": {
         "axis": "z"
       }
@@ -1200,7 +1200,7 @@
       "variant": "cherry"
     },
     "target": {
-      "id": "biomesoplenty:cherry_wood",
+      "id": "minecraft:cherry_wood",
       "properties": {
         "axis": "y"
       }
@@ -2027,7 +2027,7 @@
       "variant": "yellow_autumn"
     },
     "target": {
-      "id": "biomesoplenty:yellow_autumn_leaves",
+      "id": "biomesoplenty:yellow_maple_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2043,7 +2043,7 @@
       "variant": "orange_autumn"
     },
     "target": {
-      "id": "biomesoplenty:orange_autumn_leaves",
+      "id": "biomesoplenty:orange_maple_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2091,7 +2091,7 @@
       "variant": "yellow_autumn"
     },
     "target": {
-      "id": "biomesoplenty:yellow_autumn_leaves",
+      "id": "biomesoplenty:yellow_maple_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -2107,7 +2107,7 @@
       "variant": "orange_autumn"
     },
     "target": {
-      "id": "biomesoplenty:orange_autumn_leaves",
+      "id": "biomesoplenty:orange_maple_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -2155,7 +2155,7 @@
       "variant": "yellow_autumn"
     },
     "target": {
-      "id": "biomesoplenty:yellow_autumn_leaves",
+      "id": "biomesoplenty:yellow_maple_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2171,7 +2171,7 @@
       "variant": "orange_autumn"
     },
     "target": {
-      "id": "biomesoplenty:orange_autumn_leaves",
+      "id": "biomesoplenty:orange_maple_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2219,7 +2219,7 @@
       "variant": "yellow_autumn"
     },
     "target": {
-      "id": "biomesoplenty:yellow_autumn_leaves",
+      "id": "biomesoplenty:yellow_maple_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -2235,7 +2235,7 @@
       "variant": "orange_autumn"
     },
     "target": {
-      "id": "biomesoplenty:orange_autumn_leaves",
+      "id": "biomesoplenty:orange_maple_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -2331,7 +2331,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:white_cherry_leaves",
+      "id": "biomesoplenty:snowblossom_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2395,7 +2395,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:white_cherry_leaves",
+      "id": "biomesoplenty:snowblossom_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -2459,7 +2459,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:white_cherry_leaves",
+      "id": "biomesoplenty:snowblossom_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2523,7 +2523,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:white_cherry_leaves",
+      "id": "biomesoplenty:snowblossom_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -2555,7 +2555,7 @@
       "variant": "pink_cherry"
     },
     "target": {
-      "id": "biomesoplenty:pink_cherry_leaves",
+      "id": "minecraft:cherry_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2571,7 +2571,7 @@
       "variant": "white_cherry"
     },
     "target": {
-      "id": "biomesoplenty:white_cherry_leaves",
+      "id": "biomesoplenty:snowblossom_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2587,7 +2587,7 @@
       "variant": "maple"
     },
     "target": {
-      "id": "biomesoplenty:maple_leaves",
+      "id": "biomesoplenty:red_maple_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2619,7 +2619,7 @@
       "variant": "pink_cherry"
     },
     "target": {
-      "id": "biomesoplenty:pink_cherry_leaves",
+      "id": "minecraft:cherry_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -2635,7 +2635,7 @@
       "variant": "white_cherry"
     },
     "target": {
-      "id": "biomesoplenty:white_cherry_leaves",
+      "id": "biomesoplenty:snowblossom_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -2651,7 +2651,7 @@
       "variant": "maple"
     },
     "target": {
-      "id": "biomesoplenty:maple_leaves",
+      "id": "biomesoplenty:red_maple_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -2683,7 +2683,7 @@
       "variant": "pink_cherry"
     },
     "target": {
-      "id": "biomesoplenty:pink_cherry_leaves",
+      "id": "minecraft:cherry_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2699,7 +2699,7 @@
       "variant": "white_cherry"
     },
     "target": {
-      "id": "biomesoplenty:white_cherry_leaves",
+      "id": "biomesoplenty:snowblossom_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2715,7 +2715,7 @@
       "variant": "maple"
     },
     "target": {
-      "id": "biomesoplenty:maple_leaves",
+      "id": "biomesoplenty:red_maple_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2747,7 +2747,7 @@
       "variant": "pink_cherry"
     },
     "target": {
-      "id": "biomesoplenty:pink_cherry_leaves",
+      "id": "minecraft:cherry_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -2763,7 +2763,7 @@
       "variant": "white_cherry"
     },
     "target": {
-      "id": "biomesoplenty:white_cherry_leaves",
+      "id": "biomesoplenty:snowblossom_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -2779,7 +2779,7 @@
       "variant": "maple"
     },
     "target": {
-      "id": "biomesoplenty:maple_leaves",
+      "id": "biomesoplenty:red_maple_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -3563,7 +3563,7 @@
       "variant": "red_big_flower"
     },
     "target": {
-      "id": "biomesoplenty:pink_cherry_leaves",
+      "id": "minecraft:cherry_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -3579,7 +3579,7 @@
       "variant": "yellow_big_flower"
     },
     "target": {
-      "id": "biomesoplenty:yellow_autumn_leaves",
+      "id": "biomesoplenty:yellow_maple_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -3595,7 +3595,7 @@
       "variant": "red_big_flower"
     },
     "target": {
-      "id": "biomesoplenty:pink_cherry_leaves",
+      "id": "minecraft:cherry_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -3611,7 +3611,7 @@
       "variant": "yellow_big_flower"
     },
     "target": {
-      "id": "biomesoplenty:yellow_autumn_leaves",
+      "id": "biomesoplenty:yellow_maple_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -3627,7 +3627,7 @@
       "variant": "red_big_flower"
     },
     "target": {
-      "id": "biomesoplenty:pink_cherry_leaves",
+      "id": "minecraft:cherry_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -3643,7 +3643,7 @@
       "variant": "yellow_big_flower"
     },
     "target": {
-      "id": "biomesoplenty:yellow_autumn_leaves",
+      "id": "biomesoplenty:yellow_maple_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -3659,7 +3659,7 @@
       "variant": "red_big_flower"
     },
     "target": {
-      "id": "biomesoplenty:pink_cherry_leaves",
+      "id": "minecraft:cherry_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -3675,7 +3675,7 @@
       "variant": "yellow_big_flower"
     },
     "target": {
-      "id": "biomesoplenty:yellow_autumn_leaves",
+      "id": "biomesoplenty:yellow_maple_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -3945,7 +3945,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:cherry_door",
+      "id": "minecraft:cherry_door",
       "properties": {
         "facing": "east",
         "half": "lower",
@@ -3966,7 +3966,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:cherry_door",
+      "id": "minecraft:cherry_door",
       "properties": {
         "facing": "south",
         "half": "lower",
@@ -3987,7 +3987,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:cherry_door",
+      "id": "minecraft:cherry_door",
       "properties": {
         "facing": "west",
         "half": "lower",
@@ -4008,7 +4008,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:cherry_door",
+      "id": "minecraft:cherry_door",
       "properties": {
         "facing": "north",
         "half": "lower",
@@ -4029,7 +4029,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:cherry_door",
+      "id": "minecraft:cherry_door",
       "properties": {
         "facing": "east",
         "half": "lower",
@@ -4050,7 +4050,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:cherry_door",
+      "id": "minecraft:cherry_door",
       "properties": {
         "facing": "south",
         "half": "lower",
@@ -4071,7 +4071,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:cherry_door",
+      "id": "minecraft:cherry_door",
       "properties": {
         "facing": "west",
         "half": "lower",
@@ -4092,7 +4092,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:cherry_door",
+      "id": "minecraft:cherry_door",
       "properties": {
         "facing": "north",
         "half": "lower",
@@ -4113,7 +4113,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:cherry_door",
+      "id": "minecraft:cherry_door",
       "properties": {
         "facing": "north",
         "half": "upper",
@@ -4134,7 +4134,7 @@
       "powered": "false"
     },
     "target": {
-      "id": "biomesoplenty:cherry_door",
+      "id": "minecraft:cherry_door",
       "properties": {
         "facing": "north",
         "half": "upper",
@@ -4155,7 +4155,7 @@
       "powered": "true"
     },
     "target": {
-      "id": "biomesoplenty:cherry_door",
+      "id": "minecraft:cherry_door",
       "properties": {
         "facing": "north",
         "half": "upper",
@@ -4176,7 +4176,7 @@
       "powered": "true"
     },
     "target": {
-      "id": "biomesoplenty:cherry_door",
+      "id": "minecraft:cherry_door",
       "properties": {
         "facing": "north",
         "half": "upper",
@@ -8055,7 +8055,7 @@
       "variant": "yellow_autumn"
     },
     "target": {
-      "id": "biomesoplenty:yellow_autumn_sapling",
+      "id": "biomesoplenty:yellow_maple_sapling",
       "properties": {
         "stage": "0"
       }
@@ -8069,7 +8069,7 @@
       "variant": "orange_autumn"
     },
     "target": {
-      "id": "biomesoplenty:orange_autumn_sapling",
+      "id": "biomesoplenty:orange_maple_sapling",
       "properties": {
         "stage": "0"
       }
@@ -8151,7 +8151,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:white_cherry_sapling",
+      "id": "biomesoplenty:snowblossom_sapling",
       "properties": {
         "stage": "0"
       }
@@ -8165,7 +8165,7 @@
       "variant": "yellow_autumn"
     },
     "target": {
-      "id": "biomesoplenty:yellow_autumn_sapling",
+      "id": "biomesoplenty:yellow_maple_sapling",
       "properties": {
         "stage": "1"
       }
@@ -8179,7 +8179,7 @@
       "variant": "orange_autumn"
     },
     "target": {
-      "id": "biomesoplenty:orange_autumn_sapling",
+      "id": "biomesoplenty:orange_maple_sapling",
       "properties": {
         "stage": "1"
       }
@@ -8261,7 +8261,7 @@
       "variant": "ethereal"
     },
     "target": {
-      "id": "biomesoplenty:white_cherry_sapling",
+      "id": "biomesoplenty:snowblossom_sapling",
       "properties": {
         "stage": "1"
       }
@@ -8289,7 +8289,7 @@
       "variant": "pink_cherry"
     },
     "target": {
-      "id": "biomesoplenty:pink_cherry_sapling",
+      "id": "minecraft:cherry_sapling",
       "properties": {
         "stage": "0"
       }
@@ -8303,7 +8303,7 @@
       "variant": "white_cherry"
     },
     "target": {
-      "id": "biomesoplenty:white_cherry_sapling",
+      "id": "biomesoplenty:snowblossom_sapling",
       "properties": {
         "stage": "0"
       }
@@ -8317,7 +8317,7 @@
       "variant": "maple"
     },
     "target": {
-      "id": "biomesoplenty:maple_sapling",
+      "id": "biomesoplenty:red_maple_sapling",
       "properties": {
         "stage": "0"
       }
@@ -8401,7 +8401,7 @@
       "variant": "pink_cherry"
     },
     "target": {
-      "id": "biomesoplenty:pink_cherry_sapling",
+      "id": "minecraft:cherry_sapling",
       "properties": {
         "stage": "1"
       }
@@ -8415,7 +8415,7 @@
       "variant": "white_cherry"
     },
     "target": {
-      "id": "biomesoplenty:white_cherry_sapling",
+      "id": "biomesoplenty:snowblossom_sapling",
       "properties": {
         "stage": "1"
       }
@@ -8429,7 +8429,7 @@
       "variant": "maple"
     },
     "target": {
-      "id": "biomesoplenty:maple_sapling",
+      "id": "biomesoplenty:red_maple_sapling",
       "properties": {
         "stage": "1"
       }

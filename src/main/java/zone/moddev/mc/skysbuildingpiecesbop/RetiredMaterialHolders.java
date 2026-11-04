@@ -2,7 +2,7 @@ package zone.moddev.mc.skysbuildingpiecesbop;
 
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.BlockState;
@@ -84,7 +84,7 @@ public final class RetiredMaterialHolders {
         private static final IntegerProperty META = IntegerProperty.create("metadata", 0, 15);
 
         Holder(String name) {
-            super(BlockBehaviour.Properties.of(Material.STONE).strength(-1, 3600000));
+            super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(-1, 3600000));
             registerDefaultState(stateDefinition.any().setValue(META, 0));
         }
 

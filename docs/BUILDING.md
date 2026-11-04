@@ -2,13 +2,13 @@
 
 Use Temurin 17.0.1+12 for Gradle and Temurin 17.0.1+12 for production. Set
 `SBP_JAVA17_HOME` to the Java 17 installation. The wrapper uses Gradle 9.6.1
-and ForgeGradle 7.0.34 for Minecraft 1.19.4 and Forge 45.4.0. ForgeGradle's
+and ForgeGradle 7.0.34 for Minecraft 1.20.1 and Forge 47.4.10. ForgeGradle's
 Mavenizer also needs Java 25; it is not used to compile or run the mod.
 
 The runtime log checks use Python 3.11 or later. If `python` is not on your
 path, pass `-PpythonExecutable=<python executable>` to Gradle.
 
-Check out Building Pieces 0.3.8.119041 at the exact source commit in
+Check out Building Pieces 0.3.8.120011 at the exact source commit in
 `gradle/core-dependency.properties`, then run its `gradlew assemble` task.
 Build this add-on with:
 
@@ -18,8 +18,8 @@ gradlew check build javadoc verifyReleaseArtifacts writeReleaseChecksums verifyE
 
 The development dependency is the core's `build/libs-dev` jar, not a shaded
 copy or a published Maven dependency. Packaged games use both normal main
-jars. BOP and TerraBlender are fetched from Modrinth Maven as checksum-verified
-dependencies. Neither is bundled in the add-on.
+jars. The build fetches BOP, TerraBlender and GlitchCore from Modrinth Maven
+and checks their hashes. The add-on uses these separate jars.
 
 The normal build checks both core jar hashes, its source commit and its clean
 working tree. CI builds that pinned commit before building the add-on. A local-only
@@ -57,7 +57,7 @@ disconnecting with the basket open. All these runs use disposable build folders.
 
 The development integration harness uses one mod-loading thread. Packaged checks
 retain Forge's normal loading settings. Unexpected errors or crashes fail either
-profile; native Forge45 controls complete without severe log messages.
+profile; native Forge 47 controls complete without severe log messages.
 
 `nativeInstalledBopPolicyTest` checks all 33 materials with replacement off and
 on, including placed pieces and inventories. It uses a labelled test fixture,

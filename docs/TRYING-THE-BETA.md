@@ -1,8 +1,8 @@
 # Trying the beta
 
-Install the Minecraft 1.19.4 main jars for Building Pieces 0.3.8.119041,
-this add-on and BOP 17.3.0.593 on the client and server. Use a new world or a
-backup copy. Do not put sources or Javadoc jars in the mods folder.
+Install the Minecraft 1.20.1 main jars for Building Pieces 0.3.8.120011,
+this add-on, BOP 19.0.0.96, TerraBlender 3.0.1.10 and GlitchCore 0.0.1.1 on
+the client and server. Use a new world or a backup copy.
 
 - Check wood and stone piece names in English and your usual game language.
   The names should describe the material and shape without repeating “block of”.

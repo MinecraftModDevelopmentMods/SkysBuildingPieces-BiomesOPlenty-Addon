@@ -265,6 +265,6 @@ jobs:
           path: |
             build/test-results/**
             build/reports/**
-            build/*-run/logs/**
-            build/*-run/**/*.properties
+            build/*-run*/logs/**
+            build/*-run*/**/*.properties
             build/problems/**

@@ -98,8 +98,7 @@ public final class BasketInventory extends SimpleContainer {
                 ItemStack stored = getItem(slot);
 
                 if (pass == 0) {
-                    if (stored.isEmpty() || !stored.sameItem(remainder)
-                            || !ItemStack.tagMatches(stored, remainder)) {
+                    if (stored.isEmpty() || !ItemStack.isSameItemSameTags(stored, remainder)) {
                         continue;
                     }
 

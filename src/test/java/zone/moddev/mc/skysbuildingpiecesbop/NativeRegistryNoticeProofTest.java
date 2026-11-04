@@ -35,7 +35,7 @@ class NativeRegistryNoticeProofTest {
         JsonObject profiles = new JsonParser().parse(new String(
                 Files.readAllBytes(Paths.get("tools/native-log-profiles.json")), StandardCharsets.UTF_8))
                 .getAsJsonObject().getAsJsonObject("profiles");
-        assertEquals(7, profiles.size());
+        assertEquals(8, profiles.size());
         Set<String> versions = new HashSet<>();
 
         for (java.util.Map.Entry<String, com.google.gson.JsonElement> entry : profiles.entrySet()) {
@@ -64,6 +64,16 @@ class NativeRegistryNoticeProofTest {
             }
             int expectedUnused = (profile.has("legacy_biome_registry") ? 10 : 0)
                     + (profile.has("retired_poi_contract") ? 2 : 0);
+            if (profile.has("forge47_unused_registry_contract")) {
+                JsonObject proof = boundJson(profile.getAsJsonObject("forge47_unused_registry_contract"));
+                assertEquals(profile.get("sha256"), proof.get("source_world_sha256"));
+                assertEquals(profile.get("mappings"), proof.get("snapshot_entries"));
+                JsonObject uses = proof.getAsJsonObject("saved_uses");
+                assertEquals(names, uses.keySet());
+                assertEquals(7, uses.size());
+                uses.entrySet().forEach(usage -> assertEquals(0, usage.getValue().getAsInt(), usage.getKey()));
+                expectedUnused += uses.size();
+            }
             assertEquals(expectedUnused, names.size());
             assertEquals(0, profile.get("non_biome_saved_uses").getAsInt());
             BiomeProof biomes = new BiomeProof(profile);
@@ -95,7 +105,7 @@ class NativeRegistryNoticeProofTest {
             assertEquals(profile.get("inspected_nbt_records").getAsInt(), records);
             biomes.complete(profile);
         }
-        assertEquals(Set.of("1.14.4", "1.15.2", "1.16.5", "1.17.1", "1.18.2"), versions);
+        assertEquals(Set.of("1.14.4", "1.15.2", "1.16.5", "1.17.1", "1.18.2", "1.19.4"), versions);
     }
 
     private static JsonObject boundJson(JsonObject binding) throws Exception {
@@ -184,6 +194,7 @@ class NativeRegistryNoticeProofTest {
         private long unnoticedCells;
         private long cells;
         private long renamed;
+        private int partialChunks;
 
         BiomeProof(JsonObject profile) throws Exception {
             JsonObject proof = profile.getAsJsonObject("native_biome_contract");
@@ -197,20 +208,26 @@ class NativeRegistryNoticeProofTest {
                 assertEquals(-16, contract.get("min_quart_y").getAsInt());
                 assertEquals(96, contract.get("quart_height").getAsInt());
             }
-            try (InputStream input = NamedBopRecovery.class.getResourceAsStream(
-                    "/assets/skysbuildingpiecesbop/catalogue/named_legacy.json")) {
-                assertNotNull(input);
-                bopReplacements = JsonParser.parseString(new String(input.readAllBytes(), StandardCharsets.UTF_8))
-                        .getAsJsonObject().getAsJsonObject(nativeHeight ? "section_biomes" : "biomes");
+            // These receipts describe the 1.19.4 transition. Keep its mapping
+            // separate from the new destinations tested on the 1.20.1 server.
+            boolean forge47 = profile.has("forge47_unused_registry_contract")
+                    || profile.has("target_forge") && profile.get("target_forge").getAsString().equals("47.4.10");
+            byte[] aliases = Files.readAllBytes(Paths.get(forge47
+                    ? "src/main/resources/assets/skysbuildingpiecesbop/catalogue/named_legacy.json"
+                    : "src/testFixtures/bop-1.19.4-named-recovery.json"));
+            if (!forge47) {
+                assertEquals("B665129A6A455FD9E7815D2D4E0FE7D358386752541034A991FF4372B56D7CF0", checksum(aliases));
             }
+            bopReplacements = JsonParser.parseString(new String(aliases, StandardCharsets.UTF_8))
+                    .getAsJsonObject().getAsJsonObject(nativeHeight ? "section_biomes" : "biomes");
             if (profile.has("live_biome_contract")) {
                 JsonObject live = boundJson(profile.getAsJsonObject("live_biome_contract"));
-                assertEquals("1.19.4", live.get("minecraft").getAsString());
-                assertEquals("45.4.0", live.get("forge").getAsString());
+                assertEquals(forge47 ? "1.20.1" : "1.19.4", live.get("minecraft").getAsString());
+                assertEquals(forge47 ? "47.4.10" : "45.4.0", live.get("forge").getAsString());
                 for (var row : live.getAsJsonArray("entries")) {
                     assertTrue(liveBiomes.add(row.getAsJsonObject().get("id").getAsString()));
                 }
-                assertEquals(128, liveBiomes.size());
+                assertEquals(forge47 ? 134 : 128, liveBiomes.size());
                 JsonObject snapshot = profile.getAsJsonObject("mappings");
                 if (snapshot.has("minecraft:worldgen/biome")) {
                     noticedBiomes.addAll(snapshot.getAsJsonObject("minecraft:worldgen/biome").keySet());
@@ -242,7 +259,12 @@ class NativeRegistryNoticeProofTest {
             CompoundTag level = nativeHeight ? root : root.getCompound("Level");
             String status = level.getString("Status");
             if (!status.equals("full") && !status.equals("minecraft:full")) {
-                return;
+                if (!version.equals("1.19.4")) {
+                    return;
+                }
+                // The adjacent fixture also seals complete palettes in its
+                // saved halo, including chunks whose generation is unfinished.
+                partialChunks++;
             }
             String position = level.getInt("xPos") + "," + level.getInt("zPos");
             byte[] expected = volumes.get(position);
@@ -341,6 +363,9 @@ class NativeRegistryNoticeProofTest {
             assertEquals(proof.get("renamed_cells").getAsLong(), renamed);
             assertEquals(contract.get("native_renamed_cells").getAsLong(), renamed);
             assertEquals(profile.get("saved_uses").getAsLong(), renamed + dynamicCells);
+            if (version.equals("1.19.4")) {
+                assertEquals(contract.get("partial_chunks").getAsInt(), partialChunks);
+            }
             if (profile.has("static_biome_contract")) {
                 assertEquals(profile.get("dynamic_biome_saved_uses").getAsLong(), dynamicCells);
                 try {

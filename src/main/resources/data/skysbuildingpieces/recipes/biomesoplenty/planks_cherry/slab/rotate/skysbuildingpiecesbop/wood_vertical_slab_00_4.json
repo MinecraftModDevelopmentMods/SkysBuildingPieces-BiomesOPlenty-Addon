@@ -8,14 +8,14 @@
     }
   },
   "result": {
-    "item": "biomesoplenty:cherry_slab",
+    "item": "minecraft:cherry_slab",
     "count": 1
   },
   "preserve_tag": true,
   "conditions": [
     {
       "type": "forge:item_exists",
-      "item": "biomesoplenty:cherry_slab"
+      "item": "minecraft:cherry_slab"
     },
     {
       "type": "forge:item_exists",

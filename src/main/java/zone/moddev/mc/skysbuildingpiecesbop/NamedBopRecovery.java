@@ -46,6 +46,7 @@ public final class NamedBopRecovery {
     private static final Map<String, String> ITEMS = itemMappings();
     private static final Map<String, String> BIOMES = mappings("biomes");
     private static final Map<String, String> SECTION_BIOMES = mappings("section_biomes");
+    private static final int SECTION_BIOMES_RELEASE = 2860;
     private static final String BIOME_MARKER = "skysbuildingpiecesbop_named_biomes";
     private static volatile NavigableMap<Integer, Map<Integer, String>> biomeSnapshots = new TreeMap<>();
 
@@ -70,6 +71,8 @@ public final class NamedBopRecovery {
     private static Map<String, String> itemMappings() {
         Map<String, String> result = new LinkedHashMap<>(BLOCKS);
 
+        // The wall sign only existed as a placed block. Its item is cherry_sign.
+        result.remove("biomesoplenty:cherry_wall_sign");
         result.putAll(mappings("items"));
         return Collections.unmodifiableMap(result);
     }
@@ -115,8 +118,13 @@ public final class NamedBopRecovery {
 
         if (sourceVersion >= 1451 && sourceVersion < SharedConstants.getCurrentVersion().getDataVersion().getVersion()) {
             CompoundTag registry = original.getCompound("Registry");
+            Tag ids = registry.get("ids");
+            // Named sections can leave Forge's numeric registry empty. Keep
+            // older sidecar tables for unopened chunks that still use numbers.
+            boolean namedOnly = sourceVersion >= SECTION_BIOMES_RELEASE
+                    && ids instanceof ListTag entries && entries.isEmpty();
 
-            if (registry.contains("ids", 9)) {
+            if (ids instanceof ListTag && !namedOnly) {
                 String key = Integer.toString(sourceVersion);
 
                 if (snapshots.contains(key, 10) && !snapshots.getCompound(key).equals(registry)) {
@@ -245,7 +253,9 @@ public final class NamedBopRecovery {
             CompoundTag tag = (CompoundTag) value;
             String name = tag.getString("Name");
 
-            for (Tag entry : chunkSections(tag)) {
+            ListTag sections = chunkSections(tag);
+            retargetCherrySigns(tag, sections);
+            for (Tag entry : sections) {
                 CompoundTag section = (CompoundTag) entry;
                 if (!removedSectionBiome(section)) {
                     continue;
@@ -354,6 +364,61 @@ public final class NamedBopRecovery {
             }
         }
         return false;
+    }
+
+    private static void retargetCherrySigns(CompoundTag chunk, ListTag sections) {
+        if (sections.isEmpty()) {
+            return;
+        }
+        for (Tag entry : chunk.getList("block_entities", Tag.TAG_COMPOUND)) {
+            CompoundTag sign = (CompoundTag) entry;
+            if (!sign.getString("id").equals("biomesoplenty:sign")) {
+                continue;
+            }
+            int x = sign.getInt("x");
+            int y = sign.getInt("y");
+            int z = sign.getInt("z");
+            for (Tag sectionEntry : sections) {
+                CompoundTag section = (CompoundTag) sectionEntry;
+                if (section.getByte("Y") != (y >> 4)) {
+                    continue;
+                }
+                String block = savedSignBlock(section.getCompound("block_states"), x, y, z);
+                if (isCherrySign(block)) {
+                    // Vanilla's sign fixer converts the old text, filtering,
+                    // dye and glow once the block entity has the vanilla ID.
+                    sign.putString("id", "minecraft:sign");
+                }
+                break;
+            }
+        }
+    }
+
+    private static String savedSignBlock(CompoundTag states, int x, int y, int z) {
+        ListTag palette = states.getList("palette", Tag.TAG_COMPOUND);
+        if (palette.stream().map(entry -> ((CompoundTag) entry).getString("Name"))
+                .noneMatch(NamedBopRecovery::isCherrySign)) {
+            return "";
+        }
+        if (palette.size() == 1) {
+            return palette.getCompound(0).getString("Name");
+        }
+        int bits = Math.max(4, Integer.SIZE - Integer.numberOfLeadingZeros(palette.size() - 1));
+        int entriesPerWord = Long.SIZE / bits;
+        int index = ((y & 15) << 8) | ((z & 15) << 4) | (x & 15);
+        long[] storage = states.getLongArray("data");
+        if (index / entriesPerWord >= storage.length) {
+            throw new IllegalStateException("Incomplete saved block palette for BOP sign at " + x + ", " + y + ", " + z);
+        }
+        int paletteIndex = (int) (storage[index / entriesPerWord] >>> (index % entriesPerWord * bits) & ((1L << bits) - 1));
+        if (paletteIndex >= palette.size()) {
+            throw new IllegalStateException("Invalid saved block palette index for BOP sign at " + x + ", " + y + ", " + z);
+        }
+        return palette.getCompound(paletteIndex).getString("Name");
+    }
+
+    private static boolean isCherrySign(String block) {
+        return block.equals("biomesoplenty:cherry_sign") || block.equals("biomesoplenty:cherry_wall_sign");
     }
 
     static CompoundTag crystalProperties(CompoundTag original) {
@@ -490,6 +555,8 @@ public final class NamedBopRecovery {
             }
             if (state.is(Blocks.BIRCH_SLAB)) {
                 state = Blocks.BIRCH_PLANKS.defaultBlockState();
+            } else if (state.is(Blocks.CHERRY_SLAB)) {
+                state = Blocks.CHERRY_PLANKS.defaultBlockState();
             } else if (state.is(Blocks.MUD_BRICK_SLAB)) {
                 state = Blocks.MUD_BRICKS.defaultBlockState();
             } else {

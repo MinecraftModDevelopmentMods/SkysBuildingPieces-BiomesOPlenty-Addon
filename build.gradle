@@ -48,15 +48,15 @@ def mavenizerLicense = mavenizerToolsDirectory.file('LICENSE-MAVENIZER.txt')
 def mavenizerReadme = mavenizerToolsDirectory.file('README.md')
 def mavenizerFixtureChecksums = [
         (mavenizerCompatibilityJar.asFile):
-                '341B3FB10ABA6EA7DC612FBE519DC290A1C81867AED5DD320ACD783688AC49DE',
+                '416DCA4797BC55826F0DDCF03FDC405F1990FC15C2133FA27A1F143BF7976177',
         (mavenizerRuleManifest.asFile):
-                '33A3217261EBB8F37D45F50BD2F8CE70B221C014A5C15F4C5F8F9091AD6D1EC8',
+                '8945511DFF53B8F1A91EE44B14AF9EC7DB34C373617EA37A608C6958BFEEB22E',
         (mavenizerSourcePatch.asFile):
                 'D856190DEF5574716C5E4F4379912C451B1F5952B0B111576651A98EECF58544',
         (mavenizerLicense.asFile):
                 '20C17D8B8C48A600800DFD14F95D5CB9FF47066A9641DDEAB48DC54AEC96E331',
         (mavenizerReadme.asFile):
-                '88806D79B0FD4479FA07CCFF30A44A6D90F1BF822665EFBFCCCBD5C99F65FBB3'
+                '177C1DDEDEF9704B9FDC8EA24B8DCDF4DDCC826DD0E253E7872A00DB2EA34518'
 ]
 
 // ForgeGradle invokes Mavenizer while configuring the project. Verify the
@@ -195,7 +195,7 @@ minecraft {
                             "${mod_id}%%${buildDir}/forge-run-mod-classes/main"
             if (name.toLowerCase(Locale.ROOT).contains('client') &&
                     providers.gradleProperty('forgeClientAssets').isPresent()) {
-                environment 'assetIndex', '3'
+                environment 'assetIndex', '5'
                 environment 'assetDirectory', providers.gradleProperty('forgeClientAssets').get()
                 if (providers.gradleProperty('forgeClientNatives').isPresent()) {
                     environment 'nativesDirectory', providers.gradleProperty('forgeClientNatives').get()
@@ -273,7 +273,7 @@ def configureFromForgeRun = { JavaExec process, String runTaskName, boolean incl
             run.exec()
         } finally {
             runOptions.workingDir.set(originalConfiguredWorkingDir)
-            runOptions.environment.set(originalConfiguredEnvironment)
+            if (!includeMain) runOptions.environment.set(originalConfiguredEnvironment)
             run.workingDir(originalWorkingDir)
             run.setArgs(originalArgs)
             run.setJvmArgs(originalJvmArgs)
@@ -314,7 +314,7 @@ repositories {
 
 def coreLock = new Properties()
 file('gradle/core-dependency.properties').withInputStream { coreLock.load(it) }
-def coreDirectory = file(providers.gradleProperty('buildingPiecesCoreDir').getOrElse('../../SkysBuildingPieces119/SkysBuildingPieces'))
+def coreDirectory = file(providers.gradleProperty('buildingPiecesCoreDir').getOrElse('../../SkysBuildingPieces1201/SkysBuildingPieces'))
 def localCoreVersion = providers.gradleProperty('buildingPiecesCoreVersion')
 if (localCoreVersion.isPresent() && (System.getenv('CI') == 'true' || !providers.gradleProperty('buildingPiecesCoreDir').isPresent()))
     throw new GradleException('The core-version override is local only and requires an explicit core directory; it is not permitted in CI.')
@@ -323,6 +323,7 @@ def coreDevelopmentJar = new File(coreDirectory, "build/libs-dev/SkysBuildingPie
 configurations {
     bopRelease
     terraBlenderRelease
+    glitchCoreRelease
 }
 repositories {
     exclusiveContent {
@@ -382,6 +383,11 @@ dependencies {
     } else {
         terraBlenderRelease "maven.modrinth:kkmrDlKT:${coreLock.terrablender_modrinth_version}"
     }
+    if (providers.gradleProperty('glitchCoreMainJar').isPresent()) {
+        glitchCoreRelease files(providers.gradleProperty('glitchCoreMainJar').get())
+    } else {
+        glitchCoreRelease "maven.modrinth:s3dmwKy5:${coreLock.glitchcore_modrinth_version}"
+    }
     compileOnly files(coreDevelopmentJar)
     testImplementation files(coreDevelopmentJar)
     if (providers.gradleProperty('biomesOPlentyMainJar').isPresent()) {
@@ -404,6 +410,12 @@ if (MessageDigest.getInstance('SHA-256').digest(terraBlenderJar.bytes)
     throw new GradleException('The TerraBlender dependency does not match the qualified jar.')
 }
 ext.terraBlenderMainJar = terraBlenderJar
+File glitchCoreJar = configurations.glitchCoreRelease.singleFile
+if (MessageDigest.getInstance('SHA-256').digest(glitchCoreJar.bytes)
+        .encodeHex().toString().toUpperCase(Locale.ROOT) != coreLock.glitchcore_sha256) {
+    throw new GradleException('The GlitchCore dependency does not match the qualified jar.')
+}
+ext.glitchCoreMainJar = glitchCoreJar
 def originalBopManifest = new ZipFile(bopJar).withCloseable { archive ->
     new java.util.jar.Manifest(archive.getInputStream(archive.getEntry('META-INF/MANIFEST.MF')))
             .mainAttributes.collectEntries { key, value -> [(key.toString()): value.toString()] }
@@ -440,10 +452,28 @@ new ZipFile(terraBlenderJar).withCloseable { archive ->
     }
 }
 
+def glitchCoreDevelopmentAccessRules = file('.gradle/dependencies/glitchcore_at.cfg')
+def originalGlitchCoreManifest = new ZipFile(glitchCoreJar).withCloseable { archive ->
+    new java.util.jar.Manifest(archive.getInputStream(archive.getEntry('META-INF/MANIFEST.MF')))
+            .mainAttributes.collectEntries { key, value -> [(key.toString()): value.toString()] }
+}
+new ZipFile(glitchCoreJar).withCloseable { archive ->
+    def entry = archive.getEntry('META-INF/accesstransformer.cfg')
+    if (entry == null) throw new GradleException('GlitchCore development access rules are missing')
+    glitchCoreDevelopmentAccessRules.parentFile.mkdirs()
+    archive.getInputStream(entry).withCloseable { input ->
+        String rules = input.getText('UTF-8').replaceAll(/\b[fm]_\d+_\b/) { member ->
+            if (!mappedMembers.containsKey(member)) throw new GradleException("Unmapped GlitchCore access rule: ${member}")
+            mappedMembers[member]
+        }
+        glitchCoreDevelopmentAccessRules.setText(rules, 'UTF-8')
+    }
+}
+
 dependencies {
     implementation minecraft.dependency(
             "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}") {
-        accessTransformers.from(bopDevelopmentAccessRules, terraBlenderDevelopmentAccessRules)
+        accessTransformers.from(bopDevelopmentAccessRules, terraBlenderDevelopmentAccessRules, glitchCoreDevelopmentAccessRules)
     }
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.2'
@@ -537,7 +567,38 @@ def terraBlenderDevelopmentArchive = tasks.register('terraBlenderDevelopmentJar'
 }
 ext.terraBlenderDevelopmentJar = layout.buildDirectory.file('development-dependencies/terrablender-official.jar')
 ext.terraBlenderDevelopmentTask = terraBlenderDevelopmentArchive
-tasks.named('bopDevelopmentJar') { dependsOn terraBlenderDevelopmentArchive }
+
+def glitchCoreDevelopmentInput = tasks.register('glitchCoreDevelopmentInput', Jar) {
+    archiveFileName = 'glitchcore-development-input.jar'
+    destinationDirectory = layout.buildDirectory.dir('development-dependencies')
+    manifest.attributes(originalGlitchCoreManifest)
+    from(zipTree(glitchCoreJar)) {
+        exclude 'META-INF/MANIFEST.MF', 'META-INF/accesstransformer.cfg'
+        exclude 'META-INF/*.SF', 'META-INF/*.RSA', 'META-INF/*.DSA'
+    }
+}
+def mappedGlitchCore = renamer.classes(glitchCoreDevelopmentInput) {
+    map.from reverseBopMappings
+    libraries.from sourceSets.main.compileClasspath
+    naiveSrg = true
+    accessTransformers = false
+    output = layout.buildDirectory.file('development-dependencies/glitchcore-official-classes.jar')
+}
+def glitchCoreDevelopmentArchive = tasks.register('glitchCoreDevelopmentJar', Jar) {
+    dependsOn mappedGlitchCore
+    archiveFileName = 'glitchcore-official.jar'
+    destinationDirectory = layout.buildDirectory.dir('development-dependencies')
+    manifest.attributes(originalGlitchCoreManifest)
+    from { zipTree(layout.buildDirectory.file('development-dependencies/glitchcore-official-classes.jar').get().asFile) }
+    exclude 'META-INF/MANIFEST.MF'
+    from(glitchCoreDevelopmentAccessRules) {
+        into 'META-INF'
+        rename { 'accesstransformer.cfg' }
+    }
+}
+ext.glitchCoreDevelopmentJar = layout.buildDirectory.file('development-dependencies/glitchcore-official.jar')
+ext.glitchCoreDevelopmentTask = glitchCoreDevelopmentArchive
+tasks.named('bopDevelopmentJar') { dependsOn terraBlenderDevelopmentArchive, glitchCoreDevelopmentArchive }
 def compileIntegrationTestMod = tasks.register('compileIntegrationTestMod', JavaCompile) {
     group = 'verification'
     dependsOn tasks.named('classes')
@@ -555,7 +616,9 @@ def integrationTestModJar = tasks.register('integrationTestModJar', Jar) {
     destinationDirectory = layout.buildDirectory.dir('integration-test-mod')
     from integrationTestClasses
     from 'src/integrationTest/resources'
-    from(new File(coreDirectory, 'src/integrationTest/resources')) { exclude 'META-INF/mods.toml' }
+    from(new File(coreDirectory, 'src/integrationTest/resources')) {
+        exclude 'META-INF/mods.toml', 'log4j2.xml'
+    }
 }
 
 def packagedIntegrationTestModJar = renamer.classes(integrationTestModJar) {
@@ -572,14 +635,18 @@ tasks.register('preparePackagedIntegrationProbe') {
     dependsOn packagedIntegrationTestModJar
 }
 
-def integrationRunDirectory = layout.buildDirectory.dir('integration-test-run')
+def integrationRunName = providers.gradleProperty('bopIntegrationRunName').getOrElse('integration-test-run-' + UUID.randomUUID())
+if (!(integrationRunName ==~ /[a-z0-9-]+/)) {
+    throw new GradleException('Use a simple name for the integration run directory.')
+}
+def integrationRunDirectory = layout.buildDirectory.dir(integrationRunName)
 
 tasks.register('prepareDevelopmentDependencies') {
     dependsOn bopDevelopmentArchive
     doLast {
         project.copy {
             from project.ext.bopDevelopmentJar
-            from project.ext.terraBlenderDevelopmentJar
+            from project.ext.terraBlenderDevelopmentJar, project.ext.glitchCoreDevelopmentJar
             from coreDevelopmentJar
             into file("${developmentRunDirectory}/mods")
         }
@@ -594,13 +661,16 @@ def prepareIntegrationTest = tasks.register('prepareIntegrationTest') {
     dependsOn integrationTestModJar, bopDevelopmentArchive
     doLast {
         File runDirectory = integrationRunDirectory.get().asFile
-        project.delete(runDirectory)
+        if (runDirectory.canonicalFile != new File(buildDir, integrationRunName).canonicalFile
+                || runDirectory.exists()) {
+            throw new GradleException('The integration checks require a new directory under build: ' + runDirectory)
+        }
         File mods = new File(runDirectory, 'mods')
         mods.mkdirs()
         project.copy {
             from integrationTestModJar.flatMap { it.archiveFile }
             from project.ext.bopDevelopmentJar
-            from project.ext.terraBlenderDevelopmentJar
+            from project.ext.terraBlenderDevelopmentJar, project.ext.glitchCoreDevelopmentJar
             from coreDevelopmentJar
             into mods
         }
@@ -619,7 +689,7 @@ maxThreads=1
         new File(runDirectory, 'server.properties').setText('''\
 level-name=world
 level-seed=skys-building-pieces-integration
-level-type=default
+level-type=minecraft:normal
 online-mode=false
 server-ip=127.0.0.1
 server-port=0
@@ -638,10 +708,10 @@ def createIntegrationProcess = { String phase, Object dependency ->
         dependsOn dependency
         workingDir integrationRunDirectory
         systemProperty 'skysbuildingpieces.integrationPhase', phase.toLowerCase(Locale.ROOT)
-        systemProperty 'log4j.configurationFile', new File(coreDirectory, 'src/integrationTest/resources/log4j2.xml').toURI().toString()
         configureFromForgeRun(delegate, 'runServer')
         doLast {
             File runDirectory = integrationRunDirectory.get().asFile
+            project.ext.auditNativeBopServerLogs(runDirectory, phase.toLowerCase(Locale.ROOT))
             String log = new File(runDirectory, 'logs/latest.log').getText('UTF-8')
             if (log.find(/(?:\/|\[)(?:ERROR|FATAL)\]/) || log.contains('[STDERR')
                     || !fileTree(new File(runDirectory, 'crash-reports')).isEmpty()) {
@@ -692,7 +762,6 @@ tasks.register('integrationClientProcess', JavaExec) {
     dependsOn prepareIntegrationTest
     workingDir integrationRunDirectory
     systemProperty 'skysbuildingpieces.integrationPhase', 'client'
-    systemProperty 'log4j.configurationFile', new File(coreDirectory, 'src/integrationTest/resources/log4j2.xml').toURI().toString()
     configureFromForgeRun(delegate, 'runClient')
     doLast {
         if (!new File(integrationRunDirectory.get().asFile, 'building-pieces-client-pass.txt').isFile())
@@ -771,12 +840,12 @@ def releaseFiles = provider {
 tasks.register('verifyReleaseMetadata') {
     group = 'verification'
     doLast {
-        if (project.minecraft_version != '1.19.4' || project.forge_version != '45.4.0' ||
-                project.mapping_channel != 'official' || project.mapping_version != '1.19.4' ||
+        if (project.minecraft_version != '1.20.1' || project.forge_version != '47.4.10' ||
+                project.mapping_channel != 'official' || project.mapping_version != '1.20.1' ||
                 project.loader_name != 'forge' || project.loader_code != '1' ||
                 project.java_version != '17' || project.java_toolchain_version != '17.0.1+12' ||
                 project.mod_id != 'skysbuildingpiecesbop') {
-            throw new GradleException('Unexpected 1.19.4 release metadata')
+            throw new GradleException('Unexpected 1.20.1 release metadata')
         }
     }
 }
@@ -1102,8 +1171,7 @@ tasks.named('check') { dependsOn tasks.named('verifyNativeRecipeConflicts') }
 // Recipes and unlocks use the native datapack tree.
 
 ext.configureRecipeBookRun = configureFromForgeRun
-ext.recipeBookLogConfiguration = new File(coreDirectory, 'src/integrationTest/resources/log4j2.xml').toURI().toString()
-ext.recipeBookExtraMods = files(project.ext.bopDevelopmentJar, project.ext.terraBlenderDevelopmentJar, coreDevelopmentJar)
+ext.recipeBookExtraMods = files(project.ext.bopDevelopmentJar, project.ext.terraBlenderDevelopmentJar, project.ext.glitchCoreDevelopmentJar, coreDevelopmentJar)
 apply from: 'gradle/recipe-book-verification.gradle'
 ext.coreDirectory = coreDirectory
 ext.coreDevelopmentJar = coreDevelopmentJar

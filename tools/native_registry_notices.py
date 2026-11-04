@@ -9,7 +9,8 @@ import re
 def validate_registry_proofs(root, profile):
     """Keep static snapshot notices separate from the world's live biome data."""
     receipts = {}
-    for key in ("static_biome_contract", "retired_poi_contract", "live_biome_contract"):
+    for key in ("static_biome_contract", "retired_poi_contract", "live_biome_contract",
+                "forge47_unused_registry_contract"):
         binding = profile.get(key)
         if binding is None:
             continue
@@ -35,6 +36,16 @@ def validate_registry_proofs(root, profile):
             or poi["snapshot_entries"] != {"minecraft:point_of_interest_type":
                                           profile["mappings"]["minecraft:point_of_interest_type"]}):
         raise ValueError("The retired POI entries are not proven unused")
+    forge47 = receipts.get("forge47_unused_registry_contract")
+    if forge47 is not None:
+        entries = forge47["snapshot_entries"]
+        names = {name for registry in entries.values() for name in registry}
+        if (len(names) != 7 or forge47["inspected_nbt_values"] <= 0
+                or "minecraft:worldgen/biome" in entries
+                or forge47["saved_uses"] != dict.fromkeys(names, 0)
+                or any(profile["mappings"].get(registry, {}).get(name) != numeric_id
+                       for registry, values in entries.items() for name, numeric_id in values.items())):
+            raise ValueError("The Forge 47 entries are not proven unused")
     dynamic = profile.get("dynamic_biome_saved_uses", 0)
     if dynamic:
         live = receipts.get("live_biome_contract")
