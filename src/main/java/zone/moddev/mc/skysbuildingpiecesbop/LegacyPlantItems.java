@@ -84,7 +84,7 @@ final class LegacyPlantItems {
                     // it here would recurse.
                     CompoundTag fixed = (CompoundTag) DataFixers.getDataFixer()
                             .update(References.ITEM_STACK, new Dynamic<>(NbtOps.INSTANCE, compound.copy()),
-                                    1343, SharedConstants.getCurrentVersion().getWorldVersion())
+                                    1343, SharedConstants.getCurrentVersion().getDataVersion().getVersion())
                             .getValue();
 
                     for (String key : new ArrayList<>(compound.getAllKeys())) {

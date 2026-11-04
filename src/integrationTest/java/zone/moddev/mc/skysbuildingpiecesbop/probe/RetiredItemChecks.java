@@ -33,12 +33,14 @@ public final class RetiredItemChecks {
         int[] counts = { 1, 2, 8 };
 
         for (int entryIndex = 0; entryIndex < 3; entryIndex++) {
-            require(LegacyItemRecovery.HOLDERS[entryIndex].getItemCategory() == null, "holder is hidden");
+            if (net.minecraftforge.fml.loading.FMLEnvironment.dist == net.minecraftforge.api.distmarker.Dist.CLIENT) {
+                require(BasketChecks.hidden(LegacyItemRecovery.HOLDERS[entryIndex], world), "holder is hidden");
+            }
 
             Item target = ForgeRegistries.ITEMS.getValue(new ResourceLocation(LegacyItemRecovery.target(entryIndex)));
 
             for (String registryId : new String[] { "biomesoplenty:" + legacyIds[entryIndex],
-                    LegacyItemRecovery.HOLDERS[entryIndex].getRegistryName().toString() }) {
+                    ForgeRegistries.ITEMS.getKey(LegacyItemRecovery.HOLDERS[entryIndex]).toString() }) {
                 CompoundTag raw = stack(registryId, 1, 7);
                 CompoundTag tag = raw.getCompound("tag").copy();
 

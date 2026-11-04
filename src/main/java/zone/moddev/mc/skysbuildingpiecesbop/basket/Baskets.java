@@ -6,7 +6,10 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.registries.MissingMappingsEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraft.world.inventory.MenuType;
@@ -30,30 +33,36 @@ public final class Baskets {
     }
 
     @SubscribeEvent
-    public static void items(RegistryEvent.Register<Item> event) {
+    public static void items(RegisterEvent event) {
         ITEM = new BasketItem(false);
         HOLDER = new BasketItem(true);
-        event.getRegistry().registerAll(ITEM, HOLDER);
+        ForgeRegistries.ITEMS.register(new ResourceLocation(BasketData.ID), ITEM);
+        ForgeRegistries.ITEMS.register(new ResourceLocation(BasketData.HOLDER), HOLDER);
     }
 
-    public static void containers(RegistryEvent.Register<MenuType<?>> event) {
+    public static void containers(RegisterEvent event) {
         TYPE = IForgeMenuType.create(BasketContainer::new);
-        TYPE.setRegistryName(SkysBuildingPiecesBop.ID, "flower_basket");
-        event.getRegistry().register(TYPE);
+        ForgeRegistries.MENU_TYPES.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "flower_basket"), TYPE);
     }
 
     @SubscribeEvent
-    public static void missing(RegistryEvent.MissingMappings<Item> event) {
-        for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getAllMappings()) {
-            if (mapping.key.equals(new ResourceLocation(BasketData.OLD))) {
+    public static void missing(MissingMappingsEvent event) {
+        for (MissingMappingsEvent.Mapping<Item> mapping : event.getAllMappings(ForgeRegistries.Keys.ITEMS)) {
+            if (mapping.getKey().equals(new ResourceLocation(BasketData.OLD))) {
                 mapping.remap(HOLDER);
             }
         }
     }
 
+    public static void creativeContents(CreativeModeTabEvent.BuildContents event) {
+        if (event.getTab() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+            event.accept(ITEM);
+        }
+    }
+
     @SubscribeEvent
     public static void pickup(EntityItemPickupEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
 
         if (player.level.isClientSide || event.isCanceled()) {
             return;
@@ -65,10 +74,11 @@ public final class Baskets {
         if (!BasketInventory.accepts(incoming)) {
             return;
         }
-        // Read the saved age on the server without depending on the client-only accessor.
+        // In 1.19 getOwner identifies the thrower, while the saved Owner UUID is
+        // the exclusive pickup target. Follow the same target check as vanilla.
+        CompoundTag pickupData = entity.saveWithoutId(new CompoundTag());
         if (entity.hasPickUpDelay()
-                || entity.getOwner() != null && !entity.getOwner().equals(player.getUUID()) && entity.lifespan
-                        - entity.saveWithoutId(new net.minecraft.nbt.CompoundTag()).getShort("Age") > 200) {
+                || pickupData.hasUUID("Owner") && !pickupData.getUUID("Owner").equals(player.getUUID())) {
             return;
         }
 

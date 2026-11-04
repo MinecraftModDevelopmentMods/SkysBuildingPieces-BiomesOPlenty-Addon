@@ -21,5 +21,6 @@
       "type": "forge:item_exists",
       "item": "skysbuildingpiecesbop:mud_brick_block_vertical_step"
     }
-  ]
+  ],
+  "category": "building"
 }

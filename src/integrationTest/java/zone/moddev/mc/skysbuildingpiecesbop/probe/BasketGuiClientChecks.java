@@ -91,7 +91,7 @@ public final class BasketGuiClientChecks {
             });
         } else if (stage == 1 && minecraft.player.getMainHandItem().getItem() == Baskets.ITEM) {
             stage = 2;
-            minecraft.gameMode.useItem(minecraft.player, minecraft.level, InteractionHand.MAIN_HAND);
+            minecraft.gameMode.useItem(minecraft.player, InteractionHand.MAIN_HAND);
         } else if (stage == 2 && minecraft.screen instanceof BasketScreen) {
             stage = 3;
             minecraft.gameMode.handleInventoryMouseClick(minecraft.player.containerMenu.containerId, 18, 0, ClickType.QUICK_MOVE,
@@ -143,7 +143,7 @@ public final class BasketGuiClientChecks {
             }
             if (offhandMoved && minecraft.player.getOffhandItem().getItem() == Baskets.ITEM) {
                 stage = 6;
-                minecraft.gameMode.useItem(minecraft.player, minecraft.level, InteractionHand.OFF_HAND);
+                minecraft.gameMode.useItem(minecraft.player, InteractionHand.OFF_HAND);
             }
         } else if (stage == 6 && minecraft.screen instanceof BasketScreen) {
             stage = 7;
@@ -171,7 +171,7 @@ public final class BasketGuiClientChecks {
                         .insert(new ItemStack(net.minecraft.world.level.block.Blocks.OAK_SAPLING, 3));
                 player.getAbilities().instabuild = false;
                 player.setHealth(0);
-                player.die(net.minecraft.world.damagesource.DamageSource.OUT_OF_WORLD);
+                player.die(player.damageSources().outOfWorld());
             });
             deathCheckAt = ticks + 20;
         } else if (stage == 8 && ticks >= deathCheckAt && !serverChecked) {

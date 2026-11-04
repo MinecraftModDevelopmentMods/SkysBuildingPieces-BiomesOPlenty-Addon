@@ -52,12 +52,12 @@ public final class BasketClientChecks {
                 BakedModel model = minecraft.getItemRenderer().getModel(stack, null, null, 0);
 
                 if (model == minecraft.getItemRenderer().getItemModelShaper().getModelManager().getMissingModel()
-                        || model.getParticleIcon().getName().toString().contains("missingno")) {
+                        || model.getParticleIcon().contents().name().toString().contains("missingno")) {
                     throw new AssertionError("Missing basket model");
                 }
                 if (filled && model == previous) {
                     throw new AssertionError("Filled basket override did not change the model: "
-                            + basket.getRegistryName());
+                            + net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(basket));
                 }
 
                 previous = model;
@@ -68,7 +68,7 @@ public final class BasketClientChecks {
                     null, 0);
 
             if (model == minecraft.getItemRenderer().getItemModelShaper().getModelManager().getMissingModel()
-                    || model.getParticleIcon().getName().toString().contains("missingno")) {
+                    || model.getParticleIcon().contents().name().toString().contains("missingno")) {
                 throw new AssertionError("Missing retired-item holder model");
             }
         }

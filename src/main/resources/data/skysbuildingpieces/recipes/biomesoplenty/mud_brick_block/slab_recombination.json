@@ -4,21 +4,12 @@
   "pattern": ["XX"],
   "key": {
     "X": {
-      "item": "biomesoplenty:mud_brick_slab"
+      "item": "minecraft:mud_brick_slab"
     }
   },
   "result": {
-    "item": "biomesoplenty:mud_bricks",
+    "item": "minecraft:mud_bricks",
     "count": 1
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:mud_brick_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:mud_bricks"
-    }
-  ]
+  "category": "building"
 }

@@ -19,13 +19,13 @@ final class RegistrySnapshot {
         JsonArray states = new JsonArray();
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-            if (!block.getRegistryName().getNamespace().equals("biomesoplenty")) {
+            if (!net.minecraftforge.registries.ForgeRegistries.BLOCKS.getKey(block).getNamespace().equals("biomesoplenty")) {
                 continue;
             }
             for (BlockState state : block.getStateDefinition().getPossibleStates()) {
                 JsonObject row = new JsonObject();
 
-                row.addProperty("id", block.getRegistryName().toString());
+                row.addProperty("id", net.minecraftforge.registries.ForgeRegistries.BLOCKS.getKey(block).toString());
 
                 JsonObject properties = new JsonObject();
 
@@ -53,13 +53,13 @@ final class RegistrySnapshot {
         JsonArray biomes = new JsonArray();
 
         var biomeRegistry = net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
-                .registryOrThrow(net.minecraft.core.Registry.BIOME_REGISTRY);
+                .registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
         biomeRegistry.forEach(biome -> {
             JsonObject row = new JsonObject();
 
             row.addProperty("id", biomeRegistry.getKey(biome).toString());
             row.addProperty("temperature", biome.getBaseTemperature());
-            row.addProperty("rainfall", biome.getDownfall());
+            row.addProperty("rainfall", biome.getModifiedClimateSettings().downfall());
             biomes.add(row);
         });
 

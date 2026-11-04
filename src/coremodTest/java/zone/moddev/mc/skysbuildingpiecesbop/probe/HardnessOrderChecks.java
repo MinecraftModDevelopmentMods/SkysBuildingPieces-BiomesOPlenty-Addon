@@ -48,7 +48,7 @@ public final class HardnessOrderChecks {
             apply(addon, missing);
             throw new AssertionError("A missing native target was accepted");
         } catch (ScriptException expected) {
-            require(expected.getMessage().contains("expected one Forge 37 hardness method"),
+            require(expected.getMessage().contains("expected one Forge 45 hardness method"),
                     "The missing-target refusal must explain the changed method");
         }
         System.out.println("BOP_HARDNESS_COREMOD_ORDER_PASS orders=2 actual_scripts=true idempotent=true"

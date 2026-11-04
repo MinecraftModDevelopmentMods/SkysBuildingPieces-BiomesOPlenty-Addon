@@ -51,7 +51,7 @@ public final class BopMigrationChecks {
                     require(coverage.getInt("vanilla") == 1 && coverage.getInt("biomesoplenty") == 1
                             && coverage.getInt("future_addon") == 9, "Independent module coverage changed");
 
-                    CompoundTag fixed = NbtUtils.update(world.getServer().getFixerUpper(), DataFixTypes.CHUNK,
+                    CompoundTag fixed = DataFixTypes.CHUNK.update(world.getServer().getFixerUpper(),
                             raw.copy(), 512, 1976);
 
                     require(contains(fixed, expected), "Native flattening lost " + material.id + "/" + code);
@@ -83,7 +83,7 @@ public final class BopMigrationChecks {
 
                 LegacyBridge.finalizeLegacyChunk(remaining);
                 new zone.moddev.mc.skysbuildingpieces.legacy.MigrationEvents()
-                        .load(new net.minecraftforge.event.world.ChunkDataEvent.Load(world.getChunk(0, 0),
+                        .load(new net.minecraftforge.event.level.ChunkDataEvent.Load(world.getChunk(0, 0),
                                 remaining.getCompound("Level"), net.minecraft.world.level.chunk.ChunkStatus.ChunkType.LEVELCHUNK));
                 require(totals.modules.get("biomesoplenty").blocks == blocks + 1
                         && totals.modules.get("biomesoplenty").chunks == chunks,

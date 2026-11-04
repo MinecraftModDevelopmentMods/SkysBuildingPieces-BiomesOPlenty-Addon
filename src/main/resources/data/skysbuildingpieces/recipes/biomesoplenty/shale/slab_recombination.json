@@ -28,7 +28,8 @@
         "result": {
           "item": "mineralogy:shale",
           "count": 1
-        }
+        },
+        "category": "building"
       }
     },
     {
@@ -61,7 +62,8 @@
         "result": {
           "item": "skysbuildingpiecesbop:retired_shale",
           "count": 1
-        }
+        },
+        "category": "building"
       }
     }
   ]

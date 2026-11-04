@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": ["biomesoplenty:mud_brick_slab"]
+            "items": ["minecraft:mud_brick_slab"]
           }
         ]
       }
@@ -24,10 +24,6 @@
     "recipes": ["skysbuildingpieces:biomesoplenty/mud_brick_block/horizontal_step/step/biomesoplenty/other_slab_0"]
   },
   "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:mud_brick_slab"
-    },
     {
       "type": "forge:item_exists",
       "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"

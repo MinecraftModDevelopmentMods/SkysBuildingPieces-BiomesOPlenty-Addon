@@ -4,7 +4,7 @@
   "pattern": ["X ", " X"],
   "key": {
     "X": {
-      "item": "biomesoplenty:mud_brick_slab"
+      "item": "minecraft:mud_brick_slab"
     }
   },
   "result": {
@@ -14,11 +14,8 @@
   "conditions": [
     {
       "type": "forge:item_exists",
-      "item": "biomesoplenty:mud_brick_slab"
-    },
-    {
-      "type": "forge:item_exists",
       "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
     }
-  ]
+  ],
+  "category": "building"
 }

@@ -83,7 +83,7 @@ public final class BasketDisconnectClientChecks {
 
                     ItemStack stack = new ItemStack(Baskets.ITEM);
 
-                    stack.setHoverName(new net.minecraft.network.chat.TextComponent("Disconnect plants"));
+                    stack.setHoverName(net.minecraft.network.chat.Component.literal("Disconnect plants"));
                     new BasketInventory(stack).setItem(7,
                             new ItemStack(net.minecraft.world.level.block.Blocks.BIRCH_SAPLING, 11));
                     player.getInventory().setItem(0, stack);
@@ -94,7 +94,7 @@ public final class BasketDisconnectClientChecks {
             finish(minecraft, "BOP_BASKET_DISCONNECT_RELOAD_PASS baskets=1 units=11 slot=7 custom_name=preserved");
         } else if (stage == 1 && minecraft.player.getMainHandItem().getItem() == Baskets.ITEM) {
             stage = 2;
-            minecraft.gameMode.useItem(minecraft.player, minecraft.level, InteractionHand.MAIN_HAND);
+            minecraft.gameMode.useItem(minecraft.player, InteractionHand.MAIN_HAND);
         } else if (stage == 2 && minecraft.screen instanceof BasketScreen) {
             stage = 3;
             closingServerThread = minecraft.getSingleplayerServer().getRunningThread();

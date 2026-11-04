@@ -23,7 +23,9 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -43,7 +45,7 @@ public final class RetiredRocks extends Block {
 
     private RetiredRocks() {
         super(BlockBehaviour.Properties.of(Material.STONE).strength(1.5f, 6).requiresCorrectToolForDrops());
-        setRegistryName(SkysBuildingPiecesBop.ID, "retired_rocks");
+
         registerDefaultState(stateDefinition.any().setValue(VARIANT, 0));
     }
 
@@ -109,34 +111,44 @@ public final class RetiredRocks extends Block {
 
     @SubscribeEvent(
             priority = EventPriority.HIGHEST)
-    public static void blocks(RegistryEvent.Register<Block> event) {
+    public static void blocks(RegisterEvent event) {
+        if (!event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
         BLOCK = new RetiredRocks();
-        event.getRegistry().register(BLOCK);
+        ForgeRegistries.BLOCKS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "retired_rocks"), BLOCK);
     }
 
     @SubscribeEvent
-    public static void items(RegistryEvent.Register<Item> event) {
+    public static void items(RegisterEvent event) {
+        if (!event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) return;
         // The old palette identity remains a hidden recovery carrier. Normal inventory stacks have a distinct item
         // identity for each rock.
-        event.getRegistry()
-                .register(new BlockItem(BLOCK, new Item.Properties()).setRegistryName(BLOCK.getRegistryName()));
+        ForgeRegistries.ITEMS.register(ForgeRegistries.BLOCKS.getKey(BLOCK), new BlockItem(BLOCK, new Item.Properties()));
 
         for (int variant = 0; variant < NAMES.length; variant++) {
             VariantItem item = new VariantItem(variant);
 
-            item.setRegistryName(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]);
             ITEMS[variant] = item;
-            event.getRegistry().register(item);
+            ForgeRegistries.ITEMS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]), item);
         }
 
         zone.moddev.mc.skysbuildingpieces.api.BuildingPiecesApi.registerStateItems(BLOCK, RetiredRocks::item);
+    }
+
+    @SubscribeEvent
+    public static void creativeContents(CreativeModeTabEvent.BuildContents event) {
+        if (event.getTab() != CreativeModeTabs.BUILDING_BLOCKS) return;
+        for (Item item : ITEMS) {
+            if (((VariantItem) item).visibleInCreativeTab()) {
+                event.accept(item);
+            }
+        }
     }
 
     private static final class VariantItem extends BlockItem {
         private final int variant;
 
         VariantItem(int variant) {
-            super(BLOCK, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS));
+            super(BLOCK, new Item.Properties());
             this.variant = variant;
         }
 
@@ -150,13 +162,10 @@ public final class RetiredRocks extends Block {
             return "block.skysbuildingpiecesbop.retired_" + NAMES[variant];
         }
 
-        @Override
-        public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+        boolean visibleInCreativeTab() {
             Block nativeRock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("mineralogy", NAMES[variant]));
-
-            if (nativeRock == null || nativeRock == net.minecraft.world.level.block.Blocks.AIR) {
-                super.fillItemCategory(group, items);
-            }
+            return nativeRock == null || nativeRock == net.minecraft.world.level.block.Blocks.AIR;
         }
+
     }
 }

@@ -20,5 +20,6 @@
       "type": "forge:item_exists",
       "item": "biomesoplenty:cherry_slab"
     }
-  ]
+  ],
+  "category": "building"
 }

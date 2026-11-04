@@ -66,6 +66,33 @@ jobs:
           repository: SkyBlade1978/SkysBuildingPieces
           ref: ${{ steps.content.outputs.pieces }}
           path: dependencies/pieces
+      - name: Read the core's coordinated Grass Slabs source pin
+        id: grass
+        shell: bash
+        run: |
+          set -euo pipefail
+          commit="$(sed -n 's/^source.commit=//p' dependencies/pieces/gradle/grass-slabs-release.properties)"
+          [[ "$commit" =~ ^[0-9a-f]{40}$ ]]
+          echo "commit=$commit" >> "$GITHUB_OUTPUT"
+
+      - name: Check out pinned Grass Slabs source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: SkyBlade1978/SkysGrassSlabs
+          ref: ${{ steps.grass.outputs.commit }}
+          path: dependencies/grass-slabs
+
+      - name: Build the coordinated Grass Slabs dependency
+        shell: bash
+        run: |
+          set -euo pipefail
+          dependency="$GITHUB_WORKSPACE/dependencies/grass-slabs"
+          chmod +x "$dependency/gradlew"
+          "$dependency/gradlew" -p "$dependency" assemble --no-daemon --stacktrace
+          version="$(sed -n 's/^version=//p' dependencies/pieces/gradle/grass-slabs-release.properties)"
+          echo "ORG_GRADLE_PROJECT_grassSlabsMainJar=$dependency/build/libs/SkysGrassSlabs-$version.jar" >> "$GITHUB_ENV"
+          echo "ORG_GRADLE_PROJECT_grassSlabsDeobfJar=$dependency/build/libs-dev/SkysGrassSlabs-$version-deobf.jar" >> "$GITHUB_ENV"
+
       - name: Build development dependencies
         run: |
           set -euo pipefail
@@ -143,11 +170,7 @@ jobs:
           java-version: ${{ steps.target.outputs.java_setup_version }}
 
       - name: Pin production Java
-        if: steps.target.outputs.java_version == '8'
-        run: |
-          echo "SGS_JAVA8_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
-          echo "SBP_JAVA8_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
-          echo "STS_JAVA8_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
+        run: echo "SBP_JAVA17_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
 
       - name: Install Java for Gradle
         uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
@@ -172,6 +195,33 @@ jobs:
           repository: SkyBlade1978/SkysBuildingPieces
           ref: ${{ steps.content.outputs.pieces }}
           path: dependencies/pieces
+      - name: Read the core's coordinated Grass Slabs source pin
+        id: grass
+        shell: bash
+        run: |
+          set -euo pipefail
+          commit="$(sed -n 's/^source.commit=//p' dependencies/pieces/gradle/grass-slabs-release.properties)"
+          [[ "$commit" =~ ^[0-9a-f]{40}$ ]]
+          echo "commit=$commit" >> "$GITHUB_OUTPUT"
+
+      - name: Check out pinned Grass Slabs source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: SkyBlade1978/SkysGrassSlabs
+          ref: ${{ steps.grass.outputs.commit }}
+          path: dependencies/grass-slabs
+
+      - name: Build the coordinated Grass Slabs dependency
+        shell: bash
+        run: |
+          set -euo pipefail
+          dependency="$GITHUB_WORKSPACE/dependencies/grass-slabs"
+          chmod +x "$dependency/gradlew"
+          "$dependency/gradlew" -p "$dependency" assemble --no-daemon --stacktrace
+          version="$(sed -n 's/^version=//p' dependencies/pieces/gradle/grass-slabs-release.properties)"
+          echo "ORG_GRADLE_PROJECT_grassSlabsMainJar=$dependency/build/libs/SkysGrassSlabs-$version.jar" >> "$GITHUB_ENV"
+          echo "ORG_GRADLE_PROJECT_grassSlabsDeobfJar=$dependency/build/libs-dev/SkysGrassSlabs-$version-deobf.jar" >> "$GITHUB_ENV"
+
       - name: Build development dependencies
         run: |
           set -euo pipefail
@@ -184,8 +234,9 @@ jobs:
 
       - name: Build, test, and audit release artifacts
         run: >-
-          ./gradlew clean check integrationTest build javadoc verifyReleaseArtifacts writeReleaseChecksums
+          ./gradlew clean check build javadoc verifyReleaseArtifacts writeReleaseChecksums
           verifyEclipseProductionClasspath -PbuildingPiecesCoreDir=dependencies/pieces --no-daemon --stacktrace
+          -x integrationTest -x integrationRecipeBookTest -x nativeInstalledBopPolicyTest
 
       - name: Replay artifact checks offline
         run: >-

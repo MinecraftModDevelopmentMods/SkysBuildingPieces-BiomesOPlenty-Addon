@@ -20,5 +20,6 @@
       "type": "forge:item_exists",
       "item": "skysbuildingpiecesbop:siltstone_slab"
     }
-  ]
+  ],
+  "category": "building"
 }

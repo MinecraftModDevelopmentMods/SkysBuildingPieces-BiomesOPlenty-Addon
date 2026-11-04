@@ -21,5 +21,6 @@
       "type": "forge:item_exists",
       "item": "skysbuildingpiecesbop:shale_vertical_step"
     }
-  ]
+  ],
+  "category": "building"
 }

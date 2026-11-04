@@ -1,4 +1,4 @@
-"""Resolve fixed BOP palettes against the verified Minecraft 1.14 resources."""
+"""Resolve the permanent palettes against the verified target resources."""
 
 import argparse
 import copy
@@ -56,13 +56,14 @@ def prepare(options):
             base = name.removeprefix('planks_') if name.startswith('planks_') else {
                 'mud_brick_block': 'mud_bricks'}.get(name, name)
             full = base + '_planks' if name.startswith('planks_') else base
-            identifier = 'biomesoplenty:' + full
+            identifier = ('minecraft:mud_bricks' if material['id'] == 'biomesoplenty:mud_brick_block'
+                          else 'biomesoplenty:' + full)
             if not native.exists(identifier):
                 raise ValueError('Retained BOP material needs an explicit native mapping: ' + identifier)
             blocks = {'full': {'id': identifier}}
             shape_base = base if name.startswith('planks_') else {'mud_bricks': 'mud_brick'}.get(base, base)
             for shape in ('slab', 'stairs', 'wall', 'fence', 'fence_gate'):
-                candidate = 'biomesoplenty:' + shape_base + '_' + shape
+                candidate = identifier.split(':', 1)[0] + ':' + shape_base + '_' + shape
                 if native.exists(candidate):
                     blocks[shape] = {'id': candidate}
             material['blocks'] = blocks
@@ -144,7 +145,13 @@ def prepare(options):
         'retired_rocks': NAMESPACE + ':item/retired_gabbro',
     }
     for name, parent in hidden.items():
-        changes[assets / 'models/item' / (name + '.json')] = {'parent': parent}
+        model_path = assets / 'models/item' / (name + '.json')
+        model = {'parent': parent}
+        if model_path.is_file():
+            previous = json.loads(model_path.read_text(encoding='utf-8'))
+            if 'overrides' in previous:
+                model['overrides'] = previous['overrides']
+        changes[model_path] = model
     for language in (assets / 'lang').glob('*.lang'):
         entries = {}
         for line in language.read_text(encoding='utf-8').splitlines():

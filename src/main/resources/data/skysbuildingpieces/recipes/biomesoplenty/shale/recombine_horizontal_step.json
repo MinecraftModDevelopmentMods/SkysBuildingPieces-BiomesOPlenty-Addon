@@ -20,5 +20,6 @@
       "type": "forge:item_exists",
       "item": "skysbuildingpiecesbop:shale_slab"
     }
-  ]
+  ],
+  "category": "building"
 }

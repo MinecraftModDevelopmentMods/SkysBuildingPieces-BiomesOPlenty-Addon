@@ -49,10 +49,16 @@ final class NativeNamedForwardChecks {
         CHUNKS.clear();
         ENTITIES.clear();
         NativeSavedBiomeChecks.prepare(world, CHUNKS);
+        Set<ChunkPos> deferred = NativeSavedBiomeChecks.deferredChunks();
         for (String list : new String[] { "states", "containers", "entities" }) {
             for (JsonElement value : fixture.getAsJsonArray(list)) {
                 JsonObject saved = value.getAsJsonObject();
-                CHUNKS.add(new ChunkPos(position(saved)));
+                ChunkPos chunk = new ChunkPos(position(saved));
+                if (deferred.contains(chunk)) {
+                    require(list.equals("states"), "A deferred biome chunk contains a saved inventory or entity");
+                    continue;
+                }
+                CHUNKS.add(chunk);
                 if (list.equals("entities")) {
                     ENTITIES.add(UUID.fromString(saved.get("uuid").getAsString()));
                 }
@@ -78,8 +84,14 @@ final class NativeNamedForwardChecks {
         NativeSavedBiomeChecks.verify(world);
         int states = 0;
         int crystals = 0;
+        Set<ChunkPos> deferred = NativeSavedBiomeChecks.deferredChunks();
         for (JsonElement value : fixture.getAsJsonArray("states")) {
             JsonObject saved = value.getAsJsonObject();
+            if (deferred.contains(new ChunkPos(position(saved)))) {
+                require(world.getChunkSource().getChunkNow(position(saved).getX() >> 4,
+                        position(saved).getZ() >> 4) == null, "A deferred source chunk was loaded early");
+                continue;
+            }
             CompoundTag expected = TagParser.parseTag(saved.get("state").getAsString());
             String source = expected.getString("Name");
             if (source.equals("biomesoplenty:rose_quartz_cluster") || source.equals("biomesoplenty:rose_quartz_block")) {
@@ -107,8 +119,19 @@ final class NativeNamedForwardChecks {
                 crystals++;
             } else if (source.equals("minecraft:grass_path")) {
                 expected.putString("Name", "minecraft:dirt_path");
+            } else if (source.equals("biomesoplenty:rooted_sand")) {
+                expected.putString("Name", "minecraft:rooted_dirt");
+            } else if (java.util.Set.of("biomesoplenty:mud", "biomesoplenty:mud_bricks",
+                    "biomesoplenty:mud_brick_slab", "biomesoplenty:mud_brick_stairs",
+                    "biomesoplenty:mud_brick_wall").contains(source)) {
+                expected.putString("Name", source.replace("biomesoplenty:", "minecraft:"));
+                if (source.equals("biomesoplenty:mud_brick_slab")
+                        && expected.getCompound("Properties").getString("type").equals("double")) {
+                    expected.putString("Name", "minecraft:mud_bricks");
+                    expected.remove("Properties");
+                }
             }
-            net.minecraft.world.level.block.state.BlockState decoded = NbtUtils.readBlockState(expected);
+            net.minecraft.world.level.block.state.BlockState decoded = NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(), expected);
             if (decoded.getBlock() instanceof zone.moddev.mc.skysbuildingpieces.content.PieceBlock) {
                 // Old palette holders remain registered, but their native BOP
                 // equivalents are the accepted stored form after loading.
@@ -136,12 +159,12 @@ final class NativeNamedForwardChecks {
                         + actual.save(new CompoundTag()));
                 units += actual.getCount();
                 if (actual.getItem() == zone.moddev.mc.skysbuildingpiecesbop.basket.Baskets.ITEM) {
-                    require(actual.getTag().getList("Items", 10).size() == 18, "Saved basket lost a slot");
+                    require(actual.getTag().getList("Items", 10).equals(expected.getTag().getList("Items", 10)), "Saved basket lost a slot");
                     baskets++;
                 }
             }
         }
-        require(baskets == 1, "The component-rich current basket must survive");
+        require(baskets == (fixture.has("original_baskets") ? fixture.getAsJsonArray("original_baskets").size() + 1 : 1), "Every source basket must survive");
         for (JsonElement value : fixture.getAsJsonArray("entities")) {
             JsonObject saved = value.getAsJsonObject();
             net.minecraft.world.entity.Entity entity = world.getEntity(UUID.fromString(saved.get("uuid").getAsString()));
@@ -177,6 +200,10 @@ final class NativeNamedForwardChecks {
             world.setChunkForced(chunk.x, chunk.z, false);
         }
         ForwardUpgradeChecks.checkSavedRecoveryData(world);
+        if (!deferred.isEmpty()) {
+            java.nio.file.Files.writeString(java.nio.file.Path.of("delayed-biomes-first-pass.txt"),
+                    "deferred_chunks=" + deferred.size() + "\n", StandardCharsets.UTF_8);
+        }
         org.apache.logging.log4j.LogManager.getLogger().info("BUILDING_PIECES_BOP_FORWARD_UPGRADE_PASS named_states="
                 + states + " crystals=" + crystals + " item_units=" + units + " basket_slots=18 schema=1 counters=unchanged");
     }
@@ -194,6 +221,16 @@ final class NativeNamedForwardChecks {
                 String id = saved.getString("id");
                 if (id.equals("minecraft:grass_path")) {
                     saved.putString("id", "minecraft:dirt_path");
+                } else if (id.equals("biomesoplenty:rooted_sand")) {
+                    saved.putString("id", "minecraft:rooted_dirt");
+                } else if (id.equals("biomesoplenty:mud_ball")) {
+                    saved.putString("id", "minecraft:clay_ball");
+                } else if (id.equals("biomesoplenty:mud_brick")) {
+                    saved.putString("id", "minecraft:brick");
+                } else if (java.util.Set.of("biomesoplenty:mud", "biomesoplenty:mud_bricks",
+                        "biomesoplenty:mud_brick_slab", "biomesoplenty:mud_brick_stairs",
+                        "biomesoplenty:mud_brick_wall").contains(id)) {
+                    saved.putString("id", id.replace("biomesoplenty:", "minecraft:"));
                 } else if (id.equals("biomesoplenty:mangrove_root")) {
                     saved.putString("id", "minecraft:small_dripleaf");
                 } else if (id.equals("biomesoplenty:tree_roots") || id.equals("biomesoplenty:tree_roots_stem")) {

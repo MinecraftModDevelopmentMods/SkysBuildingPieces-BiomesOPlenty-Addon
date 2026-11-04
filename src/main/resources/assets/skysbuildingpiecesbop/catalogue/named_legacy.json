@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "minecraft": "1.18.2",
+  "minecraft": "1.19.4",
   "blocks": {
     "biomesoplenty:dried_sand": "biomesoplenty:dried_salt",
     "biomesoplenty:ethereal_button": "minecraft:birch_button",
@@ -27,11 +27,19 @@
     "biomesoplenty:nether_crystal_block": "biomesoplenty:rose_quartz_block",
     "biomesoplenty:mangrove_root": "minecraft:small_dripleaf",
     "biomesoplenty:tree_roots": "minecraft:weeping_vines",
-    "biomesoplenty:tree_roots_stem": "minecraft:weeping_vines_plant"
+    "biomesoplenty:tree_roots_stem": "minecraft:weeping_vines_plant",
+    "biomesoplenty:mud": "minecraft:mud",
+    "biomesoplenty:mud_bricks": "minecraft:mud_bricks",
+    "biomesoplenty:mud_brick_slab": "minecraft:mud_brick_slab",
+    "biomesoplenty:mud_brick_stairs": "minecraft:mud_brick_stairs",
+    "biomesoplenty:mud_brick_wall": "minecraft:mud_brick_wall",
+    "biomesoplenty:rooted_sand": "minecraft:rooted_dirt"
   },
   "items": {
     "biomesoplenty:ethereal_boat": "minecraft:birch_boat",
-    "biomesoplenty:tree_roots_stem": "minecraft:weeping_vines"
+    "biomesoplenty:tree_roots_stem": "minecraft:weeping_vines",
+    "biomesoplenty:mud_ball": "minecraft:clay_ball",
+    "biomesoplenty:mud_brick": "minecraft:brick"
   },
   "biomes": {
     "biomesoplenty:dead_reef": "minecraft:end_midlands",
@@ -41,9 +49,8 @@
     "biomesoplenty:ashen_inferno": "minecraft:basalt_deltas",
     "biomesoplenty:bog": "biomesoplenty:wetland",
     "biomesoplenty:boreal_forest": "biomesoplenty:coniferous_forest",
-    "biomesoplenty:brushland": "biomesoplenty:wooded_scrubland",
+    "biomesoplenty:brushland": "biomesoplenty:scrubland",
     "biomesoplenty:chaparral": "biomesoplenty:scrubland",
-    "biomesoplenty:floodplain": "biomesoplenty:floodplain",
     "biomesoplenty:ghost_forest": "biomesoplenty:muskeg",
     "biomesoplenty:lush_grassland": "biomesoplenty:field",
     "biomesoplenty:lush_swamp": "biomesoplenty:bayou",
@@ -57,8 +64,7 @@
     "biomesoplenty:overgrown_cliffs": "biomesoplenty:rocky_rainforest",
     "biomesoplenty:pasture": "biomesoplenty:field",
     "biomesoplenty:poppy_field": "biomesoplenty:field",
-    "biomesoplenty:pumpkin_patch": "biomesoplenty:pumpkin_patch",
-    "biomesoplenty:rainbow_valley": "biomesoplenty:rainbow_hills",
+    "biomesoplenty:rainbow_valley": "biomesoplenty:auroral_garden",
     "biomesoplenty:shield": "biomesoplenty:highland",
     "biomesoplenty:silkglade": "biomesoplenty:mediterranean_forest",
     "biomesoplenty:snowy_forest": "biomesoplenty:snowy_maple_woods",
@@ -107,6 +113,15 @@
     "biomesoplenty:tropic_beach": "biomesoplenty:tropics",
     "biomesoplenty:tundra_basin": "biomesoplenty:tundra",
     "biomesoplenty:tundra_bog": "biomesoplenty:bog",
-    "biomesoplenty:wetland_forest": "biomesoplenty:wetland"
+    "biomesoplenty:wetland_forest": "biomesoplenty:wetland",
+    "biomesoplenty:rainbow_hills": "biomesoplenty:auroral_garden",
+    "biomesoplenty:wooded_scrubland": "biomesoplenty:scrubland",
+    "biomesoplenty:wooded_wasteland": "biomesoplenty:wasteland"
+  },
+  "section_biomes": {
+    "biomesoplenty:boreal_forest": "biomesoplenty:coniferous_forest",
+    "biomesoplenty:rainbow_hills": "biomesoplenty:auroral_garden",
+    "biomesoplenty:wooded_scrubland": "biomesoplenty:scrubland",
+    "biomesoplenty:wooded_wasteland": "biomesoplenty:wasteland"
   }
 }

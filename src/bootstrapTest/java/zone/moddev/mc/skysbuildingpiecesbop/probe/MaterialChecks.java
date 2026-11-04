@@ -104,7 +104,7 @@ final class MaterialChecks {
                             world.setBlock(position, wet, 2);
                             require(world.getFluidState(position).getType() == net.minecraft.world.level.material.Fluids.WATER,
                                     "Waterlogged material lost its fluid: " + material.id + " / " + shape);
-                            require(net.minecraft.nbt.NbtUtils.readBlockState(
+                            require(net.minecraft.nbt.NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(),
                                     net.minecraft.nbt.NbtUtils.writeBlockState(wet)).equals(wet),
                                     "Waterlogged orientation did not survive serialization: " + material.id);
                             world.setBlock(position, state, 2);
@@ -116,7 +116,7 @@ final class MaterialChecks {
             }
 
             long registered = ForgeRegistries.BLOCKS.getValues().stream()
-                    .filter(block -> block.getRegistryName().getNamespace().equals(SkysBuildingPiecesBop.ID)).count();
+                    .filter(block -> net.minecraftforge.registries.ForgeRegistries.BLOCKS.getKey(block).getNamespace().equals(SkysBuildingPiecesBop.ID)).count();
 
             require(registered == 74 && registered <= 80, "Complete add-on block budget: " + registered);
             LOGGER.info("BOP_NATIVE_MATERIALS_PASS states=" + checked + " blocks=" + registered);

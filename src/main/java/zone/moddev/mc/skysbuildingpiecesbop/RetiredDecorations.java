@@ -27,7 +27,9 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -69,17 +71,27 @@ public final class RetiredDecorations {
     }
 
     @SubscribeEvent
-    public static void blocks(RegistryEvent.Register<Block> event) {
+    public static void blocks(RegisterEvent event) {
+        if (!event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
         STONE_FORMATIONS = new Formation();
         JELLED_POISON = new JelledPoison();
-        event.getRegistry().registerAll(STONE_FORMATIONS, JELLED_POISON);
+        ForgeRegistries.BLOCKS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "stone_formations"), STONE_FORMATIONS);
+        ForgeRegistries.BLOCKS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "jelled_poison"), JELLED_POISON);
     }
 
     @SubscribeEvent
-    public static void items(RegistryEvent.Register<Item> event) {
+    public static void items(RegisterEvent event) {
+        if (!event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) return;
         for (Block block : new Block[] { STONE_FORMATIONS, JELLED_POISON }) {
-            event.getRegistry().register(new BlockItem(block, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS))
-                    .setRegistryName(block.getRegistryName()));
+            ForgeRegistries.ITEMS.register(ForgeRegistries.BLOCKS.getKey(block), new BlockItem(block, new Item.Properties()));
+        }
+    }
+
+    @SubscribeEvent
+    public static void creativeContents(CreativeModeTabEvent.BuildContents event) {
+        if (event.getTab() == CreativeModeTabs.NATURAL_BLOCKS) {
+            event.accept(STONE_FORMATIONS);
+            event.accept(JELLED_POISON);
         }
     }
 
@@ -99,7 +111,7 @@ public final class RetiredDecorations {
         private Formation() {
             super(BlockBehaviour.Properties.of(Material.STONE).strength(1).sound(SoundType.STONE).noOcclusion()
                     .isRedstoneConductor((state, world, position) -> false));
-            setRegistryName(SkysBuildingPiecesBop.ID, "stone_formations");
+
             registerDefaultState(stateDefinition.any().setValue(FORM, Form.FLOOR));
             // Loading an old decoration must not start a removal cascade when its anchor has changed.
         }
@@ -190,7 +202,7 @@ public final class RetiredDecorations {
         private JelledPoison() {
             super(BlockBehaviour.Properties.of(Material.CLAY).strength(.4f).sound(SoundType.SLIME_BLOCK)
                     .friction(.9f).noOcclusion());
-            setRegistryName(SkysBuildingPiecesBop.ID, "jelled_poison");
+
         }
 
     }

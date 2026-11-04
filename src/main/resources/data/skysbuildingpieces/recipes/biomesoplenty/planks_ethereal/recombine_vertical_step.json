@@ -16,5 +16,6 @@
       "type": "forge:item_exists",
       "item": "skysbuildingpieces:planks_birch_vertical_step"
     }
-  ]
+  ],
+  "category": "building"
 }

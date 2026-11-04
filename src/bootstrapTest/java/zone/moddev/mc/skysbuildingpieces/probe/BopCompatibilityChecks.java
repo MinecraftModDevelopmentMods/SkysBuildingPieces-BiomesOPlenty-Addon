@@ -25,9 +25,9 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -111,7 +111,7 @@ public final class BopCompatibilityChecks {
 
         player.getInventory().setItem(0, legacy(13));
         player.getEnderChestInventory().setItem(0, legacy(11));
-        MinecraftForge.EVENT_BUS.post(new EntityJoinWorldEvent(player, world));
+        MinecraftForge.EVENT_BUS.post(new EntityJoinLevelEvent(player, world));
         identity(player.getInventory().getItem(0), 13, convert);
         identity(player.getEnderChestInventory().getItem(0), 11, convert);
         player.getInventory().setItem(1, legacy(9));
@@ -172,6 +172,11 @@ public final class BopCompatibilityChecks {
                 "Live nested inventory is idempotent");
 
         CraftingContainer grid = new CraftingContainer(new AbstractContainerMenu(null, 0) {
+                        @Override
+                        public ItemStack quickMoveStack(Player player, int slot) {
+                            return ItemStack.EMPTY;
+                        }
+
             @Override
             public boolean stillValid(Player ignored) {
                 return true;
@@ -180,11 +185,11 @@ public final class BopCompatibilityChecks {
 
         grid.setItem(0, legacy(1));
 
-        LegacyPieceRecipe recipe = new LegacyPieceRecipe(new ResourceLocation("skysbuildingpieces:bridge_test"));
+        LegacyPieceRecipe recipe = new LegacyPieceRecipe(new ResourceLocation("skysbuildingpieces:bridge_test"), net.minecraft.world.item.crafting.CraftingBookCategory.BUILDING);
 
         NativeLegacyChecks.require(recipe.matches(grid, world),
                 "Explicit bridge recipe works independently of replacement");
-        identity(recipe.assemble(grid), 1, true);
+        identity(recipe.assemble(grid, world.registryAccess()), 1, true);
         drop.discard();
         frame.discard();
         world.removeBlock(position.north(), false);

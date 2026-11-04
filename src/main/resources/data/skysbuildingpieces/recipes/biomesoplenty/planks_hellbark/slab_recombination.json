@@ -20,5 +20,6 @@
       "type": "forge:item_exists",
       "item": "biomesoplenty:hellbark_slab"
     }
-  ]
+  ],
+  "category": "building"
 }

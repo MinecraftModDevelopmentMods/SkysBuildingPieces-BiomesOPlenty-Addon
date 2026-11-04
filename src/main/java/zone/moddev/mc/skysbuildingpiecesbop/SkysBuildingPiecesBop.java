@@ -6,7 +6,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -21,7 +23,7 @@ import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketPreflight;
 @Mod(SkysBuildingPiecesBop.ID)
 public final class SkysBuildingPiecesBop {
     public static final String ID = "skysbuildingpiecesbop";
-    public static final String VERSION = "0.2.4.118021";
+    public static final String VERSION = "0.2.4.119041";
 
     public SkysBuildingPiecesBop() {
         if (BuildingPiecesApi.VERSION != 1) {
@@ -67,20 +69,20 @@ public final class SkysBuildingPiecesBop {
         }
 
         @SubscribeEvent
-        public static void blocks(RegistryEvent.Register<Block> event) {
-            BuildingPiecesApi.registerBlocks(ID, event.getRegistry());
+        public static void register(RegisterEvent event) {
+            if (event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) {
+                BuildingPiecesApi.registerBlocks(ID, ForgeRegistries.BLOCKS);
+            } else if (event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) {
+                BuildingPiecesApi.registerItems(ID, ForgeRegistries.ITEMS);
+                Baskets.items(event);
+            } else if (event.getRegistryKey().equals(ForgeRegistries.Keys.MENU_TYPES)) {
+                Baskets.containers(event);
+            }
         }
 
         @SubscribeEvent
-        public static void items(RegistryEvent.Register<Item> event) {
-            BuildingPiecesApi.registerItems(ID, event.getRegistry());
-            Baskets.items(event);
+        public static void creativeContents(CreativeModeTabEvent.BuildContents event) {
+            Baskets.creativeContents(event);
         }
-
-        @SubscribeEvent
-        public static void containers(RegistryEvent.Register<MenuType<?>> event) {
-            Baskets.containers(event);
-        }
-
     }
 }

@@ -61,7 +61,7 @@ final class SourceFluidChecks {
                             BlockPos position = new BlockPos(row.get("x").getAsInt(), row.get("y").getAsInt(),
                                     row.get("z").getAsInt());
                             CompoundTag expected = TagParser.parseTag(row.get("state").getAsString());
-                            require(NbtUtils.readBlockState(expected) == NbtUtils.readBlockState(state(fixed, position)),
+                            require(NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(), expected) == NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(), state(fixed, position)),
                                     "Saved water was lost during native data fixing at " + position);
                             if (Integer.parseInt(expected.getCompound("Properties").getString("level")) > 0) {
                                 require(flowing.add(position), "Repeated source water position");

@@ -8,18 +8,15 @@
     }
   },
   "result": {
-    "item": "biomesoplenty:mud_brick_slab",
+    "item": "minecraft:mud_brick_slab",
     "count": 1
   },
   "preserve_tag": true,
   "conditions": [
     {
       "type": "forge:item_exists",
-      "item": "biomesoplenty:mud_brick_slab"
-    },
-    {
-      "type": "forge:item_exists",
       "item": "skysbuildingpiecesbop:mud_brick_block_vertical_slab"
     }
-  ]
+  ],
+  "category": "building"
 }

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.4.119041
+
+- Added the Minecraft 1.19.4 version for Forge 45.4.0.
+- Kept the building catalogue, Flower Basket and saved pieces compatible with earlier versions.
+- Added replacements for BOP's removed mud pieces, rooted sand and four biomes.
+- Updated crafting-book categories and the vanilla mud-brick textures.
+
 ## 0.2.4.118021 - Minecraft 1.18.2 (unreleased)
 
 - Bring the BOP pieces and Flower Basket to Minecraft 1.18.2.

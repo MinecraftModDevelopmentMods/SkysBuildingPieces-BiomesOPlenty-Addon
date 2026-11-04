@@ -220,19 +220,19 @@
     "type": "rock",
     "hardness": 1.0,
     "resistance": 2.0,
-    "textures": "biomesoplenty:block/mud_bricks",
+    "textures": "minecraft:block/mud_bricks",
     "blocks": {
       "full": {
-        "id": "biomesoplenty:mud_bricks"
+        "id": "minecraft:mud_bricks"
       },
       "slab": {
-        "id": "biomesoplenty:mud_brick_slab"
+        "id": "minecraft:mud_brick_slab"
       },
       "stairs": {
-        "id": "biomesoplenty:mud_brick_stairs"
+        "id": "minecraft:mud_brick_stairs"
       },
       "wall": {
-        "id": "biomesoplenty:mud_brick_wall"
+        "id": "minecraft:mud_brick_wall"
       }
     },
     "group": "rock",

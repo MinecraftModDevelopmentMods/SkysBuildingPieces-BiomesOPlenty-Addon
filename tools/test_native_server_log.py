@@ -1,4 +1,4 @@
-"""Negative controls for Forge 40 server completion and native settings."""
+"""Negative controls for Forge 45 server completion and native settings."""
 
 from pathlib import Path
 import shutil
@@ -74,9 +74,9 @@ class NativeRegistryNoticeTest(unittest.TestCase):
         self.valid += prefix + "There are unidentified mappings in this world - we are going to attempt to process anyway\n"
 
     def test_exact_native_notices_and_a_clean_reload_pass(self):
-        self.assertEqual(len(self.check(self.valid, self.profile)), 5)
+        self.assertEqual(len(self.check(self.valid, self.profile)), 6)
         short = self.valid.replace(" [net.minecraftforge.registries.GameData/REGISTRIES]", "")
-        self.assertEqual(len(self.check(short, self.profile)), 5)
+        self.assertEqual(len(self.check(short, self.profile)), 6)
         self.assertEqual(self.check("A clean native reload", None), [])
 
     def test_used_biomes_require_the_complete_volume_check(self):
@@ -131,8 +131,10 @@ class NativeServerFilesTest(unittest.TestCase):
         self.assertEqual(audit_server(self.directory, 'test')['native_server_config_notices'], 0)
 
     def test_changed_defaults_fail(self):
-        self.config.write_text(self.config.read_text().replace('fixAdvancementLoading = true',
-                                                              'fixAdvancementLoading = false'))
+        original = self.config.read_text()
+        self.assertIn('removeErroringEntities = false', original)
+        self.config.write_text(original.replace('removeErroringEntities = false',
+                                                'removeErroringEntities = true'))
         with self.assertRaises(ValueError):
             audit_server(self.directory, 'test')
 
@@ -147,6 +149,63 @@ class NativeServerFilesTest(unittest.TestCase):
         (crashes / 'failure.txt').write_text('Simulated failure')
         with self.assertRaises(ValueError):
             audit_server(self.directory, 'test')
+
+
+class DynamicBiomeProofTest(unittest.TestCase):
+    def setUp(self):
+        import json
+        self.root = Path(__file__).resolve().parent.parent
+        profiles = json.loads((self.root / 'tools/native-log-profiles.json').read_text())['profiles']
+        self.profile = profiles['0A52E35356AE6229E1331A5E4BAAF99CBA22489EC4EC28A87F5BCE024BE918B5']
+
+    def test_complete_dynamic_registry_proof_passes(self):
+        from native_registry_notices import validate_registry_proofs
+        validate_registry_proofs(self.root, self.profile)
+
+    def test_missing_binding_or_changed_cell_count_fails(self):
+        import copy
+        from native_registry_notices import validate_registry_proofs
+        for key in ('static_biome_contract', 'live_biome_contract'):
+            profile = copy.deepcopy(self.profile)
+            del profile[key]
+            with self.subTest(binding=key), self.assertRaises(ValueError):
+                validate_registry_proofs(self.root, profile)
+        profile = copy.deepcopy(self.profile)
+        profile['dynamic_biome_saved_uses'] += 1
+        with self.assertRaises(ValueError):
+            validate_registry_proofs(self.root, profile)
+
+    def test_resealed_but_inconsistent_proofs_fail(self):
+        import copy
+        import hashlib
+        import json
+        from native_registry_notices import validate_registry_proofs
+        mutations = (
+            ('static_biome_contract', lambda proof: proof.update(source_world_sha256='wrong-world')),
+            ('static_biome_contract', lambda proof: proof.update(checked_cells=1)),
+            ('static_biome_contract', lambda proof: proof.update(unnoticed_biome_cells=0)),
+            ('retired_poi_contract', lambda proof: proof['saved_uses'].update({'minecraft:nitwit': 1})),
+            ('retired_poi_contract', lambda proof: proof.update(inspected_nbt_records=1)),
+            ('live_biome_contract', lambda proof: proof.update(entries=[])),
+        )
+        for key, mutate in mutations:
+            with self.subTest(proof=key), tempfile.TemporaryDirectory() as temporary:
+                directory = Path(temporary)
+                profile = copy.deepcopy(self.profile)
+                for binding in ('static_biome_contract', 'retired_poi_contract', 'live_biome_contract'):
+                    path = directory / profile[binding]['path']
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(self.root / profile[binding]['path'], path)
+                contract = directory / profile['native_biome_contract']['path']
+                contract.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(self.root / profile['native_biome_contract']['path'], contract)
+                path = directory / profile[key]['path']
+                proof = json.loads(path.read_text())
+                mutate(proof)
+                path.write_text(json.dumps(proof))
+                profile[key]['sha256'] = hashlib.sha256(path.read_bytes()).hexdigest().upper()
+                with self.assertRaises(ValueError):
+                    validate_registry_proofs(directory, profile)
 
 
 if __name__ == '__main__':

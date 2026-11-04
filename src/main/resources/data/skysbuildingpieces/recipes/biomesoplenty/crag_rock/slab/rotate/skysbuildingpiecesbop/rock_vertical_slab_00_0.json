@@ -21,5 +21,6 @@
       "type": "forge:item_exists",
       "item": "skysbuildingpiecesbop:crag_rock_vertical_slab"
     }
-  ]
+  ],
+  "category": "building"
 }

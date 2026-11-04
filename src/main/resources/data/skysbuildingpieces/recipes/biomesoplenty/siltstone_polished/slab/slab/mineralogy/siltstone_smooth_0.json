@@ -28,7 +28,8 @@
         "result": {
           "item": "skysbuildingpiecesbop:siltstone_polished_slab",
           "count": 4
-        }
+        },
+        "category": "building"
       }
     },
     {
@@ -61,7 +62,8 @@
         "result": {
           "item": "skysbuildingpiecesbop:siltstone_polished_slab",
           "count": 4
-        }
+        },
+        "category": "building"
       }
     }
   ]

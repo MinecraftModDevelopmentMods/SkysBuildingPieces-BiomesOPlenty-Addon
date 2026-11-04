@@ -16,7 +16,7 @@ class RepositoryTest {
 
         String pin = text("gradle/core-dependency.properties");
 
-        assertTrue(pin.contains("version=0.3.8.118021"));
+        assertTrue(pin.contains("version=0.3.8.119041"));
         assertTrue(pin.contains("api=1"));
     }
 
@@ -81,6 +81,9 @@ class RepositoryTest {
         }
 
         assertTrue(ciWorkflow.contains("-PbuildingPiecesCoreDir=dependencies/pieces"));
+        assertTrue(ciWorkflow.contains("-x integrationTest -x integrationRecipeBookTest -x nativeInstalledBopPolicyTest"));
+        assertTrue(ciWorkflow.contains("dependencies/pieces/gradle/grass-slabs-release.properties"));
+        assertTrue(ciWorkflow.contains("Build the coordinated Grass Slabs dependency"));
 
         String tags = text(".github/workflows/release-on-tag.yml");
 

@@ -1,5 +1,22 @@
 # Existing worlds
 
+## Moving to Minecraft 1.19.4
+
+BOP's mud, mud bricks, mud-brick slabs, stairs and walls use the matching
+vanilla blocks. Slab halves, stair directions, wall connections and waterlogging
+are retained. Existing Sky pieces keep their IDs, materials and orientations.
+Mud balls become clay balls and individual mud bricks become ordinary bricks;
+stored stacks keep their counts and custom data.
+
+Rooted sand becomes rooted dirt. It stays a solid, non-falling block, although
+its appearance and plant support follow rooted dirt. Rainbow Hills becomes
+Auroral Garden, Boreal Forest becomes Coniferous Forest, Wooded Scrubland becomes
+Scrubland and Wooded Wasteland becomes Wasteland. Existing terrain is not rebuilt.
+Chunks opened later receive the same replacements.
+
+Keep the registry sidecars with the world and its backups. Test a copy of the
+whole modpack before upgrading; this add-on cannot recover unrelated missing mods.
+
 ## Moving to Minecraft 1.18.2
 
 The pieces and Flower Basket retain their saved identities and contents. BOP

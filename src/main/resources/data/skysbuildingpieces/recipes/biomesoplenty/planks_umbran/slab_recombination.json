@@ -20,5 +20,6 @@
       "type": "forge:item_exists",
       "item": "biomesoplenty:umbran_slab"
     }
-  ]
+  ],
+  "category": "building"
 }

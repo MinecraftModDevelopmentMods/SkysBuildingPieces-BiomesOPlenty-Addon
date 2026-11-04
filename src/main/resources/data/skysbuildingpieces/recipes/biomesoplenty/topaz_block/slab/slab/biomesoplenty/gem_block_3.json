@@ -16,5 +16,6 @@
       "type": "forge:item_exists",
       "item": "skysbuildingpieces:stained_hardened_clay_orange_slab"
     }
-  ]
+  ],
+  "category": "building"
 }

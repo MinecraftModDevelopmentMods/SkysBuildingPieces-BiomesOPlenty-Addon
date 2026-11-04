@@ -284,6 +284,8 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
                     add(base + '/recombine_' + shape + '_without_grass_slabs', ['X', 'X'], source,
                         vertical, 1, [{'type': 'forge:not', 'value': exists(slab)}])
 
+    for recipe in recipes.values():
+        recipe['category'] = 'building'
     return recipes, advancements
 
 
@@ -295,9 +297,9 @@ def main():
     parser.add_argument('--native-jar', type=Path, action='append', required=True)
     parser.add_argument('--write', action='store_true')
     args = parser.parse_args()
-    fixture = Path(__file__).parent / 'fixtures/mineralogy-1.18.2-crafting.json'
+    fixture = Path(__file__).parent / 'fixtures/mineralogy-1.19.4-crafting.json'
     data = fixture.read_bytes()
-    if hashlib.sha256(data).hexdigest().upper() != '97B979860D009E42BCF9D2B1950405F8A13BFFEBFC7082C04F0379CF97779648':
+    if hashlib.sha256(data).hexdigest().upper() != '62AC8B6CC818D17B22A8631CCF7A504B39387E5C8143BE4B6D342F114E0A03E2':
         raise ValueError('The locked native Mineralogy crafting fixture changed')
     snapshot = json.loads(data)
     native = list(snapshot['recipes'].values())
@@ -347,7 +349,7 @@ def main():
     for identity, advancement in advancements.items():
         outputs['data/skysbuildingpiecesbop/advancements/' + identity + '.json'] = advancement
     outputs['data/skysbuildingpiecesbop/recipes/flower_basket.json'] = {
-        'type': 'minecraft:crafting_shaped', 'pattern': [' S ', 'S S', 'SSS'],
+        'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': [' S ', 'S S', 'SSS'],
         'key': {'S': {'tag': 'forge:rods/wooden'}},
         'result': {'item': 'skysbuildingpiecesbop:flower_basket'}}
     outputs['data/skysbuildingpiecesbop/advancements/recipes/flower_basket.json'] = {
@@ -360,7 +362,7 @@ def main():
         'rewards': {'recipes': ['skysbuildingpiecesbop:flower_basket']}}
     for name in ('gabbro', 'limestone', 'limestone_smooth', 'shale', 'shale_smooth', 'siltstone', 'siltstone_smooth'):
         outputs['data/skysbuildingpiecesbop/recipes/restore_' + name + '.json'] = {
-            'type': 'minecraft:crafting_shapeless', 'conditions': [exists('mineralogy:' + name)],
+            'type': 'minecraft:crafting_shapeless', 'category': 'building', 'conditions': [exists('mineralogy:' + name)],
             'ingredients': [{'item': 'skysbuildingpiecesbop:retired_' + name}],
             'result': {'item': 'mineralogy:' + name}}
         identity = 'skysbuildingpiecesbop:restore_' + name

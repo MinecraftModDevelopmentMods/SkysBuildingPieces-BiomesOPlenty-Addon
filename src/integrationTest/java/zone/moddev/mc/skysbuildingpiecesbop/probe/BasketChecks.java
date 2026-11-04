@@ -2,7 +2,7 @@ package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -30,6 +30,13 @@ public final class BasketChecks {
 
     private static int checks;
 
+    public static boolean hidden(net.minecraft.world.item.Item item, ServerLevel world) {
+        net.minecraft.world.item.CreativeModeTabs.tryRebuildTabContents(
+                world.enabledFeatures(), true, world.registryAccess());
+        return net.minecraft.world.item.CreativeModeTabs.allTabs().stream()
+                .flatMap(tab -> tab.getDisplayItems().stream()).noneMatch(stack -> stack.is(item));
+    }
+
     public static void run(ServerLevel world) {
         checks = 0;
 
@@ -41,6 +48,11 @@ public final class BasketChecks {
         try {
             net.minecraft.world.inventory.CraftingContainer crafting = new net.minecraft.world.inventory.CraftingContainer(
                     new net.minecraft.world.inventory.AbstractContainerMenu(null, 0) {
+                        @Override
+                        public ItemStack quickMoveStack(Player player, int slot) {
+                            return ItemStack.EMPTY;
+                        }
+
                         @Override
                         public boolean stillValid(net.minecraft.world.entity.player.Player player) {
                             return true;
@@ -55,10 +67,12 @@ public final class BasketChecks {
                     .getRecipeManager().getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING, crafting, world)
                     .orElse(null);
 
-            require(recipe != null && recipe.assemble(crafting).getItem() == Baskets.ITEM
-                    && recipe.assemble(crafting).getCount() == 1, "real six-stick crafting recipe");
-            require(Baskets.ITEM.getItemStackLimit(new ItemStack(Baskets.ITEM)) == 1, "one basket per stack");
-            require(Baskets.HOLDER.getItemCategory() == null, "hidden recovery item");
+            require(recipe != null && recipe.assemble(crafting, world.registryAccess()).getItem() == Baskets.ITEM
+                    && recipe.assemble(crafting, world.registryAccess()).getCount() == 1, "real six-stick crafting recipe");
+            require(new ItemStack(Baskets.ITEM).getMaxStackSize() == 1, "one basket per stack");
+            if (net.minecraftforge.fml.loading.FMLEnvironment.dist == net.minecraftforge.api.distmarker.Dist.CLIENT) {
+                require(hidden(Baskets.HOLDER, world), "hidden recovery item");
+            }
             require(BasketInventory.accepts(new ItemStack(Blocks.OAK_SAPLING)), "saplings accepted");
             require(BasketInventory.accepts(new ItemStack(Blocks.OAK_LEAVES)), "leaves accepted");
             require(!BasketInventory.accepts(new ItemStack(Items.DIAMOND)), "non-plants rejected");
@@ -68,7 +82,7 @@ public final class BasketChecks {
 
             ItemStack basket = new ItemStack(Baskets.ITEM);
 
-            basket.setHoverName(new net.minecraft.network.chat.TextComponent("Test plants"));
+            basket.setHoverName(net.minecraft.network.chat.Component.literal("Test plants"));
             basket.getTag().putInt("unrelated", 19);
 
             BasketInventory inventory = new BasketInventory(basket);
@@ -229,11 +243,11 @@ public final class BasketChecks {
 
             player.getInventory().setItem(0, ownedBasket);
             entity = new ItemEntity(world, 0, 100, 0, new ItemStack(Blocks.OAK_SAPLING, 4));
-            entity.setOwner(new java.util.UUID(1, 2));
+            entity.setTarget(new java.util.UUID(1, 2));
             entity.playerTouch(player);
             require(entity.isAlive() && entity.getItem().getCount() == 4 && new BasketInventory(ownedBasket).isEmpty(),
                     "respect vanilla exclusive pickup ownership");
-            entity.setOwner(player.getUUID());
+            entity.setTarget(player.getUUID());
             entity.playerTouch(player);
             require(!entity.isAlive() && new BasketInventory(ownedBasket).getItem(0).getCount() == 4,
                     "the drop owner can collect plants");

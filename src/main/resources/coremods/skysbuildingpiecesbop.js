@@ -52,7 +52,7 @@ function initializeCoreMod() {
                     method.maxStack = Math.max(method.maxStack, 4);
                 }
                 if (matches !== 1) {
-                    throw new Error("Sky's Building Pieces BOP: expected one Forge 37 hardness method, found " + matches);
+                    throw new Error("Sky's Building Pieces BOP: expected one Forge 45 hardness method, found " + matches);
                 }
                 return type;
             }

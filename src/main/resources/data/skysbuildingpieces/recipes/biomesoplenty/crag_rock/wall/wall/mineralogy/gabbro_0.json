@@ -28,7 +28,8 @@
         "result": {
           "item": "skysbuildingpiecesbop:crag_rock_wall",
           "count": 6
-        }
+        },
+        "category": "building"
       }
     },
     {
@@ -61,7 +62,8 @@
         "result": {
           "item": "skysbuildingpiecesbop:crag_rock_wall",
           "count": 6
-        }
+        },
+        "category": "building"
       }
     }
   ]

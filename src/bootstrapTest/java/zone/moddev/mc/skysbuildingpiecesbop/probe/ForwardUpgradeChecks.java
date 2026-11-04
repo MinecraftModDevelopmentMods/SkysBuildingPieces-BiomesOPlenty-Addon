@@ -224,7 +224,7 @@ final class ForwardUpgradeChecks {
             require(actual.getCount() == original.getByte("Count"), "Saved stack count changed: " + row + ", actual " + actual);
 
             if (row.has("basket")) {
-                require(actual.getItem().getRegistryName().toString().equals("skysbuildingpiecesbop:flower_basket"),
+                require(net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(actual.getItem()).toString().equals("skysbuildingpiecesbop:flower_basket"),
                         "Saved basket became another item");
 
                 ListTag contents = actual.getTag().getList("Items", 10);
@@ -250,7 +250,7 @@ final class ForwardUpgradeChecks {
                 units += expectedUnits;
                 baskets++;
             } else if (row.has("native_item")) {
-                require(actual.getItem().getRegistryName().toString()
+                require(net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(actual.getItem()).toString()
                         .equals(currentItemTarget(row.get("target_item").getAsString())),
                         "Saved native BOP item changed: " + row + ", actual " + actual);
                 require(original.getCompound("tag").equals(actual.getTag()), "Saved native item custom data changed");
@@ -322,7 +322,7 @@ final class ForwardUpgradeChecks {
                                 "The saved-data wrapper is missing its contents");
                         int previousVersion = firstData.getInt("DataVersion");
                         int currentVersion = currentData.getInt("DataVersion");
-                        int targetVersion = net.minecraft.SharedConstants.getCurrentVersion().getWorldVersion();
+                        int targetVersion = net.minecraft.SharedConstants.getCurrentVersion().getDataVersion().getVersion();
                         require(previousVersion <= targetVersion
                                 && (currentVersion == previousVersion || currentVersion == targetVersion),
                                 "Unexpected saved-data version change");
@@ -352,7 +352,7 @@ final class ForwardUpgradeChecks {
                 // Installing Mineralogy later does not replace an already named fallback block.
                 // Its bridge recipe is the player's explicit conversion route.
                 if (saved.getString("Name").equals("skysbuildingpiecesbop:retired_rocks")) {
-                    BlockState state = net.minecraft.nbt.NbtUtils.readBlockState(saved);
+                    BlockState state = net.minecraft.nbt.NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(), saved);
 
                     require(state.getBlock() == zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks.BLOCK,
                             "A named fallback rock no longer resolves");
@@ -397,7 +397,7 @@ final class ForwardUpgradeChecks {
 
             world.getChunk(position(row));
 
-            String actual = world.registryAccess().registryOrThrow(net.minecraft.core.Registry.BIOME_REGISTRY)
+            String actual = world.registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.BIOME)
                     .getKey(world.getBiome(position(row)).value()).toString();
 
             require(actual.equals(currentTarget("biomes", row.get("target_biome").getAsString())),

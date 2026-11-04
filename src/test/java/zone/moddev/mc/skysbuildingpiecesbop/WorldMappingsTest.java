@@ -70,7 +70,7 @@ class WorldMappingsTest {
     @Test
     void numericWorldMappingsDoNotTargetRemovedBopBlocks() throws Exception {
         JsonObject nativeCatalogue = new JsonParser().parse(Files.readString(
-                Paths.get("src/testFixtures/bop-1.18.2-native-catalogue.json"))).getAsJsonObject();
+                Paths.get("src/testFixtures/bop-1.19.4-native-catalogue.json"))).getAsJsonObject();
         Set<String> current = new HashSet<>();
         for (JsonElement block : nativeCatalogue.getAsJsonArray("blocks")) {
             current.add(block.getAsJsonObject().get("id").getAsString());

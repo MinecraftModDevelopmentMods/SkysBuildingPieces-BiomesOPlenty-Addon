@@ -28,7 +28,8 @@
         "result": {
           "item": "mineralogy:limestone_smooth",
           "count": 1
-        }
+        },
+        "category": "building"
       }
     },
     {
@@ -61,7 +62,8 @@
         "result": {
           "item": "skysbuildingpiecesbop:retired_limestone_smooth",
           "count": 1
-        }
+        },
+        "category": "building"
       }
     }
   ]

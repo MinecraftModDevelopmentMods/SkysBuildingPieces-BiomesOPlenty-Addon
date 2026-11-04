@@ -20,5 +20,6 @@
       "type": "forge:item_exists",
       "item": "skysbuildingpiecesbop:planks_cherry_vertical_step"
     }
-  ]
+  ],
+  "category": "building"
 }

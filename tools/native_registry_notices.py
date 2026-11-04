@@ -6,6 +6,55 @@ from pathlib import Path
 import re
 
 
+def validate_registry_proofs(root, profile):
+    """Keep static snapshot notices separate from the world's live biome data."""
+    receipts = {}
+    for key in ("static_biome_contract", "retired_poi_contract", "live_biome_contract"):
+        binding = profile.get(key)
+        if binding is None:
+            continue
+        path = Path(root) / binding["path"]
+        data = json.loads(path.read_text(encoding="utf-8"))
+        if hashlib.sha256(path.read_bytes()).hexdigest().upper() != binding["sha256"]:
+            raise ValueError("The native registry proof checksum changed")
+        receipts[key] = data
+        if key != "live_biome_contract" and data["source_world_sha256"] != profile["sha256"]:
+            raise ValueError("The native registry proof belongs to another fixture")
+    static = receipts.get("static_biome_contract")
+    if static is not None:
+        biomes = profile["native_biome_contract"]
+        if (static["native_biome_contract_sha256"] != biomes["sha256"]
+                or static["checked_cells"] != biomes["checked_cells"]
+                or static["native_renamed_cells"] != biomes["renamed_cells"]
+                or static["snapshot_entries"] != profile["mappings"].get("minecraft:worldgen/biome", {})):
+            raise ValueError("The static biome snapshot lacks its complete conversion proof")
+    poi = receipts.get("retired_poi_contract")
+    if poi is not None and (poi["inspected_nbt_values"] <= 0
+            or poi["inspected_nbt_records"] != profile["inspected_nbt_records"]
+            or poi["saved_uses"] != {"minecraft:nitwit": 0, "minecraft:unemployed": 0}
+            or poi["snapshot_entries"] != {"minecraft:point_of_interest_type":
+                                          profile["mappings"]["minecraft:point_of_interest_type"]}):
+        raise ValueError("The retired POI entries are not proven unused")
+    dynamic = profile.get("dynamic_biome_saved_uses", 0)
+    if dynamic:
+        live = receipts.get("live_biome_contract")
+        if static is None or live is None:
+            raise ValueError("Used dynamic biomes need both registry and saved-volume proofs")
+        names = {row["id"] for row in live["entries"]}
+        contract_path = Path(root) / profile["native_biome_contract"]["path"]
+        contract = json.loads(contract_path.read_text(encoding="utf-8"))
+        if (len(names) != len(live["entries"])
+                or hashlib.sha256(contract_path.read_bytes()).hexdigest().upper()
+                != profile["native_biome_contract"]["sha256"]
+                or not set(contract["target_names"].values()) <= names
+                or static["live_biome_contract_sha256"] != profile["live_biome_contract"]["sha256"]
+                or static["dynamic_biome_saved_uses"] != dynamic
+                or dynamic + static["native_renamed_cells"] + static["bop_renamed_cells"]
+                + static["unnoticed_biome_cells"]
+                != static["checked_cells"]):
+            raise ValueError("The saved biome names do not match the live registry proof")
+
+
 def profile_for(directory):
     manifest = Path(directory) / "forward-fixture.json"
     if not manifest.is_file():
@@ -35,8 +84,10 @@ def profile_for(directory):
                 or data["source_minecraft"] != proof["source"]
                 or data["checked_cells"] != proof["checked_cells"]
                 or data["native_renamed_cells"] != proof["renamed_cells"]
-                or profile["saved_uses"] != proof["renamed_cells"]):
+                or profile["saved_uses"] != proof["renamed_cells"]
+                + profile.get("dynamic_biome_saved_uses", 0)):
             raise ValueError("The native biome contract does not match this source fixture")
+    validate_registry_proofs(root, profile)
     return profile
 
 
@@ -59,7 +110,9 @@ def audit_text(text, profile=None):
         for row in body.splitlines():
             if not row.strip():
                 continue
-            entry = re.fullmatch(r"\s*(minecraft:[a-z_.]+|biomesoplenty:boat(?:_bop)?): (\d+)", row)
+            # Namespace syntax is parsed here; the complete name/number map
+            # must still equal this exact fixture's independently checked proof.
+            entry = re.fullmatch(r"\s*([a-z0-9_]+:[a-z0-9_./]+): (\d+)", row)
             if not entry or entry[1] in entries:
                 raise ValueError("Malformed or repeated registry entry: " + row)
             entries[entry[1]] = int(entry[2])

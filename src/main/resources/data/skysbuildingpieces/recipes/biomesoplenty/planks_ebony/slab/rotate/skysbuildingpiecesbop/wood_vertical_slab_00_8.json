@@ -17,5 +17,6 @@
       "type": "forge:item_exists",
       "item": "skysbuildingpieces:planks_dark_oak_vertical_slab"
     }
-  ]
+  ],
+  "category": "building"
 }

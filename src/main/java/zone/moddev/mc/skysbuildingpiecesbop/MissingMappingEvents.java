@@ -2,7 +2,8 @@ package zone.moddev.mc.skysbuildingpiecesbop;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.MissingMappingsEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.Baskets;
@@ -14,14 +15,13 @@ public final class MissingMappingEvents {
     }
 
     @SubscribeEvent
-    public static void blocks(RegistryEvent.MissingMappings<Block> event) {
-        RetiredMaterialHolders.missingBlocks(event);
-    }
-
-    @SubscribeEvent
-    public static void items(RegistryEvent.MissingMappings<Item> event) {
-        RetiredMaterialHolders.missingItems(event);
-        LegacyItemRecovery.missing(event);
-        Baskets.missing(event);
+    public static void missing(MissingMappingsEvent event) {
+        if (event.getKey().equals(ForgeRegistries.Keys.BLOCKS)) {
+            RetiredMaterialHolders.missingBlocks(event);
+        } else if (event.getKey().equals(ForgeRegistries.Keys.ITEMS)) {
+            RetiredMaterialHolders.missingItems(event);
+            LegacyItemRecovery.missing(event);
+            Baskets.missing(event);
+        }
     }
 }

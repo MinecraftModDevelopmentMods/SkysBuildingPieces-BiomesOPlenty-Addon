@@ -20,5 +20,6 @@
       "type": "forge:item_exists",
       "item": "skysbuildingpiecesbop:limestone_stairs"
     }
-  ]
+  ],
+  "category": "building"
 }

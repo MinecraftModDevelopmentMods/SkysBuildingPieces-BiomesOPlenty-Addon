@@ -1,10 +1,10 @@
 {
   "parent": "block/block",
   "textures": {
-    "top": "biomesoplenty:block/mud_bricks",
-    "side": "biomesoplenty:block/mud_bricks",
-    "bottom": "biomesoplenty:block/mud_bricks",
-    "particle": "biomesoplenty:block/mud_bricks"
+    "top": "minecraft:block/mud_bricks",
+    "side": "minecraft:block/mud_bricks",
+    "bottom": "minecraft:block/mud_bricks",
+    "particle": "minecraft:block/mud_bricks"
   },
   "elements": [
     {

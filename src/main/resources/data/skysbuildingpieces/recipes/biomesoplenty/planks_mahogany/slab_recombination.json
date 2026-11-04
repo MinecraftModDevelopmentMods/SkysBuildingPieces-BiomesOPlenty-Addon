@@ -20,5 +20,6 @@
       "type": "forge:item_exists",
       "item": "biomesoplenty:mahogany_slab"
     }
-  ]
+  ],
+  "category": "building"
 }

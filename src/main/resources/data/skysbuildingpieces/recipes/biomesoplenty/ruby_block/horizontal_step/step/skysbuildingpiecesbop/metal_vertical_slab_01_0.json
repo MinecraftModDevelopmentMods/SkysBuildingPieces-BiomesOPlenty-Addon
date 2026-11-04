@@ -20,5 +20,6 @@
       "type": "forge:item_exists",
       "item": "skysbuildingpieces:stained_hardened_clay_red_vertical_slab"
     }
-  ]
+  ],
+  "category": "building"
 }

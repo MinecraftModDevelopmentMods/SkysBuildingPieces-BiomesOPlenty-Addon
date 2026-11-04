@@ -21,5 +21,6 @@
       "type": "forge:item_exists",
       "item": "skysbuildingpiecesbop:limestone_polished_vertical_slab"
     }
-  ]
+  ],
+  "category": "building"
 }

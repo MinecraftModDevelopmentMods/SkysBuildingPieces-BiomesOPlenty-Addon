@@ -20,5 +20,6 @@
       "type": "forge:item_exists",
       "item": "biomesoplenty:redwood_slab"
     }
-  ]
+  ],
+  "category": "building"
 }

@@ -149,7 +149,7 @@ public final class NativeBootstrap {
             if (client) {
                 net.minecraftforge.fml.DistExecutor.runWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT,
                         () -> () -> net.minecraft.client.Minecraft.getInstance().delayCrash(
-                                () -> net.minecraft.CrashReport.forThrowable(failure, "BOP client verification failed")));
+                                net.minecraft.CrashReport.forThrowable(failure, "BOP client verification failed")));
             }
         } finally {
             if (!client || !success) {

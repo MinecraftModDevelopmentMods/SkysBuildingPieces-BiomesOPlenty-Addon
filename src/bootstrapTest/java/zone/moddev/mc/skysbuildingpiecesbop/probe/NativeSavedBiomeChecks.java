@@ -24,7 +24,13 @@ public final class NativeSavedBiomeChecks {
     private static JsonObject contract() throws Exception {
         JsonObject data = new JsonParser().parse(Files.readString(Path.of("forward-biomes.json"))).getAsJsonObject();
         JsonObject fixture = new JsonParser().parse(Files.readString(Path.of("forward-fixture.json"))).getAsJsonObject();
-        require(data.get("format").getAsString().equals("zlib-u8-quart-volume-v1"), "Unknown biome contract");
+        String format = data.get("format").getAsString();
+        require(format.equals("zlib-u8-quart-volume-v1") || format.equals("zlib-u8-quart-volume-v2"),
+                "Unknown biome contract");
+        if (format.equals("zlib-u8-quart-volume-v2")) {
+            require(data.get("min_quart_y").getAsInt() == -16 && data.get("quart_height").getAsInt() == 96,
+                    "The native 1.18 world height changed");
+        }
         require(data.get("source_world_sha256").equals(fixture.get("archive_sha256")), "Wrong source biome archive");
         JsonElement sourceVersion = fixture.has("minecraft")
                 ? fixture.get("minecraft") : fixture.get("source_minecraft");
@@ -35,7 +41,7 @@ public final class NativeSavedBiomeChecks {
 
     public static void prepare(ServerLevel world, Set<ChunkPos> tracked) throws Exception {
         if (!Files.isRegularFile(Path.of("forward-biomes.json"))) return;
-        var registry = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).asHolderIdMap();
+        var registry = world.registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.BIOME).asHolderIdMap();
         int maximum = -1;
         for (var biome : registry) {
             maximum = Math.max(maximum, registry.getId(biome));
@@ -77,7 +83,10 @@ public final class NativeSavedBiomeChecks {
         if (!Files.isRegularFile(Path.of("forward-biomes.json"))) return;
         JsonObject data = contract();
         JsonObject names = data.getAsJsonObject("source_names");
-        var registry = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
+        boolean expandedHeight = data.get("format").getAsString().equals("zlib-u8-quart-volume-v2");
+        int minimumQuartY = expandedHeight ? data.get("min_quart_y").getAsInt() : 0;
+        int expectedCells = expandedHeight ? data.get("quart_height").getAsInt() * 16 : 1024;
+        var registry = world.registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
         Set<ChunkPos> deferred = deferredChunks();
         long cells = 0;
         long renamed = 0;
@@ -93,7 +102,7 @@ public final class NativeSavedBiomeChecks {
                         Base64.getDecoder().decode(row.get("cells").getAsString())))) {
                     source = input.readAllBytes();
                 }
-                require(source.length == 1024, "The source biome volume changed");
+                require(source.length == expectedCells, "Incomplete saved biome height");
                 ChunkPos position = new ChunkPos(chunkX, chunkZ);
                 boolean unopened = !deferred.isEmpty()
                         && world.getChunkSource().getChunkNow(chunkX, chunkZ) == null;
@@ -105,9 +114,9 @@ public final class NativeSavedBiomeChecks {
                 for (int cell = 0; cell < source.length; cell++) {
                     String oldName = names.get(Integer.toString(Byte.toUnsignedInt(source[cell]))).getAsString();
                     String expected = data.getAsJsonObject("target_names").get(oldName).getAsString();
-                    String actual = unopened ? convertedBiome(converted, cell)
+                    String actual = unopened ? convertedBiome(converted, cell, minimumQuartY)
                             : registry.getKey(chunk.getNoiseBiome((chunkX << 2) + (cell & 3),
-                                    cell >> 4, (chunkZ << 2) + (cell >> 2 & 3)).value()).toString();
+                                    minimumQuartY + (cell >> 4), (chunkZ << 2) + (cell >> 2 & 3)).value()).toString();
                     require(actual.equals(expected),
                             "Native biome conversion at " + chunkX + "," + chunkZ + " cell=" + cell
                                     + " expected=" + expected + " actual=" + actual);
@@ -129,11 +138,26 @@ public final class NativeSavedBiomeChecks {
         }
     }
 
-    private static Set<ChunkPos> deferredChunks() throws Exception {
+    static Set<ChunkPos> deferredChunks() throws Exception {
         Set<ChunkPos> deferred = new java.util.LinkedHashSet<>();
         if (!Boolean.getBoolean("skysbuildingpieces.bopDelayedBiomes")
                 || Files.isRegularFile(Path.of("delayed-biomes-first-pass.txt"))) return deferred;
         JsonObject fixture = new JsonParser().parse(Files.readString(Path.of("forward-fixture.json"))).getAsJsonObject();
+        if (fixture.has("kind") && fixture.get("kind").getAsString().equals("named")) {
+            if (fixture.has("source_biome_chunk_x") && fixture.has("source_biome_chunk_z")) {
+                deferred.add(new ChunkPos(fixture.get("source_biome_chunk_x").getAsInt(),
+                        fixture.get("source_biome_chunk_z").getAsInt()));
+            } else {
+                for (JsonElement value : fixture.getAsJsonArray("states")) {
+                    JsonObject row = value.getAsJsonObject();
+                    if (row.has("role") && row.get("role").getAsString().equals("native source biome chunk")) {
+                        deferred.add(new ChunkPos(row.get("x").getAsInt() >> 4, row.get("z").getAsInt() >> 4));
+                    }
+                }
+            }
+            require(deferred.size() == 1, "The named fixture needs its isolated source-biome chunk");
+            return deferred;
+        }
         JsonObject aliases;
         try (var input = zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks.class.getResourceAsStream(
                 "/assets/skysbuildingpiecesbop/catalogue/named_legacy.json")) {
@@ -171,8 +195,9 @@ public final class NativeSavedBiomeChecks {
         try (var input = new java.io.DataInputStream(payload)) {
             source = net.minecraft.nbt.NbtIo.read(input);
         }
-        require(source.getCompound("Level").getInt("xPos") == position.x
-                && source.getCompound("Level").getInt("zPos") == position.z, "Wrong deferred source coordinates");
+        CompoundTag chunk = source.contains("Level", 10) ? source.getCompound("Level") : source;
+        require(chunk.getInt("xPos") == position.x && chunk.getInt("zPos") == position.z,
+                "Wrong deferred source coordinates");
         CompoundTag fixed = storage.upgradeChunkTag(net.minecraft.world.level.Level.OVERWORLD,
                 () -> null, source.copy(), java.util.Optional.empty());
         require(world.getChunkSource().getChunkNow(position.x, position.z) == null,
@@ -180,8 +205,8 @@ public final class NativeSavedBiomeChecks {
         return fixed;
     }
 
-    private static String convertedBiome(CompoundTag chunk, int cell) {
-        int sectionY = cell >> 6;
+    private static String convertedBiome(CompoundTag chunk, int cell, int minimumQuartY) {
+        int sectionY = (minimumQuartY >> 2) + (cell >> 6);
         ListTag sections = chunk.getList("sections", 10);
         for (int sectionIndex = 0; sectionIndex < sections.size(); sectionIndex++) {
             CompoundTag section = sections.getCompound(sectionIndex);

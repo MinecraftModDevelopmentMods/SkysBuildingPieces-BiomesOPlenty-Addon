@@ -105,7 +105,7 @@ final class SourceNeighbourChecks {
         var saved = TagParser.parseTag(text);
         String name = saved.getString("Name");
         if (aliases.has(name)) saved.putString("Name", aliases.get(name).getAsString());
-        return NbtUtils.readBlockState(saved);
+        return NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(), saved);
     }
 
     private static void require(boolean condition, String message) {

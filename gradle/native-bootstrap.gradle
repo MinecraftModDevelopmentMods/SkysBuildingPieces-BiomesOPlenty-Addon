@@ -97,15 +97,19 @@ def verifyCompanions = tasks.register('verifyBopNativeCompanions') {
 def forwardFixture = providers.gradleProperty('bopForwardFixtureDir')
 def forwardArchive = providers.gradleProperty('bopForwardFixtureArchive')
 def hasForward = forwardFixture.isPresent() || forwardArchive.isPresent()
-def directory = layout.buildDirectory.dir(hasForward
+def nativeRunName = providers.gradleProperty('bopNativeRunName').getOrElse(hasForward
         ? 'native-forward-upgrade-run' : 'native-bootstrap-run')
+if (!(nativeRunName ==~ /native-[a-z0-9-]+/)) {
+    throw new GradleException('Native runtime folders need a simple name under build')
+}
+def directory = layout.buildDirectory.dir(nativeRunName)
 def prepare = tasks.register('prepareNativeBootstrap') {
     dependsOn bootstrapJar
     if (nativeCompanions) dependsOn verifyCompanions
     dependsOn project.ext.bopDevelopmentTask
     doLast {
         File target = directory.get().asFile
-        String expectedName = hasForward ? 'native-forward-upgrade-run' : 'native-bootstrap-run'
+        String expectedName = nativeRunName
         if (target.canonicalFile != new File(buildDir, expectedName).canonicalFile) {
             throw new GradleException('Native checks must remain inside their build directory')
         }
@@ -221,7 +225,7 @@ tasks.register('nativeBootstrapTest', JavaExec) {
 
 tasks.register('nativeForwardReloadTest', JavaExec) {
     dependsOn bootstrapJar
-    workingDir layout.buildDirectory.dir('native-forward-upgrade-run')
+    workingDir directory
     project.ext.configureRecipeBookRun(delegate, 'runServer')
     systemProperty 'skysbuildingpieces.bopDelayedBiomes',
             providers.gradleProperty('bopDelayBiomes').getOrElse('false')
@@ -231,7 +235,7 @@ tasks.register('nativeForwardReloadTest', JavaExec) {
                 || !new File(target, 'world/level.dat').isFile()) {
             throw new GradleException('Run the copied forward fixture once before its reload check')
         }
-        [bootstrapJar.get().archiveFile.get().asFile, coreDevelopmentJar, project.ext.bopDevelopmentJar].each { input ->
+        [bootstrapJar.get().archiveFile.get().asFile, coreDevelopmentJar, project.ext.bopDevelopmentJar, project.ext.terraBlenderDevelopmentJar].each { input ->
             File original = file(input)
             File installed = new File(target, 'mods/' + original.name)
             if (!installed.isFile() || !java.util.Arrays.equals(original.bytes, installed.bytes)) {
@@ -256,15 +260,18 @@ if (clientReload && clientDisconnect) throw new GradleException('Use the dedicat
 if (!(clientPhase.get() in ['client-basket', 'client-basket-disconnect', 'client-basket-disconnect-reload'])) {
     throw new GradleException('Unknown native basket client phase: ' + clientPhase.get())
 }
-def clientDirectory = layout.buildDirectory.dir(clientDisconnect
+def clientRunName = providers.gradleProperty('bopNativeClientRunName').getOrElse(clientDisconnect
         ? 'native-client-disconnect-run' : 'native-client-test-run')
+if (!(clientRunName ==~ /native-[a-z0-9-]+/)) {
+    throw new GradleException('Native client folders need a simple name under build')
+}
+def clientDirectory = layout.buildDirectory.dir(clientRunName)
 def prepareClient = tasks.register('prepareNativeClientTest') {
     dependsOn bootstrapJar, project.ext.bopDevelopmentTask
     if (nativeCompanions) dependsOn verifyCompanions
     doLast {
         File target = clientDirectory.get().asFile
-        if (target.canonicalFile != new File(buildDir, clientDisconnect
-                ? 'native-client-disconnect-run' : 'native-client-test-run').canonicalFile) {
+        if (target.canonicalFile != new File(buildDir, clientRunName).canonicalFile) {
             throw new GradleException('Client checks must stay inside their build directory')
         }
         if (clientReload || clientPhase.get().endsWith('-reload')) {
@@ -274,7 +281,7 @@ def prepareClient = tasks.register('prepareNativeClientTest') {
                 throw new GradleException('Complete the open-window disconnect before checking its saved player')
             }
             List<File> reloadInputs = [bootstrapJar.get().archiveFile.get().asFile, coreDevelopmentJar,
-                    project.ext.bopDevelopmentJar]
+                    project.ext.bopDevelopmentJar, project.ext.terraBlenderDevelopmentJar]
             if (nativeCompanions) reloadInputs.addAll(companionJars)
             reloadInputs.each { input ->
                 File original = file(input)
@@ -303,23 +310,11 @@ def prepareClient = tasks.register('prepareNativeClientTest') {
         new File(target, 'options.txt').text = 'lang:en_us\nfullscreen:false\nrenderDistance:2\n'
     }
 }
-def clientAssets = providers.gradleProperty('forgeClientAssets').orElse(
-        new File(gradle.gradleUserHomeDir, 'caches/forge_gradle/assets').absolutePath)
-def clientNatives = providers.gradleProperty('forgeClientNatives').orElse(
-        new File(gradle.gradleUserHomeDir,
-                "caches/minecraftforge/forgegradle/slime-launcher/cache/net/minecraftforge/forge/${minecraft_version}-${forge_version}/natives").absolutePath)
 tasks.register('nativeClientTest', JavaExec) {
     dependsOn prepareClient
     workingDir clientDirectory
     systemProperty 'skysbuildingpieces.integrationPhase', clientPhase.get()
     project.ext.configureRecipeBookRun(delegate, 'runClient')
-    doFirst {
-        File assets = file(clientAssets.get())
-        File natives = file(clientNatives.get())
-        [new File(assets, 'indexes/1.18.json'), natives].each {
-            if (!it.exists()) throw new GradleException('Incomplete native client runtime: ' + it)
-        }
-    }
     doLast {
         logger.lifecycle(providers.exec {
             commandLine providers.gradleProperty('pythonExecutable').getOrElse('python'),
@@ -411,3 +406,10 @@ tasks.register('nativeInstalledBopPolicyTest', JavaExec) {
 }
 
 tasks.named('check') { dependsOn tasks.named('nativeInstalledBopPolicyTest') }
+
+tasks.register('verifyPackagedClientNatives', Exec) {
+    group = 'verification'
+    commandLine providers.gradleProperty('pythonExecutable').getOrElse('python'),
+            'tools/test_packaged_client_natives.py'
+}
+tasks.named('check') { dependsOn tasks.named('verifyPackagedClientNatives') }

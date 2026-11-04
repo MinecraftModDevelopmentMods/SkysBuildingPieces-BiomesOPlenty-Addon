@@ -20,5 +20,6 @@
       "type": "forge:item_exists",
       "item": "skysbuildingpieces:planks_jungle_vertical_step"
     }
-  ]
+  ],
+  "category": "building"
 }

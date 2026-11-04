@@ -4,7 +4,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -12,7 +11,8 @@ import java.util.*;
 import net.minecraft.world.item.*;
 import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.registries.MissingMappingsEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -39,11 +39,11 @@ public final class LegacyItemRecovery {
                     Item target = ForgeRegistries.ITEMS.getValue(new ResourceLocation(TARGET[targetIndex]));
 
                     return target == null || target == net.minecraft.world.item.Items.AIR
-                            ? new net.minecraft.network.chat.TranslatableComponent(
+                            ? net.minecraft.network.chat.Component.translatable(
                                     "item.skysbuildingpiecesbop.retired_item")
                             : new ItemStack(target).getHoverName();
                 }
-            }.setRegistryName(SkysBuildingPiecesBop.ID, "legacy_" + OLD[holderIndex].substring(14));
+            };
         }
     }
 
@@ -74,7 +74,7 @@ public final class LegacyItemRecovery {
     private static int index(String legacyItemId) {
         for (int legacyItemIndex = 0; legacyItemIndex < OLD.length; legacyItemIndex++) {
             if (OLD[legacyItemIndex].equals(legacyItemId)
-                    || HOLDERS[legacyItemIndex].getRegistryName().toString().equals(legacyItemId)) {
+                    || ForgeRegistries.ITEMS.getKey(HOLDERS[legacyItemIndex]).toString().equals(legacyItemId)) {
                 return legacyItemIndex;
             }
         }
@@ -326,14 +326,18 @@ public final class LegacyItemRecovery {
     }
 
     @SubscribeEvent
-    public static void register(RegistryEvent.Register<Item> event) {
+    public static void register(RegisterEvent event) {
+        if (!event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) return;
         createHolders();
-        event.getRegistry().registerAll(HOLDERS);
+        for (int index = 0; index < HOLDERS.length; index++) {
+            ForgeRegistries.ITEMS.register(new ResourceLocation(SkysBuildingPiecesBop.ID,
+                    "legacy_" + OLD[index].substring(14)), HOLDERS[index]);
+        }
     }
 
-    public static void missing(RegistryEvent.MissingMappings<Item> event) {
-        for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getAllMappings()) {
-            int legacyItemIndex = index(mapping.key.toString());
+    public static void missing(MissingMappingsEvent event) {
+        for (MissingMappingsEvent.Mapping<Item> mapping : event.getAllMappings(ForgeRegistries.Keys.ITEMS)) {
+            int legacyItemIndex = index(mapping.getKey().toString());
 
             if (legacyItemIndex >= 0) {
                 mapping.remap(HOLDERS[legacyItemIndex]);
