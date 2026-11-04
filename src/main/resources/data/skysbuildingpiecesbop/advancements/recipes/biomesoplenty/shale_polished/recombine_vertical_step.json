@@ -23,14 +23,17 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/shale_polished/recombine_vertical_step"]
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:shale_polished_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:shale_polished_vertical_step"
-    }
-  ]
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:shale_polished_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:shale_polished_vertical_step"
+      }
+    ]
+  }
 }

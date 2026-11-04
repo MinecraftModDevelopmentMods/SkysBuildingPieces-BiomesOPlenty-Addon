@@ -23,14 +23,17 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/planks_fir/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_02_8"]
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_fir_corner"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_fir_horizontal_step"
-    }
-  ]
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_fir_corner"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_fir_horizontal_step"
+      }
+    ]
+  }
 }

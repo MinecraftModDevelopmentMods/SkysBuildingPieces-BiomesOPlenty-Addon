@@ -23,14 +23,17 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/planks_cherry/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_00_8"]
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_cherry_horizontal_step"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_cherry_vertical_step"
-    }
-  ]
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_cherry_horizontal_step"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_cherry_vertical_step"
+      }
+    ]
+  }
 }

@@ -51,6 +51,39 @@
       "retired_poi_contract": {
         "path": "src/testFixtures/worlds/building-pieces-bop-1.14.4.registry-poi.json",
         "sha256": "506CF172A27422E8C8F7B9195EB0460F99629511BF1F491D75E7960868842F61"
+      },
+      "forge50_additional_mappings": {
+        "minecraft:block": {
+          "minecraft:grass": 94
+        },
+        "minecraft:enchantment": {
+          "minecraft:sweeping": 17
+        },
+        "minecraft:item": {
+          "minecraft:grass": 76,
+          "minecraft:scute": 519
+        },
+        "minecraft:potion": {
+          "minecraft:empty": 0
+        },
+        "minecraft:sound_event": {
+          "minecraft:entity.parrot.imitate.enderman": 446,
+          "minecraft:entity.parrot.imitate.panda": 454,
+          "minecraft:entity.parrot.imitate.polar_bear": 457,
+          "minecraft:entity.parrot.imitate.wolf": 470,
+          "minecraft:entity.parrot.imitate.zombie_pigman": 472
+        }
+      },
+      "native_block_rename_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.14.4.forge50-grass-rename.json",
+        "sha256": "CBCFD83430B3D779C942A0F1E95E75EB9C5120E375BB0D9C092F7A5889DD1466",
+        "source": "minecraft:grass",
+        "target": "minecraft:short_grass",
+        "checked_positions": 4
+      },
+      "forge50_unused_registry_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.14.4.forge50-unused-registry.json",
+        "sha256": "218DA13379A3E9457672F7C0C5334C2AC3E00D293EE1E1701869C7B89B2F2685"
       }
     },
     "E54C47131969B7B13384E18792F5496A999427259B98AC6D6AD2A07C3D1C4230": {
@@ -157,6 +190,32 @@
       "retired_poi_contract": {
         "path": "src/testFixtures/worlds/building-pieces-bop-1.15.2.registry-poi.json",
         "sha256": "6C4E1A5D9D3532B237D4ED61037E59569CEC8A90B589F1CA1955FC32F9380C45"
+      },
+      "forge50_additional_mappings": {
+        "minecraft:block": {
+          "minecraft:grass": 94
+        },
+        "minecraft:enchantment": {
+          "minecraft:sweeping": 17
+        },
+        "minecraft:item": {
+          "minecraft:grass": 76,
+          "minecraft:scute": 519
+        },
+        "minecraft:potion": {
+          "minecraft:empty": 0
+        }
+      },
+      "native_block_rename_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.15.2.forge50-grass-rename.json",
+        "sha256": "7F7AA59D272FAA09E86846ACEF9D812659F624FFB54C71A7C2636A494698C1EF",
+        "source": "minecraft:grass",
+        "target": "minecraft:short_grass",
+        "checked_positions": 4
+      },
+      "forge50_unused_registry_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.15.2.forge50-unused-registry.json",
+        "sha256": "59968B2A786DF39BDFA022FEF85ADA3B70F484994DFB42E8F92679F7AA40D7C7"
       }
     },
     "6A09B1E83F3AE237BC3FA092799C33A28CCD316AC43A8F28BF395A1382C9FA86": {
@@ -364,7 +423,33 @@
         "path": "src/testFixtures/worlds/building-pieces-bop-1.16.5.forge47-registry-poi.json",
         "sha256": "344DCF6C41918174DA71A6154544EBF58D01C505E9789EC3D24000D851041EC9"
       },
-      "target_forge": "47.4.10"
+      "target_forge": "47.4.10",
+      "forge50_additional_mappings": {
+        "minecraft:block": {
+          "minecraft:grass": 95
+        },
+        "minecraft:enchantment": {
+          "minecraft:sweeping": 18
+        },
+        "minecraft:item": {
+          "minecraft:grass": 89,
+          "minecraft:scute": 571
+        },
+        "minecraft:potion": {
+          "minecraft:empty": 0
+        }
+      },
+      "native_block_rename_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.16.5.forge50-grass-rename.json",
+        "sha256": "F92F2EC72EC7FAB36D168D393346559CE5A81AFCC6DEDAD4076C589C731115BA",
+        "source": "minecraft:grass",
+        "target": "minecraft:short_grass",
+        "checked_positions": 16532
+      },
+      "forge50_unused_registry_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.16.5.forge50-unused-registry.json",
+        "sha256": "5EA7A2B9AB839C775B1221FE2D1312538DAF921BA395B6C78D49A72009C765CC"
+      }
     },
     "69579CBED801CE9FE09559C7D21895EB31639F42ABA511EC3A3AF87EEF72E6DC": {
       "mappings": {
@@ -523,7 +608,33 @@
         "path": "src/testFixtures/worlds/building-pieces-bop-1.17.1.forge47-registry-poi.json",
         "sha256": "64FF777E709E89EA2153151A7431210873D95AA6A46D677F64CBA7ED281971EE"
       },
-      "target_forge": "47.4.10"
+      "target_forge": "47.4.10",
+      "forge50_additional_mappings": {
+        "minecraft:block": {
+          "minecraft:grass": 95
+        },
+        "minecraft:enchantment": {
+          "minecraft:sweeping": 18
+        },
+        "minecraft:item": {
+          "minecraft:grass": 89,
+          "minecraft:scute": 571
+        },
+        "minecraft:potion": {
+          "minecraft:empty": 0
+        }
+      },
+      "native_block_rename_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.17.1.forge50-grass-rename.json",
+        "sha256": "CADA5B78741DB9E8E51A0ECC7AF8ADE2C54199466BEE15A98EAED380B1FAA6D2",
+        "source": "minecraft:grass",
+        "target": "minecraft:short_grass",
+        "checked_positions": 18048
+      },
+      "forge50_unused_registry_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.17.1.forge50-unused-registry.json",
+        "sha256": "49E94076DDFD69A8B2C0FFC6D911D3816A2421948DC5DE10BE02750CDE7DAB49"
+      }
     },
     "0A52E35356AE6229E1331A5E4BAAF99CBA22489EC4EC28A87F5BCE024BE918B5": {
       "fixture": "src/testFixtures/worlds/building-pieces-bop-1.18.2.zip",
@@ -675,7 +786,33 @@
         "path": "src/testFixtures/biomes/bop-1.20.1-live-registry.json",
         "sha256": "7EEF7AE94AA8BB63C426CE3C3AB675D8118A9C68586A5D6DF8DEB37509315B61"
       },
-      "target_forge": "47.4.10"
+      "target_forge": "47.4.10",
+      "forge50_additional_mappings": {
+        "minecraft:block": {
+          "minecraft:grass": 95
+        },
+        "minecraft:enchantment": {
+          "minecraft:sweeping": 18
+        },
+        "minecraft:item": {
+          "minecraft:grass": 89,
+          "minecraft:scute": 571
+        },
+        "minecraft:potion": {
+          "minecraft:empty": 0
+        }
+      },
+      "native_block_rename_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.18.2.forge50-grass-rename.json",
+        "sha256": "1B3F553ADF3804C8BC0CC5DC660171C095D962214D4B7F31EC0AA1EE04C4A672",
+        "source": "minecraft:grass",
+        "target": "minecraft:short_grass",
+        "checked_positions": 1288
+      },
+      "forge50_unused_registry_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.18.2.forge50-unused-registry.json",
+        "sha256": "66CF974BABA220871386E6B68DD2DEF1F69D081D812D8E8103EE1BC07EB1FF44"
+      }
     },
     "70B9B38FEEAC7FF1845EE8975D58C8616F69B2DB011841D4F8E63653E9677C3B": {
       "fixture": "src/testFixtures/worlds/building-pieces-bop-1.19.4.zip",
@@ -711,6 +848,77 @@
       "live_biome_contract": {
         "path": "src/testFixtures/biomes/bop-1.20.1-live-registry.json",
         "sha256": "7EEF7AE94AA8BB63C426CE3C3AB675D8118A9C68586A5D6DF8DEB37509315B61"
+      },
+      "forge50_additional_mappings": {
+        "minecraft:block": {
+          "minecraft:grass": 95
+        },
+        "minecraft:enchantment": {
+          "minecraft:sweeping": 18
+        },
+        "minecraft:item": {
+          "minecraft:grass": 89,
+          "minecraft:scute": 571
+        },
+        "minecraft:potion": {
+          "minecraft:empty": 0
+        }
+      },
+      "native_block_rename_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.19.4.forge50-grass-rename.json",
+        "sha256": "343090975126228599AEB1ABBB966AA67DD9D826EE5466927B1412CE5C082169",
+        "source": "minecraft:grass",
+        "target": "minecraft:short_grass",
+        "checked_positions": 1287
+      },
+      "forge50_unused_registry_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.19.4.forge50-unused-registry.json",
+        "sha256": "BA86B0A05782EF8F9920F36FA9D7299B192B2F3C97BA63F04A4D053D5EE2C69B"
+      }
+    },
+    "DA43C99D1282253DDA7FF8F044358BE4D6FA5E31A8E156B6EE33517A5D9F5342": {
+      "fixture": "src/testFixtures/worlds/building-pieces-bop-1.20.1.zip",
+      "sha256": "DA43C99D1282253DDA7FF8F044358BE4D6FA5E31A8E156B6EE33517A5D9F5342",
+      "source_jar_sha256": "C89EA9BC57C84502A9562B994B1E318D456C1880E7C38B14B03B757AA08E2323",
+      "mappings": {
+        "minecraft:block": {
+          "minecraft:grass": 95
+        },
+        "minecraft:enchantment": {
+          "minecraft:sweeping": 18
+        },
+        "minecraft:item": {
+          "minecraft:grass": 89,
+          "minecraft:scute": 571
+        },
+        "minecraft:potion": {
+          "minecraft:empty": 0
+        }
+      },
+      "saved_uses": 0,
+      "non_biome_saved_uses": 0,
+      "inspected_nbt_records": 274,
+      "native_biome_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.20.1.biomes.json",
+        "sha256": "A3760B17C2003FF9B369C5EDCE805BADF5C5208761031C080546CF1FC62D9DFB",
+        "source": "1.20.1",
+        "checked_cells": 405504,
+        "renamed_cells": 0
+      },
+      "native_block_rename_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.20.1.forge50-grass-rename.json",
+        "sha256": "660DD492671EC1E5E85A8EA9F27A334BDF671837B89F37978E7ED607DA4E1065",
+        "source": "minecraft:grass",
+        "target": "minecraft:short_grass",
+        "checked_positions": 1285
+      },
+      "forge50_unused_registry_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-1.20.1.forge50-unused-registry.json",
+        "sha256": "F06A626DEDE88BE77E9D353CC8F6E1AD0896FC8BFBF3BE6A4505ADDAFD17C260"
+      },
+      "live_biome_contract": {
+        "path": "src/testFixtures/bop-1.20.6-live-biomes.json",
+        "sha256": "06DBF525448009C7300278C955BE10FA06BC03A3E1B867AF813945B07DD8E55D"
       }
     }
   },

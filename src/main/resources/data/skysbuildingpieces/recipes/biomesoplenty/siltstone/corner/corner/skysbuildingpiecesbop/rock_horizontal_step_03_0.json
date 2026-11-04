@@ -8,18 +8,21 @@
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:siltstone_corner",
+    "id": "skysbuildingpiecesbop:siltstone_corner",
     "count": 4
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:siltstone_corner"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:siltstone_horizontal_step"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:siltstone_corner"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:siltstone_horizontal_step"
+      }
+    ]
+  }
 }

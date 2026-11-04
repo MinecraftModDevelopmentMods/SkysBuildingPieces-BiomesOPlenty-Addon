@@ -8,18 +8,21 @@
     }
   },
   "result": {
-    "item": "minecraft:cherry_planks",
+    "id": "minecraft:cherry_planks",
     "count": 1
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "minecraft:cherry_planks"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "minecraft:cherry_slab"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "minecraft:cherry_planks"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "minecraft:cherry_slab"
+      }
+    ]
+  }
 }

@@ -2,7 +2,6 @@ package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
 import java.io.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.InteractionHand;
@@ -18,7 +17,7 @@ public final class BasketDisconnectClientChecks {
     private static final org.apache.logging.log4j.Logger LOGGER =
             org.apache.logging.log4j.LogManager.getLogger();
 
-    private static int stage, ticks;
+    private static int stage, ticks, windowReadyAt;
     private static boolean ready;
     private static volatile boolean checked;
     private static Thread closingServerThread;
@@ -67,7 +66,7 @@ public final class BasketDisconnectClientChecks {
                             baskets++;
 
                             if (!stack.getHoverName().getString().equals("Disconnect plants")
-                                    || new BasketInventory(stack).getItem(7).getCount() != 11) {
+                                    || new BasketInventory(stack, BopProbeItems.registries()).getItem(7).getCount() != 11) {
                                 throw new AssertionError("Disconnect changed the basket name, slot or contents");
                             }
                         }
@@ -83,8 +82,8 @@ public final class BasketDisconnectClientChecks {
 
                     ItemStack stack = new ItemStack(Baskets.ITEM);
 
-                    stack.setHoverName(net.minecraft.network.chat.Component.literal("Disconnect plants"));
-                    new BasketInventory(stack).setItem(7,
+                    BopProbeItems.name(stack, "Disconnect plants");
+                    new BasketInventory(stack, BopProbeItems.registries()).setItem(7,
                             new ItemStack(net.minecraft.world.level.block.Blocks.BIRCH_SAPLING, 11));
                     player.getInventory().setItem(0, stack);
                     player.inventoryMenu.broadcastChanges();
@@ -96,30 +95,39 @@ public final class BasketDisconnectClientChecks {
             stage = 2;
             minecraft.gameMode.useItem(minecraft.player, InteractionHand.MAIN_HAND);
         } else if (stage == 2 && minecraft.screen instanceof BasketScreen) {
+            if (windowReadyAt == 0) {
+                windowReadyAt = ticks;
+            }
+            ItemStack firstStored = minecraft.player.containerMenu.getSlot(7).getItem();
+            if (firstStored.getCount() != 11 || ticks - windowReadyAt < 20) {
+                return;
+            }
             stage = 3;
+            savedRegistries = minecraft.player.level().registryAccess();
             closingServerThread = minecraft.getSingleplayerServer().getRunningThread();
             savedPlayer = new File(minecraft.getSingleplayerServer()
                     .getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(),
                     "playerdata/" + minecraft.player.getUUID() + ".dat");
-            minecraft.level.disconnect();
-            minecraft.clearLevel();
-            minecraft.setScreen(new TitleScreen());
+            minecraft.getConnection().getConnection().disconnect(
+                    net.minecraft.network.chat.Component.translatable("disconnect.quitting"));
             // Keep the client alive until the normal server thread has finished
             // saving. Exiting the JVM here can interrupt the player-file rename.
         }
     }
 
+    private static net.minecraft.core.HolderLookup.Provider savedRegistries;
+
     private static void checkSavedBasket() {
         try (InputStream input = new FileInputStream(savedPlayer)) {
-            net.minecraft.nbt.ListTag inventory = net.minecraft.nbt.NbtIo.readCompressed(input)
+            net.minecraft.nbt.ListTag inventory = net.minecraft.nbt.NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap())
                     .getList("Inventory", 10);
             int baskets = 0;
             for (int slot = 0; slot < inventory.size(); slot++) {
-                ItemStack stack = ItemStack.of(inventory.getCompound(slot));
+                ItemStack stack = ItemStack.parse(savedRegistries, inventory.getCompound(slot)).orElseThrow();
                 if (stack.getItem() == Baskets.ITEM) {
                     baskets++;
                     if (!stack.getHoverName().getString().equals("Disconnect plants")
-                            || new BasketInventory(stack).getItem(7).getCount() != 11) {
+                            || new BasketInventory(stack, savedRegistries).getItem(7).getCount() != 11) {
                         throw new AssertionError("The stopped server did not save the complete basket");
                     }
                 }

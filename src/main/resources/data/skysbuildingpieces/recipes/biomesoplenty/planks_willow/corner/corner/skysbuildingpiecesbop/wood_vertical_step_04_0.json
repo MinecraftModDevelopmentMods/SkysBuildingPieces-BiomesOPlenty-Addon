@@ -8,18 +8,21 @@
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:planks_willow_corner",
+    "id": "skysbuildingpiecesbop:planks_willow_corner",
     "count": 4
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_willow_corner"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_willow_vertical_step"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_willow_corner"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_willow_vertical_step"
+      }
+    ]
+  }
 }

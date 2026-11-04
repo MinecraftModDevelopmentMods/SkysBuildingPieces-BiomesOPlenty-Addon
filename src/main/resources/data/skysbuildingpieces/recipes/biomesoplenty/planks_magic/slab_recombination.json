@@ -8,18 +8,21 @@
     }
   },
   "result": {
-    "item": "biomesoplenty:magic_planks",
+    "id": "biomesoplenty:magic_planks",
     "count": 1
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:magic_planks"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:magic_slab"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:magic_planks"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:magic_slab"
+      }
+    ]
+  }
 }

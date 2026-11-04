@@ -23,14 +23,17 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/mud_brick_block/recombine_corner"]
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:mud_brick_block_corner"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
-    }
-  ]
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:mud_brick_block_corner"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
+      }
+    ]
+  }
 }

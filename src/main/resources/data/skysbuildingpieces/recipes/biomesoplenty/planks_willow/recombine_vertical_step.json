@@ -8,18 +8,21 @@
     }
   },
   "result": {
-    "item": "biomesoplenty:willow_slab",
+    "id": "biomesoplenty:willow_slab",
     "count": 1
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:willow_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_willow_vertical_step"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:willow_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_willow_vertical_step"
+      }
+    ]
+  }
 }

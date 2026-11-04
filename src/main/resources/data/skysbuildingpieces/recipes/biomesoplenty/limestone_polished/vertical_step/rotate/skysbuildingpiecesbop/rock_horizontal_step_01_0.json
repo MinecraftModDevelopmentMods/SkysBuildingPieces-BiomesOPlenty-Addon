@@ -8,19 +8,22 @@
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:limestone_polished_vertical_step",
+    "id": "skysbuildingpiecesbop:limestone_polished_vertical_step",
     "count": 1
   },
   "preserve_tag": true,
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:limestone_polished_horizontal_step"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:limestone_polished_vertical_step"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:limestone_polished_horizontal_step"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:limestone_polished_vertical_step"
+      }
+    ]
+  }
 }

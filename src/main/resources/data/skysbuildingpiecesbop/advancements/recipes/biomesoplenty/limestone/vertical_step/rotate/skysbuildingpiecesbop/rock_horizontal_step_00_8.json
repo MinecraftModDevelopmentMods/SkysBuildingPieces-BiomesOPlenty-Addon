@@ -23,14 +23,17 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/limestone/vertical_step/rotate/skysbuildingpiecesbop/rock_horizontal_step_00_8"]
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:limestone_horizontal_step"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:limestone_vertical_step"
-    }
-  ]
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:limestone_horizontal_step"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:limestone_vertical_step"
+      }
+    ]
+  }
 }

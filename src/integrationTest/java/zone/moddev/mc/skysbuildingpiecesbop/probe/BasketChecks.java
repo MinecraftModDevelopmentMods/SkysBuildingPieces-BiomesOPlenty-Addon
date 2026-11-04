@@ -19,7 +19,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.*;
 
@@ -40,7 +39,7 @@ public final class BasketChecks {
     public static void run(ServerLevel world) {
         checks = 0;
 
-        ServerPlayer player = FakePlayerFactory.getMinecraft(world);
+        ServerPlayer player = BopProbeItems.player(world);
 
         player.getInventory().clearContent();
         player.getInventory().selected = 0;
@@ -63,9 +62,9 @@ public final class BasketChecks {
                 crafting.setItem(slot, new ItemStack(Items.STICK));
             }
 
-            net.minecraft.world.item.crafting.Recipe<net.minecraft.world.inventory.CraftingContainer> recipe = world
+            net.minecraft.world.item.crafting.CraftingRecipe recipe = world
                     .getRecipeManager().getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING, crafting, world)
-                    .orElse(null);
+                    .map(net.minecraft.world.item.crafting.RecipeHolder::value).orElse(null);
 
             require(recipe != null && recipe.assemble(crafting, world.registryAccess()).getItem() == Baskets.ITEM
                     && recipe.assemble(crafting, world.registryAccess()).getCount() == 1, "real six-stick crafting recipe");
@@ -82,18 +81,31 @@ public final class BasketChecks {
 
             ItemStack basket = new ItemStack(Baskets.ITEM);
 
-            basket.setHoverName(net.minecraft.network.chat.Component.literal("Test plants"));
-            basket.getTag().putInt("unrelated", 19);
+            BopProbeItems.name(basket, "Test plants");
+            CompoundTag custom = new CompoundTag();
+            custom.putInt("unrelated", 19);
+            BopProbeItems.setCustom(basket, custom);
 
-            BasketInventory inventory = new BasketInventory(basket);
+            BasketInventory inventory = new BasketInventory(basket, BopProbeItems.registries());
 
             require(inventory.insert(new ItemStack(Blocks.OAK_SAPLING, 60)).isEmpty(), "initial insert");
             require(inventory.insert(new ItemStack(Blocks.OAK_SAPLING, 12)).isEmpty(), "merge and spill to next slot");
             require(inventory.getItem(0).getCount() == 64 && inventory.getItem(1).getCount() == 8,
                     "merge before empty slots");
-            require(basket.getTag().getInt("unrelated") == 19
+            require(BopProbeItems.custom(basket).getInt("unrelated") == 19
                     && basket.getHoverName().getString().equals("Test plants"), "custom data retained");
-            require(new BasketInventory(basket).getItem(1).getCount() == 8, "storage reload");
+            require(new BasketInventory(basket, BopProbeItems.registries()).getItem(1).getCount() == 8, "storage reload");
+
+            ItemStack customPlant = new ItemStack(Blocks.BIRCH_SAPLING, 3);
+            BopProbeItems.name(customPlant, "Orchard saplings");
+            customPlant.set(net.minecraft.core.component.DataComponents.MAX_STACK_SIZE, 16);
+            CompoundTag plantData = new CompoundTag();
+            plantData.putString("plot", "orchard");
+            BopProbeItems.setCustom(customPlant, plantData);
+            inventory.setItem(4, customPlant);
+            ItemStack reloadedPlant = new BasketInventory(basket, world.registryAccess()).getItem(4);
+            require(ItemStack.matches(customPlant, reloadedPlant) && reloadedPlant.getMaxStackSize() == 16,
+                    "component-rich contents survive a save and restore");
 
             for (int entryIndex = 0; entryIndex < 18; entryIndex++) {
                 inventory.setItem(entryIndex,
@@ -161,13 +173,13 @@ public final class BasketChecks {
             editor.quickMoveStack(player, 0);
             require(editor.basket.isEmpty(), "shift-click withdraws");
             editor.basket.setItem(3, new ItemStack(Items.DIAMOND, 2));
-            require(new BasketInventory(editable).getItem(3).getCount() == 2,
+            require(new BasketInventory(editable, BopProbeItems.registries()).getItem(3).getCount() == 2,
                     "stored non-plant remains recoverable");
             editor.quickMoveStack(player, 3);
             require(editor.basket.isEmpty(), "stored non-plant can be withdrawn");
             editor.basket.insert(new ItemStack(Blocks.OAK_SAPLING, 11));
             editor.removed(player);
-            require(new BasketInventory(editable).getItem(0).getCount() == 11,
+            require(new BasketInventory(editable, BopProbeItems.registries()).getItem(0).getCount() == 11,
                     "close persists contents immediately");
             player.getInventory().clearContent();
 
@@ -182,10 +194,10 @@ public final class BasketChecks {
 
             Baskets.pickup(event);
             require(event.isCanceled() && !entity.isAlive(), "complete pickup consumed once");
-            require(new BasketInventory(collected).getItem(0).getCount() == 7, "first basket collects");
-            require(!player.getInventory().getItem(1).hasTag(), "later basket unchanged");
+            require(new BasketInventory(collected, BopProbeItems.registries()).getItem(0).getCount() == 7, "first basket collects");
+            require(!BopProbeItems.hasCustom(player.getInventory().getItem(1)), "later basket unchanged");
 
-            BasketInventory full = new BasketInventory(collected);
+            BasketInventory full = new BasketInventory(collected, BopProbeItems.registries());
 
             for (int entryIndex = 0; entryIndex < 18; entryIndex++) {
                 full.setItem(entryIndex, new ItemStack(Blocks.OAK_SAPLING, entryIndex == 0 ? 61 : 64));
@@ -201,7 +213,7 @@ public final class BasketChecks {
             player.getInventory().clearContent();
             player.getInventory().setItem(0, collected);
             player.getAbilities().instabuild = false;
-            full = new BasketInventory(collected);
+            full = new BasketInventory(collected, BopProbeItems.registries());
 
             for (int entryIndex = 0; entryIndex < 18; entryIndex++) {
                 full.setItem(entryIndex, new ItemStack(Blocks.OAK_SAPLING, entryIndex == 0 ? 61 : 64));
@@ -222,20 +234,20 @@ public final class BasketChecks {
                 }
             }
 
-            require(new BasketInventory(collected).getItem(0).getCount() == 64 && loose == 6
+            require(new BasketInventory(collected, BopProbeItems.registries()).getItem(0).getCount() == 64 && loose == 6
                     && !entity.isAlive(), "real partial pickup conserves all nine items");
 
             for (int entryIndex = 1; entryIndex < player.getInventory().items.size(); entryIndex++) {
                 player.getInventory().setItem(entryIndex, new ItemStack(Blocks.STONE, 64));
             }
 
-            full = new BasketInventory(collected);
+            full = new BasketInventory(collected, BopProbeItems.registries());
             full.setItem(0, new ItemStack(Blocks.OAK_SAPLING, 61));
             entity = new ItemEntity(world, 0, 100, 0, new ItemStack(Blocks.OAK_SAPLING, 9));
             entity.playerTouch(player);
             entity.playerTouch(player);
             require(entity.isAlive() && entity.getItem().getCount() == 6
-                    && new BasketInventory(collected).getItem(0).getCount() == 64,
+                    && new BasketInventory(collected, BopProbeItems.registries()).getItem(0).getCount() == 64,
                     "real full inventory retains six ground items");
             player.getInventory().clearContent();
 
@@ -245,11 +257,11 @@ public final class BasketChecks {
             entity = new ItemEntity(world, 0, 100, 0, new ItemStack(Blocks.OAK_SAPLING, 4));
             entity.setTarget(new java.util.UUID(1, 2));
             entity.playerTouch(player);
-            require(entity.isAlive() && entity.getItem().getCount() == 4 && new BasketInventory(ownedBasket).isEmpty(),
+            require(entity.isAlive() && entity.getItem().getCount() == 4 && new BasketInventory(ownedBasket, BopProbeItems.registries()).isEmpty(),
                     "respect vanilla exclusive pickup ownership");
             entity.setTarget(player.getUUID());
             entity.playerTouch(player);
-            require(!entity.isAlive() && new BasketInventory(ownedBasket).getItem(0).getCount() == 4,
+            require(!entity.isAlive() && new BasketInventory(ownedBasket, BopProbeItems.registries()).getItem(0).getCount() == 4,
                     "the drop owner can collect plants");
             rawRecovery();
             LOGGER.info("BOP_FLOWER_BASKET_PASS checks=" + checks
@@ -264,7 +276,7 @@ public final class BasketChecks {
         BasketData fixer = new BasketData();
 
         for (String registryId : new String[] { BasketData.OLD, BasketData.HOLDER, BasketData.ID }) {
-            CompoundTag stack = new ItemStack(Baskets.ITEM).save(new CompoundTag());
+            CompoundTag stack = BopProbeItems.legacy(new ItemStack(Baskets.ITEM));
 
             stack.putString("id", registryId);
 
@@ -275,7 +287,7 @@ public final class BasketChecks {
             tag.putInt("other", 77);
 
             ListTag list = new ListTag();
-            CompoundTag child = new ItemStack(Blocks.BIRCH_SAPLING, 53).save(new CompoundTag());
+            CompoundTag child = BopProbeItems.legacy(new ItemStack(Blocks.BIRCH_SAPLING, 53));
 
             child.putByte("Slot", (byte) 17);
             list.add(child);
@@ -292,7 +304,7 @@ public final class BasketChecks {
 
             fixer.fixTagCompound(stack);
             require(stack.equals(once), "raw reload idempotence");
-            require(new BasketInventory(ItemStack.of(stack)).getItem(17).getCount() == 53,
+            require(new BasketInventory(BopProbeItems.read(stack), BopProbeItems.registries()).getItem(17).getCount() == 53,
                     "deserialization preserved contents");
 
             for (String carrier : new String[] { "Inventory", "EnderItems", "Items", "Equipment", "CustomHandler" }) {

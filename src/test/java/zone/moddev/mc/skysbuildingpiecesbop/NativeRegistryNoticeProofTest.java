@@ -35,7 +35,7 @@ class NativeRegistryNoticeProofTest {
         JsonObject profiles = new JsonParser().parse(new String(
                 Files.readAllBytes(Paths.get("tools/native-log-profiles.json")), StandardCharsets.UTF_8))
                 .getAsJsonObject().getAsJsonObject("profiles");
-        assertEquals(8, profiles.size());
+        assertEquals(9, profiles.size());
         Set<String> versions = new HashSet<>();
 
         for (java.util.Map.Entry<String, com.google.gson.JsonElement> entry : profiles.entrySet()) {
@@ -74,6 +74,18 @@ class NativeRegistryNoticeProofTest {
                 uses.entrySet().forEach(usage -> assertEquals(0, usage.getValue().getAsInt(), usage.getKey()));
                 expectedUnused += uses.size();
             }
+            if (profile.has("forge50_unused_registry_contract")) {
+                JsonObject proof = boundJson(profile.getAsJsonObject("forge50_unused_registry_contract"));
+                assertEquals(profile.get("sha256"), proof.get("source_world_sha256"));
+                JsonObject uses = proof.getAsJsonObject("saved_uses");
+                Set<String> additionallyUnused = new HashSet<>();
+                proof.getAsJsonObject("snapshot_entries").entrySet().forEach(registry ->
+                        additionallyUnused.addAll(registry.getValue().getAsJsonObject().keySet()));
+                assertEquals(additionallyUnused, uses.keySet());
+                uses.entrySet().forEach(usage -> assertEquals(0, usage.getValue().getAsInt(), usage.getKey()));
+                names.addAll(additionallyUnused);
+                expectedUnused = names.size();
+            }
             assertEquals(expectedUnused, names.size());
             assertEquals(0, profile.get("non_biome_saved_uses").getAsInt());
             BiomeProof biomes = new BiomeProof(profile);
@@ -88,11 +100,19 @@ class NativeRegistryNoticeProofTest {
                     String label = member.getName();
                     try (InputStream input = archive.getInputStream(member)) {
                         if (label.endsWith(".dat") || label.endsWith(".dat_old")) {
-                            CompoundTag root = NbtIo.readCompressed(input);
+                            CompoundTag root = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
                             if (label.equals("level.dat")) verifyRegistryNumbers(root, profile);
                             // Registry availability is not a saved block, entity or inventory use.
                             root.remove("FML");
                             root.remove("fml");
+                            if (biomes.grassRename && label.equals("data/skysbuildingpieces_legacy_registry.dat")) {
+                                for (Tag stagedState : root.getList("staging", 10)) {
+                                    CompoundTag saved = ((CompoundTag) stagedState).getCompound("state");
+                                    if (saved.getString("Name").equals("minecraft:grass")) {
+                                        saved.putString("Name", "minecraft:short_grass");
+                                    }
+                                }
+                            }
                             inspect(root, names, label);
                             biomes.inspect(root);
                             records++;
@@ -105,7 +125,7 @@ class NativeRegistryNoticeProofTest {
             assertEquals(profile.get("inspected_nbt_records").getAsInt(), records);
             biomes.complete(profile);
         }
-        assertEquals(Set.of("1.14.4", "1.15.2", "1.16.5", "1.17.1", "1.18.2", "1.19.4"), versions);
+        assertEquals(Set.of("1.14.4", "1.15.2", "1.16.5", "1.17.1", "1.18.2", "1.19.4", "1.20.1"), versions);
     }
 
     private static JsonObject boundJson(JsonObject binding) throws Exception {
@@ -116,7 +136,17 @@ class NativeRegistryNoticeProofTest {
 
     private static void verifyRegistryNumbers(CompoundTag root, JsonObject profile) {
         CompoundTag registries = root.getCompound(root.contains("fml", 10) ? "fml" : "FML").getCompound("Registries");
-        for (var registry : profile.getAsJsonObject("mappings").entrySet()) {
+        JsonObject expected = profile.getAsJsonObject("mappings").deepCopy();
+        if (profile.has("forge50_additional_mappings")) {
+            profile.getAsJsonObject("forge50_additional_mappings").entrySet().forEach(registry -> {
+                if (!expected.has(registry.getKey())) {
+                    expected.add(registry.getKey(), new JsonObject());
+                }
+                registry.getValue().getAsJsonObject().entrySet().forEach(row ->
+                        expected.getAsJsonObject(registry.getKey()).add(row.getKey(), row.getValue()));
+            });
+        }
+        for (var registry : expected.entrySet()) {
             CompoundTag snapshot = registries.getCompound(registry.getKey());
             if (registry.getKey().equals("minecraft:worldgen/biome") && snapshot.isEmpty()) {
                 snapshot = registries.getCompound(registries.contains("minecraft:biome", 10)
@@ -161,7 +191,26 @@ class NativeRegistryNoticeProofTest {
             }
             try (DataInputStream input = new DataInputStream(payload)) {
                 CompoundTag root = NbtIo.read(input);
-                inspect(root, names, label + ":" + slot);
+                // Separate block palettes from the unused old grass item. The position list is checked in-game.
+                if (biomes.grassRename && label.startsWith("region/")) {
+                    CompoundTag copy = root.copy();
+                    CompoundTag level = copy.contains("Level", 10) ? copy.getCompound("Level") : copy;
+                    ListTag sections = level.contains("Sections", 9) ? level.getList("Sections", 10) : level.getList("sections", 10);
+                    for (Tag section : sections) {
+                        CompoundTag chunkSection = (CompoundTag) section;
+                        ListTag palette = chunkSection.contains("Palette", 9) ? chunkSection.getList("Palette", 10)
+                                : chunkSection.getCompound("block_states").getList("palette", 10);
+                        for (Tag state : palette) {
+                            CompoundTag saved = (CompoundTag) state;
+                            if (saved.getString("Name").equals("minecraft:grass")) {
+                                saved.putString("Name", "minecraft:short_grass");
+                            }
+                        }
+                    }
+                    inspect(copy, names, label + ":" + slot);
+                } else {
+                    inspect(root, names, label + ":" + slot);
+                }
                 biomes.inspect(root);
             }
             records++;
@@ -186,6 +235,7 @@ class NativeRegistryNoticeProofTest {
         private final Set<String> visited = new HashSet<>();
         private final String version;
         private final boolean nativeHeight;
+        private final boolean grassRename;
         private final JsonObject bopReplacements;
         private final Set<String> noticedBiomes = new HashSet<>();
         private final Set<String> liveBiomes = new HashSet<>();
@@ -197,6 +247,16 @@ class NativeRegistryNoticeProofTest {
         private int partialChunks;
 
         BiomeProof(JsonObject profile) throws Exception {
+            grassRename = profile.has("native_block_rename_contract");
+            if (grassRename) {
+                JsonObject binding = profile.getAsJsonObject("native_block_rename_contract");
+                JsonObject rename = boundJson(binding);
+                assertEquals(profile.get("sha256"), rename.get("source_world_sha256"));
+                assertEquals(binding.get("checked_positions"), rename.get("checked_positions"));
+                assertEquals("minecraft:grass", rename.get("source").getAsString());
+                assertEquals("minecraft:short_grass", rename.get("target").getAsString());
+                assertEquals(rename.get("checked_positions").getAsInt(), rename.getAsJsonArray("positions").size());
+            }
             JsonObject proof = profile.getAsJsonObject("native_biome_contract");
             byte[] bytes = Files.readAllBytes(Paths.get(proof.get("path").getAsString()));
             assertEquals(proof.get("sha256").getAsString(), checksum(bytes));
@@ -220,14 +280,15 @@ class NativeRegistryNoticeProofTest {
             }
             bopReplacements = JsonParser.parseString(new String(aliases, StandardCharsets.UTF_8))
                     .getAsJsonObject().getAsJsonObject(nativeHeight ? "section_biomes" : "biomes");
+            version = proof.get("source").getAsString();
             if (profile.has("live_biome_contract")) {
                 JsonObject live = boundJson(profile.getAsJsonObject("live_biome_contract"));
-                assertEquals(forge47 ? "1.20.1" : "1.19.4", live.get("minecraft").getAsString());
-                assertEquals(forge47 ? "47.4.10" : "45.4.0", live.get("forge").getAsString());
+                assertEquals(version.equals("1.20.1") ? "1.20.6" : forge47 ? "1.20.1" : "1.19.4", live.get("minecraft").getAsString());
+                assertEquals(version.equals("1.20.1") ? "50.2.0" : forge47 ? "47.4.10" : "45.4.0", live.get("forge").getAsString());
                 for (var row : live.getAsJsonArray("entries")) {
                     assertTrue(liveBiomes.add(row.getAsJsonObject().get("id").getAsString()));
                 }
-                assertEquals(forge47 ? 134 : 128, liveBiomes.size());
+                assertEquals(version.equals("1.20.1") || forge47 ? 134 : 128, liveBiomes.size());
                 JsonObject snapshot = profile.getAsJsonObject("mappings");
                 if (snapshot.has("minecraft:worldgen/biome")) {
                     noticedBiomes.addAll(snapshot.getAsJsonObject("minecraft:worldgen/biome").keySet());
@@ -238,7 +299,6 @@ class NativeRegistryNoticeProofTest {
             }
             assertEquals(profile.get("sha256"), contract.get("source_world_sha256"));
             assertEquals(proof.get("source"), contract.get("source_minecraft"));
-            version = proof.get("source").getAsString();
             names = contract.getAsJsonObject("source_names");
             for (com.google.gson.JsonElement value : contract.getAsJsonArray("chunks")) {
                 JsonObject row = value.getAsJsonObject();
@@ -259,7 +319,7 @@ class NativeRegistryNoticeProofTest {
             CompoundTag level = nativeHeight ? root : root.getCompound("Level");
             String status = level.getString("Status");
             if (!status.equals("full") && !status.equals("minecraft:full")) {
-                if (!version.equals("1.19.4")) {
+                if (!version.equals("1.19.4") && !version.equals("1.20.1")) {
                     return;
                 }
                 // The adjacent fixture also seals complete palettes in its

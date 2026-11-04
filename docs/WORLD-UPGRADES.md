@@ -1,5 +1,12 @@
 # Existing worlds
 
+## Moving to Minecraft 1.20.6
+
+Use Biomes O' Plenty 18.4.0.8, TerraBlender 3.5.0.5 and GlitchCore 1.1.0.10.
+Keep a backup of the whole world, including its data folder. Flower Baskets
+can read their older inventory format and use Minecraft's new item data when
+you change what is inside. Existing pieces keep their material and shape.
+
 ## Moving to Minecraft 1.20.1
 
 Old BOP cherry wood uses Minecraft's cherry blocks. Sky's cherry pieces keep

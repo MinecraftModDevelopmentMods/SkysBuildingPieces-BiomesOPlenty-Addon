@@ -30,7 +30,7 @@ public final class BasketContainer extends AbstractContainerMenu {
             throw new IllegalArgumentException("The selected hand does not hold one flower basket");
         }
 
-        basket = new BasketInventory(held);
+        basket = new BasketInventory(held, player.level().registryAccess());
 
         for (int row = 0; row < 2; row++) {
             for (int column = 0; column < 9; column++) {

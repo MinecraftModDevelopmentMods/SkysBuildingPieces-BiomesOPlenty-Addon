@@ -1,90 +1,88 @@
 {
   "advancements": [
     {
-      "conditions": [
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:limestone_smooth"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:limestone_smooth"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:limestone_polished_slab"
-        }
-      ],
-      "advancement": {
-        "criteria": {
-          "has_ingredient": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-              "items": [
-                {
-                  "items": ["skysbuildingpiecesbop:limestone_polished_slab"]
-                }
-              ]
-            }
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:item_exists",
+            "item": "mineralogy:limestone_smooth"
           },
-          "has_the_recipe": {
-            "trigger": "minecraft:recipe_unlocked",
-            "conditions": {
-              "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/slab_recombination"
-            }
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:limestone_polished_slab"
+          }
+        ]
+      },
+      "criteria": {
+        "has_ingredient": {
+          "trigger": "minecraft:inventory_changed",
+          "conditions": {
+            "items": [
+              {
+                "items": ["skysbuildingpiecesbop:limestone_polished_slab"]
+              }
+            ]
           }
         },
-        "requirements": [
-          ["has_ingredient", "has_the_recipe"]
-        ],
-        "rewards": {
-          "recipes": ["skysbuildingpieces:biomesoplenty/limestone_polished/slab_recombination"]
+        "has_the_recipe": {
+          "trigger": "minecraft:recipe_unlocked",
+          "conditions": {
+            "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/slab_recombination"
+          }
         }
+      },
+      "requirements": [
+        ["has_ingredient", "has_the_recipe"]
+      ],
+      "rewards": {
+        "recipes": ["skysbuildingpieces:biomesoplenty/limestone_polished/slab_recombination"]
       }
     },
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:item_exists",
-            "item": "mineralogy:limestone_smooth"
-          }
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:limestone_polished_slab"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:retired_limestone_smooth"
-        }
-      ],
-      "advancement": {
-        "criteria": {
-          "has_ingredient": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-              "items": [
-                {
-                  "items": ["skysbuildingpiecesbop:limestone_polished_slab"]
-                }
-              ]
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:not",
+            "value": {
+              "type": "forge:item_exists",
+              "item": "mineralogy:limestone_smooth"
             }
           },
-          "has_the_recipe": {
-            "trigger": "minecraft:recipe_unlocked",
-            "conditions": {
-              "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/slab_recombination"
-            }
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:limestone_polished_slab"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:retired_limestone_smooth"
+          }
+        ]
+      },
+      "criteria": {
+        "has_ingredient": {
+          "trigger": "minecraft:inventory_changed",
+          "conditions": {
+            "items": [
+              {
+                "items": ["skysbuildingpiecesbop:limestone_polished_slab"]
+              }
+            ]
           }
         },
-        "requirements": [
-          ["has_ingredient", "has_the_recipe"]
-        ],
-        "rewards": {
-          "recipes": ["skysbuildingpieces:biomesoplenty/limestone_polished/slab_recombination"]
+        "has_the_recipe": {
+          "trigger": "minecraft:recipe_unlocked",
+          "conditions": {
+            "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/slab_recombination"
+          }
         }
+      },
+      "requirements": [
+        ["has_ingredient", "has_the_recipe"]
+      ],
+      "rewards": {
+        "recipes": ["skysbuildingpieces:biomesoplenty/limestone_polished/slab_recombination"]
       }
     }
   ]

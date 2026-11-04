@@ -2,20 +2,6 @@
   "type": "forge:conditional",
   "recipes": [
     {
-      "conditions": [
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:limestone"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:limestone"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:limestone_wall"
-        }
-      ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
         "group": "skysbuildingpieces/mineralogy",
@@ -26,30 +12,26 @@
           }
         },
         "result": {
-          "item": "skysbuildingpiecesbop:limestone_wall",
+          "id": "skysbuildingpiecesbop:limestone_wall",
           "count": 6
         },
         "category": "building"
+      },
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:item_exists",
+            "item": "mineralogy:limestone"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:limestone_wall"
+          }
+        ]
       }
     },
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:item_exists",
-            "item": "mineralogy:limestone"
-          }
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:limestone_wall"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:retired_limestone"
-        }
-      ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
         "group": "skysbuildingpieces/mineralogy",
@@ -60,10 +42,30 @@
           }
         },
         "result": {
-          "item": "skysbuildingpiecesbop:limestone_wall",
+          "id": "skysbuildingpiecesbop:limestone_wall",
           "count": 6
         },
         "category": "building"
+      },
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:not",
+            "value": {
+              "type": "forge:item_exists",
+              "item": "mineralogy:limestone"
+            }
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:limestone_wall"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:retired_limestone"
+          }
+        ]
       }
     }
   ]

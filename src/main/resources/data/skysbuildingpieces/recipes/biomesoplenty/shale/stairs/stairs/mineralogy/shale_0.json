@@ -8,18 +8,21 @@
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:shale_stairs",
+    "id": "skysbuildingpiecesbop:shale_stairs",
     "count": 4
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:shale_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:shale_stairs"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:shale_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:shale_stairs"
+      }
+    ]
+  }
 }

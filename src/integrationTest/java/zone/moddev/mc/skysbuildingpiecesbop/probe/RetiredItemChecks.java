@@ -28,7 +28,7 @@ public final class RetiredItemChecks {
         checks = 0;
 
         LegacyItemRecovery recovery = new LegacyItemRecovery();
-        CompoundTag state = PiecesWorldState.get(world).save(new CompoundTag());
+        CompoundTag state = PiecesWorldState.get(world).save(new CompoundTag(), world.registryAccess());
         String[] legacyIds = { "turnip_seeds", "pinecone", "dull_flower_band" };
         int[] counts = { 1, 2, 8 };
 
@@ -56,7 +56,7 @@ public final class RetiredItemChecks {
                         "target quantity and variant");
                 require(raw.getCompound("tag").equals(tag), "unrelated custom NBT");
 
-                ItemStack decoded = ItemStack.of(raw);
+                ItemStack decoded = BopProbeItems.read(raw);
 
                 require(decoded.getItem() == target && decoded.getCount() == counts[entryIndex],
                         "real item deserialization");
@@ -78,7 +78,7 @@ public final class RetiredItemChecks {
 
         list.add(pine);
 
-        CompoundTag stone = new ItemStack(Items.STICK, 64).save(new CompoundTag());
+        CompoundTag stone = BopProbeItems.legacy(new ItemStack(Items.STICK, 64));
 
         stone.putByte("Slot", (byte) 0);
         list.add(stone);
@@ -109,7 +109,7 @@ public final class RetiredItemChecks {
 
         for (int entryIndex = 0; entryIndex < 27; entryIndex++) {
             CompoundTag entry = entryIndex == 0 ? stack("biomesoplenty:pinecone", 64, entryIndex)
-                    : new ItemStack(Items.STICK, 64).save(new CompoundTag());
+                    : BopProbeItems.legacy(new ItemStack(Items.STICK, 64));
 
             entry.putByte("Slot", (byte) entryIndex);
             list.add(entry);
@@ -133,7 +133,7 @@ public final class RetiredItemChecks {
         bad.putByte("Count", (byte) 0);
         reject(recovery, bad, "invalid saved stack");
 
-        CompoundTag basket = new ItemStack(Baskets.ITEM).save(new CompoundTag());
+        CompoundTag basket = BopProbeItems.legacy(new ItemStack(Baskets.ITEM));
         CompoundTag tag = new CompoundTag();
 
         list = new ListTag();
@@ -143,7 +143,7 @@ public final class RetiredItemChecks {
         recovery.fixTagCompound(basket);
         require(basket.getCompound("tag").getList("Items", 10).size() == 2,
                 "basket overflow is allocated before validation");
-        require(new BasketInventory(ItemStack.of(basket)).getItem(0).getCount() == 64,
+        require(new BasketInventory(BopProbeItems.read(basket), BopProbeItems.registries()).getItem(0).getCount() == 64,
                 "legacy non-plant output stays withdrawable");
 
         CompoundTag player = new CompoundTag();
@@ -194,7 +194,15 @@ public final class RetiredItemChecks {
         net.minecraft.world.level.block.entity.ChestBlockEntity decodedChest = new net.minecraft.world.level.block.entity.ChestBlockEntity(
                 net.minecraft.core.BlockPos.ZERO, net.minecraft.world.level.block.Blocks.CHEST.defaultBlockState());
 
-        decodedChest.load(parent);
+        ListTag upgradedItems = new ListTag();
+        for (net.minecraft.nbt.Tag value : parent.getList("Items", 10)) {
+            CompoundTag old = (CompoundTag) value;
+            CompoundTag item = BopProbeItems.save(BopProbeItems.read(old));
+            item.putByte("Slot", old.getByte("Slot"));
+            upgradedItems.add(item);
+        }
+        parent.put("Items", upgradedItems);
+        decodedChest.loadWithComponents(parent, world.registryAccess());
         require(decodedChest.getItem(4).getCount() == 64 && decodedChest.getItem(0).getCount() == 64,
                 "parent-first and child-first orders both deserialize 128 items");
 
@@ -206,7 +214,7 @@ public final class RetiredItemChecks {
         recovery.fixTagCompound(caps);
         require(caps.getCompound("tag").getCompound(SkysBuildingPiecesBop.ID + ":legacy_capabilities").equals(payload),
                 "old capabilities retain an exact archive");
-        require(PiecesWorldState.get(world).save(new CompoundTag()).equals(state),
+        require(PiecesWorldState.get(world).save(new CompoundTag(), world.registryAccess()).equals(state),
                 "piece counters and schema untouched");
         LOGGER.info("BOP_RETIRED_ITEMS_PASS checks=" + checks
                 + " multipliers=1/2/8 capacity=bounded NBT=preserved schema=unchanged");
@@ -230,7 +238,7 @@ public final class RetiredItemChecks {
         CompoundTag tag = new CompoundTag();
         CompoundTag display = new CompoundTag();
 
-        display.putString("Name", "Archived plant");
+        display.putString("Name", "\"Archived plant\"");
         tag.put("display", display);
         tag.putInt("Unrelated", 711);
         compoundTag.put("tag", tag);

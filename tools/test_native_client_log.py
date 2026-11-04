@@ -1,4 +1,4 @@
-"""Negative controls for Forge 45 completion and unchanged native settings."""
+"""Negative controls for Forge 50 completion and unchanged native settings."""
 
 import unittest
 import json
@@ -72,7 +72,7 @@ class NativeClientFilesTest(unittest.TestCase):
         (self.directory / "logs").mkdir()
         (self.directory / "logs/latest.log").write_text("\n".join((
             START, LOGIN,
-            "FORGE45_CLIENT_CONTROL_PASS joined=true sky_mods=false")), encoding="utf-8")
+            "FORGE50_CLIENT_CONTROL_PASS joined=true sky_mods=false")), encoding="utf-8")
 
     def test_native_defaults_with_different_order_and_comments(self):
         client = self.directory / "config/forge-client.toml"

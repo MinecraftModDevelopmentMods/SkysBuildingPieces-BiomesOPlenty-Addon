@@ -8,19 +8,22 @@
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:siltstone_vertical_step",
+    "id": "skysbuildingpiecesbop:siltstone_vertical_step",
     "count": 1
   },
   "preserve_tag": true,
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:siltstone_horizontal_step"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:siltstone_vertical_step"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:siltstone_horizontal_step"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:siltstone_vertical_step"
+      }
+    ]
+  }
 }

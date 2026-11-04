@@ -23,14 +23,17 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/tanzanite_block/vertical_step/rotate/skysbuildingpiecesbop/metal_horizontal_step_03_0"]
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:stained_hardened_clay_purple_horizontal_step"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:stained_hardened_clay_purple_vertical_step"
-    }
-  ]
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpieces:stained_hardened_clay_purple_horizontal_step"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpieces:stained_hardened_clay_purple_vertical_step"
+      }
+    ]
+  }
 }

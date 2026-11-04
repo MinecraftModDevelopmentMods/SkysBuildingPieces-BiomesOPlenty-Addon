@@ -23,14 +23,17 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/planks_umbran/recombine_vertical_step"]
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:umbran_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_umbran_vertical_step"
-    }
-  ]
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:umbran_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_umbran_vertical_step"
+      }
+    ]
+  }
 }

@@ -8,18 +8,21 @@
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:planks_cherry_horizontal_step",
+    "id": "skysbuildingpiecesbop:planks_cherry_horizontal_step",
     "count": 4
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_cherry_horizontal_step"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_cherry_vertical_slab"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_cherry_horizontal_step"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_cherry_vertical_slab"
+      }
+    ]
+  }
 }

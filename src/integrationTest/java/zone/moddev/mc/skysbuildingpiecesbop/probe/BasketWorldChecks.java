@@ -49,7 +49,7 @@ public final class BasketWorldChecks {
 
         LegacyBridge.report(world);
 
-        CompoundTag state = PiecesWorldState.get(world).save(new CompoundTag());
+        CompoundTag state = PiecesWorldState.get(world).save(new CompoundTag(), world.registryAccess());
         File snapshot = new File(world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(), "basket-qualification-state.dat");
         boolean reload = System.getProperty("skysbuildingpieces.integrationPhase").endsWith("reload");
 
@@ -57,7 +57,7 @@ public final class BasketWorldChecks {
             CompoundTag before;
 
             try (InputStream input = new FileInputStream(snapshot)) {
-                before = NbtIo.readCompressed(input);
+                before = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
             }
             if (!state.equals(before)) {
                 throw new AssertionError(

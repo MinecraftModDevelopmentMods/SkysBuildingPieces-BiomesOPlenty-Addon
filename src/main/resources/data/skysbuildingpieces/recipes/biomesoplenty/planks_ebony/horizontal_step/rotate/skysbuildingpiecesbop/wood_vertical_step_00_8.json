@@ -8,19 +8,22 @@
     }
   },
   "result": {
-    "item": "skysbuildingpieces:planks_dark_oak_horizontal_step",
+    "id": "skysbuildingpieces:planks_dark_oak_horizontal_step",
     "count": 1
   },
   "preserve_tag": true,
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:planks_dark_oak_horizontal_step"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:planks_dark_oak_vertical_step"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpieces:planks_dark_oak_horizontal_step"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpieces:planks_dark_oak_vertical_step"
+      }
+    ]
+  }
 }

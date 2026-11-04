@@ -8,14 +8,12 @@
     }
   },
   "result": {
-    "item": "minecraft:birch_slab",
+    "id": "minecraft:birch_slab",
     "count": 1
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:planks_birch_horizontal_step"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:item_exists",
+    "item": "skysbuildingpieces:planks_birch_horizontal_step"
+  }
 }

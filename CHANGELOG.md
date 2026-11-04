@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.4.120061
+
+- Ported to Minecraft 1.20.6 and Forge 50.2.0.
+- Kept existing building pieces and Flower Basket contents when upgrading.
+- Updated the crafting recipes and recipe book for this version.
+
 ## 0.2.4.120011
 
 - Ported to Minecraft 1.20.1 and Forge 47.4.10.

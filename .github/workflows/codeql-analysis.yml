@@ -53,7 +53,7 @@ jobs:
           java-version: ${{ steps.target.outputs.java_setup_version }}
 
       - name: Pin production Java
-        run: echo "SBP_JAVA17_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
+        run: echo "SBP_JAVA21_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
 
       - name: Install Java for Gradle
         uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
@@ -103,7 +103,7 @@ jobs:
           "$dependency/gradlew" -p "$dependency" assemble --no-daemon --stacktrace
           version="$(sed -n 's/^version=//p' dependencies/pieces/gradle/grass-slabs-release.properties)"
           echo "ORG_GRADLE_PROJECT_grassSlabsMainJar=$dependency/build/libs/SkysGrassSlabs-$version.jar" >> "$GITHUB_ENV"
-          echo "ORG_GRADLE_PROJECT_grassSlabsDeobfJar=$dependency/build/libs-dev/SkysGrassSlabs-$version-deobf.jar" >> "$GITHUB_ENV"
+          echo "ORG_GRADLE_PROJECT_grassSlabsDeobfJar=$dependency/build/libs/SkysGrassSlabs-$version.jar" >> "$GITHUB_ENV"
 
       - name: Build development dependencies
         run: |

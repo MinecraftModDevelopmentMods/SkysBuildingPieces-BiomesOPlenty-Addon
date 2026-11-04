@@ -26,9 +26,9 @@ class NamedRecoveryContractTest {
                     Paths.get("src/compatibilityTest/resources/pack.mcmeta")), new HashSet<>(packs));
             for (java.nio.file.Path pack : packs) {
                 JsonObject metadata = read(pack.toString()).getAsJsonObject("pack");
-                assertEquals(15, metadata.get("pack_format").getAsInt(), pack.toString());
-                assertEquals(15, metadata.get("forge:resource_pack_format").getAsInt(), pack.toString());
-                assertEquals(15, metadata.get("forge:data_pack_format").getAsInt(), pack.toString());
+                assertEquals(32, metadata.get("pack_format").getAsInt(), pack.toString());
+                assertEquals(32, metadata.get("forge:resource_pack_format").getAsInt(), pack.toString());
+                assertEquals(41, metadata.get("forge:data_pack_format").getAsInt(), pack.toString());
             }
         }
     }

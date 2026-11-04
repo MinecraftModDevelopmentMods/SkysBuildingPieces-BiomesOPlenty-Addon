@@ -8,19 +8,22 @@
     }
   },
   "result": {
-    "item": "biomesoplenty:umbran_slab",
+    "id": "biomesoplenty:umbran_slab",
     "count": 1
   },
   "preserve_tag": true,
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:umbran_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_umbran_vertical_slab"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:umbran_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_umbran_vertical_slab"
+      }
+    ]
+  }
 }

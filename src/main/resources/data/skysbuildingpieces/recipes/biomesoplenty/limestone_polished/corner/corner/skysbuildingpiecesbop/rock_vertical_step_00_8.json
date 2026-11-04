@@ -8,18 +8,21 @@
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:limestone_polished_corner",
+    "id": "skysbuildingpiecesbop:limestone_polished_corner",
     "count": 4
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:limestone_polished_corner"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:limestone_polished_vertical_step"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:limestone_polished_corner"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:limestone_polished_vertical_step"
+      }
+    ]
+  }
 }

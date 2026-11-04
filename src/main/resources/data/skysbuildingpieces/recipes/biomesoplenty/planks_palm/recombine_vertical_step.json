@@ -8,18 +8,21 @@
     }
   },
   "result": {
-    "item": "biomesoplenty:palm_slab",
+    "id": "biomesoplenty:palm_slab",
     "count": 1
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:palm_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_palm_vertical_step"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:palm_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_palm_vertical_step"
+      }
+    ]
+  }
 }

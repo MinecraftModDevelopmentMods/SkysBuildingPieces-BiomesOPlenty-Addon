@@ -31,8 +31,8 @@ class RecipeAdvancementContractTest {
                 for (JsonElement alternative : advancement.getAsJsonArray("advancements")) {
                     JsonObject conditional = alternative.getAsJsonObject();
 
-                    assertTrue(conditional.getAsJsonArray("conditions").size() > 0);
-                    check(conditional.getAsJsonObject("advancement"));
+                    assertTrue(conditional.has("forge:condition"));
+                    check(conditional);
                 }
             } else {
                 check(advancement);

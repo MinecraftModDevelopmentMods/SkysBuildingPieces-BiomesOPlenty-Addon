@@ -23,10 +23,8 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/planks_mangrove/horizontal_step/step/biomesoplenty/wood_slab_0_6"]
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:planks_birch_horizontal_step"
-    }
-  ]
+  "forge:condition": {
+    "type": "forge:item_exists",
+    "item": "skysbuildingpieces:planks_birch_horizontal_step"
+  }
 }

@@ -7,20 +7,24 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.*;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.IForgeShearable;
 
 /** A basket keeps its inventory on the owning stack, including when it is dropped. */
 public final class BasketInventory extends SimpleContainer {
     private final ItemStack owner;
+    private final HolderLookup.Provider registries;
     private boolean loading = true;
 
-    public BasketInventory(ItemStack owner) {
+    public BasketInventory(ItemStack owner, HolderLookup.Provider registries) {
         super(BasketData.SIZE);
         this.owner = owner;
+        this.registries = registries;
 
-        CompoundTag tag = owner.hasTag() ? owner.getTag() : new CompoundTag();
+        CompoundTag tag = BasketData.customData(owner);
 
         // Old contents remain recoverable even when the current insertion rules would reject them.
         BasketData.validate(tag);
@@ -28,13 +32,8 @@ public final class BasketInventory extends SimpleContainer {
         ListTag entries = tag.getList("Items", 10);
 
         for (int entryIndex = 0; entryIndex < entries.size(); entryIndex++) {
-            CompoundTag entry = entries.getCompound(entryIndex).copy();
-
-            if (BasketData.isBasket(entry.getString("id"))) {
-                entry.putString("id", BasketData.ID);
-            }
-
-            setItem(entry.getInt("Slot"), ItemStack.of(entry));
+            CompoundTag entry = entries.getCompound(entryIndex);
+            setItem(entry.getInt("Slot"), BasketData.readStack(entry, registries));
         }
 
         loading = false;
@@ -67,22 +66,20 @@ public final class BasketInventory extends SimpleContainer {
             return;
         }
 
-        CompoundTag tag = owner.hasTag() ? owner.getTag() : new CompoundTag();
         ListTag entries = new ListTag();
 
         for (int slot = 0; slot < getContainerSize(); slot++) {
             ItemStack stack = getItem(slot);
 
             if (!stack.isEmpty()) {
-                CompoundTag entry = stack.save(new CompoundTag());
+                CompoundTag entry = (CompoundTag) stack.save(registries);
 
                 entry.putByte("Slot", (byte) slot);
                 entries.add(entry);
             }
         }
 
-        tag.put("Items", entries);
-        owner.setTag(tag);
+        CustomData.update(DataComponents.CUSTOM_DATA, owner, tag -> tag.put("Items", entries));
     }
 
     /** Returns what did not fit; the caller's stack is never mutated. */
@@ -98,7 +95,7 @@ public final class BasketInventory extends SimpleContainer {
                 ItemStack stored = getItem(slot);
 
                 if (pass == 0) {
-                    if (stored.isEmpty() || !ItemStack.isSameItemSameTags(stored, remainder)) {
+                    if (stored.isEmpty() || !ItemStack.isSameItemSameComponents(stored, remainder)) {
                         continue;
                     }
 

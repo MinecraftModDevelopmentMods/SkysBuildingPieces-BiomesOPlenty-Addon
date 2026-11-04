@@ -8,18 +8,21 @@
     }
   },
   "result": {
-    "item": "biomesoplenty:mahogany_slab",
+    "id": "biomesoplenty:mahogany_slab",
     "count": 1
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:mahogany_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_mahogany_horizontal_step"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:mahogany_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_mahogany_horizontal_step"
+      }
+    ]
+  }
 }

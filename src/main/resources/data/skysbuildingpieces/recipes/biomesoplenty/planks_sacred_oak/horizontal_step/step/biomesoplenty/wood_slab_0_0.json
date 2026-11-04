@@ -8,14 +8,12 @@
     }
   },
   "result": {
-    "item": "skysbuildingpieces:planks_oak_horizontal_step",
+    "id": "skysbuildingpieces:planks_oak_horizontal_step",
     "count": 4
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:planks_oak_horizontal_step"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:item_exists",
+    "item": "skysbuildingpieces:planks_oak_horizontal_step"
+  }
 }

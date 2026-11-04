@@ -1,90 +1,88 @@
 {
   "advancements": [
     {
-      "conditions": [
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:shale"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:shale"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:shale_slab"
-        }
-      ],
-      "advancement": {
-        "criteria": {
-          "has_ingredient": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-              "items": [
-                {
-                  "items": ["skysbuildingpiecesbop:shale_slab"]
-                }
-              ]
-            }
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:item_exists",
+            "item": "mineralogy:shale"
           },
-          "has_the_recipe": {
-            "trigger": "minecraft:recipe_unlocked",
-            "conditions": {
-              "recipe": "skysbuildingpieces:biomesoplenty/shale/slab_recombination"
-            }
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:shale_slab"
+          }
+        ]
+      },
+      "criteria": {
+        "has_ingredient": {
+          "trigger": "minecraft:inventory_changed",
+          "conditions": {
+            "items": [
+              {
+                "items": ["skysbuildingpiecesbop:shale_slab"]
+              }
+            ]
           }
         },
-        "requirements": [
-          ["has_ingredient", "has_the_recipe"]
-        ],
-        "rewards": {
-          "recipes": ["skysbuildingpieces:biomesoplenty/shale/slab_recombination"]
+        "has_the_recipe": {
+          "trigger": "minecraft:recipe_unlocked",
+          "conditions": {
+            "recipe": "skysbuildingpieces:biomesoplenty/shale/slab_recombination"
+          }
         }
+      },
+      "requirements": [
+        ["has_ingredient", "has_the_recipe"]
+      ],
+      "rewards": {
+        "recipes": ["skysbuildingpieces:biomesoplenty/shale/slab_recombination"]
       }
     },
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:item_exists",
-            "item": "mineralogy:shale"
-          }
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:retired_shale"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:shale_slab"
-        }
-      ],
-      "advancement": {
-        "criteria": {
-          "has_ingredient": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-              "items": [
-                {
-                  "items": ["skysbuildingpiecesbop:shale_slab"]
-                }
-              ]
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:not",
+            "value": {
+              "type": "forge:item_exists",
+              "item": "mineralogy:shale"
             }
           },
-          "has_the_recipe": {
-            "trigger": "minecraft:recipe_unlocked",
-            "conditions": {
-              "recipe": "skysbuildingpieces:biomesoplenty/shale/slab_recombination"
-            }
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:retired_shale"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:shale_slab"
+          }
+        ]
+      },
+      "criteria": {
+        "has_ingredient": {
+          "trigger": "minecraft:inventory_changed",
+          "conditions": {
+            "items": [
+              {
+                "items": ["skysbuildingpiecesbop:shale_slab"]
+              }
+            ]
           }
         },
-        "requirements": [
-          ["has_ingredient", "has_the_recipe"]
-        ],
-        "rewards": {
-          "recipes": ["skysbuildingpieces:biomesoplenty/shale/slab_recombination"]
+        "has_the_recipe": {
+          "trigger": "minecraft:recipe_unlocked",
+          "conditions": {
+            "recipe": "skysbuildingpieces:biomesoplenty/shale/slab_recombination"
+          }
         }
+      },
+      "requirements": [
+        ["has_ingredient", "has_the_recipe"]
+      ],
+      "rewards": {
+        "recipes": ["skysbuildingpieces:biomesoplenty/shale/slab_recombination"]
       }
     }
   ]

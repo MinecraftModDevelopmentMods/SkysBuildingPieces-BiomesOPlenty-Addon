@@ -8,14 +8,12 @@
     }
   },
   "result": {
-    "item": "skysbuildingpieces:stained_hardened_clay_orange_slab",
+    "id": "skysbuildingpieces:stained_hardened_clay_orange_slab",
     "count": 6
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:stained_hardened_clay_orange_slab"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:item_exists",
+    "item": "skysbuildingpieces:stained_hardened_clay_orange_slab"
+  }
 }

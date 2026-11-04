@@ -2,20 +2,6 @@
   "type": "forge:conditional",
   "recipes": [
     {
-      "conditions": [
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:gabbro"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:gabbro"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:crag_rock_slab"
-        }
-      ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
         "group": "skysbuildingpieces/crag_rock",
@@ -26,30 +12,26 @@
           }
         },
         "result": {
-          "item": "mineralogy:gabbro",
+          "id": "mineralogy:gabbro",
           "count": 1
         },
         "category": "building"
+      },
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:item_exists",
+            "item": "mineralogy:gabbro"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:crag_rock_slab"
+          }
+        ]
       }
     },
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:item_exists",
-            "item": "mineralogy:gabbro"
-          }
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:crag_rock_slab"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:retired_gabbro"
-        }
-      ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
         "group": "skysbuildingpieces/crag_rock",
@@ -60,10 +42,30 @@
           }
         },
         "result": {
-          "item": "skysbuildingpiecesbop:retired_gabbro",
+          "id": "skysbuildingpiecesbop:retired_gabbro",
           "count": 1
         },
         "category": "building"
+      },
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:not",
+            "value": {
+              "type": "forge:item_exists",
+              "item": "mineralogy:gabbro"
+            }
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:crag_rock_slab"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:retired_gabbro"
+          }
+        ]
       }
     }
   ]

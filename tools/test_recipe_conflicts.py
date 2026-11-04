@@ -43,7 +43,7 @@ class MineralogyRecipeChecks(unittest.TestCase):
 
     def test_standalone_and_mineralogy_keep_the_same_recipe_ids(self):
         resources = ROOT / 'src/main/resources'
-        default_core = ROOT.parent.parent / 'SkysBuildingPieces119/SkysBuildingPieces/src/main/resources'
+        default_core = ROOT.parent.parent / 'SkysBuildingPieces1206/SkysBuildingPieces/src/main/resources'
         core = Path(os.environ.get('BUILDING_PIECES_CORE_RESOURCES', str(default_core)))
         normal, _ = prepare(resources, core, self.recipes, self.tags)
         fallback, _ = prepare(resources, core, self.recipes, self.tags, True)
@@ -62,7 +62,7 @@ class MineralogyRecipeChecks(unittest.TestCase):
             result = recipe['result']
             with self.subTest(recipe=path.relative_to(ROOT).as_posix()):
                 self.assertFalse(native_conflict(recipe['pattern'], ingredient,
-                                                (result['item'], result.get('count', 1)),
+                                                (result['id'], result.get('count', 1)),
                                                 self.recipes, self.tags))
             checked += 1
         self.assertGreaterEqual(checked, 7)

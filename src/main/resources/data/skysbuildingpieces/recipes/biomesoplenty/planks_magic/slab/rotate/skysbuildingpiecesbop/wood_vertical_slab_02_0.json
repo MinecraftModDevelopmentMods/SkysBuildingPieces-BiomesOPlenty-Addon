@@ -8,19 +8,22 @@
     }
   },
   "result": {
-    "item": "biomesoplenty:magic_slab",
+    "id": "biomesoplenty:magic_slab",
     "count": 1
   },
   "preserve_tag": true,
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:magic_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_magic_vertical_slab"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:magic_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_magic_vertical_slab"
+      }
+    ]
+  }
 }

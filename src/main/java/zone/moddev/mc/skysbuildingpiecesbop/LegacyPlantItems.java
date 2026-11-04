@@ -60,6 +60,10 @@ final class LegacyPlantItems {
             boolean basket = BasketData.isBasket(identifier);
             String nativeTarget = null;
 
+            if (basketContents && identifier.equals("minecraft:grass") && compound.contains("Count", 99)) {
+                compound.putString("id", "minecraft:short_grass");
+            }
+
             if (compound.contains("Count", 99) && compound.contains("Damage", 99)) {
                 if (matches(identifier)) {
                     JsonObject variants = PLANTS.getAsJsonObject(identifier);
@@ -71,10 +75,13 @@ final class LegacyPlantItems {
                     }
 
                     nativeTarget = variants.get(metadata).getAsString();
+                    if (nativeTarget.equals("minecraft:grass")) {
+                        nativeTarget = "minecraft:short_grass";
+                    }
                     compound.putString("id", nativeTarget);
                     compound.remove("Damage");
 
-                    if (!basketContents && nativeTarget.equals("minecraft:grass")) {
+                    if (!basketContents && nativeTarget.equals("minecraft:short_grass")) {
                         compound.putString(zone.moddev.mc.skysbuildingpieces.legacy.HistoricalItems.NATIVE_ITEM_ID,
                                 nativeTarget);
                     }

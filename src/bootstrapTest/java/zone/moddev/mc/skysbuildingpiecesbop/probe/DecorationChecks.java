@@ -50,7 +50,7 @@ final class DecorationChecks {
             require(forms.size() == 8, "All eight formation profiles remain available");
             world.removeBlock(position.above(), false);
             world.removeBlock(position.below(), false);
-            formation.getBlock().neighborChanged(formation, world, position, Blocks.AIR, position.below(), false);
+            formation.handleNeighborChanged(world, position, Blocks.AIR, position.below(), false);
             require(world.getBlockState(position).getBlock() == RetiredDecorations.STONE_FORMATIONS,
                     "Old formations survive missing anchors");
 
@@ -88,9 +88,9 @@ final class DecorationChecks {
                 stack.put("tag", tag);
                 LegacyBridge.prepareStack(stack);
 
-                ItemStack decoded = ItemStack.of(stack);
+                ItemStack decoded = BopProbeItems.read(stack);
 
-                require(decoded.getCount() == 37 && decoded.getTag().equals(tag)
+                require(decoded.getCount() == 37 && BopProbeItems.custom(decoded).equals(tag)
                         && decoded.getItem() == net.minecraft.world.item.Item.byBlock(vine.getBlock()),
                         "Vine item identity, count and custom data");
             }

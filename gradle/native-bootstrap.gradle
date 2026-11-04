@@ -26,14 +26,14 @@ def compileBootstrap = tasks.register('compileNativeBootstrap', JavaCompile) {
     source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/RecipeBookChecks.java'))
     source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/RecombinationChecks.java'))
     source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/PersistenceRegistrationChecks.java'))
-    ['NativeLegacyChecks', 'DirtCoverageChecks', 'CoverageContributor'].each { name ->
+    ['NativeLegacyChecks', 'DirtCoverageChecks', 'CoverageContributor', 'NativeProbeItems'].each { name ->
         source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/' + name + '.java'))
     }
     source fileTree(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/legacy'))
     ['ClientProbe', 'ClientStatus', 'ProbeProxy', 'RecipePreviewModels', 'PresentationChecks'].each { name ->
         source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/' + name + '.java'))
     }
-    ['BasketGuiClientChecks', 'BasketDisconnectClientChecks', 'BasketClientChecks'].each { name ->
+    ['BasketGuiClientChecks', 'BasketDisconnectClientChecks', 'BasketClientChecks', 'BopProbeItems'].each { name ->
         source file('src/integrationTest/java/zone/moddev/mc/skysbuildingpiecesbop/probe/' + name + '.java')
     }
     classpath = files(sourceSets.main.output, sourceSets.main.compileClasspath, sourceSets.main.runtimeClasspath)
@@ -52,13 +52,7 @@ def bootstrapJar = tasks.register('nativeBootstrapJar', Jar) {
     from('src/testFixtures/bop-1.18.2-native-catalogue.json') { into 'fixtures' }
     from('src/testFixtures/biomes') { into 'fixtures/biomes' }
 }
-def packagedProbe = renamer.classes(bootstrapJar) {
-    map.from minecraft.dependency.toSrgFile
-    libraries.from tasks.named('jar', Jar).flatMap { it.archiveFile }
-    libraries.from sourceSets.main.compileClasspath
-    output = layout.buildDirectory.file('native-bootstrap/building-pieces-bop-native-checks-reobf.jar')
-}
-tasks.register('preparePackagedNativeProbe') { dependsOn packagedProbe }
+tasks.register('preparePackagedNativeProbe') { dependsOn bootstrapJar }
 
 tasks.register('verifyNativeServerLogPolicy', Exec) {
     group = 'verification'
@@ -129,6 +123,10 @@ def prepare = tasks.register('prepareNativeBootstrap') {
             if (doors.isFile()) {
                 copy { from doors; into target; rename { 'forward-neighbours.json' } }
             }
+            File blockRenames = file(archive.path.replaceFirst(/\.zip$/, '.forge50-grass-rename.json'))
+            if (blockRenames.isFile()) {
+                copy { from blockRenames; into target; rename { 'forward-block-renames.json' } }
+            }
             File biomes = file(archive.path.replaceFirst(/\.zip$/, '.biomes.json'))
             if (biomes.isFile()) {
                 copy { from biomes; into target; rename { 'forward-biomes.json' } }
@@ -168,8 +166,6 @@ server-ip=127.0.0.1
 server-port=0
 online-mode=false
 generate-structures=false
-spawn-animals=false
-spawn-monsters=false
 max-tick-time=120000
 '''
     }
@@ -347,12 +343,7 @@ def policyJar = tasks.register('bopLegacyPolicyFixtureJar', Jar) {
     from policyClasses
     from 'src/compatibilityTest/resources'
 }
-def packagedPolicy = renamer.classes(policyJar) {
-    map.from minecraft.dependency.toSrgFile
-    libraries.from sourceSets.main.compileClasspath
-    output = layout.buildDirectory.file('legacy-policy-fixture/legacy-piece-policy-fixture-reobf.jar')
-}
-tasks.register('preparePackagedBopPolicyFixture') { dependsOn packagedPolicy }
+tasks.register('preparePackagedBopPolicyFixture') { dependsOn policyJar }
 
 def policyRunName = providers.gradleProperty('bopPolicyRunName').getOrElse('legacy-policy-test-run-' + UUID.randomUUID())
 if (!(policyRunName ==~ /[a-z0-9-]+/)) {
@@ -386,8 +377,6 @@ online-mode=false
 server-ip=127.0.0.1
 server-port=0
 generate-structures=false
-spawn-animals=false
-spawn-monsters=false
 max-tick-time=120000
 '''
     }

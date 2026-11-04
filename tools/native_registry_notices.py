@@ -6,11 +6,31 @@ from pathlib import Path
 import re
 
 
+def expected_mappings(profile):
+    expected = {kind: entries.copy() for kind, entries in profile["mappings"].items()}
+    for kind, entries in profile.get("forge50_additional_mappings", {}).items():
+        expected.setdefault(kind, {}).update(entries)
+    return expected
+
+
 def validate_registry_proofs(root, profile):
     """Keep static snapshot notices separate from the world's live biome data."""
+    block_proof = profile.get("native_block_rename_contract")
+    if block_proof is not None:
+        path = Path(root) / block_proof["path"]
+        data = json.loads(path.read_text(encoding="utf-8"))
+        positions = data["positions"]
+        if (hashlib.sha256(path.read_bytes()).hexdigest().upper() != block_proof["sha256"]
+                or data["source_world_sha256"] != profile["sha256"]
+                or data["source"] != block_proof["source"]
+                or data["target"] != block_proof["target"]
+                or data["source"] not in expected_mappings(profile)["minecraft:block"]
+                or data["checked_positions"] != block_proof["checked_positions"]
+                or len({tuple(position) for position in positions}) != data["checked_positions"]):
+            raise ValueError("The saved block rename does not match the fixture")
     receipts = {}
     for key in ("static_biome_contract", "retired_poi_contract", "live_biome_contract",
-                "forge47_unused_registry_contract"):
+                "forge47_unused_registry_contract", "forge50_unused_registry_contract"):
         binding = profile.get(key)
         if binding is None:
             continue
@@ -46,6 +66,16 @@ def validate_registry_proofs(root, profile):
                 or any(profile["mappings"].get(registry, {}).get(name) != numeric_id
                        for registry, values in entries.items() for name, numeric_id in values.items())):
             raise ValueError("The Forge 47 entries are not proven unused")
+    if "forge50_unused_registry_contract" in receipts:
+        proof = receipts["forge50_unused_registry_contract"]
+        entries = proof["snapshot_entries"]
+        names = {name for registry in entries.values() for name in registry}
+        if (not names or proof["inspected_nbt_values"] <= 0
+                or "minecraft:worldgen/biome" in entries
+                or proof["saved_uses"] != dict.fromkeys(names, 0)
+                or any(expected_mappings(profile).get(registry, {}).get(name) != numeric_id
+                       for registry, values in entries.items() for name, numeric_id in values.items())):
+            raise ValueError("The additional Forge registry entries are not proven unused")
     dynamic = profile.get("dynamic_biome_saved_uses", 0)
     if dynamic:
         live = receipts.get("live_biome_contract")
@@ -103,6 +133,13 @@ def profile_for(directory):
 
 
 def audit_biome_proof(text, profile):
+    block_proof = profile.get("native_block_rename_contract") if profile else None
+    if block_proof is not None:
+        marker = ("BUILDING_PIECES_NATIVE_BLOCK_RENAME_PASS source=" + block_proof["source"]
+                  + " target=" + block_proof["target"] + " positions="
+                  + str(block_proof["checked_positions"]))
+        if not any(line.endswith(marker) for line in text.splitlines()):
+            raise ValueError("The complete native block rename was not verified")
     proof = profile.get("native_biome_contract") if profile else None
     if proof is None:
         return
@@ -130,7 +167,7 @@ def audit_text(text, profile=None):
         if registry in observed:
             raise ValueError("Repeated native registry notice: " + registry)
         observed[registry] = entries
-    if observed and (profile is None or observed != profile["mappings"]):
+    if observed and (profile is None or observed != expected_mappings(profile)):
         raise ValueError("Unexpected missing registry entries: " + repr(observed))
     headers = {"Unidentified mapping from registry " + registry for registry in observed}
     if observed:

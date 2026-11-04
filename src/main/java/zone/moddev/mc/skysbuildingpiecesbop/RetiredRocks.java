@@ -84,7 +84,7 @@ public final class RetiredRocks extends Block {
     public float getDestroyProgress(BlockState state, Player player, BlockGetter world, BlockPos position) {
         BlockState reference = miningReference(state);
         int divisor = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(reference, player) ? 30 : 100;
-        return player.getDigSpeed(reference, position) / materialDestroySpeed(state, world, position) / divisor;
+        return player.getDestroySpeed(reference, position) / materialDestroySpeed(state, world, position) / divisor;
     }
 
     private static BlockState miningReference(BlockState state) {
@@ -104,7 +104,7 @@ public final class RetiredRocks extends Block {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult hit, BlockGetter world, BlockPos position,
+    public ItemStack getCloneItemStack(BlockState state, HitResult hit, net.minecraft.world.level.LevelReader world, BlockPos position,
             Player player) {
         return new ItemStack(item(state));
     }

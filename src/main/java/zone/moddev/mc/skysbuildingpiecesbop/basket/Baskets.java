@@ -97,7 +97,7 @@ public final class Baskets {
         BasketInventory inventory = player.containerMenu instanceof BasketContainer
                 && ((BasketContainer) player.containerMenu).basket.owner() == first
                         ? ((BasketContainer) player.containerMenu).basket
-                        : new BasketInventory(first);
+                        : new BasketInventory(first, player.level().registryAccess());
         ItemStack remainder = inventory.insert(incoming);
         int accepted = incoming.getCount() - remainder.getCount();
 

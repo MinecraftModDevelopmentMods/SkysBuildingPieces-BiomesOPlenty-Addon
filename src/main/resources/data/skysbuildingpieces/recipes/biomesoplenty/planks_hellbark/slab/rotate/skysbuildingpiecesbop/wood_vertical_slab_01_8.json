@@ -8,19 +8,22 @@
     }
   },
   "result": {
-    "item": "biomesoplenty:hellbark_slab",
+    "id": "biomesoplenty:hellbark_slab",
     "count": 1
   },
   "preserve_tag": true,
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:hellbark_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_hellbark_vertical_slab"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:hellbark_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_hellbark_vertical_slab"
+      }
+    ]
+  }
 }

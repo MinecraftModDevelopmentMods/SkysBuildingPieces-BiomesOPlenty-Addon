@@ -41,12 +41,12 @@ public final class BasketClientChecks {
                 if (filled) {
                     CompoundTag tag = new CompoundTag();
                     ListTag entries = new ListTag();
-                    CompoundTag child = new ItemStack(net.minecraft.world.level.block.Blocks.OAK_SAPLING).save(new CompoundTag());
+                    CompoundTag child = BopProbeItems.legacy(new ItemStack(net.minecraft.world.level.block.Blocks.OAK_SAPLING));
 
                     child.putByte("Slot", (byte) 0);
                     entries.add(child);
                     tag.put("Items", entries);
-                    stack.setTag(tag);
+                    BopProbeItems.setCustom(stack, tag);
                 }
 
                 BakedModel model = minecraft.getItemRenderer().getModel(stack, null, null, 0);

@@ -2,20 +2,6 @@
   "type": "forge:conditional",
   "recipes": [
     {
-      "conditions": [
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:shale"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:shale"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:shale_slab"
-        }
-      ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
         "group": "skysbuildingpieces/shale",
@@ -26,30 +12,26 @@
           }
         },
         "result": {
-          "item": "mineralogy:shale",
+          "id": "mineralogy:shale",
           "count": 1
         },
         "category": "building"
+      },
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:item_exists",
+            "item": "mineralogy:shale"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:shale_slab"
+          }
+        ]
       }
     },
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:item_exists",
-            "item": "mineralogy:shale"
-          }
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:retired_shale"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:shale_slab"
-        }
-      ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
         "group": "skysbuildingpieces/shale",
@@ -60,10 +42,30 @@
           }
         },
         "result": {
-          "item": "skysbuildingpiecesbop:retired_shale",
+          "id": "skysbuildingpiecesbop:retired_shale",
           "count": 1
         },
         "category": "building"
+      },
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:not",
+            "value": {
+              "type": "forge:item_exists",
+              "item": "mineralogy:shale"
+            }
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:retired_shale"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:shale_slab"
+          }
+        ]
       }
     }
   ]

@@ -16,7 +16,7 @@ class RepositoryTest {
 
         String pin = text("gradle/core-dependency.properties");
 
-        assertTrue(pin.contains("version=0.3.8.120011"));
+        assertTrue(pin.contains("version=0.3.8.120061"));
         assertTrue(pin.contains("api=1"));
     }
 
@@ -54,7 +54,8 @@ class RepositoryTest {
         assertTrue(build.contains("bop_sha256"));
         assertFalse(build.contains("FMLCorePluginContainsFMLMod"));
         assertFalse(build.contains("'FMLCorePlugin':"));
-        assertTrue(build.contains("accessTransformers.from(bopDevelopmentAccessRules, terraBlenderDevelopmentAccessRules, glitchCoreDevelopmentAccessRules)"));
+        assertFalse(build.contains("bopDevelopmentAccessRules"));
+        assertTrue(build.contains("forgeRunModClassesDirectory"));
         assertTrue(build.contains("prepareDevelopmentDependencies"));
     }
 

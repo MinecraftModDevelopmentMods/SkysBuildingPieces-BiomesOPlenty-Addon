@@ -1,4 +1,4 @@
-"""Check Forge 45 completion, native settings and unexpected errors."""
+"""Check Forge 50 completion, native settings and unexpected errors."""
 
 import argparse
 import gzip
@@ -30,7 +30,7 @@ def audit_complete_logs(directory):
 
 
 def classify(log, unchanged_defaults):
-    """The Forge-only 1.19 client control completes without severe notices."""
+    """The Forge-only 1.20.6 client control completes without severe notices."""
     lines = log.splitlines()
     severe = [line for line in lines if re.search(r"/(?:ERROR|FATAL)\]", line)]
     startup = next((index for index, line in enumerate(lines)
@@ -58,11 +58,13 @@ def audit(directory, phase, control=False):
     if not unchanged:
         raise ValueError("Native Forge settings differ from the controlled defaults")
     receipt = classify(log, unchanged)
-    required = (("FORGE45_CLIENT_CONTROL_PASS joined=true sky_mods=false",) if control else
+    required = (("FORGE50_CLIENT_CONTROL_PASS joined=true sky_mods=false",) if control else
                 ("BUILDING_PIECES_CLIENT_WORLD_ACCEPTED", "SKY_RECIPE_PREVIEW_MODELS_PASS",
                  "BUILDING_PIECES_CONTINUOUS_GLASS_PASS", "BUILDING_PIECES_COLOURS_PASS"))
     if not control:
         required += ("BOP_BASKET_CLIENT_PASS", "BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS")
+    if not control and not phase.startswith("client-basket-disconnect"):
+        required += ("BOP_BASKET_GUI_NETWORK_PASS",)
     if not control and phase in {"client-basket-disconnect", "client-basket-disconnect-reload"}:
         required = ("BUILDING_PIECES_CLIENT_PASS", "BUILDING_PIECES_CONTINUOUS_GLASS_PASS",
                     "BOP_BASKET_CLIENT_PASS", "BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS",
@@ -83,7 +85,7 @@ def audit(directory, phase, control=False):
 
 
 def classify_server(log, debug, unchanged_defaults, profile=None):
-    """The Forge-only 1.19 server control completes without severe notices."""
+    """The Forge-only 1.20.6 server control completes without severe notices."""
     lines = log.splitlines()
     severe = [line for line in lines if re.search(r"/(?:ERROR|FATAL)\]", line)]
     startup = any('Preparing level ' in line or 'Preparing start region for dimension ' in line
@@ -124,4 +126,4 @@ if __name__ == "__main__":
     options = parser.parse_args()
     result = (audit_server(options.directory, options.phase) if options.server else
               audit(options.directory, options.phase, options.control))
-    print("FORGE45_NATIVE_CLIENT_AUDIT_PASS", json.dumps(result, sort_keys=True))
+    print("FORGE50_NATIVE_CLIENT_AUDIT_PASS", json.dumps(result, sort_keys=True))

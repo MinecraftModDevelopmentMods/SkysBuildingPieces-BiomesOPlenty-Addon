@@ -8,19 +8,22 @@
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:planks_jacaranda_horizontal_step",
+    "id": "skysbuildingpiecesbop:planks_jacaranda_horizontal_step",
     "count": 1
   },
   "preserve_tag": true,
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_jacaranda_horizontal_step"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_jacaranda_vertical_step"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_jacaranda_horizontal_step"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_jacaranda_vertical_step"
+      }
+    ]
+  }
 }

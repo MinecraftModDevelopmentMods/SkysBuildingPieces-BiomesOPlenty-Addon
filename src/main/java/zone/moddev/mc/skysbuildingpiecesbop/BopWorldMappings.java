@@ -49,7 +49,9 @@ public final class BopWorldMappings {
             throw new IllegalStateException(target.get("unsupported").getAsString());
         }
 
-        ResourceLocation identity = new ResourceLocation(target.get("id").getAsString());
+        String savedTarget = target.get("id").getAsString();
+        ResourceLocation identity = ResourceLocation.parse(savedTarget.equals("minecraft:grass")
+                ? "minecraft:short_grass" : savedTarget);
         Block block = ForgeRegistries.BLOCKS.getValue(identity);
 
         if (block == null || block == Blocks.AIR) {

@@ -31,7 +31,7 @@ final class NamedRecoveryChecks {
         require(java.util.HexFormat.of().withUpperCase().formatHex(
                 java.security.MessageDigest.getInstance("SHA-256").digest(bytes))
                 .equals(receipt.get("source_chunk_sha256").getAsString()), "Saved biome fixture changed");
-        CompoundTag source = net.minecraft.nbt.NbtIo.readCompressed(new java.io.ByteArrayInputStream(bytes));
+        CompoundTag source = net.minecraft.nbt.NbtIo.readCompressed(new java.io.ByteArrayInputStream(bytes), net.minecraft.nbt.NbtAccounter.unlimitedHeap());
         CompoundTag original = source.copy();
         java.lang.reflect.Field snapshots = Class.forName(
                 "zone.moddev.mc.skysbuildingpiecesbop.NamedBopRecovery").getDeclaredField("biomeSnapshots");
@@ -45,7 +45,7 @@ final class NamedRecoveryChecks {
         java.nio.file.Path temporary = java.nio.file.Files.createTempDirectory(
                 java.nio.file.Path.of("."), "named-biome-fixer-");
         try (net.minecraft.world.level.chunk.storage.ChunkStorage storage =
-                new net.minecraft.world.level.chunk.storage.ChunkStorage(temporary, server.getFixerUpper(), false)) {
+                new net.minecraft.world.level.chunk.storage.ChunkStorage(new net.minecraft.world.level.chunk.storage.RegionStorageInfo("test", net.minecraft.world.level.Level.OVERWORLD, "chunk"), temporary, server.getFixerUpper(), false)) {
             snapshots.set(null, saved);
             CompoundTag fixed = storage.upgradeChunkTag(net.minecraft.world.level.Level.OVERWORLD,
                     () -> null, source.copy(), java.util.Optional.empty());
@@ -243,7 +243,7 @@ final class NamedRecoveryChecks {
                     : mappings.getAsJsonObject("blocks").get(source).getAsString();
             require(stack.getString("id").equals(target) && stack.getByte("Count") == 37
                     && stack.getCompound("tag").equals(custom), "A removed root item lost its data");
-            require(!net.minecraft.world.item.ItemStack.of(stack).isEmpty(), "A root became an itemless block");
+            require(!BopProbeItems.read(stack).isEmpty(), "A root became an itemless block");
         }
         require(checked == 31, "Incomplete removed-root state coverage: " + checked);
         net.minecraft.server.level.ServerLevel world = net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer()

@@ -86,7 +86,7 @@ public final class NamedBopRecovery {
         saved.putInt("schema_version", 1);
         if (sidecar.isFile()) {
             try (FileInputStream input = new FileInputStream(sidecar)) {
-                saved = NbtIo.readCompressed(input);
+                saved = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
             }
             if (saved.getInt("schema_version") != 1) {
                 throw new IllegalStateException("Unsupported named BOP registry snapshot schema");
@@ -102,7 +102,7 @@ public final class NamedBopRecovery {
             CompoundTag root;
 
             try (FileInputStream input = new FileInputStream(level)) {
-                root = NbtIo.readCompressed(input);
+                root = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
             }
 
             original.putInt("DataVersion", root.getCompound("Data").getInt("DataVersion"));

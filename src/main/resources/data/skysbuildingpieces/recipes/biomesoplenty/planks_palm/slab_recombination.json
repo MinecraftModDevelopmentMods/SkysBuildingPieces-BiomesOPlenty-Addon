@@ -8,18 +8,21 @@
     }
   },
   "result": {
-    "item": "biomesoplenty:palm_planks",
+    "id": "biomesoplenty:palm_planks",
     "count": 1
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:palm_planks"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:palm_slab"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:palm_planks"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:palm_slab"
+      }
+    ]
+  }
 }

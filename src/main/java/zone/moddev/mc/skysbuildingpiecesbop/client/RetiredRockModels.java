@@ -21,7 +21,7 @@ public final class RetiredRockModels {
         event.enqueueWork(() -> {
             for (net.minecraft.world.item.Item basket : new net.minecraft.world.item.Item[] {Baskets.ITEM, Baskets.HOLDER}) {
                 net.minecraft.client.renderer.item.ItemProperties.register(basket, new net.minecraft.resources.ResourceLocation("filled"),
-                        (stack, world, entity, seed) -> stack.hasTag() && !stack.getTag().getList("Items", 10).isEmpty() ? 1 : 0);
+                        (stack, world, entity, seed) -> !zone.moddev.mc.skysbuildingpiecesbop.basket.BasketData.customData(stack).getList("Items", 10).isEmpty() ? 1 : 0);
             }
             MenuScreens.register(Baskets.TYPE, BasketScreen::new);
             ItemBlockRenderTypes.setRenderLayer(RetiredDecorations.STONE_FORMATIONS, RenderType.cutout());

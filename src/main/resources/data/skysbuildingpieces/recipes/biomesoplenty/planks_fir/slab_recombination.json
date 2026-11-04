@@ -8,18 +8,21 @@
     }
   },
   "result": {
-    "item": "biomesoplenty:fir_planks",
+    "id": "biomesoplenty:fir_planks",
     "count": 1
   },
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:fir_planks"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:fir_slab"
-    }
-  ],
-  "category": "building"
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:fir_planks"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:fir_slab"
+      }
+    ]
+  }
 }
