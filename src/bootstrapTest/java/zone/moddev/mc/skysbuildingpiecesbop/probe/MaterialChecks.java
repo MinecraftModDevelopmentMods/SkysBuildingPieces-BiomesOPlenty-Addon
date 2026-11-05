@@ -104,7 +104,7 @@ final class MaterialChecks {
                             world.setBlock(position, wet, 2);
                             require(world.getFluidState(position).getType() == net.minecraft.world.level.material.Fluids.WATER,
                                     "Waterlogged material lost its fluid: " + material.id + " / " + shape);
-                            require(net.minecraft.nbt.NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(),
+                            require(net.minecraft.nbt.NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK,
                                     net.minecraft.nbt.NbtUtils.writeBlockState(wet)).equals(wet),
                                     "Waterlogged orientation did not survive serialization: " + material.id);
                             world.setBlock(position, state, 2);

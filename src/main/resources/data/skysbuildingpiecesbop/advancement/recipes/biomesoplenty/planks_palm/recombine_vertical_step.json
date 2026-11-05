@@ -28,12 +28,14 @@
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "biomesoplenty:palm_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:palm_slab"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_palm_vertical_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_palm_vertical_step"
         }
       ]
     }

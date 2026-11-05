@@ -25,8 +25,9 @@
   },
   "neoforge:conditions": [
     {
-      "type": "neoforge:item_exists",
-      "item": "mineralogy:shale"
+      "type": "neoforge:registered",
+      "registry": "minecraft:item",
+      "value": "mineralogy:shale"
     }
   ]
 }

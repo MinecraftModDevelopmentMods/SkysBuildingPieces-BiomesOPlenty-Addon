@@ -28,12 +28,14 @@
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_redwood_horizontal_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_redwood_horizontal_step"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_redwood_vertical_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_redwood_vertical_slab"
         }
       ]
     }

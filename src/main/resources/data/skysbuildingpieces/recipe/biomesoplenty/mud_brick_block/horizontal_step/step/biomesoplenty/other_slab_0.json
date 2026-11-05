@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/biomesoplenty",
   "pattern": ["X ", " X"],
   "key": {
-    "X": {
-      "item": "minecraft:mud_brick_slab"
-    }
+    "X": "minecraft:mud_brick_slab"
   },
   "result": {
     "id": "skysbuildingpiecesbop:mud_brick_block_horizontal_step",
@@ -14,8 +12,9 @@
   "category": "building",
   "neoforge:conditions": [
     {
-      "type": "neoforge:item_exists",
-      "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
+      "type": "neoforge:registered",
+      "registry": "minecraft:item",
+      "value": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
     }
   ]
 }

@@ -144,7 +144,7 @@ runs {
         modSource project.sourceSets.main
     }
 
-    data {
+    clientData {
         workingDirectory project.layout.projectDirectory.dir('run-data')
         modSource project.sourceSets.main
         arguments.addAll '--mod', mod_id, '--all', '--output',
@@ -159,7 +159,7 @@ configurations {
 
 def coreLock = new Properties()
 file('gradle/core-dependency.properties').withInputStream { coreLock.load(it) }
-def coreDirectory = file(providers.gradleProperty('buildingPiecesCoreDir').getOrElse('../../SkysBuildingPieces1211NEO/SkysBuildingPieces'))
+def coreDirectory = file(providers.gradleProperty('buildingPiecesCoreDir').getOrElse('../../SkysBuildingPieces12111NEO/SkysBuildingPieces'))
 def localCoreVersion = providers.gradleProperty('buildingPiecesCoreVersion')
 if (localCoreVersion.isPresent() && (System.getenv('CI') == 'true' || !providers.gradleProperty('buildingPiecesCoreDir').isPresent()))
     throw new GradleException('The core-version override is local only and requires an explicit core directory; it is not permitted in CI.')
@@ -363,11 +363,11 @@ tasks.register('verifyReleaseMetadata') {
                 project.version.toString().tokenize('.').last() != target) {
             throw new GradleException('The add-on version must end with the Minecraft and loader target')
         }
-        if (project.minecraft_version != '1.21.1' || project.neo_version != '21.1.247' ||
+        if (project.minecraft_version != '1.21.11' || project.neo_version != '21.11.45' ||
                 project.loader_name != 'neoforge' || project.loader_code != '2' ||
                 project.java_version != '21' || project.java_toolchain_version != '21.0.7+6' ||
                 project.mod_id != 'skysbuildingpiecesbop') {
-            throw new GradleException('Unexpected 1.21.1 release metadata')
+            throw new GradleException('Unexpected 1.21.11 release metadata')
         }
     }
 }
@@ -390,7 +390,8 @@ tasks.register('verifyReleaseArtifacts') {
                 throw new GradleException("The jar's Java label does not match its production target")
             }
             Set<String> names = zip.entries().collect { it.name } as Set<String>
-            ['META-INF/neoforge.mods.toml', 'META-INF/LICENSE', 'META-INF/LICENSE.spdx', 'META-INF/NOTICE',
+            ['META-INF/neoforge.mods.toml', 'skysbuildingpiecesbop.mixins.json',
+             'assets/skysbuildingpiecesbop/items/flower_basket.json', 'META-INF/LICENSE', 'META-INF/LICENSE.spdx', 'META-INF/NOTICE',
              'zone/moddev/mc/skysbuildingpiecesbop/SkysBuildingPiecesBop.class', 'META-INF/BUILDINGBRICKS-MIT.txt',
              'META-INF/MINERALOGY-LGPL-3.0.txt', 'META-INF/MINERALOGY-GPL-3.0.txt',
              'assets/skysbuildingpiecesbop/blockstates/retired_rocks.json',
@@ -421,7 +422,8 @@ tasks.register('verifyReleaseArtifacts') {
                 String lower = entry.toLowerCase(Locale.ROOT)
                 lower.tokenize('/').any { segment -> segment in ['agents.md', 'agent.md', 'agent-notes', 'agent_notes'] } ||
                         lower.contains('.codex') || lower.contains('.claude') ||
-                        lower.contains('/test/') || lower.contains('gametest') ||
+                        lower.contains('/test/') || lower.contains('gametest') || lower.contains('/probe/') ||
+                        lower == 'meta-inf/coremods.json' || lower.startsWith('coremods/') ||
                         lower.startsWith('assets/skysbuildingpiecesbop/recipes/') ||
                         lower.startsWith('assets/skysbuildingpiecesbop/advancements/') ||
                         lower.startsWith('assets/skysbuildingpiecesbop/textures/blocks/') ||
@@ -672,8 +674,10 @@ def verifyEclipseConfiguration = tasks.register('verifyEclipseConfiguration') {
             String name = launch.name.toLowerCase(Locale.ROOT)
             name.startsWith('run ') && (name.contains('client') || name.contains('server'))
         }
-        if (runLaunches.size() != 2) {
-            throw new GradleException('Expected isolated Eclipse client and server launches')
+        Set<String> expectedRuns = ['Client', 'Server', 'ClientData', 'ServerData']
+                .collect { "Run ${project.name} - ${it}.launch".toString() } as Set<String>
+        if (runLaunches.collect { it.name }.toSet() != expectedRuns) {
+            throw new GradleException('Expected the four isolated NeoForge client, server and data launches')
         }
         runLaunches.each { launch ->
             String launchText = launch.getText('UTF-8')
@@ -712,9 +716,8 @@ def verifyEclipseConfiguration = tasks.register('verifyEclipseConfiguration') {
 
 
 apply from: 'gradle/native-probes.gradle'
-apply from: 'gradle/native-coremod-checks.gradle'
 
-// Unit tests need the same pre-initialization array patch as a Forge process.
+// Unit tests need the same pre-initialization array setup as a NeoForge process.
 // This launcher is absent from production jars and ordinary development runs.
 def compileLauncher = tasks.register('compileNativeUnitLauncher', JavaCompile) {
     source fileTree(new File(coreDirectory, 'src/testLauncher/java'))

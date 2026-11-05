@@ -8,12 +8,14 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:limestone_smooth"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:limestone_smooth"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:limestone_polished_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:limestone_polished_slab"
             }
           ]
         },
@@ -23,17 +25,20 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:limestone_smooth"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:limestone_smooth"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:limestone_polished_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:limestone_polished_slab"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_limestone_smooth"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_limestone_smooth"
             }
           ]
         }
@@ -47,12 +52,14 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:limestone_smooth"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:limestone_smooth"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:limestone_polished_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:limestone_polished_slab"
             }
           ]
         }
@@ -61,9 +68,7 @@
       "group": "skysbuildingpieces/limestone_polished",
       "pattern": ["XX"],
       "key": {
-        "X": {
-          "item": "skysbuildingpiecesbop:limestone_polished_slab"
-        }
+        "X": "skysbuildingpiecesbop:limestone_polished_slab"
       },
       "result": {
         "id": "mineralogy:limestone_smooth",
@@ -79,17 +84,20 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:limestone_smooth"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:limestone_smooth"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:limestone_polished_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:limestone_polished_slab"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_limestone_smooth"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_limestone_smooth"
             }
           ]
         }
@@ -98,9 +106,7 @@
       "group": "skysbuildingpieces/limestone_polished",
       "pattern": ["XX"],
       "key": {
-        "X": {
-          "item": "skysbuildingpiecesbop:limestone_polished_slab"
-        }
+        "X": "skysbuildingpiecesbop:limestone_polished_slab"
       },
       "result": {
         "id": "skysbuildingpiecesbop:retired_limestone_smooth",

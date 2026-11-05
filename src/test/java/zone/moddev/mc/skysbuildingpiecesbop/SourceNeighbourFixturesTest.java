@@ -50,8 +50,8 @@ class SourceNeighbourFixturesTest {
                             NbtIo.readCompressed(new ByteArrayInputStream(bytes), net.minecraft.nbt.NbtAccounter.unlimitedHeap()));
                     for (JsonElement positionEntry : chunk.getAsJsonArray("positions")) {
                         JsonObject row = positionEntry.getAsJsonObject();
-                        CompoundTag expected = TagParser.parseTag(row.get("state").getAsString());
-                        assertEquals("minecraft:water", expected.getString("Name"));
+                        CompoundTag expected = TagParser.parseCompoundFully(row.get("state").getAsString());
+                        assertEquals("minecraft:water", expected.getStringOr("Name", ""));
                         assertEquals(expected, state(archive, chunks, row.get("x").getAsInt(),
                                 row.get("y").getAsInt(), row.get("z").getAsInt()));
                         cells++;
@@ -82,14 +82,14 @@ class SourceNeighbourFixturesTest {
                 assertEquals(1741, manifest.getAsJsonArray("source_saved_states").size());
                 for (JsonElement entry : manifest.getAsJsonArray("source_saved_states")) {
                     JsonObject row = entry.getAsJsonObject();
-                    assertEquals(TagParser.parseTag(row.get("state").getAsString()),
+                    assertEquals(TagParser.parseCompoundFully(row.get("state").getAsString()),
                             state(archive, chunks, row.get("x").getAsInt(), row.get("y").getAsInt(), row.get("z").getAsInt()),
                             "The saved-state snapshot differs from its source archive");
                 }
                 assertEquals(fixture.contains("-biomes-") ? 50 : 45, controls.getAsJsonArray("containers").size());
                 for (JsonElement entry : controls.getAsJsonArray("containers")) {
                     JsonObject row = entry.getAsJsonObject();
-                    assertEquals(TagParser.parseTag(row.get("state").getAsString()),
+                    assertEquals(TagParser.parseCompoundFully(row.get("state").getAsString()),
                             state(archive, chunks, row.get("x").getAsInt(), row.get("y").getAsInt(), row.get("z").getAsInt()));
                 }
                 for (JsonElement entry : controls.getAsJsonArray("doors")) {
@@ -100,18 +100,18 @@ class SourceNeighbourFixturesTest {
                     assertTrue(side.equals("up") || side.equals("down"));
                     CompoundTag source = state(archive, chunks, x, y, z);
                     CompoundTag neighbour = state(archive, chunks, x, y + (side.equals("up") ? 1 : -1), z);
-                    assertEquals(source, TagParser.parseTag(row.get("source").getAsString()));
-                    assertEquals(neighbour, TagParser.parseTag(row.get("neighbour").getAsString()));
-                    assertEquals(source.getString("Name"), neighbour.getString("Name"));
-                    assertTrue(source.getString("Name").startsWith("minecraft:")
-                            || source.getString("Name").startsWith("biomesoplenty:"));
-                    assertTrue(source.getString("Name").endsWith("_door"));
-                    assertNotEquals(source.getCompound("Properties").getString("half"),
-                            neighbour.getCompound("Properties").getString("half"));
+                    assertEquals(source, TagParser.parseCompoundFully(row.get("source").getAsString()));
+                    assertEquals(neighbour, TagParser.parseCompoundFully(row.get("neighbour").getAsString()));
+                    assertEquals(source.getStringOr("Name", ""), neighbour.getStringOr("Name", ""));
+                    assertTrue(source.getStringOr("Name", "").startsWith("minecraft:")
+                            || source.getStringOr("Name", "").startsWith("biomesoplenty:"));
+                    assertTrue(source.getStringOr("Name", "").endsWith("_door"));
+                    assertNotEquals(source.getCompoundOrEmpty("Properties").getStringOr("half", ""),
+                            neighbour.getCompoundOrEmpty("Properties").getStringOr("half", ""));
                     boolean inconsistent = false;
                     for (String property : new String[] {"facing", "hinge", "open", "powered"}) {
-                        inconsistent |= !source.getCompound("Properties").getString(property)
-                                .equals(neighbour.getCompound("Properties").getString(property));
+                        inconsistent |= !source.getCompoundOrEmpty("Properties").getStringOr(property, "")
+                                .equals(neighbour.getCompoundOrEmpty("Properties").getStringOr(property, ""));
                     }
                     assertTrue(inconsistent, "A consistent door needs no special expectation");
                 }
@@ -126,22 +126,22 @@ class SourceNeighbourFixturesTest {
         String key = chunkX + "," + chunkZ;
         CompoundTag level = chunks.get(key);
         if (level == null) {
-            level = rawChunk(archive, chunkX, chunkZ).getCompound("Level");
+            level = rawChunk(archive, chunkX, chunkZ).getCompoundOrEmpty("Level");
             chunks.put(key, level);
         }
-        ListTag sections = level.getList("Sections", 10);
+        ListTag sections = level.getListOrEmpty("Sections");
         for (int sectionIndex = 0; sectionIndex < sections.size(); sectionIndex++) {
-            CompoundTag section = sections.getCompound(sectionIndex);
-            if (section.getByte("Y") != y >> 4) continue;
-            ListTag palette = section.getList("Palette", 10);
+            CompoundTag section = sections.getCompoundOrEmpty(sectionIndex);
+            if (section.getByteOr("Y", (byte) 0) != y >> 4) continue;
+            ListTag palette = section.getListOrEmpty("Palette");
             assertFalse(palette.isEmpty());
-            long[] data = section.getLongArray("BlockStates");
-            if (data.length == 0) return palette.getCompound(0);
+            long[] data = section.getLongArray("BlockStates").orElseThrow();
+            if (data.length == 0) return palette.getCompoundOrEmpty(0);
             int bits = Math.max(4, 32 - Integer.numberOfLeadingZeros(palette.size() - 1));
             int bitOffset = ((y & 15) * 256 + (z & 15) * 16 + (x & 15)) * bits;
             long number = data[bitOffset / 64] >>> (bitOffset % 64);
             if (bitOffset % 64 + bits > 64) number |= data[bitOffset / 64 + 1] << (64 - bitOffset % 64);
-            return palette.getCompound((int) (number & ((1L << bits) - 1)));
+            return palette.getCompound((int) (number & ((1L << bits) - 1))).orElseThrow();
         }
         fail("Missing source section at " + x + "," + y + "," + z);
         return null;

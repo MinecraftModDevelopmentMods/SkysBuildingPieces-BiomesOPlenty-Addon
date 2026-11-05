@@ -85,10 +85,10 @@ public final class BasketPlayerUpgrade {
         if (value instanceof CompoundTag) {
             CompoundTag tag = (CompoundTag) value;
 
-            if (BasketData.isBasket(tag.getString("id"))) {
+            if (BasketData.isBasket(tag.getStringOr("id", ""))) {
                 return true;
             }
-            for (String key : tag.getAllKeys()) {
+            for (String key : tag.keySet()) {
                 if (hasBasket(tag.get(key))) {
                     return true;
                 }

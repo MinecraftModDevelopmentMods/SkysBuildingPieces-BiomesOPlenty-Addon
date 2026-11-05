@@ -31,12 +31,14 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:shale_smooth"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:shale_smooth"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:shale_polished_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:shale_polished_slab"
             }
           ]
         },
@@ -46,17 +48,20 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:shale_smooth"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:shale_smooth"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_shale_smooth"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_shale_smooth"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:shale_polished_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:shale_polished_slab"
             }
           ]
         }

@@ -8,12 +8,14 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:gabbro"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:gabbro"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:crag_rock_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:crag_rock_slab"
             }
           ]
         },
@@ -23,17 +25,20 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:gabbro"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:gabbro"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:crag_rock_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:crag_rock_slab"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_gabbro"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_gabbro"
             }
           ]
         }
@@ -47,12 +52,14 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:gabbro"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:gabbro"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:crag_rock_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:crag_rock_slab"
             }
           ]
         }
@@ -61,9 +68,7 @@
       "group": "skysbuildingpieces/mineralogy",
       "pattern": ["X ", " X"],
       "key": {
-        "X": {
-          "item": "mineralogy:gabbro"
-        }
+        "X": "mineralogy:gabbro"
       },
       "result": {
         "id": "skysbuildingpiecesbop:crag_rock_slab",
@@ -79,17 +84,20 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:gabbro"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:gabbro"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:crag_rock_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:crag_rock_slab"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_gabbro"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_gabbro"
             }
           ]
         }
@@ -98,9 +106,7 @@
       "group": "skysbuildingpieces/mineralogy",
       "pattern": ["X ", " X"],
       "key": {
-        "X": {
-          "item": "skysbuildingpiecesbop:retired_gabbro"
-        }
+        "X": "skysbuildingpiecesbop:retired_gabbro"
       },
       "result": {
         "id": "skysbuildingpiecesbop:crag_rock_slab",

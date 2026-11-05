@@ -25,8 +25,9 @@
   },
   "neoforge:conditions": [
     {
-      "type": "neoforge:item_exists",
-      "item": "skysbuildingpiecesbop:mud_brick_block_vertical_slab"
+      "type": "neoforge:registered",
+      "registry": "minecraft:item",
+      "value": "skysbuildingpiecesbop:mud_brick_block_vertical_slab"
     }
   ]
 }

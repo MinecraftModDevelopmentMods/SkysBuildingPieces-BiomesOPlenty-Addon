@@ -22,7 +22,7 @@ public final class BasketContainer extends AbstractContainerMenu {
     public BasketContainer(int windowId, Player player, InteractionHand hand) {
         super(Baskets.TYPE, windowId);
         this.player = player;
-        ownerSlot = hand == InteractionHand.MAIN_HAND ? player.getInventory().selected : 40;
+        ownerSlot = hand == InteractionHand.MAIN_HAND ? player.getInventory().getSelectedSlot() : 40;
 
         ItemStack held = player.getInventory().getItem(ownerSlot);
 
@@ -69,7 +69,7 @@ public final class BasketContainer extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player viewingPlayer) {
         // Window sync replaces client stack objects; the exact-reference lock belongs only to the server.
-        if (viewingPlayer.level().isClientSide) {
+        if (viewingPlayer.level().isClientSide()) {
             return viewingPlayer == player && viewingPlayer.isAlive()
                     && viewingPlayer.getInventory().getItem(ownerSlot).getItem() instanceof BasketItem
                     && viewingPlayer.getInventory().getItem(ownerSlot).getCount() == 1;

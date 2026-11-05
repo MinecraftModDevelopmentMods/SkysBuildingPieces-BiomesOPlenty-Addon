@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/skysbuildingpiecesbop",
   "pattern": ["XX"],
   "key": {
-    "X": {
-      "item": "skysbuildingpieces:stained_hardened_clay_lime_vertical_step"
-    }
+    "X": "skysbuildingpieces:stained_hardened_clay_lime_vertical_step"
   },
   "result": {
     "id": "skysbuildingpieces:stained_hardened_clay_lime_corner",
@@ -17,12 +15,14 @@
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpieces:stained_hardened_clay_lime_corner"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpieces:stained_hardened_clay_lime_corner"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpieces:stained_hardened_clay_lime_vertical_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpieces:stained_hardened_clay_lime_vertical_step"
         }
       ]
     }

@@ -31,12 +31,14 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:limestone"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:limestone"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:limestone_wall"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:limestone_wall"
             }
           ]
         },
@@ -46,17 +48,20 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:limestone"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:limestone"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:limestone_wall"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:limestone_wall"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_limestone"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_limestone"
             }
           ]
         }

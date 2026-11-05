@@ -34,16 +34,16 @@ class SectionBiomeRecoveryTest {
         assertTrue(NamedBopRecovery.relevant(chunk));
         NamedBopRecovery.rewrite(chunk);
 
-        ListTag current = section.getCompound("biomes").getList("palette", 8);
-        assertEquals("biomesoplenty:auroral_garden", current.getString(0));
-        assertEquals("biomesoplenty:scrubland", current.getString(1));
-        assertEquals("biomesoplenty:wasteland", current.getString(2));
-        assertEquals("biomesoplenty:coniferous_forest", current.getString(3));
-        assertEquals("biomesoplenty:orchard", current.getString(4));
-        assertArrayEquals(original.getCompound("biomes").getLongArray("data"),
-                section.getCompound("biomes").getLongArray("data"));
-        assertEquals(original.getByte("Y"), section.getByte("Y"));
-        assertEquals(original.getString("custom_name"), section.getString("custom_name"));
+        ListTag current = section.getCompoundOrEmpty("biomes").getListOrEmpty("palette");
+        assertEquals("biomesoplenty:auroral_garden", current.getStringOr(0, ""));
+        assertEquals("biomesoplenty:scrubland", current.getStringOr(1, ""));
+        assertEquals("biomesoplenty:wasteland", current.getStringOr(2, ""));
+        assertEquals("biomesoplenty:coniferous_forest", current.getStringOr(3, ""));
+        assertEquals("biomesoplenty:orchard", current.getStringOr(4, ""));
+        assertArrayEquals(original.getCompoundOrEmpty("biomes").getLongArray("data").orElseThrow(),
+                section.getCompoundOrEmpty("biomes").getLongArray("data").orElseThrow());
+        assertEquals(original.getByteOr("Y", (byte) 0), section.getByteOr("Y", (byte) 0));
+        assertEquals(original.getStringOr("custom_name", ""), section.getStringOr("custom_name", ""));
 
         CompoundTag once = section.copy();
         assertFalse(NamedBopRecovery.relevant(chunk));

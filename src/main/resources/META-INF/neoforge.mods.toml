@@ -11,6 +11,9 @@ logoFile="logo.png"
 authors="${mod_authors}"
 description='''${mod_description}'''
 
+[[mixins]]
+config="skysbuildingpiecesbop.mixins.json"
+
 [[dependencies.${mod_id}]]
 modId="neoforge"
 type="required"
@@ -26,12 +29,12 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="skysbuildingpieces"
 type="required"
-versionRange="[0.3.8.121012,0.4)"
+versionRange="[0.3.8.121112,0.4)"
 ordering="AFTER"
 side="BOTH"
 [[dependencies.${mod_id}]]
 modId="biomesoplenty"
 type="required"
-versionRange="[21.1.0.14,22)"
+versionRange="[21.11.0.32,22)"
 ordering="AFTER"
 side="BOTH"

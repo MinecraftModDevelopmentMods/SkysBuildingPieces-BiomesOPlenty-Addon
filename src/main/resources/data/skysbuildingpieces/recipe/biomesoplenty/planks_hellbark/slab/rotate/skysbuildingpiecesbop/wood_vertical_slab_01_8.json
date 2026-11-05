@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/skysbuildingpiecesbop",
   "pattern": ["X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:planks_hellbark_vertical_slab"
-    }
+    "X": "skysbuildingpiecesbop:planks_hellbark_vertical_slab"
   },
   "result": {
     "id": "biomesoplenty:hellbark_slab",
@@ -18,12 +16,14 @@
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "biomesoplenty:hellbark_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:hellbark_slab"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_hellbark_vertical_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_hellbark_vertical_slab"
         }
       ]
     }

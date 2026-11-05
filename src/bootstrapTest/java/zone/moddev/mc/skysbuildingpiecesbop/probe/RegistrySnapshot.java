@@ -53,7 +53,7 @@ final class RegistrySnapshot {
         JsonArray biomes = new JsonArray();
 
         var biomeRegistry = net.neoforged.neoforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
-                .registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
+                .lookupOrThrow(net.minecraft.core.registries.Registries.BIOME);
         biomeRegistry.forEach(biome -> {
             JsonObject row = new JsonObject();
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.4.121112
+
+- Bring the add-on to Minecraft 1.21.11 on NeoForge.
+- Keep the same building pieces, flower baskets and supported world upgrades.
+
 ## 0.2.4.121012
 
 - Updated the add-on to Minecraft 1.21.1 and NeoForge 21.1.247.

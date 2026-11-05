@@ -1,5 +1,6 @@
 package zone.moddev.mc.skysbuildingpiecesbop;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -12,8 +13,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 
 /** Named equivalents for native BOP blocks saved before flattening. */
 public final class BopWorldMappings {
@@ -49,10 +49,10 @@ public final class BopWorldMappings {
             throw new IllegalStateException(target.get("unsupported").getAsString());
         }
 
-        String savedTarget = NamedBopRecovery.currentBlockId(target.get("id").getAsString());
-        ResourceLocation identity = ResourceLocation.parse(savedTarget.equals("minecraft:grass")
+        String savedTarget = target.get("id").getAsString();
+        Identifier identity = Identifier.parse(savedTarget.equals("minecraft:grass")
                 ? "minecraft:short_grass" : savedTarget);
-        Block block = BuiltInRegistries.BLOCK.getOptional(identity).orElse(null);
+        Block block = BuiltInRegistries.BLOCK.getValue(identity);
 
         if (block == null || block == Blocks.AIR) {
             throw new IllegalStateException("Missing BOP world replacement: " + identity);

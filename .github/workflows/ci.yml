@@ -209,9 +209,12 @@ jobs:
       - name: Make the wrapper executable
         run: chmod +x ./gradlew
 
+      - name: Clean the add-on build
+        run: ./gradlew clean -PbuildingPiecesCoreDir=dependencies/pieces --no-daemon --stacktrace
+
       - name: Build, test, and audit release artifacts
         run: >-
-          ./gradlew clean check build javadoc verifyReleaseArtifacts writeReleaseChecksums
+          ./gradlew check build javadoc verifyReleaseArtifacts writeReleaseChecksums
           preparePackagedNativeProbe registryControlJar eclipse verifyEclipseConfiguration
           -PbuildingPiecesCoreDir=dependencies/pieces --no-daemon --stacktrace
           -Declipse.application=org.eclipse.ui.ide.workbench

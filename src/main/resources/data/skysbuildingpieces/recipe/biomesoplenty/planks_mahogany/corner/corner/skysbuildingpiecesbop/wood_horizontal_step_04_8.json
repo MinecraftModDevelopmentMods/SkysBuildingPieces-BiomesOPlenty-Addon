@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/skysbuildingpiecesbop",
   "pattern": ["XX"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:planks_mahogany_horizontal_step"
-    }
+    "X": "skysbuildingpiecesbop:planks_mahogany_horizontal_step"
   },
   "result": {
     "id": "skysbuildingpiecesbop:planks_mahogany_corner",
@@ -17,12 +15,14 @@
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_mahogany_corner"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_mahogany_corner"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_mahogany_horizontal_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_mahogany_horizontal_step"
         }
       ]
     }

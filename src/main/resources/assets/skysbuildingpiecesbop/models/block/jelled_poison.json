@@ -2,5 +2,6 @@
   "parent": "block/cube_all",
   "textures": {
     "all": "minecraft:block/lime_stained_glass"
-  }
+  },
+  "render_type": "minecraft:translucent"
 }

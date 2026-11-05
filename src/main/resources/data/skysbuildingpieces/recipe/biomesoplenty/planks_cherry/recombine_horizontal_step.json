@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/planks_cherry",
   "pattern": ["X", "X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:planks_cherry_horizontal_step"
-    }
+    "X": "skysbuildingpiecesbop:planks_cherry_horizontal_step"
   },
   "result": {
     "id": "minecraft:cherry_slab",
@@ -14,17 +12,9 @@
   "category": "building",
   "neoforge:conditions": [
     {
-      "type": "neoforge:and",
-      "values": [
-        {
-          "type": "neoforge:item_exists",
-          "item": "minecraft:cherry_slab"
-        },
-        {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_cherry_horizontal_step"
-        }
-      ]
+      "type": "neoforge:registered",
+      "registry": "minecraft:item",
+      "value": "skysbuildingpiecesbop:planks_cherry_horizontal_step"
     }
   ]
 }

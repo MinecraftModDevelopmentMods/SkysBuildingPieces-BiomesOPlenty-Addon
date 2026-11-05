@@ -1,5 +1,6 @@
 package zone.moddev.mc.skysbuildingpiecesbop;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import java.util.Collections;
 import java.util.List;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -17,7 +18,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -30,15 +31,14 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.minecraft.core.registries.BuiltInRegistries;
 import zone.moddev.mc.skysbuildingpieces.legacy.HistoricalFullBlocks;
 
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.EventPriority;
+
 /** Restored decorations keep their original purpose and never generate terrain. */
-@EventBusSubscriber(
-        modid = SkysBuildingPiecesBop.ID,
-        bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = SkysBuildingPiecesBop.ID)
 public final class RetiredDecorations {
     public static final String MODULE = "retired_bop_decorations";
     public static Formation STONE_FORMATIONS;
@@ -59,7 +59,7 @@ public final class RetiredDecorations {
     }
 
     private static BlockState vine(int metadata) {
-        Block block = BuiltInRegistries.BLOCK.getOptional(ResourceLocation.fromNamespaceAndPath("biomesoplenty", "willow_vine")).orElse(null);
+        Block block = BuiltInRegistries.BLOCK.getValue(Identifier.fromNamespaceAndPath("biomesoplenty", "willow_vine"));
 
         if (block == null || block == net.minecraft.world.level.block.Blocks.AIR || metadata < 0 || metadata > 15) {
             return null;
@@ -75,15 +75,16 @@ public final class RetiredDecorations {
         if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.BLOCK)) return;
         STONE_FORMATIONS = new Formation();
         JELLED_POISON = new JelledPoison();
-        net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "stone_formations"), STONE_FORMATIONS);
-        net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "jelled_poison"), JELLED_POISON);
+        net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "stone_formations"), STONE_FORMATIONS);
+        net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "jelled_poison"), JELLED_POISON);
     }
 
     @SubscribeEvent
     public static void items(RegisterEvent event) {
         if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.ITEM)) return;
         for (Block block : new Block[] { STONE_FORMATIONS, JELLED_POISON }) {
-            net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, BuiltInRegistries.BLOCK.getKey(block), new BlockItem(block, new Item.Properties()));
+            Identifier id = BuiltInRegistries.BLOCK.getKey(block);
+            net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, id, new BlockItem(block, SkysBuildingPiecesBop.itemProperties(id)));
         }
     }
 
@@ -109,7 +110,8 @@ public final class RetiredDecorations {
         private static final VoxelShape OUTLINE = Block.box(1.6, 0, 1.6, 14.4, 16, 14.4);
 
         private Formation() {
-            super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1).sound(SoundType.STONE).noOcclusion()
+            super(SkysBuildingPiecesBop.blockProperties("stone_formations").mapColor(MapColor.STONE)
+                    .strength(1).sound(SoundType.STONE).noOcclusion()
                     .isRedstoneConductor((state, world, position) -> false));
 
             registerDefaultState(stateDefinition.any().setValue(FORM, Form.FLOOR));
@@ -166,8 +168,9 @@ public final class RetiredDecorations {
         }
 
         @Override
-        public BlockState updateShape(BlockState state, Direction direction, BlockState neighbour, LevelAccessor world,
-                BlockPos position, BlockPos neighbourPosition) {
+        public BlockState updateShape(BlockState state, net.minecraft.world.level.LevelReader world,
+                net.minecraft.world.level.ScheduledTickAccess ticks, BlockPos position, Direction direction,
+                BlockPos neighbourPosition, BlockState neighbour, net.minecraft.util.RandomSource random) {
             return getActualState(state, world, position);
         }
 
@@ -176,7 +179,7 @@ public final class RetiredDecorations {
                 boolean moving) {
             BlockState actual = getActualState(state, world, position);
 
-            if (!world.isClientSide && actual != state) {
+            if (!world.isClientSide() && actual != state) {
                 world.setBlock(position, actual, 2);
             }
         }
@@ -200,7 +203,8 @@ public final class RetiredDecorations {
 
     private static final class JelledPoison extends Block {
         private JelledPoison() {
-            super(BlockBehaviour.Properties.of().mapColor(MapColor.CLAY).strength(.4f).sound(SoundType.SLIME_BLOCK)
+            super(SkysBuildingPiecesBop.blockProperties("jelled_poison").mapColor(MapColor.CLAY)
+                    .strength(.4f).sound(SoundType.SLIME_BLOCK)
                     .friction(.9f).noOcclusion());
 
         }

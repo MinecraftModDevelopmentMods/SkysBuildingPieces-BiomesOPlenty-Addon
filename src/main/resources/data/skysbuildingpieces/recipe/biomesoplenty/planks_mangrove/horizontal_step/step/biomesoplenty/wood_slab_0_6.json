@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/biomesoplenty",
   "pattern": ["X ", " X"],
   "key": {
-    "X": {
-      "item": "minecraft:birch_slab"
-    }
+    "X": "minecraft:birch_slab"
   },
   "result": {
     "id": "skysbuildingpieces:planks_birch_horizontal_step",
@@ -14,8 +12,9 @@
   "category": "building",
   "neoforge:conditions": [
     {
-      "type": "neoforge:item_exists",
-      "item": "skysbuildingpieces:planks_birch_horizontal_step"
+      "type": "neoforge:registered",
+      "registry": "minecraft:item",
+      "value": "skysbuildingpieces:planks_birch_horizontal_step"
     }
   ]
 }

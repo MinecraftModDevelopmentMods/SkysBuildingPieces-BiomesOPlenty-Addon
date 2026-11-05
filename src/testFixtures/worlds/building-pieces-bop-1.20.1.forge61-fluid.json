@@ -1,0 +1,20 @@
+{
+  "source_world_sha256": "DA43C99D1282253DDA7FF8F044358BE4D6FA5E31A8E156B6EE33517A5D9F5342",
+  "positions": [
+    {
+      "position": [
+        2406,
+        -17,
+        2325
+      ],
+      "target": "minecraft:lava",
+      "support": "minecraft:moss_block",
+      "level": "2",
+      "source_lava": [
+        2405,
+        -16,
+        2325
+      ]
+    }
+  ]
+}

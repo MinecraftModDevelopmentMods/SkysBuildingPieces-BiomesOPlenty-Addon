@@ -30,11 +30,11 @@ public final class NativeBootstrap {
         NeoForge.EVENT_BUS.addListener(this::tick);
         modBus.addListener(BopPersistenceOrderChecks::ready);
         zone.moddev.mc.skysbuildingpieces.probe.BopCompatibilityChecks.registerHandler(modBus);
-        if (net.neoforged.fml.loading.FMLEnvironment.dist == net.neoforged.api.distmarker.Dist.CLIENT) {
+        if (net.neoforged.fml.loading.FMLEnvironment.getDist() == net.neoforged.api.distmarker.Dist.CLIENT) {
             new zone.moddev.mc.skysbuildingpieces.probe.ClientProbe().init();
-            NeoForge.EVENT_BUS.register(BasketGuiClientChecks.class);
+            BasketGuiClientChecks.register();
             NeoForge.EVENT_BUS.register(BasketDisconnectClientChecks.class);
-            NeoForge.EVENT_BUS.register(BasketClientChecks.class);
+            BasketClientChecks.register();
         }
     }
 
@@ -172,7 +172,7 @@ public final class NativeBootstrap {
         } catch (Throwable failure) {
             LOGGER.error("Native BOP verification failed", failure);
             zone.moddev.mc.skysbuildingpieces.probe.ClientStatus.failure = failure;
-            if (client && net.neoforged.fml.loading.FMLEnvironment.dist == net.neoforged.api.distmarker.Dist.CLIENT) {
+            if (client && net.neoforged.fml.loading.FMLEnvironment.getDist() == net.neoforged.api.distmarker.Dist.CLIENT) {
                 net.minecraft.client.Minecraft.getInstance().delayCrash(
                         net.minecraft.CrashReport.forThrowable(failure, "BOP client verification failed"));
             }

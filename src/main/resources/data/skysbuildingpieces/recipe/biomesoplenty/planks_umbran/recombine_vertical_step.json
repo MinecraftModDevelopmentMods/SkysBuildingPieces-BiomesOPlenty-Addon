@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/planks_umbran",
   "pattern": ["X", "X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:planks_umbran_vertical_step"
-    }
+    "X": "skysbuildingpiecesbop:planks_umbran_vertical_step"
   },
   "result": {
     "id": "biomesoplenty:umbran_slab",
@@ -17,12 +15,14 @@
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "biomesoplenty:umbran_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:umbran_slab"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_umbran_vertical_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_umbran_vertical_step"
         }
       ]
     }

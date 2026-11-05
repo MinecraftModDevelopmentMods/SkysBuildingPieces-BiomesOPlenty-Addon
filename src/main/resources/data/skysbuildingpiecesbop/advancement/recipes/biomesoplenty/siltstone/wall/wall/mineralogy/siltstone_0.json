@@ -31,12 +31,14 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:siltstone"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:siltstone"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:siltstone_wall"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:siltstone_wall"
             }
           ]
         },
@@ -46,17 +48,20 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:siltstone"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:siltstone"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_siltstone"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_siltstone"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:siltstone_wall"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:siltstone_wall"
             }
           ]
         }

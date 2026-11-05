@@ -93,7 +93,7 @@ final class RetiredContentForwardChecks {
             var stack = chest.getItem(row.get("slot").getAsInt());
             check(BuiltInRegistries.ITEM.getKey(stack.getItem()).toString().equals(row.get("target").getAsString())
                             && stack.getCount() == row.get("count").getAsInt()
-                            && BopProbeItems.custom(stack).getString("PortSample").equals(row.get("custom").getAsString()),
+                            && BopProbeItems.custom(stack).getStringOr("PortSample", "").equals(row.get("custom").getAsString()),
                     "A retired BOP item lost its name, count or custom data: " + row + " -> " + stack);
             items += stack.getCount();
         }
@@ -105,8 +105,11 @@ final class RetiredContentForwardChecks {
                 continue;
             }
             BlockPos position = position(row);
-            String actual = world.getBiome(position).unwrapKey().orElseThrow().location().toString();
-            check(actual.equals(row.get("target").getAsString()), "Incorrect recovered biome at " + position + ": " + actual);
+            String actual = world.getBiome(position).unwrapKey().orElseThrow().identifier().toString();
+            // The fixture records the 1.21.1 target. Some of those biome names were retired again.
+            String expected = ForwardUpgradeChecks.currentTarget("section_biomes", row.get("target").getAsString());
+            check(actual.equals(expected), "Incorrect recovered biome at " + position + ": " + actual
+                    + ", expected " + expected);
             biomes++;
         }
         boolean delayed = !phase().equals("forward");

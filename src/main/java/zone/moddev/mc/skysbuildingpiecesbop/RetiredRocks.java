@@ -1,5 +1,6 @@
 package zone.moddev.mc.skysbuildingpiecesbop;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import java.util.Collections;
 import java.util.List;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -16,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.level.Explosion;
@@ -26,15 +27,13 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.SubscribeEvent;
+
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.EventPriority;
 
 /** Stable full-block fallbacks for the rock materials removed from BOP. */
-@EventBusSubscriber(
-        modid = SkysBuildingPiecesBop.ID,
-        bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = SkysBuildingPiecesBop.ID)
 public final class RetiredRocks extends Block {
     public static final String[] NAMES = { "gabbro", "limestone", "limestone_smooth", "shale", "shale_smooth",
             "siltstone", "siltstone_smooth" };
@@ -44,7 +43,8 @@ public final class RetiredRocks extends Block {
     public static final Item[] ITEMS = new Item[NAMES.length];
 
     private RetiredRocks() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(1.5f, 6).requiresCorrectToolForDrops());
+        super(SkysBuildingPiecesBop.blockProperties("retired_rocks").mapColor(MapColor.STONE)
+                .strength(1.5f, 6).requiresCorrectToolForDrops());
 
         registerDefaultState(stateDefinition.any().setValue(VARIANT, 0));
     }
@@ -83,8 +83,8 @@ public final class RetiredRocks extends Block {
     @Override
     public float getDestroyProgress(BlockState state, Player player, BlockGetter world, BlockPos position) {
         BlockState reference = miningReference(state);
-        int divisor = player.hasCorrectToolForDrops(reference) ? 30 : 100;
-        return player.getDestroySpeed(reference) / materialDestroySpeed(state, world, position) / divisor;
+        int divisor = reference.canHarvestBlock(world, position, player) ? 30 : 100;
+        return player.getDestroySpeed(reference, position) / materialDestroySpeed(state, world, position) / divisor;
     }
 
     private static BlockState miningReference(BlockState state) {
@@ -104,17 +104,16 @@ public final class RetiredRocks extends Block {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult hit, net.minecraft.world.level.LevelReader world, BlockPos position,
-            Player player) {
+    public ItemStack getCloneItemStack(net.minecraft.world.level.LevelReader world, BlockPos position,
+            BlockState state, boolean includeData) {
         return new ItemStack(item(state));
     }
 
-    @SubscribeEvent(
-            priority = EventPriority.HIGHEST)
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void blocks(RegisterEvent event) {
         if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.BLOCK)) return;
         BLOCK = new RetiredRocks();
-        net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "retired_rocks"), BLOCK);
+        net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "retired_rocks"), BLOCK);
     }
 
     @SubscribeEvent
@@ -122,13 +121,15 @@ public final class RetiredRocks extends Block {
         if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.ITEM)) return;
         // The old palette identity remains a hidden recovery carrier. Normal inventory stacks have a distinct item
         // identity for each rock.
-        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, BuiltInRegistries.BLOCK.getKey(BLOCK), new BlockItem(BLOCK, new Item.Properties()));
+        Identifier blockId = BuiltInRegistries.BLOCK.getKey(BLOCK);
+        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, blockId, new BlockItem(BLOCK, SkysBuildingPiecesBop.itemProperties(blockId)));
 
         for (int variant = 0; variant < NAMES.length; variant++) {
-            VariantItem item = new VariantItem(variant);
+            Identifier id = Identifier.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]);
+            VariantItem item = new VariantItem(variant, id);
 
             ITEMS[variant] = item;
-            net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]), item);
+            net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, id, item);
         }
 
         zone.moddev.mc.skysbuildingpieces.api.BuildingPiecesApi.registerStateItems(BLOCK, RetiredRocks::item);
@@ -147,8 +148,9 @@ public final class RetiredRocks extends Block {
     private static final class VariantItem extends BlockItem {
         private final int variant;
 
-        VariantItem(int variant) {
-            super(BLOCK, new Item.Properties());
+        VariantItem(int variant, Identifier id) {
+            super(BLOCK, SkysBuildingPiecesBop.itemProperties(id)
+                    .overrideDescription("block.skysbuildingpiecesbop.retired_" + NAMES[variant]));
             this.variant = variant;
         }
 
@@ -157,13 +159,8 @@ public final class RetiredRocks extends Block {
             return BLOCK.getStateFromMeta(variant);
         }
 
-        @Override
-        public String getDescriptionId() {
-            return "block.skysbuildingpiecesbop.retired_" + NAMES[variant];
-        }
-
         boolean visibleInCreativeTab() {
-            Block nativeRock = BuiltInRegistries.BLOCK.getOptional(ResourceLocation.fromNamespaceAndPath("mineralogy", NAMES[variant])).orElse(null);
+            Block nativeRock = BuiltInRegistries.BLOCK.getValue(Identifier.fromNamespaceAndPath("mineralogy", NAMES[variant]));
             return nativeRock == null || nativeRock == net.minecraft.world.level.block.Blocks.AIR;
         }
 

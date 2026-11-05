@@ -58,7 +58,7 @@ final class BopPersistenceOrderChecks {
         if (!original.isFile() || System.getProperty("skysbuildingpieces.persistenceOrder", "").isEmpty()) {
             return;
         }
-        CompoundTag expected = read(original).getCompound("FML");
+        CompoundTag expected = read(original).getCompoundOrEmpty("FML");
         if (expected.isEmpty()) {
             return; // Named source fixtures do not need a pre-flattening registry snapshot.
         }
@@ -77,14 +77,14 @@ final class BopPersistenceOrderChecks {
                 continue;
             }
             writer.invoke(null, combined);
-            require(combined.getCompound("FML").equals(expected), "A callback overwrote the shared snapshot");
+            require(combined.getCompoundOrEmpty("FML").equals(expected), "A callback overwrote the shared snapshot");
             writers++;
         }
         require(writers == 2, "The two native write wrappers must both preserve the snapshot");
         world.getServer().saveAllChunks(true, true, true);
-        CompoundTag saved = read(new File(directory, "level.dat")).getCompound("FML");
+        CompoundTag saved = read(new File(directory, "level.dat")).getCompoundOrEmpty("FML");
         require(saved.equals(expected), "The complete uppercase registry snapshot changed");
-        CompoundTag blocks = expected.getCompound("Registries").getCompound("minecraft:blocks");
+        CompoundTag blocks = expected.getCompoundOrEmpty("Registries").getCompoundOrEmpty("minecraft:blocks");
         require(!blocks.isEmpty(), "The source must contain a real numeric registry");
         List<String> legacySidecars = new ArrayList<>(List.of("skysgrassslabs"));
         if (ModList.get().isLoaded("mineralogy")) {
@@ -92,14 +92,14 @@ final class BopPersistenceOrderChecks {
         }
         for (String name : legacySidecars) {
             CompoundTag sidecar = read(new File(directory, "data/" + name + "_legacy_registry.dat"));
-            require(sidecar.getCompound("Blocks").equals(blocks), name + " lost its independent sidecar");
+            require(sidecar.getCompoundOrEmpty("Blocks").equals(blocks), name + " lost its independent sidecar");
         }
         CompoundTag core = read(new File(directory, "data/skysbuildingpieces_legacy_registry.dat"));
-        require(core.getCompound("FML").equals(expected), "Building Pieces lost its complete sidecar");
+        require(core.getCompoundOrEmpty("FML").equals(expected), "Building Pieces lost its complete sidecar");
         org.apache.logging.log4j.LogManager.getLogger().info("BOP_PERSISTENCE_ORDER_PASS "
                 + System.getProperty("skysbuildingpieces.persistenceOrder") + " actual_hooks=" + callbacks.size()
                 + " sidecars=" + (legacySidecars.size() + 1) + " ids="
-                + blocks.getList("ids", 10).size() + " complete_uppercase_snapshot=true");
+                + blocks.getListOrEmpty("ids").size() + " complete_uppercase_snapshot=true");
     }
 
     private static CompoundTag read(File file) throws Exception {

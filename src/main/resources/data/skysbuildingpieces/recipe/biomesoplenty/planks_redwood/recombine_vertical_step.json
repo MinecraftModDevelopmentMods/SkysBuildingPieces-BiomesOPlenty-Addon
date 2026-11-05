@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/planks_redwood",
   "pattern": ["X", "X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:planks_redwood_vertical_step"
-    }
+    "X": "skysbuildingpiecesbop:planks_redwood_vertical_step"
   },
   "result": {
     "id": "biomesoplenty:redwood_slab",
@@ -17,12 +15,14 @@
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "biomesoplenty:redwood_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:redwood_slab"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_redwood_vertical_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_redwood_vertical_step"
         }
       ]
     }

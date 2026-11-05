@@ -25,8 +25,9 @@
   },
   "neoforge:conditions": [
     {
-      "type": "neoforge:item_exists",
-      "item": "skysbuildingpieces:planks_oak_vertical_slab"
+      "type": "neoforge:registered",
+      "registry": "minecraft:item",
+      "value": "skysbuildingpieces:planks_oak_vertical_slab"
     }
   ]
 }
