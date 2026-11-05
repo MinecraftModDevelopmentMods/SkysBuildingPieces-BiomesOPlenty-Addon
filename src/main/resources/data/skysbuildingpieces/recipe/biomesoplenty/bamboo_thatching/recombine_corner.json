@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/bamboo_thatching",
   "pattern": ["X", "X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:planks_willow_corner"
-    }
+    "X": "skysbuildingpiecesbop:planks_willow_corner"
   },
   "result": {
     "id": "skysbuildingpiecesbop:planks_willow_horizontal_step",

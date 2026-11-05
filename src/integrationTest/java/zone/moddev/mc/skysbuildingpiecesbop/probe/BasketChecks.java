@@ -42,7 +42,7 @@ public final class BasketChecks {
         ServerPlayer player = BopProbeItems.player(world);
 
         player.getInventory().clearContent();
-        player.getInventory().selected = 0;
+        player.getInventory().setSelectedSlot(0);
 
         try {
             net.minecraft.world.inventory.CraftingContainer crafting = new net.minecraft.world.inventory.TransientCraftingContainer(
@@ -62,7 +62,7 @@ public final class BasketChecks {
                 crafting.setItem(slot, new ItemStack(Items.STICK));
             }
 
-            net.minecraft.world.item.crafting.CraftingRecipe recipe = world
+            net.minecraft.world.item.crafting.CraftingRecipe recipe = world.getServer()
                     .getRecipeManager().getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING, crafting.asCraftInput(), world)
                     .map(net.minecraft.world.item.crafting.RecipeHolder::value).orElse(null);
 
@@ -92,7 +92,7 @@ public final class BasketChecks {
             require(inventory.insert(new ItemStack(Blocks.OAK_SAPLING, 12)).isEmpty(), "merge and spill to next slot");
             require(inventory.getItem(0).getCount() == 64 && inventory.getItem(1).getCount() == 8,
                     "merge before empty slots");
-            require(BopProbeItems.custom(basket).getInt("unrelated") == 19
+            require(BopProbeItems.custom(basket).getIntOr("unrelated", 0) == 19
                     && basket.getHoverName().getString().equals("Test plants"), "custom data retained");
             require(new BasketInventory(basket, BopProbeItems.registries()).getItem(1).getCount() == 8, "storage reload");
 
@@ -192,8 +192,7 @@ public final class BasketChecks {
             ItemEntity entity = new ItemEntity(world, 0, 100, 0, new ItemStack(Blocks.OAK_SAPLING, 7));
             EntityItemPickupEvent event = new EntityItemPickupEvent(player, entity);
 
-            Baskets.pickup(event);
-            require(event.isCanceled() && !entity.isAlive(), "complete pickup consumed once");
+            require(Baskets.pickup(event) && !entity.isAlive(), "complete pickup consumed once");
             require(new BasketInventory(collected, BopProbeItems.registries()).getItem(0).getCount() == 7, "first basket collects");
             require(!BopProbeItems.hasCustom(player.getInventory().getItem(1)), "later basket unchanged");
 
@@ -205,8 +204,7 @@ public final class BasketChecks {
 
             entity = new ItemEntity(world, 0, 100, 0, new ItemStack(Blocks.OAK_SAPLING, 9));
             event = new EntityItemPickupEvent(player, entity);
-            Baskets.pickup(event);
-            require(event.isCanceled() && entity.isAlive() && entity.getItem().getCount() == 6,
+            require(Baskets.pickup(event) && entity.isAlive() && entity.getItem().getCount() == 6,
                     "partial pickup leaves exact remainder for the next collision");
             // Exercise the caller too: vanilla retains the stack reference from before the pickup event, so replacing
             // only ItemEntity's stack is unsafe.
@@ -228,7 +226,7 @@ public final class BasketChecks {
 
             int loose = 0;
 
-            for (ItemStack stack : player.getInventory().items) {
+            for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
                 if (stack.getItem() == net.minecraft.world.item.Item.byBlock(Blocks.OAK_SAPLING)) {
                     loose += stack.getCount();
                 }
@@ -237,7 +235,7 @@ public final class BasketChecks {
             require(new BasketInventory(collected, BopProbeItems.registries()).getItem(0).getCount() == 64 && loose == 6
                     && !entity.isAlive(), "real partial pickup conserves all nine items");
 
-            for (int entryIndex = 1; entryIndex < player.getInventory().items.size(); entryIndex++) {
+            for (int entryIndex = 1; entryIndex < player.getInventory().getNonEquipmentItems().size(); entryIndex++) {
                 player.getInventory().setItem(entryIndex, new ItemStack(Blocks.STONE, 64));
             }
 
@@ -294,10 +292,10 @@ public final class BasketChecks {
             tag.put("Items", list);
             stack.put("tag", tag);
             fixer.fixTagCompound(stack);
-            require(stack.getString("id").equals(BasketData.ID), "canonical item ID");
-            require(!stack.getCompound("tag").getBoolean("BasketOpen")
-                    && stack.getCompound("tag").getInt("other") == 77, "clear only stale open state");
-            require(stack.getCompound("tag").getList("Items", 10).getCompound(0).equals(child),
+            require(stack.getStringOr("id", "").equals(BasketData.ID), "canonical item ID");
+            require(!stack.getCompoundOrEmpty("tag").getBooleanOr("BasketOpen", false)
+                    && stack.getCompoundOrEmpty("tag").getIntOr("other", 0) == 77, "clear only stale open state");
+            require(stack.getCompoundOrEmpty("tag").getListOrEmpty("Items").getCompoundOrEmpty(0).equals(child),
                     "raw child NBT unchanged");
 
             CompoundTag once = stack.copy();
@@ -316,19 +314,19 @@ public final class BasketChecks {
                 listCarrier.add(historical);
                 root.put(carrier, listCarrier);
                 fixer.fixTagCompound(root);
-                require(root.getList(carrier, 10).getCompound(0).getString("id").equals(BasketData.ID),
+                require(root.getListOrEmpty(carrier).getCompoundOrEmpty(0).getStringOr("id", "").equals(BasketData.ID),
                         "nested carrier " + carrier);
             }
             for (String error : new String[] { "unknown", "duplicate", "badslot", "badcount", "fractional", "wronglist",
                     "badtag", "badcaps" }) {
                 CompoundTag broken = once.copy();
-                CompoundTag entry = broken.getCompound("tag").getList("Items", 10).getCompound(0);
+                CompoundTag entry = broken.getCompoundOrEmpty("tag").getListOrEmpty("Items").getCompoundOrEmpty(0);
 
                 if (error.equals("unknown")) {
                     entry.putString("id", "missing_test:flower");
                 }
                 if (error.equals("duplicate")) {
-                    broken.getCompound("tag").getList("Items", 10).add(entry.copy());
+                    broken.getCompoundOrEmpty("tag").getListOrEmpty("Items").add(entry.copy());
                 }
                 if (error.equals("badslot")) {
                     entry.putByte("Slot", (byte) 18);
@@ -340,7 +338,7 @@ public final class BasketChecks {
                     entry.putFloat("Slot", .5f);
                 }
                 if (error.equals("wronglist")) {
-                    broken.getCompound("tag").putString("Items", "not an inventory");
+                    broken.getCompoundOrEmpty("tag").putString("Items", "not an inventory");
                 }
                 if (error.equals("badtag")) {
                     entry.putString("tag", "not item data");

@@ -1,5 +1,17 @@
 # Existing worlds
 
+## Moving to Minecraft 1.21.11
+
+Use Biomes O' Plenty 21.11.0.32, TerraBlender 21.11.0.0 and GlitchCore 21.11.0.4.
+Keep a backup of the whole world before opening it. Saved origin oak and rose
+plants use the new BOP names. Maple leaf piles become full patches of matching
+leaf litter, and rainbow birches use vanilla birch. Old Wildflowers use BOP's
+purple Wildflowers. BOP boats keep their wood type and any chest contents.
+
+Saved Aspen Glade, Grassland and Jacaranda Glade biome entries now use Forested
+Field, Field and Lavender Field. Existing terrain and builds stay in place.
+New chunks generate with the installed BOP version.
+
 ## Moving to Minecraft 1.21.1
 
 Use Biomes O' Plenty 21.1.0.14, TerraBlender 4.1.0.8 and GlitchCore 2.1.0.2.

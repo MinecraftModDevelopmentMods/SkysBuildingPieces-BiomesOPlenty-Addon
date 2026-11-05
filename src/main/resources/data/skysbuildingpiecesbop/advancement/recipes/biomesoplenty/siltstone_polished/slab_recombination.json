@@ -1,5 +1,5 @@
 {
-  "advancements": [
+  "forge:conditional": [
     {
       "forge:condition": {
         "type": "forge:and",

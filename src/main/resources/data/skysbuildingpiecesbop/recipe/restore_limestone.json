@@ -1,11 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "building",
-  "ingredients": [
-    {
-      "item": "skysbuildingpiecesbop:retired_limestone"
-    }
-  ],
+  "ingredients": ["skysbuildingpiecesbop:retired_limestone"],
   "result": {
     "id": "mineralogy:limestone"
   },

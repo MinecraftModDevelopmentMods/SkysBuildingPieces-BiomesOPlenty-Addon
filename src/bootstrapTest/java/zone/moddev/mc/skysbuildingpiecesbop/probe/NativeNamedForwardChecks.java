@@ -92,22 +92,22 @@ final class NativeNamedForwardChecks {
                         position(saved).getZ() >> 4) == null, "A deferred source chunk was loaded early");
                 continue;
             }
-            CompoundTag expected = TagParser.parseTag(saved.get("state").getAsString());
-            String source = expected.getString("Name");
+            CompoundTag expected = TagParser.parseCompoundFully(saved.get("state").getAsString());
+            String source = expected.getStringOr("Name", "");
             if (source.equals("biomesoplenty:rose_quartz_cluster") || source.equals("biomesoplenty:rose_quartz_block")) {
                 crystals++;
             } else if (source.equals("biomesoplenty:mangrove_root")) {
                 expected.putString("Name", "minecraft:small_dripleaf");
-                expected.getCompound("Properties").putString("facing", "north");
+                expected.getCompoundOrEmpty("Properties").putString("facing", "north");
             } else if (source.equals("biomesoplenty:tree_roots")) {
                 expected.putString("Name", "minecraft:weeping_vines");
             } else if (source.equals("biomesoplenty:tree_roots_stem")) {
                 expected.putString("Name", "minecraft:weeping_vines_plant");
             } else if (source.equals("biomesoplenty:nether_crystal")) {
-                CompoundTag properties = expected.getCompound("Properties");
-                String face = properties.getString("face");
+                CompoundTag properties = expected.getCompoundOrEmpty("Properties");
+                String face = properties.getStringOr("face", "");
                 String direction = face.equals("floor") ? "up"
-                        : face.equals("ceiling") ? "down" : properties.getString("facing");
+                        : face.equals("ceiling") ? "down" : properties.getStringOr("facing", "");
                 CompoundTag replacement = new CompoundTag();
                 replacement.putString("facing", direction);
                 replacement.putString("waterlogged", "false");
@@ -128,21 +128,30 @@ final class NativeNamedForwardChecks {
                     "biomesoplenty:mud_brick_wall").contains(source)) {
                 expected.putString("Name", source.replace("biomesoplenty:", "minecraft:"));
                 if (source.equals("biomesoplenty:mud_brick_slab")
-                        && expected.getCompound("Properties").getString("type").equals("double")) {
+                        && expected.getCompoundOrEmpty("Properties").getStringOr("type", "").equals("double")) {
                     expected.putString("Name", "minecraft:mud_bricks");
                     expected.remove("Properties");
                 }
             } else {
                 String replacement = ForwardUpgradeChecks.currentTarget("blocks", source);
                 if (replacement.equals("minecraft:cherry_slab")
-                        && expected.getCompound("Properties").getString("type").equals("double")) {
+                        && expected.getCompoundOrEmpty("Properties").getStringOr("type", "").equals("double")) {
                     expected.putString("Name", "minecraft:cherry_planks");
                     expected.remove("Properties");
                 } else {
                     expected.putString("Name", replacement);
                 }
             }
-            net.minecraft.world.level.block.state.BlockState decoded = NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(), expected);
+            net.minecraft.world.level.block.state.BlockState decoded = NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, expected);
+            if (source.endsWith("_maple_leaf_pile")) {
+                var segmentAmount = decoded.getBlock().getStateDefinition().getProperty("segment_amount");
+                require(segmentAmount != null, "A maple leaf pile must become leaf litter");
+                decoded = setExpectedProperty(decoded, segmentAmount, "4");
+                expected = NbtUtils.writeBlockState(decoded);
+            } else if (!expected.getStringOr("Name", "").equals(source)
+                    && ForwardUpgradeChecks.isRecentBlockRename(source)) {
+                expected = NbtUtils.writeBlockState(decoded);
+            }
             if (decoded.getBlock() instanceof zone.moddev.mc.skysbuildingpieces.content.PieceBlock) {
                 // Old palette holders remain registered, but their native BOP
                 // equivalents are the accepted stored form after loading.
@@ -171,7 +180,7 @@ final class NativeNamedForwardChecks {
                         + BopProbeItems.save(actual));
                 units += actual.getCount();
                 if (actual.getItem() == zone.moddev.mc.skysbuildingpiecesbop.basket.Baskets.ITEM) {
-                    require(BopProbeItems.custom(actual).getList("Items", 10).equals(BopProbeItems.custom(expected).getList("Items", 10)), "Saved basket lost a slot");
+                    require(BopProbeItems.custom(actual).getListOrEmpty("Items").equals(BopProbeItems.custom(expected).getListOrEmpty("Items")), "Saved basket lost a slot");
                     baskets++;
                 }
             }
@@ -188,7 +197,7 @@ final class NativeNamedForwardChecks {
         UUID playerId = UUID.fromString(fixture.get("player").getAsString());
         net.minecraft.server.level.ServerPlayer player = BopProbeItems.player(world,
                 new com.mojang.authlib.GameProfile(playerId, "PieceFixture"));
-        require(world.getServer().getPlayerList().load(player) != null, "Saved player data is missing");
+        BopProbeItems.loadPlayer(player);
         require(ItemStack.matches(expectedItem(fixture.get("player_shovel").getAsString()), player.getInventory().getItem(0)),
                 "Player tool lost damage, enchantments, name or custom data");
         ItemStack nested = expectedItem(fixture.get("player_nested").getAsString());
@@ -206,8 +215,8 @@ final class NativeNamedForwardChecks {
         require(save != null, "Native player-save method is missing");
         save.setAccessible(true);
         save.invoke(world.getServer().getPlayerList(), player);
-        require(PiecesWorldState.get(world).save(new CompoundTag(), world.registryAccess()).equals(
-                TagParser.parseTag(fixture.get("world_state").getAsString())), "Saved schema or migration counters changed");
+        require(PiecesWorldState.get(world).saveTag(new CompoundTag()).equals(
+                TagParser.parseCompoundFully(fixture.get("world_state").getAsString())), "Saved schema or migration counters changed");
         for (ChunkPos chunk : CHUNKS) {
             world.setChunkForced(chunk.x, chunk.z, false);
         }
@@ -220,8 +229,14 @@ final class NativeNamedForwardChecks {
                 + states + " crystals=" + crystals + " item_units=" + units + " basket_slots=18 schema=1 counters=unchanged");
     }
 
+    private static <T extends Comparable<T>> net.minecraft.world.level.block.state.BlockState setExpectedProperty(
+            net.minecraft.world.level.block.state.BlockState state,
+            net.minecraft.world.level.block.state.properties.Property<T> property, String value) {
+        return state.setValue(property, property.getValue(value).orElseThrow());
+    }
+
     private static ItemStack expectedItem(String text) throws Exception {
-        CompoundTag saved = TagParser.parseTag(text);
+        CompoundTag saved = TagParser.parseCompoundFully(text);
         rewriteExpectedItems(saved);
         return BopProbeItems.read(saved);
     }
@@ -229,8 +244,11 @@ final class NativeNamedForwardChecks {
     private static void rewriteExpectedItems(Tag value) {
         if (value instanceof CompoundTag) {
             CompoundTag saved = (CompoundTag) value;
-            if (saved.contains("Count", 99)) {
-                String id = saved.getString("id");
+            String id = saved.getStringOr("id", "");
+            if (saved.get("Count") instanceof net.minecraft.nbt.NumericTag
+                    || saved.get("count") instanceof net.minecraft.nbt.NumericTag
+                    || ForwardUpgradeChecks.isRecentBlockRename(id)
+                            && Set.of("id", "components", "Slot").containsAll(saved.keySet())) {
                 if (id.equals("minecraft:grass")) {
                     saved.putString("id", "minecraft:short_grass");
                 } else if (id.equals("minecraft:grass_path")) {
@@ -253,11 +271,11 @@ final class NativeNamedForwardChecks {
                     saved.putString("id", "biomesoplenty:rose_quartz_block");
                 } else if (id.equals("biomesoplenty:nether_crystal")) {
                     saved.putString("id", "biomesoplenty:rose_quartz_cluster");
-                    CompoundTag properties = saved.getCompound("tag").getCompound("BlockStateTag");
+                    CompoundTag properties = saved.getCompoundOrEmpty("tag").getCompoundOrEmpty("BlockStateTag");
                     if (!properties.isEmpty()) {
-                        String face = properties.getString("face");
+                        String face = properties.getStringOr("face", "");
                         String direction = face.equals("floor") ? "up"
-                                : face.equals("ceiling") ? "down" : properties.getString("facing");
+                                : face.equals("ceiling") ? "down" : properties.getStringOr("facing", "");
                         properties.remove("face");
                         properties.putString("facing", direction);
                         properties.putString("waterlogged", "false");
@@ -267,7 +285,7 @@ final class NativeNamedForwardChecks {
                     saved.putString("id", ForwardUpgradeChecks.currentTarget("blocks", itemTarget));
                 }
             }
-            for (String key : saved.getAllKeys()) {
+            for (String key : saved.keySet()) {
                 rewriteExpectedItems(saved.get(key));
             }
         } else if (value instanceof net.minecraft.nbt.ListTag) {
@@ -288,27 +306,25 @@ final class NativeNamedForwardChecks {
         for (JsonElement entry : fixture.getAsJsonArray("signs")) {
             JsonObject saved = entry.getAsJsonObject();
             BlockPos position = position(saved);
-            CompoundTag original = TagParser.parseTag(saved.get("tag").getAsString());
+            CompoundTag original = TagParser.parseCompoundFully(saved.get("tag").getAsString());
             require(world.getBlockEntity(position) instanceof net.minecraft.world.level.block.entity.SignBlockEntity,
                     "Saved cherry sign lost its block entity at " + position);
             var sign = (net.minecraft.world.level.block.entity.SignBlockEntity) world.getBlockEntity(position);
             require(sign.getType() == net.minecraft.world.level.block.entity.BlockEntityType.SIGN,
                     "Saved cherry sign still uses an incompatible block entity type at " + position);
             var front = sign.getFrontText();
-            if (original.contains("front_text", Tag.TAG_COMPOUND)) {
-                checkSignFace(world, front, original.getCompound("front_text"), position);
-                checkSignFace(world, sign.getBackText(), original.getCompound("back_text"), position);
-                require(sign.isWaxed() == original.getBoolean("is_waxed"), "Saved sign wax changed at " + position);
+            if ((original.get("front_text") instanceof net.minecraft.nbt.CompoundTag)) {
+                checkSignFace(world, front, original.getCompoundOrEmpty("front_text"), position);
+                checkSignFace(world, sign.getBackText(), original.getCompoundOrEmpty("back_text"), position);
+                require(sign.isWaxed() == original.getBooleanOr("is_waxed", false), "Saved sign wax changed at " + position);
                 continue;
             }
             for (int line = 0; line < 4; line++) {
-                require(front.getMessage(line, false).equals(net.minecraft.network.chat.Component.Serializer
-                        .fromJson(original.getString("Text" + (line + 1)), world.registryAccess())), "Saved sign text changed at " + position);
-                require(front.getMessage(line, true).equals(net.minecraft.network.chat.Component.Serializer
-                        .fromJson(original.getString("FilteredText" + (line + 1)), world.registryAccess())), "Saved filtered sign text changed at " + position);
+                require(front.getMessage(line, false).equals(BopProbeItems.readSavedText(original.getStringOr("Text" + (line + 1), ""), world)), "Saved sign text changed at " + position);
+                require(front.getMessage(line, true).equals(BopProbeItems.readSavedText(original.getStringOr("FilteredText" + (line + 1), ""), world)), "Saved filtered sign text changed at " + position);
             }
-            require(front.getColor().getName().equals(original.getString("Color"))
-                    && front.hasGlowingText() == original.getBoolean("GlowingText"),
+            require(front.getColor().getName().equals(original.getStringOr("Color", ""))
+                    && front.hasGlowingText() == original.getBooleanOr("GlowingText", false),
                     "Saved sign colour or glow changed at " + position);
         }
     }
@@ -333,6 +349,18 @@ final class NativeNamedForwardChecks {
                 require(adjacentFluids.put(position, expected) == null, "Duplicate source fluid position");
             }
         }
+        var fluidPath = java.nio.file.Path.of("forward-fluid-changes.json");
+        if (java.nio.file.Files.isRegularFile(fluidPath)) {
+            var fluidProof = JsonParser.parseString(java.nio.file.Files.readString(fluidPath)).getAsJsonObject();
+            require(fluidProof.get("source_world_sha256").equals(fixture.get("archive_sha256")),
+                    "Fluid controls belong to a different source archive");
+            for (var entry : fluidProof.getAsJsonArray("positions")) {
+                var change = entry.getAsJsonObject();
+                var xyz = change.getAsJsonArray("position");
+                var position = new BlockPos(xyz.get(0).getAsInt(), xyz.get(1).getAsInt(), xyz.get(2).getAsInt());
+                require(adjacentFluids.putIfAbsent(position, change) == null, "Duplicate source fluid control");
+            }
+        }
         for (var row : proof.getAsJsonArray("positions")) {
             var xyz = row.getAsJsonArray();
             var position = new BlockPos(xyz.get(0).getAsInt(), xyz.get(1).getAsInt(), xyz.get(2).getAsInt());
@@ -346,6 +374,15 @@ final class NativeNamedForwardChecks {
                         && fluid.get("target").getAsString().equals(blocks.getKey(state.getBlock()).toString())
                         && fluid.get("support").getAsString().equals(
                                 blocks.getKey(world.getBlockState(position.below()).getBlock()).toString());
+                if (matchesFluid && fluid.has("source_lava")) {
+                    var upstream = fluid.getAsJsonArray("source_lava");
+                    var sourcePos = new BlockPos(upstream.get(0).getAsInt(), upstream.get(1).getAsInt(),
+                            upstream.get(2).getAsInt());
+                    var stateData = NbtUtils.writeBlockState(state);
+                    matchesFluid = world.getBlockState(sourcePos).is(net.minecraft.world.level.block.Blocks.LAVA)
+                            && stateData.getCompoundOrEmpty("Properties").getStringOr("level", "")
+                                    .equals(fluid.get("level").getAsString());
+                }
                 require(matchesFluid || oldHeight && (state.is(net.minecraft.world.level.block.Blocks.WATER)
                         || state.isAir() && !grass.canSurvive(world, position)), "Saved short grass changed at " + position);
                 naturalChanges++;
@@ -359,10 +396,10 @@ final class NativeNamedForwardChecks {
             var saved = world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT)
                     .resolve("data/skysbuildingpieces_legacy_registry.dat");
             var states = net.minecraft.nbt.NbtIo.readCompressed(saved, net.minecraft.nbt.NbtAccounter.unlimitedHeap())
-                    .getList("staging", Tag.TAG_COMPOUND);
+                    .getListOrEmpty("staging");
             int renamed = 0;
             for (Tag row : states) {
-                String name = ((CompoundTag) row).getCompound("state").getString("Name");
+                String name = ((CompoundTag) row).getCompoundOrEmpty("state").getStringOr("Name", "");
                 require(!name.equals("minecraft:grass"), "A saved numeric staging state still uses the old grass name");
                 if (name.equals("minecraft:short_grass")) {
                     renamed++;
@@ -378,19 +415,17 @@ final class NativeNamedForwardChecks {
 
     private static void checkSignFace(ServerLevel world, net.minecraft.world.level.block.entity.SignText actual,
             CompoundTag saved, BlockPos position) {
-        var lines = saved.getList("messages", Tag.TAG_STRING);
-        var filtered = saved.getList("filtered_messages", Tag.TAG_STRING);
+        var lines = saved.getListOrEmpty("messages");
+        var filtered = saved.getListOrEmpty("filtered_messages");
         require(lines.size() == 4 && (filtered.isEmpty() || filtered.size() == 4), "Malformed source sign text");
         for (int line = 0; line < 4; line++) {
-            var visible = net.minecraft.network.chat.Component.Serializer.fromJson(lines.getString(line),
-                    world.registryAccess());
-            var filteredText = filtered.isEmpty() ? visible : net.minecraft.network.chat.Component.Serializer
-                    .fromJson(filtered.getString(line), world.registryAccess());
+            var visible = BopProbeItems.readSavedText(lines.getStringOr(line, ""), world);
+            var filteredText = filtered.isEmpty() ? visible : BopProbeItems.readSavedText(filtered.getStringOr(line, ""), world);
             require(actual.getMessage(line, false).equals(visible) && actual.getMessage(line, true).equals(filteredText),
                     "Saved sign text changed at " + position);
         }
-        require(actual.getColor().getName().equals(saved.getString("color"))
-                && actual.hasGlowingText() == saved.getBoolean("has_glowing_text"),
+        require(actual.getColor().getName().equals(saved.getStringOr("color", ""))
+                && actual.hasGlowingText() == saved.getBooleanOr("has_glowing_text", false),
                 "Saved sign colour or glow changed at " + position);
     }
 

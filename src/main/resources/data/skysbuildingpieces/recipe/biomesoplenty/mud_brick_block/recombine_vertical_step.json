@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/mud_brick_block",
   "pattern": ["X", "X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:mud_brick_block_vertical_step"
-    }
+    "X": "skysbuildingpiecesbop:mud_brick_block_vertical_step"
   },
   "result": {
     "id": "minecraft:mud_brick_slab",

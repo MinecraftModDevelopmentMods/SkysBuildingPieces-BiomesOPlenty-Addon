@@ -43,7 +43,7 @@ class MineralogyRecipeChecks(unittest.TestCase):
 
     def test_standalone_and_mineralogy_keep_the_same_recipe_ids(self):
         resources = ROOT / 'src/main/resources'
-        default_core = ROOT.parent.parent / 'SkysBuildingPieces1206/SkysBuildingPieces/src/main/resources'
+        default_core = ROOT.parent.parent / 'SkysBuildingPieces12111/SkysBuildingPieces/src/main/resources'
         core = Path(os.environ.get('BUILDING_PIECES_CORE_RESOURCES', str(default_core)))
         normal, _ = prepare(resources, core, self.recipes, self.tags)
         fallback, _ = prepare(resources, core, self.recipes, self.tags, True)
@@ -56,7 +56,10 @@ class MineralogyRecipeChecks(unittest.TestCase):
             recipe = value['recipes'][0]['recipe'] if value.get('type') == 'forge:conditional' else value
             if 'pattern' not in recipe or recipe.get('key', {}).keys() != {'X'}:
                 continue
-            ingredient = recipe['key']['X'].get('item', '')
+            ingredient = recipe['key']['X']
+            self.assertIsInstance(ingredient, str, path)
+            if ingredient.startswith('#'):
+                continue
             if ingredient not in self.snapshot['covered_full_items']:
                 continue
             result = recipe['result']

@@ -4,9 +4,12 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import zipfile
 
 
 def expected_mappings(profile):
+    if "forge61_mappings" in profile:
+        return profile["forge61_mappings"]
     if "forge52_mappings" in profile:
         return profile["forge52_mappings"]
     expected = {kind: entries.copy() for kind, entries in profile["mappings"].items()}
@@ -98,6 +101,41 @@ def validate_registry_proofs(root, profile):
             raise ValueError("The saved biome names do not match the live registry proof")
 
 
+EMPTY_CAPABILITIES = "Failed to parse saved data for 'SavedDataType[capabilities]': No key data in MapLike[{}]"
+
+
+def bound_empty_capabilities(root, directory, fixture_id):
+    path = root / "tools/native-log-forge61-empty-capabilities.json"
+    profiles = json.loads(path.read_text(encoding="utf-8"))
+    proof = profiles.get(fixture_id)
+    if not proof:
+        return 0
+    archive = root / proof["fixture"]
+    if hashlib.sha256(archive.read_bytes()).hexdigest().upper() != fixture_id:
+        raise ValueError("The empty capability control fixture changed")
+    with zipfile.ZipFile(archive) as source:
+        for name, expected in proof["original"].items():
+            if hashlib.sha256(source.read(name)).hexdigest().upper() != expected:
+                raise ValueError("The empty capability source file changed: " + name)
+    for name, expected in proof["rewritten"].items():
+        target = Path(directory) / "world" / name
+        if hashlib.sha256(target.read_bytes()).hexdigest().upper() != expected:
+            raise ValueError("Forge did not rewrite the empty capability record: " + name)
+    return len(proof["original"])
+
+
+def forge61_registry_mappings(root, fixture_id):
+    profiles = json.loads((root / "tools/native-log-forge61-profiles.json").read_text(encoding="utf-8"))
+    proof = profiles.get(fixture_id)
+    if proof is None:
+        return {}
+    fixture = root / proof["fixture"]
+    if (hashlib.sha256(fixture.read_bytes()).hexdigest().upper() != fixture_id
+            or proof["inspected_nbt_records"] <= 0 or not proof["mappings"]):
+        raise ValueError("The Forge 61 registry proof does not match this fixture")
+    return {"forge61_mappings": proof["mappings"]}
+
+
 def profile_for(directory):
     manifest = Path(directory) / "forward-fixture.json"
     if not manifest.is_file():
@@ -108,10 +146,14 @@ def profile_for(directory):
     current_path = root / "tools/native-log-forge52-profiles.json"
     current_profiles = json.loads(current_path.read_text(encoding="utf-8"))["profiles"] if current_path.is_file() else {}
     fixture_id = source.get("archive_sha256")
+    empty_capabilities = bound_empty_capabilities(root, directory, fixture_id)
+    forge61 = forge61_registry_mappings(root, fixture_id)
     current = current_profiles.get(fixture_id)
     profile = profiles.get(fixture_id, current)
     if profile is None:
-        return None
+        if not empty_capabilities and not forge61:
+            return None
+        return {"mappings": {}, "empty_capabilities_count": empty_capabilities, **forge61}
     fixture = root / profile["fixture"]
     sources = {source.get("source_jar_sha256")}
     artifacts = source.get("source_artifacts")
@@ -145,7 +187,7 @@ def profile_for(directory):
         # Keep the historical proofs for data conversion. Only the exact set
         # of registry notices changes with this Forge version.
         profile = {**profile, "forge52_mappings": current["mappings"]}
-    return profile
+    return {**profile, "empty_capabilities_count": empty_capabilities, **forge61}
 
 
 def audit_biome_proof(text, profile):
@@ -189,6 +231,7 @@ def audit_text(text, profile=None):
     if observed:
         headers.add("There are unidentified mappings in this world - we are going to attempt to process anyway")
     seen = set()
+    capabilities = 0
     for line in text.splitlines():
         if not re.search(r"/(?:ERROR|FATAL)\]|\[STDERR[/\]]", line):
             continue
@@ -196,8 +239,15 @@ def audit_text(text, profile=None):
                                r"(?: \[net\.minecraftforge\.registries\.GameData/REGISTRIES\])?: (.+)", line)
         if message and message[1] in headers and message[1] not in seen:
             seen.add(message[1])
+        elif (profile and profile.get("empty_capabilities_count", 0)
+                and re.fullmatch(r"\[[^\r\n]+\] \[Server thread/ERROR\]"
+                                 r"(?: \[net\.minecraft\.world\.level\.storage\.DimensionDataStorage/\])?: "
+                                 + re.escape(EMPTY_CAPABILITIES), line)):
+            capabilities += 1
         else:
             raise ValueError("Unexpected native failure: " + line)
+    if capabilities and capabilities != profile["empty_capabilities_count"]:
+        raise ValueError("Unexpected number of empty Forge capability records")
     if seen != headers:
         raise ValueError("The native registry notice is incomplete")
     # A class-loading trace can name AssertionError without throwing one.
@@ -210,4 +260,4 @@ def audit_text(text, profile=None):
                     "java.lang.IllegalStateException:"):
         if problem in text:
             raise ValueError("Unexpected native failure: " + problem)
-    return sorted(headers)
+    return sorted(headers) + [EMPTY_CAPABILITIES] * capabilities

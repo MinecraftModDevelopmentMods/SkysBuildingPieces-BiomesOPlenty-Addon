@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/biomesoplenty",
   "pattern": ["X ", " X"],
   "key": {
-    "X": {
-      "item": "minecraft:cherry_slab"
-    }
+    "X": "minecraft:cherry_slab"
   },
   "result": {
     "id": "skysbuildingpiecesbop:planks_cherry_horizontal_step",

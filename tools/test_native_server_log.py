@@ -1,4 +1,4 @@
-"""Negative controls for Forge 50 server completion and native settings."""
+"""Negative controls for Forge server completion and native settings."""
 
 from pathlib import Path
 import shutil
@@ -22,6 +22,21 @@ class NativeServerLogTest(unittest.TestCase):
         receipt = classify_server(LOG, DETAILS, True)
         self.assertEqual(receipt['native_server_config_notices'], 0)
         self.assertEqual(receipt['notices'], [])
+
+    def test_empty_capabilities_require_an_exact_fixture_and_notice(self):
+        from native_registry_notices import EMPTY_CAPABILITIES
+        row = "[time] [Server thread/ERROR] [net.minecraft.world.level.storage.DimensionDataStorage/]: "
+        notice = row + EMPTY_CAPABILITIES
+        bound = {"mappings": {}, "empty_capabilities_count": 1}
+
+        receipt = classify_server(LOG + "\n" + notice, DETAILS, True, bound)
+        self.assertEqual(receipt["notices"], [EMPTY_CAPABILITIES])
+        with self.assertRaises(ValueError):
+            classify_server(LOG + "\n" + notice, DETAILS, True)
+        for invalid in (notice + "\n" + notice, notice.replace("capabilities", "unrelated"),
+                        notice.replace("DimensionDataStorage/", "AnotherMod/")):
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                classify_server(LOG + "\n" + invalid, DETAILS, True, bound)
 
     def test_config_change_is_rejected(self):
         with self.assertRaises(ValueError):

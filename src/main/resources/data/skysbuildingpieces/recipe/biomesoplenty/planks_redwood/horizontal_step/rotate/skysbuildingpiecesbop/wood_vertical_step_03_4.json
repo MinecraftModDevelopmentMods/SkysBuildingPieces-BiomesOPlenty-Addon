@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/skysbuildingpiecesbop",
   "pattern": ["X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:planks_redwood_vertical_step"
-    }
+    "X": "skysbuildingpiecesbop:planks_redwood_vertical_step"
   },
   "result": {
     "id": "skysbuildingpiecesbop:planks_redwood_horizontal_step",

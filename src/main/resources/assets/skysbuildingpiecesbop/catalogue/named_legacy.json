@@ -65,7 +65,7 @@
     "biomesoplenty:potted_orange_autumn_sapling": "biomesoplenty:potted_orange_maple_sapling",
     "biomesoplenty:potted_yellow_autumn_sapling": "biomesoplenty:potted_yellow_maple_sapling",
     "biomesoplenty:overgrown_black_sand": "biomesoplenty:mossy_black_sand",
-    "biomesoplenty:potted_clover": "biomesoplenty:potted_origin_sapling",
+    "biomesoplenty:potted_clover": "biomesoplenty:potted_origin_oak_sapling",
     "biomesoplenty:potted_wildflower": "biomesoplenty:potted_lavender"
   },
   "items": {
@@ -76,7 +76,8 @@
     "biomesoplenty:cherry_boat": "minecraft:cherry_boat",
     "biomesoplenty:cherry_chest_boat": "minecraft:cherry_chest_boat",
     "biomesoplenty:potted_pink_cherry_sapling": "biomesoplenty:potted_snowblossom_sapling",
-    "biomesoplenty:rose_quartz_shard": "biomesoplenty:rose_quartz_chunk"
+    "biomesoplenty:rose_quartz_shard": "biomesoplenty:rose_quartz_chunk",
+    "biomesoplenty:potted_rainbow_birch_sapling": "minecraft:birch_sapling"
   },
   "biomes": {
     "biomesoplenty:dead_reef": "minecraft:end_midlands",
@@ -105,7 +106,7 @@
     "biomesoplenty:shield": "biomesoplenty:highland",
     "biomesoplenty:silkglade": "biomesoplenty:mediterranean_forest",
     "biomesoplenty:snowy_forest": "biomesoplenty:snowy_maple_woods",
-    "biomesoplenty:steppe": "biomesoplenty:grassland",
+    "biomesoplenty:steppe": "biomesoplenty:field",
     "biomesoplenty:temperate_rainforest": "biomesoplenty:redwood_forest",
     "biomesoplenty:temperate_rainforest_hills": "biomesoplenty:redwood_forest",
     "biomesoplenty:tropical_rainforest": "biomesoplenty:rainforest",
@@ -127,7 +128,7 @@
     "biomesoplenty:flower_meadow": "biomesoplenty:field",
     "biomesoplenty:fungal_field": "biomesoplenty:fungal_jungle",
     "biomesoplenty:golden_prairie": "biomesoplenty:pasture",
-    "biomesoplenty:grassland_clover_patch": "biomesoplenty:grassland",
+    "biomesoplenty:grassland_clover_patch": "biomesoplenty:field",
     "biomesoplenty:gravel_beach": "minecraft:stony_shore",
     "biomesoplenty:grove": "biomesoplenty:mediterranean_forest",
     "biomesoplenty:grove_clearing": "biomesoplenty:mediterranean_forest",
@@ -156,9 +157,12 @@
     "biomesoplenty:wooded_wasteland": "biomesoplenty:wasteland",
     "biomesoplenty:bamboo_grove": "minecraft:bamboo_jungle",
     "biomesoplenty:cherry_blossom_grove": "minecraft:cherry_grove",
-    "biomesoplenty:clover_patch": "biomesoplenty:grassland",
+    "biomesoplenty:clover_patch": "biomesoplenty:field",
     "biomesoplenty:highland_moor": "biomesoplenty:moor",
-    "biomesoplenty:lavender_forest": "biomesoplenty:lavender_field"
+    "biomesoplenty:lavender_forest": "biomesoplenty:lavender_field",
+    "biomesoplenty:aspen_glade": "biomesoplenty:forested_field",
+    "biomesoplenty:grassland": "biomesoplenty:field",
+    "biomesoplenty:jacaranda_glade": "biomesoplenty:lavender_field"
   },
   "section_biomes": {
     "biomesoplenty:boreal_forest": "biomesoplenty:coniferous_forest",
@@ -167,9 +171,27 @@
     "biomesoplenty:wooded_wasteland": "biomesoplenty:wasteland",
     "biomesoplenty:bamboo_grove": "minecraft:bamboo_jungle",
     "biomesoplenty:cherry_blossom_grove": "minecraft:cherry_grove",
-    "biomesoplenty:clover_patch": "biomesoplenty:grassland",
+    "biomesoplenty:clover_patch": "biomesoplenty:field",
     "biomesoplenty:highland_moor": "biomesoplenty:moor",
     "biomesoplenty:lavender_forest": "biomesoplenty:lavender_field",
-    "biomesoplenty:seasonal_orchard": "biomesoplenty:orchard"
+    "biomesoplenty:seasonal_orchard": "biomesoplenty:orchard",
+    "biomesoplenty:aspen_glade": "biomesoplenty:forested_field",
+    "biomesoplenty:grassland": "biomesoplenty:field",
+    "biomesoplenty:jacaranda_glade": "biomesoplenty:lavender_field"
+  },
+  "renamed_1_21_11": {
+    "biomesoplenty:bush": "minecraft:bush",
+    "biomesoplenty:orange_maple_leaf_pile": "biomesoplenty:orange_maple_leaf_litter",
+    "biomesoplenty:origin_leaves": "biomesoplenty:origin_oak_leaves",
+    "biomesoplenty:origin_sapling": "biomesoplenty:origin_oak_sapling",
+    "biomesoplenty:potted_origin_sapling": "biomesoplenty:potted_origin_oak_sapling",
+    "biomesoplenty:potted_rainbow_birch_sapling": "minecraft:potted_birch_sapling",
+    "biomesoplenty:potted_rose": "biomesoplenty:potted_origin_rose",
+    "biomesoplenty:rainbow_birch_leaves": "minecraft:birch_leaves",
+    "biomesoplenty:rainbow_birch_sapling": "minecraft:birch_sapling",
+    "biomesoplenty:red_maple_leaf_pile": "biomesoplenty:red_maple_leaf_litter",
+    "biomesoplenty:rose": "biomesoplenty:origin_rose",
+    "biomesoplenty:wildflower": "biomesoplenty:purple_wildflowers",
+    "biomesoplenty:yellow_maple_leaf_pile": "biomesoplenty:yellow_maple_leaf_litter"
   }
 }

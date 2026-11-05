@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/planks_palm",
   "pattern": ["XX"],
   "key": {
-    "X": {
-      "item": "biomesoplenty:palm_slab"
-    }
+    "X": "biomesoplenty:palm_slab"
   },
   "result": {
     "id": "biomesoplenty:palm_planks",

@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/skysbuildingpiecesbop",
   "pattern": ["X ", " X"],
   "key": {
-    "X": {
-      "item": "biomesoplenty:willow_slab"
-    }
+    "X": "biomesoplenty:willow_slab"
   },
   "result": {
     "id": "skysbuildingpiecesbop:planks_willow_horizontal_step",

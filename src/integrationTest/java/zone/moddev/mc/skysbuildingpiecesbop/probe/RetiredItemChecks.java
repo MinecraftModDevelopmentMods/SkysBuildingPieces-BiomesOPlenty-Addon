@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.*;
 import net.minecraft.nbt.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import zone.moddev.mc.skysbuildingpieces.legacy.LegacyBridge;
 import net.minecraft.server.level.ServerLevel;
 
@@ -28,7 +28,7 @@ public final class RetiredItemChecks {
         checks = 0;
 
         LegacyItemRecovery recovery = new LegacyItemRecovery();
-        CompoundTag state = PiecesWorldState.get(world).save(new CompoundTag(), world.registryAccess());
+        CompoundTag state = PiecesWorldState.get(world).saveTag(new CompoundTag());
         String[] legacyIds = { "turnip_seeds", "pinecone", "dull_flower_band" };
         int[] counts = { 1, 2, 8 };
 
@@ -37,12 +37,12 @@ public final class RetiredItemChecks {
                 require(BasketChecks.hidden(LegacyItemRecovery.HOLDERS[entryIndex], world), "holder is hidden");
             }
 
-            Item target = ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(LegacyItemRecovery.target(entryIndex)));
+            Item target = ForgeRegistries.ITEMS.getValue(Identifier.parse(LegacyItemRecovery.target(entryIndex)));
 
             for (String registryId : new String[] { "biomesoplenty:" + legacyIds[entryIndex],
                     ForgeRegistries.ITEMS.getKey(LegacyItemRecovery.HOLDERS[entryIndex]).toString() }) {
                 CompoundTag raw = stack(registryId, 1, 7);
-                CompoundTag tag = raw.getCompound("tag").copy();
+                CompoundTag tag = raw.getCompoundOrEmpty("tag").copy();
 
                 if (target == null || target == Items.AIR) {
                     reject(recovery, raw, "unavailable");
@@ -50,11 +50,11 @@ public final class RetiredItemChecks {
                 }
 
                 recovery.fixTagCompound(raw);
-                require(raw.getString("id").equals(LegacyItemRecovery.target(entryIndex)),
+                require(raw.getStringOr("id", "").equals(LegacyItemRecovery.target(entryIndex)),
                         "target identity " + registryId);
-                require(raw.getInt("Count") == counts[entryIndex] && raw.getInt("Damage") == 0,
+                require(raw.getIntOr("Count", 0) == counts[entryIndex] && raw.getIntOr("Damage", 0) == 0,
                         "target quantity and variant");
-                require(raw.getCompound("tag").equals(tag), "unrelated custom NBT");
+                require(raw.getCompoundOrEmpty("tag").equals(tag), "unrelated custom NBT");
 
                 ItemStack decoded = BopProbeItems.read(raw);
 
@@ -62,7 +62,7 @@ public final class RetiredItemChecks {
                         "real item deserialization");
 
                 if (entryIndex == 2) {
-                    require(decoded.getDescriptionId().contains("oxeye_daisy"), "retired flower target");
+                    require(decoded.getItem().getDescriptionId().contains("oxeye_daisy"), "retired flower target");
                 }
 
                 CompoundTag once = raw.copy();
@@ -85,23 +85,23 @@ public final class RetiredItemChecks {
         chest.put("Items", list);
         recovery.fixTagCompound(chest);
         require(list.size() == 2, "input references were not mutated");
-        list = chest.getList("Items", 10);
+        list = chest.getListOrEmpty("Items");
         require(list.size() == 3, "overflow creates a second legal stack");
 
         int dyes = 0;
 
         for (int entryIndex = 0; entryIndex < list.size(); entryIndex++) {
-            CompoundTag compoundTag = list.getCompound(entryIndex);
+            CompoundTag compoundTag = list.getCompoundOrEmpty(entryIndex);
 
-            if (compoundTag.getString("id").equals("minecraft:brown_dye")) {
-                dyes += compoundTag.getInt("Count");
-                require(compoundTag.getInt("Count") == 64, "legal stack limit");
-                require(compoundTag.getCompound("tag").equals(pine.getCompound("tag")),
+            if (compoundTag.getStringOr("id", "").equals("minecraft:brown_dye")) {
+                dyes += compoundTag.getIntOr("Count", 0);
+                require(compoundTag.getIntOr("Count", 0) == 64, "legal stack limit");
+                require(compoundTag.getCompoundOrEmpty("tag").equals(pine.getCompoundOrEmpty("tag")),
                         "split copies complete custom data");
             }
         }
 
-        require(dyes == 128 && list.getCompound(2).getInt("Slot") == 1, "exact multiplier and free slot");
+        require(dyes == 128 && list.getCompoundOrEmpty(2).getIntOr("Slot", 0) == 1, "exact multiplier and free slot");
 
         CompoundTag full = chest();
 
@@ -141,7 +141,7 @@ public final class RetiredItemChecks {
         tag.put("Items", list);
         basket.put("tag", tag);
         recovery.fixTagCompound(basket);
-        require(basket.getCompound("tag").getList("Items", 10).size() == 2,
+        require(basket.getCompoundOrEmpty("tag").getListOrEmpty("Items").size() == 2,
                 "basket overflow is allocated before validation");
         require(new BasketInventory(BopProbeItems.read(basket), BopProbeItems.registries()).getItem(0).getCount() == 64,
                 "legacy non-plant output stays withdrawable");
@@ -162,7 +162,7 @@ public final class RetiredItemChecks {
         list.add(stack("biomesoplenty:pinecone", 40, 3));
         player.put("EnderItems", list);
         LegacyBridge.prepareNbt(player);
-        require(player.getList("Inventory", 10).size() == 2 && player.getList("EnderItems", 10).size() == 2,
+        require(player.getListOrEmpty("Inventory").size() == 2 && player.getListOrEmpty("EnderItems").size() == 2,
                 "version-one saves receive version-two player and ender conversion");
 
         CompoundTag deferred = stack("biomesoplenty:pinecone", 64, 4);
@@ -195,14 +195,15 @@ public final class RetiredItemChecks {
                 net.minecraft.core.BlockPos.ZERO, net.minecraft.world.level.block.Blocks.CHEST.defaultBlockState());
 
         ListTag upgradedItems = new ListTag();
-        for (net.minecraft.nbt.Tag value : parent.getList("Items", 10)) {
+        for (net.minecraft.nbt.Tag value : parent.getListOrEmpty("Items")) {
             CompoundTag old = (CompoundTag) value;
             CompoundTag item = BopProbeItems.save(BopProbeItems.read(old));
-            item.putByte("Slot", old.getByte("Slot"));
+            item.putByte("Slot", old.getByteOr("Slot", (byte) 0));
             upgradedItems.add(item);
         }
         parent.put("Items", upgradedItems);
-        decodedChest.loadWithComponents(parent, world.registryAccess());
+        decodedChest.loadWithComponents(net.minecraft.world.level.storage.TagValueInput.create(
+                net.minecraft.util.ProblemReporter.DISCARDING, world.registryAccess(), parent));
         require(decodedChest.getItem(4).getCount() == 64 && decodedChest.getItem(0).getCount() == 64,
                 "parent-first and child-first orders both deserialize 128 items");
 
@@ -212,9 +213,9 @@ public final class RetiredItemChecks {
         payload.putString("custom", "retain capabilities");
         caps.put("ForgeCaps", payload);
         recovery.fixTagCompound(caps);
-        require(caps.getCompound("tag").getCompound(SkysBuildingPiecesBop.ID + ":legacy_capabilities").equals(payload),
+        require(caps.getCompoundOrEmpty("tag").getCompoundOrEmpty(SkysBuildingPiecesBop.ID + ":legacy_capabilities").equals(payload),
                 "old capabilities retain an exact archive");
-        require(PiecesWorldState.get(world).save(new CompoundTag(), world.registryAccess()).equals(state),
+        require(PiecesWorldState.get(world).saveTag(new CompoundTag()).equals(state),
                 "piece counters and schema untouched");
         LOGGER.info("BOP_RETIRED_ITEMS_PASS checks=" + checks
                 + " multipliers=1/2/8 capacity=bounded NBT=preserved schema=unchanged");

@@ -7,9 +7,7 @@
         "group": "skysbuildingpieces/mineralogy",
         "pattern": ["XX", "XX", "XX"],
         "key": {
-          "X": {
-            "item": "mineralogy:limestone_smooth"
-          }
+          "X": "mineralogy:limestone_smooth"
         },
         "result": {
           "id": "skysbuildingpiecesbop:limestone_polished_wall",
@@ -37,9 +35,7 @@
         "group": "skysbuildingpieces/mineralogy",
         "pattern": ["XX", "XX", "XX"],
         "key": {
-          "X": {
-            "item": "skysbuildingpiecesbop:retired_limestone_smooth"
-          }
+          "X": "skysbuildingpiecesbop:retired_limestone_smooth"
         },
         "result": {
           "id": "skysbuildingpiecesbop:limestone_polished_wall",

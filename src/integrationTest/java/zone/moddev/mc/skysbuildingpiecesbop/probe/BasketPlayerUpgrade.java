@@ -14,7 +14,6 @@ import net.minecraft.nbt.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.server.ServerLifecycleHooks;
-import net.minecraftforge.eventbus.api.*;
 import net.minecraftforge.event.TickEvent;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketData;
 
@@ -25,11 +24,16 @@ public final class BasketPlayerUpgrade {
 
     private static boolean ran;
 
-    @SubscribeEvent(
-            priority = EventPriority.HIGHEST)
-    public static void tick(TickEvent.ServerTickEvent event) throws Exception {
-        if (ran || event.phase != TickEvent.Phase.START
-                || !System.getProperty("skysbuildingpieces.integrationPhase", "").startsWith("sylvester")) {
+    public static void tick(TickEvent.ServerTickEvent.Pre event) {
+        try {
+            audit();
+        } catch (Exception failure) {
+            throw new IllegalStateException("Cannot audit the disposable player saves", failure);
+        }
+    }
+
+    private static void audit() throws Exception {
+        if (ran || !System.getProperty("skysbuildingpieces.integrationPhase", "").startsWith("sylvester")) {
             return;
         }
 
@@ -55,7 +59,7 @@ public final class BasketPlayerUpgrade {
                 UUID uuid = UUID.fromString(file.getName().substring(0, file.getName().length() - 4));
                 ServerPlayer player = BopProbeItems.player(world, new GameProfile(uuid, "MigrationTest"));
 
-                world.getServer().getPlayerList().load(player);
+                BopProbeItems.loadPlayer(player);
                 savePlayer(player);
                 loaded++;
             }
@@ -79,17 +83,17 @@ public final class BasketPlayerUpgrade {
             throw new IllegalStateException("The native player-save method is missing");
         }
         save.setAccessible(true);
-        save.invoke(player.getServer().getPlayerList(), player);
+        save.invoke(player.level().getServer().getPlayerList(), player);
     }
 
     private static boolean hasBasket(Tag value) {
         if (value instanceof CompoundTag) {
             CompoundTag tag = (CompoundTag) value;
 
-            if (BasketData.isBasket(tag.getString("id"))) {
+            if (BasketData.isBasket(tag.getStringOr("id", ""))) {
                 return true;
             }
-            for (String key : tag.getAllKeys()) {
+            for (String key : tag.keySet()) {
                 if (hasBasket(tag.get(key))) {
                     return true;
                 }

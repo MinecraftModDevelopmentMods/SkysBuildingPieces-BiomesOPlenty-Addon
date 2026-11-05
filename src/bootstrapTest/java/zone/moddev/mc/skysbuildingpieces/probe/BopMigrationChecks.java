@@ -39,23 +39,23 @@ public final class BopMigrationChecks {
 
                     coverage.putInt("vanilla", 1);
                     coverage.putInt("future_addon", 9);
-                    raw.getCompound("Level").put("skysbuildingpieces_coverage", coverage);
+                    raw.getCompoundOrEmpty("Level").put("skysbuildingpieces_coverage", coverage);
                     LegacyBridge.prepareLegacyChunk(raw);
 
                     Shape shape = LegacyMapping.shape("buildingbricks:rock_step", code);
                     BlockState expected = Pieces.state(material.id, shape, LegacyMapping.orientation(shape, code));
                     BlockState staged = LegacyTestScope
-                            .staged(raw.getCompound("Level").getList("Sections", 10).getCompound(0), 0);
+                            .staged(raw.getCompoundOrEmpty("Level").getListOrEmpty("Sections").getCompoundOrEmpty(0), 0);
 
                     require(expected.equals(staged), "Wrong legacy material or shape: " + material.id + "/" + code);
-                    require(coverage.getInt("vanilla") == 1 && coverage.getInt("biomesoplenty") == 1
-                            && coverage.getInt("future_addon") == 9, "Independent module coverage changed");
+                    require(coverage.getIntOr("vanilla", 0) == 1 && coverage.getIntOr("biomesoplenty", 0) == 1
+                            && coverage.getIntOr("future_addon", 0) == 9, "Independent module coverage changed");
 
                     CompoundTag fixed = DataFixTypes.CHUNK.update(world.getServer().getFixerUpper(),
                             raw.copy(), 512, 1976);
 
                     require(contains(fixed, expected), "Native flattening lost " + material.id + "/" + code);
-                    require(fixed.getCompound("Level").getList("TileEntities", 10).isEmpty(),
+                    require(fixed.getCompoundOrEmpty("Level").getListOrEmpty("TileEntities").isEmpty(),
                             "Native fixing invented a block entity for " + material.id + "/" + code);
                     checked++;
                 }
@@ -66,12 +66,12 @@ public final class BopMigrationChecks {
                 coverage.putInt("vanilla", 1);
                 coverage.putInt("biomesoplenty", 1);
                 coverage.putInt("dirt_vertical_slabs", 1);
-                remaining.getCompound("Level").put("skysbuildingpieces_coverage", coverage);
+                remaining.getCompoundOrEmpty("Level").put("skysbuildingpieces_coverage", coverage);
                 LegacyBridge.prepareLegacyChunk(remaining);
-                require(LegacyTestScope.staged(remaining.getCompound("Level").getList("Sections", 10).getCompound(0),
+                require(LegacyTestScope.staged(remaining.getCompoundOrEmpty("Level").getListOrEmpty("Sections").getCompoundOrEmpty(0),
                         0) != null, "Remaining covered BOP content was skipped: " + material.id);
-                require(remaining.getCompound("Level").getCompound("skysbuildingpieces_additional_module_delta")
-                        .getLong("biomesoplenty") == 1, "Covered recovery must add only the actual conversion");
+                require(remaining.getCompoundOrEmpty("Level").getCompoundOrEmpty("skysbuildingpieces_additional_module_delta")
+                        .getLongOr("biomesoplenty", 0L) == 1, "Covered recovery must add only the actual conversion");
 
                 zone.moddev.mc.skysbuildingpieces.legacy.PiecesWorldState totals = zone.moddev.mc.skysbuildingpieces.legacy.PiecesWorldState
                         .get(world);
@@ -82,9 +82,8 @@ public final class BopMigrationChecks {
                 long chunks = totals.modules.get("biomesoplenty").chunks;
 
                 LegacyBridge.finalizeLegacyChunk(remaining);
-                new zone.moddev.mc.skysbuildingpieces.legacy.MigrationEvents()
-                        .load(new net.minecraftforge.event.level.ChunkDataEvent.Load(world.getChunk(0, 0),
-                                remaining.getCompound("Level"), net.minecraft.world.level.chunk.status.ChunkType.LEVELCHUNK));
+                zone.moddev.mc.skysbuildingpieces.legacy.MigrationEvents.loadSerializedChunk(
+                        world, world.getChunk(0, 0), remaining.getCompoundOrEmpty("Level"));
                 require(totals.modules.get("biomesoplenty").blocks == blocks + 1
                         && totals.modules.get("biomesoplenty").chunks == chunks,
                         "Covered recovery must not count the chunk twice");
@@ -98,13 +97,13 @@ public final class BopMigrationChecks {
 
     private static boolean contains(CompoundTag root, BlockState expected) {
         CompoundTag encoded = NbtUtils.writeBlockState(expected);
-        ListTag sections = root.getCompound("Level").getList("Sections", 10);
+        ListTag sections = root.getCompoundOrEmpty("Level").getListOrEmpty("Sections");
 
         for (int index = 0; index < sections.size(); index++) {
-            ListTag palette = sections.getCompound(index).getList("Palette", 10);
+            ListTag palette = sections.getCompoundOrEmpty(index).getListOrEmpty("Palette");
 
             for (int entry = 0; entry < palette.size(); entry++) {
-                if (encoded.equals(palette.getCompound(entry))) {
+                if (encoded.equals(palette.getCompoundOrEmpty(entry))) {
                     return true;
                 }
             }

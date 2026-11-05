@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraftforge.registries.ForgeRegistries;
 
 /** Named equivalents for native BOP blocks saved before flattening. */
@@ -50,7 +50,7 @@ public final class BopWorldMappings {
         }
 
         String savedTarget = target.get("id").getAsString();
-        ResourceLocation identity = ResourceLocation.parse(savedTarget.equals("minecraft:grass")
+        Identifier identity = Identifier.parse(savedTarget.equals("minecraft:grass")
                 ? "minecraft:short_grass" : savedTarget);
         Block block = ForgeRegistries.BLOCKS.getValue(identity);
 

@@ -3,9 +3,7 @@
   "category": "misc",
   "pattern": [" S ", "S S", "SSS"],
   "key": {
-    "S": {
-      "tag": "forge:rods/wooden"
-    }
+    "S": "#forge:rods/wooden"
   },
   "result": {
     "id": "skysbuildingpiecesbop:flower_basket"

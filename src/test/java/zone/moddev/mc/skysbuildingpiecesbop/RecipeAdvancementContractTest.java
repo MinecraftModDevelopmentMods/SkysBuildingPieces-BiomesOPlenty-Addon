@@ -27,8 +27,8 @@ class RecipeAdvancementContractTest {
             Path path = Paths.get("src/main/resources", relative);
             JsonObject advancement = new JsonParser().parse(read(path)).getAsJsonObject();
 
-            if (advancement.has("advancements")) {
-                for (JsonElement alternative : advancement.getAsJsonArray("advancements")) {
+            if (advancement.has("forge:conditional")) {
+                for (JsonElement alternative : advancement.getAsJsonArray("forge:conditional")) {
                     JsonObject conditional = alternative.getAsJsonObject();
 
                     assertTrue(conditional.has("forge:condition"));

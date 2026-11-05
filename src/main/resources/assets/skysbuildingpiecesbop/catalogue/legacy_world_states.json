@@ -2539,7 +2539,7 @@
       "variant": "origin"
     },
     "target": {
-      "id": "biomesoplenty:origin_leaves",
+      "id": "biomesoplenty:origin_oak_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2603,7 +2603,7 @@
       "variant": "origin"
     },
     "target": {
-      "id": "biomesoplenty:origin_leaves",
+      "id": "biomesoplenty:origin_oak_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -2667,7 +2667,7 @@
       "variant": "origin"
     },
     "target": {
-      "id": "biomesoplenty:origin_leaves",
+      "id": "biomesoplenty:origin_oak_leaves",
       "properties": {
         "persistent": "false",
         "distance": "7"
@@ -2731,7 +2731,7 @@
       "variant": "origin"
     },
     "target": {
-      "id": "biomesoplenty:origin_leaves",
+      "id": "biomesoplenty:origin_oak_leaves",
       "properties": {
         "persistent": "true",
         "distance": "7"
@@ -8275,7 +8275,7 @@
       "variant": "origin"
     },
     "target": {
-      "id": "biomesoplenty:origin_sapling",
+      "id": "biomesoplenty:origin_oak_sapling",
       "properties": {
         "stage": "0"
       }
@@ -8387,7 +8387,7 @@
       "variant": "origin"
     },
     "target": {
-      "id": "biomesoplenty:origin_sapling",
+      "id": "biomesoplenty:origin_oak_sapling",
       "properties": {
         "stage": "1"
       }
@@ -8744,7 +8744,7 @@
       "variant": "bush"
     },
     "target": {
-      "id": "biomesoplenty:bush",
+      "id": "minecraft:bush",
       "properties": {}
     }
   },
@@ -9301,7 +9301,7 @@
       "variant": "wildflower"
     },
     "target": {
-      "id": "biomesoplenty:wildflower",
+      "id": "biomesoplenty:purple_wildflowers",
       "properties": {}
     }
   },
@@ -9455,7 +9455,7 @@
       "variant": "rose"
     },
     "target": {
-      "id": "biomesoplenty:rose",
+      "id": "biomesoplenty:origin_rose",
       "properties": {}
     }
   },

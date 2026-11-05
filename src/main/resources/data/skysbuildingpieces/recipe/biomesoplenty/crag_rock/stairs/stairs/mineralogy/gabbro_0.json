@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/mineralogy",
   "pattern": ["X  ", "XX ", "XXX"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:crag_rock_slab"
-    }
+    "X": "skysbuildingpiecesbop:crag_rock_slab"
   },
   "result": {
     "id": "skysbuildingpiecesbop:crag_rock_stairs",

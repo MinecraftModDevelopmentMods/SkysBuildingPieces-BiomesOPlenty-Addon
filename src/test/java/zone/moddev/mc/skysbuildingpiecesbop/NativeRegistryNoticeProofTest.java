@@ -106,9 +106,9 @@ class NativeRegistryNoticeProofTest {
                             root.remove("FML");
                             root.remove("fml");
                             if (biomes.grassRename && label.equals("data/skysbuildingpieces_legacy_registry.dat")) {
-                                for (Tag stagedState : root.getList("staging", 10)) {
-                                    CompoundTag saved = ((CompoundTag) stagedState).getCompound("state");
-                                    if (saved.getString("Name").equals("minecraft:grass")) {
+                                for (Tag stagedState : root.getListOrEmpty("staging")) {
+                                    CompoundTag saved = ((CompoundTag) stagedState).getCompoundOrEmpty("state");
+                                    if (saved.getStringOr("Name", "").equals("minecraft:grass")) {
                                         saved.putString("Name", "minecraft:short_grass");
                                     }
                                 }
@@ -155,7 +155,7 @@ class NativeRegistryNoticeProofTest {
     }
 
     private static void verifyRegistryNumbers(CompoundTag root, JsonObject profile) {
-        CompoundTag registries = root.getCompound(root.contains("fml", 10) ? "fml" : "FML").getCompound("Registries");
+        CompoundTag registries = root.getCompoundOrEmpty((root.get("fml") instanceof net.minecraft.nbt.CompoundTag) ? "fml" : "FML").getCompoundOrEmpty("Registries");
         JsonObject expected = profile.getAsJsonObject("mappings").deepCopy();
         if (profile.has("forge50_additional_mappings")) {
             profile.getAsJsonObject("forge50_additional_mappings").entrySet().forEach(registry -> {
@@ -167,17 +167,17 @@ class NativeRegistryNoticeProofTest {
             });
         }
         for (var registry : expected.entrySet()) {
-            CompoundTag snapshot = registries.getCompound(registry.getKey());
+            CompoundTag snapshot = registries.getCompoundOrEmpty(registry.getKey());
             if (registry.getKey().equals("minecraft:worldgen/biome") && snapshot.isEmpty()) {
-                snapshot = registries.getCompound(registries.contains("minecraft:biome", 10)
+                snapshot = registries.getCompoundOrEmpty((registries.get("minecraft:biome") instanceof net.minecraft.nbt.CompoundTag)
                         ? "minecraft:biome" : "minecraft:biomes");
             }
             assertFalse(snapshot.isEmpty(), "Missing source registry: " + registry.getKey());
             Map<String, Integer> numbers = new HashMap<>();
-            ListTag rows = snapshot.getList("ids", 10);
+            ListTag rows = snapshot.getListOrEmpty("ids");
             for (int index = 0; index < rows.size(); index++) {
-                CompoundTag row = rows.getCompound(index);
-                assertNull(numbers.put(row.getString("K"), row.getInt("V")));
+                CompoundTag row = rows.getCompoundOrEmpty(index);
+                assertNull(numbers.put(row.getStringOr("K", ""), row.getIntOr("V", 0)));
             }
             for (var entry : registry.getValue().getAsJsonObject().entrySet()) {
                 assertEquals(entry.getValue().getAsInt(), numbers.get(entry.getKey()),
@@ -214,15 +214,15 @@ class NativeRegistryNoticeProofTest {
                 // Separate block palettes from the unused old grass item. The position list is checked in-game.
                 if (biomes.grassRename && label.startsWith("region/")) {
                     CompoundTag copy = root.copy();
-                    CompoundTag level = copy.contains("Level", 10) ? copy.getCompound("Level") : copy;
-                    ListTag sections = level.contains("Sections", 9) ? level.getList("Sections", 10) : level.getList("sections", 10);
+                    CompoundTag level = (copy.get("Level") instanceof net.minecraft.nbt.CompoundTag) ? copy.getCompoundOrEmpty("Level") : copy;
+                    ListTag sections = (level.get("Sections") instanceof net.minecraft.nbt.ListTag) ? level.getListOrEmpty("Sections") : level.getListOrEmpty("sections");
                     for (Tag section : sections) {
                         CompoundTag chunkSection = (CompoundTag) section;
-                        ListTag palette = chunkSection.contains("Palette", 9) ? chunkSection.getList("Palette", 10)
-                                : chunkSection.getCompound("block_states").getList("palette", 10);
+                        ListTag palette = (chunkSection.get("Palette") instanceof net.minecraft.nbt.ListTag) ? chunkSection.getListOrEmpty("Palette")
+                                : chunkSection.getCompoundOrEmpty("block_states").getListOrEmpty("palette");
                         for (Tag state : palette) {
                             CompoundTag saved = (CompoundTag) state;
-                            if (saved.getString("Name").equals("minecraft:grass")) {
+                            if (saved.getStringOr("Name", "").equals("minecraft:grass")) {
                                 saved.putString("Name", "minecraft:short_grass");
                             }
                         }
@@ -293,11 +293,10 @@ class NativeRegistryNoticeProofTest {
             boolean forge47 = profile.has("forge47_unused_registry_contract")
                     || profile.has("target_forge") && profile.get("target_forge").getAsString().equals("47.4.10");
             byte[] aliases = Files.readAllBytes(Paths.get(forge47
-                    ? "src/main/resources/assets/skysbuildingpiecesbop/catalogue/named_legacy.json"
+                    ? "src/testFixtures/bop-1.20.1-biome-recovery.json"
                     : "src/testFixtures/bop-1.19.4-named-recovery.json"));
-            if (!forge47) {
-                assertEquals("B665129A6A455FD9E7815D2D4E0FE7D358386752541034A991FF4372B56D7CF0", checksum(aliases));
-            }
+            assertEquals(forge47 ? "250B2E361F7EA4266AAA51367499124FE1A83BB285558BA5A39E18534C2D13CC"
+                    : "B665129A6A455FD9E7815D2D4E0FE7D358386752541034A991FF4372B56D7CF0", checksum(aliases));
             bopReplacements = JsonParser.parseString(new String(aliases, StandardCharsets.UTF_8))
                     .getAsJsonObject().getAsJsonObject(nativeHeight ? "section_biomes" : "biomes");
             version = proof.get("source").getAsString();
@@ -333,11 +332,11 @@ class NativeRegistryNoticeProofTest {
         }
 
         void inspect(CompoundTag root) {
-            if (!(nativeHeight ? root.contains("sections", 9) : root.contains("Level", 10))) {
+            if (!(nativeHeight ? (root.get("sections") instanceof net.minecraft.nbt.ListTag) : (root.get("Level") instanceof net.minecraft.nbt.CompoundTag))) {
                 return;
             }
-            CompoundTag level = nativeHeight ? root : root.getCompound("Level");
-            String status = level.getString("Status");
+            CompoundTag level = nativeHeight ? root : root.getCompoundOrEmpty("Level");
+            String status = level.getStringOr("Status", "");
             if (!status.equals("full") && !status.equals("minecraft:full")) {
                 if (!version.equals("1.19.4") && !version.equals("1.20.1")) {
                     return;
@@ -346,7 +345,7 @@ class NativeRegistryNoticeProofTest {
                 // saved halo, including chunks whose generation is unfinished.
                 partialChunks++;
             }
-            String position = level.getInt("xPos") + "," + level.getInt("zPos");
+            String position = level.getIntOr("xPos", 0) + "," + level.getIntOr("zPos", 0);
             byte[] expected = volumes.get(position);
             assertNotNull(expected, "Missing biome contract for " + position);
             assertTrue(visited.add(position), "Repeated saved chunk " + position);
@@ -355,15 +354,15 @@ class NativeRegistryNoticeProofTest {
                 return;
             }
             int[] saved;
-            if (level.contains("Biomes", 7)) {
-                byte[] legacy = level.getByteArray("Biomes");
+            if (level.get("Biomes") instanceof net.minecraft.nbt.ByteArrayTag) {
+                byte[] legacy = level.getByteArray("Biomes").orElseThrow();
                 saved = new int[legacy.length];
                 for (int column = 0; column < legacy.length; column++) {
                     saved[column] = Byte.toUnsignedInt(legacy[column]);
                 }
             } else {
-                assertTrue(level.contains("Biomes", 11), position);
-                saved = level.getIntArray("Biomes");
+                assertTrue((level.get("Biomes") instanceof net.minecraft.nbt.IntArrayTag), position);
+                saved = level.getIntArray("Biomes").orElseThrow();
             }
             assertTrue(saved.length == 256 || saved.length == 1024, position);
             for (int cell = 0; cell < expected.length; cell++) {
@@ -393,25 +392,25 @@ class NativeRegistryNoticeProofTest {
 
         private void inspectNativeSections(CompoundTag level, byte[] expected, String position) {
             Map<Integer, CompoundTag> sections = new HashMap<>();
-            for (Tag value : level.getList("sections", 10)) {
+            for (Tag value : level.getListOrEmpty("sections")) {
                 CompoundTag section = (CompoundTag) value;
-                assertNull(sections.put(section.getInt("Y"), section), "Repeated source section");
+                assertNull(sections.put(section.getIntOr("Y", 0), section), "Repeated source section");
             }
             for (int cell = 0; cell < expected.length; cell++) {
                 CompoundTag section = sections.get(-4 + cell / 64);
                 assertNotNull(section, position + " cell=" + cell);
-                CompoundTag container = section.getCompound("biomes");
-                ListTag palette = container.getList("palette", 8);
+                CompoundTag container = section.getCompoundOrEmpty("biomes");
+                ListTag palette = container.getListOrEmpty("palette");
                 assertFalse(palette.isEmpty());
                 int paletteIndex = 0;
                 if (palette.size() > 1) {
                     int bits = 32 - Integer.numberOfLeadingZeros(palette.size() - 1);
                     int valuesPerWord = 64 / bits;
                     int localCell = cell & 63;
-                    long word = container.getLongArray("data")[localCell / valuesPerWord];
+                    long word = container.getLongArray("data").orElseThrow()[localCell / valuesPerWord];
                     paletteIndex = (int) (word >>> (localCell % valuesPerWord * bits) & ((1L << bits) - 1));
                 }
-                String source = palette.getString(paletteIndex);
+                String source = palette.getStringOr(paletteIndex, "");
                 String recorded = names.get(Integer.toString(Byte.toUnsignedInt(expected[cell]))).getAsString();
                 assertEquals(recorded, source, position + " cell=" + cell);
                 String current = bopReplacements.has(source) ? bopReplacements.get(source).getAsString() : source;
@@ -470,7 +469,7 @@ class NativeRegistryNoticeProofTest {
     private static void inspect(Tag value, Set<String> names, String label) {
         if (value instanceof CompoundTag) {
             CompoundTag compound = (CompoundTag) value;
-            for (String key : compound.getAllKeys()) {
+            for (String key : compound.keySet()) {
                 assertFalse(names.contains(key), "Saved registry-name key in " + label + ": " + key);
                 inspect(compound.get(key), names, label + "/" + key);
             }
@@ -479,7 +478,7 @@ class NativeRegistryNoticeProofTest {
                 inspect(entry, names, label);
             }
         } else if (value instanceof StringTag) {
-            assertFalse(names.contains(value.getAsString()), "Saved registry-name value in " + label);
+            assertFalse(names.contains(((net.minecraft.nbt.StringTag) value).value()), "Saved registry-name value in " + label);
         }
     }
 

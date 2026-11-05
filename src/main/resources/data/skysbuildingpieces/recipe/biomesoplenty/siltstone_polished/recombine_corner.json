@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/siltstone_polished",
   "pattern": ["X", "X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:siltstone_polished_corner"
-    }
+    "X": "skysbuildingpiecesbop:siltstone_polished_corner"
   },
   "result": {
     "id": "skysbuildingpiecesbop:siltstone_polished_horizontal_step",

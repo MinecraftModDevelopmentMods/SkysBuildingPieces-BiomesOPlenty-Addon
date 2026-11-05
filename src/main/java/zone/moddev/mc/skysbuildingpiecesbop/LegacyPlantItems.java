@@ -56,18 +56,18 @@ final class LegacyPlantItems {
         }
         if (value instanceof CompoundTag) {
             CompoundTag compound = (CompoundTag) value;
-            String identifier = compound.getString("id");
+            String identifier = compound.getStringOr("id", "");
             boolean basket = BasketData.isBasket(identifier);
             String nativeTarget = null;
 
-            if (basketContents && identifier.equals("minecraft:grass") && compound.contains("Count", 99)) {
+            if (basketContents && identifier.equals("minecraft:grass") && (compound.get("Count") instanceof net.minecraft.nbt.NumericTag)) {
                 compound.putString("id", "minecraft:short_grass");
             }
 
-            if (compound.contains("Count", 99) && compound.contains("Damage", 99)) {
+            if ((compound.get("Count") instanceof net.minecraft.nbt.NumericTag) && (compound.get("Damage") instanceof net.minecraft.nbt.NumericTag)) {
                 if (matches(identifier)) {
                     JsonObject variants = PLANTS.getAsJsonObject(identifier);
-                    String metadata = Integer.toString(compound.getInt("Damage"));
+                    String metadata = Integer.toString(compound.getIntOr("Damage", 0));
 
                     if (!variants.has(metadata)) {
                         throw new IllegalStateException(
@@ -91,13 +91,13 @@ final class LegacyPlantItems {
                     // it here would recurse.
                     CompoundTag fixed = (CompoundTag) DataFixers.getDataFixer()
                             .update(References.ITEM_STACK, new Dynamic<>(NbtOps.INSTANCE, compound.copy()),
-                                    1343, SharedConstants.getCurrentVersion().getDataVersion().getVersion())
+                                    1343, SharedConstants.getCurrentVersion().dataVersion().version())
                             .getValue();
 
-                    for (String key : new ArrayList<>(compound.getAllKeys())) {
+                    for (String key : new ArrayList<>(compound.keySet())) {
                         compound.remove(key);
                     }
-                    for (String key : fixed.getAllKeys()) {
+                    for (String key : fixed.keySet()) {
                         compound.put(key, fixed.get(key));
                     }
                     if (nativeTarget != null) {
@@ -105,7 +105,7 @@ final class LegacyPlantItems {
                     }
                 }
             }
-            for (String key : new ArrayList<>(compound.getAllKeys())) {
+            for (String key : new ArrayList<>(compound.keySet())) {
                 rewrite(compound.get(key), basketContents || basket && key.equals("tag"), depth + 1);
             }
         } else if (value instanceof ListTag) {

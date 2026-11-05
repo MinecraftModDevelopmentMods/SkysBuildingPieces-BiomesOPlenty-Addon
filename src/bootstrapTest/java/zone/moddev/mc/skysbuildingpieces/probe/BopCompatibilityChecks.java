@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.MinecraftForge;
@@ -47,9 +47,9 @@ public final class BopCompatibilityChecks {
 
     public static ItemStack legacy(int count) {
         ItemStack stack = new ItemStack(
-                ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("buildingbricks:rock_step")), count);
+                ForgeRegistries.ITEMS.getValue(Identifier.parse("buildingbricks:rock_step")), count);
 
-        BopProbeItems.setCustom(stack, NativeLegacyChecks.stack(material, count).getCompound("tag").copy());
+        BopProbeItems.setCustom(stack, NativeLegacyChecks.stack(material, count).getCompoundOrEmpty("tag").copy());
         return stack;
     }
 
@@ -64,7 +64,7 @@ public final class BopCompatibilityChecks {
             for (boolean convert : new boolean[] { false, true }) {
                 SkysBuildingPieces.forceReplace = convert;
                 CompoundTag before = zone.moddev.mc.skysbuildingpieces.legacy.PiecesWorldState
-                        .get(world).save(new CompoundTag(), world.registryAccess());
+                        .get(world).saveTag(new CompoundTag());
                 for (zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue.MaterialDef definition
                         : zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue.INSTANCE.modules
                                 .get("biomesoplenty").materials.values()) {
@@ -76,7 +76,7 @@ public final class BopCompatibilityChecks {
                 if (!convert) {
                     NativeLegacyChecks.require(before.equals(
                             zone.moddev.mc.skysbuildingpieces.legacy.PiecesWorldState.get(world)
-                                    .save(new CompoundTag(), world.registryAccess())),
+                                    .saveTag(new CompoundTag())),
                             "Disabled replacement must retain every migration counter and report");
                 }
             }
@@ -112,11 +112,11 @@ public final class BopCompatibilityChecks {
 
         player.getInventory().setItem(0, legacy(13));
         player.getEnderChestInventory().setItem(0, legacy(11));
-        MinecraftForge.EVENT_BUS.post(new EntityJoinLevelEvent(player, world));
+        EntityJoinLevelEvent.BUS.post(new EntityJoinLevelEvent(player, world));
         identity(player.getInventory().getItem(0), 13, convert);
         identity(player.getEnderChestInventory().getItem(0), 11, convert);
         player.getInventory().setItem(1, legacy(9));
-        MinecraftForge.EVENT_BUS.post(new PlayerEvent.LoadFromFile(player, world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(),
+        PlayerEvent.LoadFromFile.BUS.post(new PlayerEvent.LoadFromFile(player, world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(),
                 player.getUUID().toString()));
         identity(player.getInventory().getItem(1), 9, convert);
         world.getChunk(new BlockPos(930, 70, 930));
@@ -164,10 +164,10 @@ public final class BopCompatibilityChecks {
         BopProbeItems.setCustom(crate, tag);
 
         ItemStack migrated = MigrationEvents.convert(crate, world);
-        CompoundTag recovered = BopProbeItems.custom(migrated).getList("Items", 10).getCompound(0);
+        CompoundTag recovered = BopProbeItems.custom(migrated).getListOrEmpty("Items").getCompoundOrEmpty(0);
 
         identity(BopProbeItems.read(recovered), 7, convert);
-        NativeLegacyChecks.require(migrated.getItem() == crate.getItem() && BopProbeItems.custom(migrated).getBoolean("Sealed"),
+        NativeLegacyChecks.require(migrated.getItem() == crate.getItem() && BopProbeItems.custom(migrated).getBooleanOr("Sealed", false),
                 "Sealed container identity and custom data");
         NativeLegacyChecks.require(MigrationEvents.convert(migrated, world) == migrated,
                 "Live nested inventory is idempotent");
@@ -200,7 +200,7 @@ public final class BopCompatibilityChecks {
 
     private static void newlyPlaced(ServerLevel world, boolean convert) {
         BlockPos position = new BlockPos(934, 70, 932);
-        Block block = ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("buildingbricks:rock_step"));
+        Block block = ForgeRegistries.BLOCKS.getValue(Identifier.parse("buildingbricks:rock_step"));
         BlockState old = block.defaultBlockState().setValue((IntegerProperty) block.getStateDefinition().getProperty("meta"),
                 11);
 
@@ -211,8 +211,9 @@ public final class BopCompatibilityChecks {
 
         tag.putString("material", material);
         tag.putString("custom", "Keep the old tile in coverage");
-        tile.loadWithComponents(tag, world.registryAccess());
-        MinecraftForge.EVENT_BUS.post(new BlockEvent.EntityPlaceEvent(BlockSnapshot.create(world.dimension(), world, position),
+        tile.loadWithComponents(net.minecraft.world.level.storage.TagValueInput.create(
+                net.minecraft.util.ProblemReporter.DISCARDING, world.registryAccess(), tag));
+        BlockEvent.EntityPlaceEvent.BUS.post(new BlockEvent.EntityPlaceEvent(BlockSnapshot.create(world.dimension(), world, position),
                 Blocks.STONE.defaultBlockState(), BopProbeItems.player(world)));
         if (convert) {
             zone.moddev.mc.skysbuildingpieces.catalogue.Shape shape =

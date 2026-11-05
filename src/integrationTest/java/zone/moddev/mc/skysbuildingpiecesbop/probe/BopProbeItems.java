@@ -15,6 +15,27 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import zone.moddev.mc.skysbuildingpieces.probe.NativeProbeItems;
 
 public final class BopProbeItems {
+    static CompoundTag overworldUpgradeContext() {
+        CompoundTag context = new CompoundTag();
+        context.putString("dimension", "minecraft:overworld");
+        context.putString("generator", "minecraft:noise");
+        return context;
+    }
+
+    static void loadPlayer(ServerPlayer player) {
+        var data = player.level().getServer().getPlayerList().getPlayerIo()
+                .load(new net.minecraft.server.players.NameAndId(player.getGameProfile()))
+                .orElseThrow(() -> new AssertionError("Saved player data is missing"));
+        player.load(net.minecraft.world.level.storage.TagValueInput.create(
+                net.minecraft.util.ProblemReporter.DISCARDING, player.registryAccess(), data));
+    }
+
+    static net.minecraft.network.chat.Component readSavedText(String json, ServerLevel world) {
+        return net.minecraft.network.chat.ComponentSerialization.CODEC.parse(
+                world.registryAccess().createSerializationContext(com.mojang.serialization.JsonOps.INSTANCE),
+                com.google.gson.JsonParser.parseString(json)).getOrThrow();
+    }
+
     private BopProbeItems() {
     }
 

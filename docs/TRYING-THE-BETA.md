@@ -1,7 +1,7 @@
 # Trying the beta
 
-Install the Minecraft 1.21.1 main jars for Building Pieces 0.3.8.121011,
-this add-on, BOP 21.1.0.14, TerraBlender 4.1.0.8 and GlitchCore 2.1.0.2 on
+Install the Minecraft 1.21.11 main jars for Building Pieces 0.3.8.121111,
+this add-on, BOP 21.11.0.32, TerraBlender 21.11.0.0 and GlitchCore 21.11.0.4 on
 the client and server. Use a new world or a backup copy.
 
 - Check wood and stone piece names in English and your usual game language.

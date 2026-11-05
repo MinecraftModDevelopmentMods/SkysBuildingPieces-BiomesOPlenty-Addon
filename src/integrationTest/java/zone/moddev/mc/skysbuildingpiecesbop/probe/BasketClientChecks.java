@@ -4,11 +4,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.*;
 import net.minecraftforge.event.TickEvent;
 
 import zone.moddev.mc.skysbuildingpiecesbop.basket.*;
@@ -20,18 +22,23 @@ public final class BasketClientChecks {
 
     private static boolean checked;
 
-    @SubscribeEvent(
-            priority = EventPriority.HIGHEST)
-    public static void tick(TickEvent.ClientTickEvent event) {
-        if (checked || event.phase != TickEvent.Phase.END
+    static void register() {
+        TickEvent.ClientTickEvent.Post.BUS.addListener(net.minecraftforge.eventbus.api.listener.Priority.HIGHEST,
+                BasketClientChecks::tick);
+    }
+
+    public static void tick(TickEvent.ClientTickEvent.Post event) {
+        if (checked
                 || !System.getProperty("skysbuildingpieces.integrationPhase", "").startsWith("client")) {
             return;
         }
 
-        checked = true;
-
         Minecraft minecraft = Minecraft.getInstance();
-        BakedModel previous = null;
+        if (minecraft.getOverlay() != null) {
+            return;
+        }
+        checked = true;
+        TextureAtlasSprite previous;
 
         for (net.minecraft.world.item.Item basket : new net.minecraft.world.item.Item[] {Baskets.ITEM, Baskets.HOLDER}) {
             previous = null;
@@ -49,12 +56,7 @@ public final class BasketClientChecks {
                     BopProbeItems.setCustom(stack, tag);
                 }
 
-                BakedModel model = minecraft.getItemRenderer().getModel(stack, null, null, 0);
-
-                if (model == minecraft.getItemRenderer().getItemModelShaper().getModelManager().getMissingModel()
-                        || model.getParticleIcon().contents().name().toString().contains("missingno")) {
-                    throw new AssertionError("Missing basket model");
-                }
+                TextureAtlasSprite model = checkModel(minecraft, stack);
                 if (filled && model == previous) {
                     throw new AssertionError("Filled basket override did not change the model: "
                             + net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(basket));
@@ -64,15 +66,20 @@ public final class BasketClientChecks {
             }
         }
         for (net.minecraft.world.item.Item holder : zone.moddev.mc.skysbuildingpiecesbop.LegacyItemRecovery.HOLDERS) {
-            BakedModel model = minecraft.getItemRenderer().getModel(new ItemStack(holder), null,
-                    null, 0);
-
-            if (model == minecraft.getItemRenderer().getItemModelShaper().getModelManager().getMissingModel()
-                    || model.getParticleIcon().contents().name().toString().contains("missingno")) {
-                throw new AssertionError("Missing retired-item holder model");
-            }
+            checkModel(minecraft, new ItemStack(holder));
         }
 
         LOGGER.info("BOP_BASKET_CLIENT_PASS empty=true filled=true atlas=true retired_item_models=3");
+    }
+
+    private static TextureAtlasSprite checkModel(Minecraft minecraft, ItemStack stack) {
+        var state = new ItemStackRenderState();
+        minecraft.getItemModelResolver().updateForTopItem(state, stack, ItemDisplayContext.GUI,
+                minecraft.level, minecraft.player, 0);
+        TextureAtlasSprite sprite = state.isEmpty() ? null : state.pickParticleIcon(RandomSource.create(0));
+        if (sprite == null || sprite.contents().name().toString().contains("missingno")) {
+            throw new AssertionError("Missing basket or recovery item model: " + stack);
+        }
+        return sprite;
     }
 }

@@ -7,9 +7,7 @@
         "group": "skysbuildingpieces/mineralogy",
         "pattern": ["X ", " X"],
         "key": {
-          "X": {
-            "item": "mineralogy:siltstone_smooth"
-          }
+          "X": "mineralogy:siltstone_smooth"
         },
         "result": {
           "id": "skysbuildingpiecesbop:siltstone_polished_slab",
@@ -37,9 +35,7 @@
         "group": "skysbuildingpieces/mineralogy",
         "pattern": ["X ", " X"],
         "key": {
-          "X": {
-            "item": "skysbuildingpiecesbop:retired_siltstone_smooth"
-          }
+          "X": "skysbuildingpiecesbop:retired_siltstone_smooth"
         },
         "result": {
           "id": "skysbuildingpiecesbop:siltstone_polished_slab",

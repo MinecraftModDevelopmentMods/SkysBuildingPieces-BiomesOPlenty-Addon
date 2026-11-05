@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/ruby_block",
   "pattern": ["X", "X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpieces:stained_hardened_clay_red_horizontal_step"
-    }
+    "X": "skysbuildingpieces:stained_hardened_clay_red_horizontal_step"
   },
   "result": {
     "id": "skysbuildingpieces:stained_hardened_clay_red_slab",

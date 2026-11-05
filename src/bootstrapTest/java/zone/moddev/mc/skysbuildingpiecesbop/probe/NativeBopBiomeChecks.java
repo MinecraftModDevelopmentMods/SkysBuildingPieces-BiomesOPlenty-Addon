@@ -5,7 +5,7 @@ import zone.moddev.mc.skysbuildingpieces.legacy.HistoricalBiomes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.core.Registry;
 
 /** A pre-flattening BOP number must resolve in the active world's copied biome registry. */
@@ -46,9 +46,9 @@ public final class NativeBopBiomeChecks {
             invoke("prepare", root);
             invoke("finish", root);
             Registry<net.minecraft.world.level.biome.Biome> current = server.registryAccess()
-                    .registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
-            int expected = current.getId(current.get(ResourceLocation.parse("biomesoplenty:wetland")));
-            if (expected < 0 || root.getCompound("Level").getIntArray("Biomes")[0] != expected) {
+                    .lookupOrThrow(net.minecraft.core.registries.Registries.BIOME);
+            int expected = current.getId(current.getValue(Identifier.parse("biomesoplenty:wetland")));
+            if (expected < 0 || root.getCompoundOrEmpty("Level").getIntArray("Biomes").orElseThrow()[0] != expected) {
                 throw new AssertionError("Pre-flattening BOP biome was not resolved in the active registry");
             }
             LOGGER.info("BOP_NATIVE_NUMERIC_BIOME_PASS cells=256 active_registry=true");

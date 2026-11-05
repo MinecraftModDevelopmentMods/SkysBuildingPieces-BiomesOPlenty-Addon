@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/biomesoplenty",
   "pattern": ["X ", " X"],
   "key": {
-    "X": {
-      "item": "minecraft:mud_brick_slab"
-    }
+    "X": "minecraft:mud_brick_slab"
   },
   "result": {
     "id": "skysbuildingpiecesbop:mud_brick_block_horizontal_step",

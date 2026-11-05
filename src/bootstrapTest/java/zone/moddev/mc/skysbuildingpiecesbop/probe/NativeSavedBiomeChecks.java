@@ -14,7 +14,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.world.level.chunk.storage.ChunkStorage;
+import net.minecraft.world.level.chunk.storage.SimpleRegionStorage;
 
 /** Checks the complete saved biome volume, independently of piece placement. */
 public final class NativeSavedBiomeChecks {
@@ -41,28 +41,22 @@ public final class NativeSavedBiomeChecks {
 
     public static void prepare(ServerLevel world, Set<ChunkPos> tracked) throws Exception {
         if (!Files.isRegularFile(Path.of("forward-biomes.json"))) return;
-        var registry = world.registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.BIOME).asHolderIdMap();
+        var registry = world.registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.BIOME).asHolderIdMap();
         int maximum = -1;
         for (var biome : registry) {
             maximum = Math.max(maximum, registry.getId(biome));
         }
         int expectedBits = 32 - Integer.numberOfLeadingZeros(maximum);
-        Object configuration = net.minecraft.world.level.chunk.PalettedContainer.Strategy.SECTION_BIOMES
-                .getConfiguration(registry, 4);
-        // The native configuration record is package-private. Its only integer
-        // component is the storage width; record metadata also survives remapping.
-        java.lang.reflect.Method width = null;
-        for (var component : configuration.getClass().getRecordComponents()) {
-            if (component.getType() == int.class) {
-                require(width == null, "Ambiguous native biome storage-width record");
-                width = component.getAccessor();
-            }
-        }
-        require(width != null, "Native biome storage width is missing");
-        width.setAccessible(true);
-        int actualBits = (Integer) width.invoke(configuration);
-        require(actualBits == expectedBits, "Biome palette width cannot retain the saved registry: entries="
-                + registry.size() + " max=" + maximum + " bits=" + actualBits);
+        var strategy = net.minecraft.world.level.chunk.Strategy.createForBiomes(registry);
+        var configurationForSize = net.minecraft.world.level.chunk.Strategy.class
+                .getDeclaredMethod("getConfigurationForPaletteSize", int.class);
+        configurationForSize.setAccessible(true);
+        var configuration = (net.minecraft.world.level.chunk.Configuration) configurationForSize.invoke(strategy, 9);
+        // A saved local palette still needs four bits. Its runtime global palette needs the registry width.
+        require(configuration.bitsInStorage() == 4 && configuration.bitsInMemory() == expectedBits,
+                "Biome palette widths cannot retain the saved registry: entries=" + registry.size() + " max=" + maximum
+                        + " storage=" + configuration.bitsInStorage() + " memory=" + configuration.bitsInMemory());
+        int actualBits = configuration.bitsInMemory();
         org.apache.logging.log4j.LogManager.getLogger().info(
                 "BOP_NATIVE_BIOME_STORAGE_PASS entries={} max={} bits={}", registry.size(), maximum, actualBits);
         Set<ChunkPos> deferred = deferredChunks();
@@ -87,13 +81,13 @@ public final class NativeSavedBiomeChecks {
         boolean numericBlocks = data.get("source_minecraft").getAsString().equals("1.12.2");
         int minimumQuartY = expandedHeight ? data.get("min_quart_y").getAsInt() : 0;
         int expectedCells = expandedHeight ? data.get("quart_height").getAsInt() * 16 : 1024;
-        var registry = world.registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
+        var registry = world.registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.BIOME);
         Set<ChunkPos> deferred = deferredChunks();
         long cells = 0;
         long renamed = 0;
         Path temporary = deferred.isEmpty() ? null : Files.createTempDirectory(Path.of("."), "deferred-biome-fixer-");
-        try (ChunkStorage storage = temporary == null ? null
-                : new ChunkStorage(new net.minecraft.world.level.chunk.storage.RegionStorageInfo("test", net.minecraft.world.level.Level.OVERWORLD, "chunk"), temporary, world.getServer().getFixerUpper(), false)) {
+        try (SimpleRegionStorage storage = temporary == null ? null
+                : new SimpleRegionStorage(new net.minecraft.world.level.chunk.storage.RegionStorageInfo("test", net.minecraft.world.level.Level.OVERWORLD, "chunk"), temporary, world.getServer().getFixerUpper(), false, net.minecraft.util.datafix.DataFixTypes.CHUNK)) {
             for (JsonElement entry : data.getAsJsonArray("chunks")) {
                 JsonObject row = entry.getAsJsonObject();
                 int chunkX = row.get("x").getAsInt();
@@ -182,7 +176,7 @@ public final class NativeSavedBiomeChecks {
         return deferred;
     }
 
-    private static CompoundTag convertUnopened(ServerLevel world, ChunkStorage storage, ChunkPos position)
+    private static CompoundTag convertUnopened(ServerLevel world, SimpleRegionStorage storage, ChunkPos position)
             throws Exception {
         require(world.getChunkSource().getChunkNow(position.x, position.z) == null,
                 "An unopened biome chunk was loaded before its conversion check: " + position);
@@ -202,11 +196,10 @@ public final class NativeSavedBiomeChecks {
         try (var input = new java.io.DataInputStream(payload)) {
             source = net.minecraft.nbt.NbtIo.read(input);
         }
-        CompoundTag chunk = source.contains("Level", 10) ? source.getCompound("Level") : source;
-        require(chunk.getInt("xPos") == position.x && chunk.getInt("zPos") == position.z,
+        CompoundTag chunk = (source.get("Level") instanceof net.minecraft.nbt.CompoundTag) ? source.getCompoundOrEmpty("Level") : source;
+        require(chunk.getIntOr("xPos", 0) == position.x && chunk.getIntOr("zPos", 0) == position.z,
                 "Wrong deferred source coordinates");
-        CompoundTag fixed = storage.upgradeChunkTag(net.minecraft.world.level.Level.OVERWORLD,
-                () -> null, source.copy(), java.util.Optional.empty());
+        CompoundTag fixed = storage.upgradeChunkTag(source.copy(), 0, BopProbeItems.overworldUpgradeContext());
         require(world.getChunkSource().getChunkNow(position.x, position.z) == null,
                 "The datafix check loaded a deferred biome chunk");
         return fixed;
@@ -214,19 +207,19 @@ public final class NativeSavedBiomeChecks {
 
     private static String convertedBiome(CompoundTag chunk, int cell, int minimumQuartY) {
         int sectionY = (minimumQuartY >> 2) + (cell >> 6);
-        ListTag sections = chunk.getList("sections", 10);
+        ListTag sections = chunk.getListOrEmpty("sections");
         for (int sectionIndex = 0; sectionIndex < sections.size(); sectionIndex++) {
-            CompoundTag section = sections.getCompound(sectionIndex);
-            if (section.getByte("Y") != sectionY) continue;
-            CompoundTag biomes = section.getCompound("biomes");
-            ListTag palette = biomes.getList("palette", 8);
+            CompoundTag section = sections.getCompoundOrEmpty(sectionIndex);
+            if (section.getByteOr("Y", (byte) 0) != sectionY) continue;
+            CompoundTag biomes = section.getCompoundOrEmpty("biomes");
+            ListTag palette = biomes.getListOrEmpty("palette");
             require(!palette.isEmpty(), "Missing deferred biome palette");
-            if (palette.size() == 1) return palette.getString(0);
+            if (palette.size() == 1) return palette.getStringOr(0, "");
             int bits = 32 - Integer.numberOfLeadingZeros(palette.size() - 1);
             int perLong = 64 / bits;
-            long number = biomes.getLongArray("data")[(cell & 63) / perLong]
+            long number = biomes.getLongArray("data").orElseThrow()[(cell & 63) / perLong]
                     >>> ((cell & 63) % perLong * bits);
-            return palette.getString((int) (number & ((1L << bits) - 1)));
+            return palette.getString((int) (number & ((1L << bits) - 1))).orElseThrow();
         }
         throw new AssertionError("Missing deferred biome section " + sectionY);
     }

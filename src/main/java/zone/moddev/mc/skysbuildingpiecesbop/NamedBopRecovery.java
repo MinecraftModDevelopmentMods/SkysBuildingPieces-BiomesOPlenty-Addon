@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 import net.minecraft.world.level.block.Block;
@@ -30,22 +31,24 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.registries.MissingMappingsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
 /** Recovers named BOP content removed after flattening, before native loaders read it. */
-@Mod.EventBusSubscriber(modid = SkysBuildingPiecesBop.ID)
 public final class NamedBopRecovery {
-    private static final Map<String, String> BLOCKS = mappings("blocks");
+    private static final Map<String, String> RECENT_BLOCKS = mappings("renamed_1_21_11");
+    private static final Map<String, String> BLOCKS = blockMappings();
     private static final Map<String, String> ITEMS = itemMappings();
     private static final Map<String, String> BIOMES = mappings("biomes");
     private static final Map<String, String> SECTION_BIOMES = mappings("section_biomes");
+    private static final Set<String> OLD_BOATS = Set.of("biomesoplenty:boat", "biomesoplenty:chest_boat");
+    private static final Set<String> BOAT_WOODS = Set.of("fir", "pine", "maple", "redwood", "mahogany", "jacaranda",
+            "palm", "willow", "dead", "magic", "umbran", "hellbark", "empyreal");
+    private static final Set<String> IMPLICIT_ITEM_KEYS = Set.of("id", "components", "Slot");
     private static final int SECTION_BIOMES_RELEASE = 2860;
     private static final String BIOME_MARKER = "skysbuildingpiecesbop_named_biomes";
     private static volatile NavigableMap<Integer, Map<Integer, String>> biomeSnapshots = new TreeMap<>();
@@ -77,6 +80,45 @@ public final class NamedBopRecovery {
         return Collections.unmodifiableMap(result);
     }
 
+    private static Map<String, String> blockMappings() {
+        Map<String, String> result = new LinkedHashMap<>(mappings("blocks"));
+        result.putAll(RECENT_BLOCKS);
+        return Collections.unmodifiableMap(result);
+    }
+
+    private static boolean namedItem(CompoundTag tag) {
+        String name = tag.getStringOr("id", "");
+        if (!ITEMS.containsKey(name)) {
+            return false;
+        }
+        if (tag.get("Count") instanceof net.minecraft.nbt.NumericTag
+                || tag.get("count") instanceof net.minecraft.nbt.NumericTag) {
+            return true;
+        }
+        // Modern stacks can omit a count of one. Limit that form to the names
+        // known to have been items in the preceding BOP release.
+        return RECENT_BLOCKS.containsKey(name)
+                && IMPLICIT_ITEM_KEYS.containsAll(tag.keySet());
+    }
+
+    private static boolean namedBoat(CompoundTag tag) {
+        return OLD_BOATS.contains(tag.getStringOr("id", "")) && tag.getList("Pos").isPresent()
+                && tag.getIntArray("UUID").isPresent();
+    }
+
+    private static void rewriteBoat(CompoundTag boat) {
+        String source = boat.getStringOr("id", "");
+        String wood = boat.getStringOr("model", "");
+        String shape = source.equals("biomesoplenty:chest_boat") ? "_chest_boat" : "_boat";
+        Identifier target = Identifier.fromNamespaceAndPath("biomesoplenty", wood + shape);
+        if (!BOAT_WOODS.contains(wood) || !ForgeRegistries.ENTITY_TYPES.containsKey(target)) {
+            throw new IllegalStateException("No replacement for " + source + " with saved wood type " + wood);
+        }
+        // New boat types encode the material in the registry ID. Keep the UUID, chest, and passengers.
+        boat.putString("id", target.toString());
+        boat.remove("model");
+    }
+
     /** Keep earlier numeric biome tables available for chunks not opened during the first upgrade. */
     public static synchronized void begin(MinecraftServer server) throws IOException {
         File level = server.getWorldPath(net.minecraft.world.level.storage.LevelResource.LEVEL_DATA_FILE).toFile();
@@ -88,12 +130,12 @@ public final class NamedBopRecovery {
             try (FileInputStream input = new FileInputStream(sidecar)) {
                 saved = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
             }
-            if (saved.getInt("schema_version") != 1) {
+            if (saved.getIntOr("schema_version", 0) != 1) {
                 throw new IllegalStateException("Unsupported named BOP registry snapshot schema");
             }
         }
 
-        CompoundTag snapshots = saved.getCompound("snapshots");
+        CompoundTag snapshots = saved.getCompoundOrEmpty("snapshots");
         boolean changed = false;
 
         CompoundTag original = zone.moddev.mc.skysbuildingpieces.legacy.LegacyBridge.sourceBiomeSnapshot(server);
@@ -105,19 +147,19 @@ public final class NamedBopRecovery {
                 root = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
             }
 
-            original.putInt("DataVersion", root.getCompound("Data").getInt("DataVersion"));
-            CompoundTag registries = root.getCompound("fml").getCompound("Registries");
-            CompoundTag registry = registries.getCompound("minecraft:worldgen/biome");
+            original.putInt("DataVersion", root.getCompoundOrEmpty("Data").getIntOr("DataVersion", 0));
+            CompoundTag registries = root.getCompoundOrEmpty("fml").getCompoundOrEmpty("Registries");
+            CompoundTag registry = registries.getCompoundOrEmpty("minecraft:worldgen/biome");
             if (registry.isEmpty()) {
-                registry = registries.getCompound("minecraft:biome");
+                registry = registries.getCompoundOrEmpty("minecraft:biome");
             }
             original.put("Registry", registry.copy());
         }
 
-        int sourceVersion = original.getInt("DataVersion");
+        int sourceVersion = original.getIntOr("DataVersion", 0);
 
-        if (sourceVersion >= 1451 && sourceVersion < SharedConstants.getCurrentVersion().getDataVersion().getVersion()) {
-            CompoundTag registry = original.getCompound("Registry");
+        if (sourceVersion >= 1451 && sourceVersion < SharedConstants.getCurrentVersion().dataVersion().version()) {
+            CompoundTag registry = original.getCompoundOrEmpty("Registry");
             Tag ids = registry.get("ids");
             // Named sections can leave Forge's numeric registry empty. Keep
             // older sidecar tables for unopened chunks that still use numbers.
@@ -127,11 +169,11 @@ public final class NamedBopRecovery {
             if (ids instanceof ListTag && !namedOnly) {
                 String key = Integer.toString(sourceVersion);
 
-                if (snapshots.contains(key, 10) && !snapshots.getCompound(key).equals(registry)) {
+                if ((snapshots.get(key) instanceof net.minecraft.nbt.CompoundTag) && !snapshots.getCompoundOrEmpty(key).equals(registry)) {
                     throw new IllegalStateException("Conflicting BOP biome tables for save version " + sourceVersion
                             + ". Restore the original world backup and mod list before upgrading.");
                 }
-                if (!snapshots.contains(key, 10)) {
+                if (!(snapshots.get(key) instanceof net.minecraft.nbt.CompoundTag)) {
                     snapshots.put(key, registry.copy());
                     changed = true;
                 }
@@ -140,8 +182,8 @@ public final class NamedBopRecovery {
 
         NavigableMap<Integer, Map<Integer, String>> resolved = new TreeMap<>();
 
-        for (String version : snapshots.getAllKeys()) {
-            resolved.put(Integer.parseInt(version), resolveBiomes(snapshots.getCompound(version)));
+        for (String version : snapshots.keySet()) {
+            resolved.put(Integer.parseInt(version), resolveBiomes(snapshots.getCompoundOrEmpty(version)));
         }
         if (changed) {
             saved.put("snapshots", snapshots);
@@ -153,12 +195,12 @@ public final class NamedBopRecovery {
     private static Registry<Biome> biomeRegistry() {
         // The active world's registry owns the saved numeric IDs, not Forge's registration objects.
         return net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
-                .registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
+                .lookupOrThrow(net.minecraft.core.registries.Registries.BIOME);
     }
 
     private static Map<Integer, String> resolveBiomes(CompoundTag registry) {
         Map<Integer, String> result = new LinkedHashMap<>();
-        ListTag entries = registry.getList("ids", 10);
+        ListTag entries = registry.getListOrEmpty("ids");
         java.util.Set<Integer> numbers = new java.util.HashSet<>();
         java.util.Set<String> names = new java.util.HashSet<>();
 
@@ -168,11 +210,11 @@ public final class NamedBopRecovery {
         }
 
         for (int index = 0; index < entries.size(); index++) {
-            CompoundTag entry = entries.getCompound(index);
-            String source = entry.getString("K");
-            int oldId = entry.getInt("V");
+            CompoundTag entry = entries.getCompoundOrEmpty(index);
+            String source = entry.getStringOr("K", "");
+            int oldId = entry.getIntOr("V", 0);
 
-            if (!entry.contains("K", 8) || !entry.contains("V", 3) || oldId < 0
+            if (!(entry.get("K") instanceof net.minecraft.nbt.StringTag) || !(entry.get("V") instanceof net.minecraft.nbt.IntTag) || oldId < 0
                     || !numbers.add(oldId) || !names.add(source)) {
                 throw new IllegalStateException("Invalid or duplicate saved biome identity: " + entry);
             }
@@ -182,7 +224,7 @@ public final class NamedBopRecovery {
             }
 
             String target = BIOMES.getOrDefault(source, source);
-            Biome biome = biomeRegistry().get(ResourceLocation.parse(target));
+            Biome biome = biomeRegistry().getValue(Identifier.parse(target));
 
             if (biome == null) {
                 throw new IllegalStateException("No safe named BOP biome replacement for " + source);
@@ -221,14 +263,15 @@ public final class NamedBopRecovery {
         if (value instanceof CompoundTag) {
             CompoundTag tag = (CompoundTag) value;
 
-            if (blockState && (BLOCKS.containsKey(tag.getString("Name")) || oldShortCattail(tag)
-                    || oldWall(tag.getString("Name"), tag.getCompound("Properties")))
-                    || tag.contains("Count", 99) && (ITEMS.containsKey(tag.getString("id"))
-                    || oldWall(tag.getString("id"), tag.getCompound("tag").getCompound("BlockStateTag")))
-                    || biomeTable(tag) != null || removedSectionBiomes(tag)) {
+            if (blockState && (BLOCKS.containsKey(tag.getStringOr("Name", "")) || oldShortCattail(tag)
+                    || oldWall(tag.getStringOr("Name", ""), tag.getCompoundOrEmpty("Properties")))
+                    || namedItem(tag) || (tag.get("Count") instanceof net.minecraft.nbt.NumericTag)
+                    && oldWall(tag.getStringOr("id", ""), tag.getCompoundOrEmpty("tag").getCompoundOrEmpty("BlockStateTag"))
+                    || namedBoat(tag) || biomeTable(tag) != null || removedSectionBiomes(tag)
+                    || retiredBlockTicks(tag, false)) {
                 return true;
             }
-            for (String key : tag.getAllKeys()) {
+            for (String key : tag.keySet()) {
                 if (relevant(tag.get(key), depth + 1, stateField(key))) {
                     return true;
                 }
@@ -251,9 +294,10 @@ public final class NamedBopRecovery {
         depth(depth);
         if (value instanceof CompoundTag) {
             CompoundTag tag = (CompoundTag) value;
-            String name = tag.getString("Name");
+            String name = tag.getStringOr("Name", "");
 
             ListTag sections = chunkSections(tag);
+            retiredBlockTicks(tag, true);
             retargetCherrySigns(tag, sections);
             for (Tag entry : sections) {
                 CompoundTag section = (CompoundTag) entry;
@@ -261,9 +305,9 @@ public final class NamedBopRecovery {
                     continue;
                 }
                 // Section palettes already store names. Keep their indices and packed cells unchanged.
-                ListTag palette = section.getCompound("biomes").getList("palette", Tag.TAG_STRING);
+                ListTag palette = section.getCompoundOrEmpty("biomes").getListOrEmpty("palette");
                 for (int index = 0; index < palette.size(); index++) {
-                    String replacement = SECTION_BIOMES.get(palette.getString(index));
+                    String replacement = SECTION_BIOMES.get(palette.getStringOr(index, ""));
                     if (replacement != null) {
                         palette.set(index, net.minecraft.nbt.StringTag.valueOf(replacement));
                     }
@@ -271,34 +315,37 @@ public final class NamedBopRecovery {
             }
 
             if (blockState && name.equals("biomesoplenty:nether_crystal")) {
-                if (tag.contains("Properties") && !tag.contains("Properties", 10)) {
+                if (tag.contains("Properties") && !(tag.get("Properties") instanceof net.minecraft.nbt.CompoundTag)) {
                     throw new IllegalStateException("Malformed saved nether crystal properties: " + tag);
                 }
                 CompoundTag candidate = tag.copy();
-                candidate.put("Properties", crystalProperties(tag.getCompound("Properties")));
+                candidate.put("Properties", crystalProperties(tag.getCompoundOrEmpty("Properties")));
                 rewriteState(candidate, BLOCKS.get(name));
-                tag.putString("Name", candidate.getString("Name"));
-                tag.put("Properties", candidate.getCompound("Properties"));
-            } else if (blockState && oldWall(name, tag.getCompound("Properties"))) {
-                rewriteWall(tag.getCompound("Properties"));
+                tag.putString("Name", candidate.getStringOr("Name", ""));
+                tag.put("Properties", candidate.getCompoundOrEmpty("Properties"));
+            } else if (blockState && oldWall(name, tag.getCompoundOrEmpty("Properties"))) {
+                rewriteWall(tag.getCompoundOrEmpty("Properties"));
                 rewriteState(tag, BLOCKS.getOrDefault(name, name));
             } else if (blockState && oldShortCattail(tag)) {
                 rewriteState(tag, "biomesoplenty:dead_grass");
             } else if (blockState && BLOCKS.containsKey(name)) {
                 rewriteState(tag, BLOCKS.get(name));
             }
-            if (tag.contains("Count", 99) && ITEMS.containsKey(tag.getString("id"))) {
-                if (tag.getString("id").equals("biomesoplenty:nether_crystal")) {
-                    CompoundTag itemData = tag.getCompound("tag");
+            if (namedBoat(tag)) {
+                rewriteBoat(tag);
+            }
+            if (namedItem(tag)) {
+                if (tag.getStringOr("id", "").equals("biomesoplenty:nether_crystal")) {
+                    CompoundTag itemData = tag.getCompoundOrEmpty("tag");
                     if (itemData.contains("BlockStateTag")) {
-                        if (!itemData.contains("BlockStateTag", 10)) {
+                        if (!(itemData.get("BlockStateTag") instanceof net.minecraft.nbt.CompoundTag)) {
                             throw new IllegalStateException("Malformed nether crystal item properties: " + tag);
                         }
-                        itemData.put("BlockStateTag", crystalProperties(itemData.getCompound("BlockStateTag")));
+                        itemData.put("BlockStateTag", crystalProperties(itemData.getCompoundOrEmpty("BlockStateTag")));
                     }
                 }
-                String target = ITEMS.get(tag.getString("id"));
-                Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(target));
+                String target = ITEMS.get(tag.getStringOr("id", ""));
+                Item item = ForgeRegistries.ITEMS.getValue(Identifier.parse(target));
 
                 if (item == null || item == Items.AIR) {
                     throw new IllegalStateException("Missing named BOP item replacement: " + target);
@@ -306,16 +353,16 @@ public final class NamedBopRecovery {
                 tag.putString("id", target);
             }
 
-            if (tag.contains("Count", 99)
-                    && oldWall(tag.getString("id"), tag.getCompound("tag").getCompound("BlockStateTag"))) {
-                rewriteWall(tag.getCompound("tag").getCompound("BlockStateTag"));
+            if ((tag.get("Count") instanceof net.minecraft.nbt.NumericTag)
+                    && oldWall(tag.getStringOr("id", ""), tag.getCompoundOrEmpty("tag").getCompoundOrEmpty("BlockStateTag"))) {
+                rewriteWall(tag.getCompoundOrEmpty("tag").getCompoundOrEmpty("BlockStateTag"));
             }
 
             Map<Integer, String> biomes = biomeTable(tag);
 
             if (biomes != null) {
-                CompoundTag level = tag.getCompound("Level");
-                int[] values = level.getIntArray("Biomes");
+                CompoundTag level = tag.getCompoundOrEmpty("Level");
+                int[] values = level.getIntArray("Biomes").orElseThrow();
                 int[] originalValues = values.clone();
                 Map<Integer, Integer> currentIds = new LinkedHashMap<>();
 
@@ -325,7 +372,7 @@ public final class NamedBopRecovery {
 
                 // Forge restores a world's numeric registry after AboutToStart. Resolve names at the chunk read.
                 biomes.forEach((source, target) -> {
-                    Biome biome = biomeRegistry().get(ResourceLocation.parse(target));
+                    Biome biome = biomeRegistry().getValue(Identifier.parse(target));
                     int currentId = biome == null ? -1 : biomeRegistry().getId(biome);
 
                     if (currentId < 0) {
@@ -340,9 +387,9 @@ public final class NamedBopRecovery {
                 level.putIntArray("Biomes", values);
                 zone.moddev.mc.skysbuildingpieces.legacy.HistoricalBiomes.preserveNamed(tag, originalValues, biomes);
                 // The early inventory wrapper can see the same tag again before vanilla updates DataVersion.
-                level.putInt(BIOME_MARKER, SharedConstants.getCurrentVersion().getDataVersion().getVersion());
+                level.putInt(BIOME_MARKER, SharedConstants.getCurrentVersion().dataVersion().version());
             }
-            for (String key : new ArrayList<>(tag.getAllKeys())) {
+            for (String key : new ArrayList<>(tag.keySet())) {
                 rewrite(tag.get(key), depth + 1, stateField(key));
             }
         } else if (value instanceof ListTag) {
@@ -358,7 +405,7 @@ public final class NamedBopRecovery {
             return false;
         }
         for (String direction : new String[] {"north", "south", "east", "west"}) {
-            String value = properties.getString(direction);
+            String value = properties.getStringOr(direction, "");
             if (value.equals("true") || value.equals("false")) {
                 return true;
             }
@@ -370,20 +417,20 @@ public final class NamedBopRecovery {
         if (sections.isEmpty()) {
             return;
         }
-        for (Tag entry : chunk.getList("block_entities", Tag.TAG_COMPOUND)) {
+        for (Tag entry : chunk.getListOrEmpty("block_entities")) {
             CompoundTag sign = (CompoundTag) entry;
-            if (!sign.getString("id").equals("biomesoplenty:sign")) {
+            if (!sign.getStringOr("id", "").equals("biomesoplenty:sign")) {
                 continue;
             }
-            int x = sign.getInt("x");
-            int y = sign.getInt("y");
-            int z = sign.getInt("z");
+            int x = sign.getIntOr("x", 0);
+            int y = sign.getIntOr("y", 0);
+            int z = sign.getIntOr("z", 0);
             for (Tag sectionEntry : sections) {
                 CompoundTag section = (CompoundTag) sectionEntry;
-                if (section.getByte("Y") != (y >> 4)) {
+                if (section.getByteOr("Y", (byte) 0) != (y >> 4)) {
                     continue;
                 }
-                String block = savedSignBlock(section.getCompound("block_states"), x, y, z);
+                String block = savedSignBlock(section.getCompoundOrEmpty("block_states"), x, y, z);
                 if (isCherrySign(block)) {
                     // Vanilla's sign fixer converts the old text, filtering,
                     // dye and glow once the block entity has the vanilla ID.
@@ -395,18 +442,18 @@ public final class NamedBopRecovery {
     }
 
     private static String savedSignBlock(CompoundTag states, int x, int y, int z) {
-        ListTag palette = states.getList("palette", Tag.TAG_COMPOUND);
-        if (palette.stream().map(entry -> ((CompoundTag) entry).getString("Name"))
+        ListTag palette = states.getListOrEmpty("palette");
+        if (palette.stream().map(entry -> ((CompoundTag) entry).getStringOr("Name", ""))
                 .noneMatch(NamedBopRecovery::isCherrySign)) {
             return "";
         }
         if (palette.size() == 1) {
-            return palette.getCompound(0).getString("Name");
+            return palette.getCompoundOrEmpty(0).getStringOr("Name", "");
         }
         int bits = Math.max(4, Integer.SIZE - Integer.numberOfLeadingZeros(palette.size() - 1));
         int entriesPerWord = Long.SIZE / bits;
         int index = ((y & 15) << 8) | ((z & 15) << 4) | (x & 15);
-        long[] storage = states.getLongArray("data");
+        long[] storage = states.getLongArray("data").orElseGet(() -> new long[0]);
         if (index / entriesPerWord >= storage.length) {
             throw new IllegalStateException("Incomplete saved block palette for BOP sign at " + x + ", " + y + ", " + z);
         }
@@ -414,7 +461,7 @@ public final class NamedBopRecovery {
         if (paletteIndex >= palette.size()) {
             throw new IllegalStateException("Invalid saved block palette index for BOP sign at " + x + ", " + y + ", " + z);
         }
-        return palette.getCompound(paletteIndex).getString("Name");
+        return palette.getCompoundOrEmpty(paletteIndex).getStringOr("Name", "");
     }
 
     private static boolean isCherrySign(String block) {
@@ -422,13 +469,13 @@ public final class NamedBopRecovery {
     }
 
     static CompoundTag crystalProperties(CompoundTag original) {
-        for (String property : original.getAllKeys()) {
-            if ((!property.equals("face") && !property.equals("facing")) || !original.contains(property, 8)) {
+        for (String property : original.keySet()) {
+            if ((!property.equals("face") && !property.equals("facing")) || !(original.get(property) instanceof net.minecraft.nbt.StringTag)) {
                 throw new IllegalStateException("Cannot recover nether crystal property " + property + ": " + original);
             }
         }
-        String face = original.contains("face") ? original.getString("face") : "floor";
-        String facing = original.contains("facing") ? original.getString("facing") : "north";
+        String face = original.contains("face") ? original.getStringOr("face", "") : "floor";
+        String facing = original.contains("facing") ? original.getStringOr("facing", "") : "north";
         if (!facing.equals("north") && !facing.equals("south") && !facing.equals("east") && !facing.equals("west")) {
             throw new IllegalStateException("Cannot recover nether crystal direction: " + facing);
         }
@@ -456,7 +503,7 @@ public final class NamedBopRecovery {
             if (!properties.contains(direction)) {
                 continue;
             }
-            String value = properties.getString(direction);
+            String value = properties.getStringOr(direction, "");
             if (value.equals("true") || value.equals("false")) {
                 properties.putString(direction, value.equals("true") ? "low" : "none");
             } else if (!value.equals("low") && !value.equals("none") && !value.equals("tall")) {
@@ -467,8 +514,8 @@ public final class NamedBopRecovery {
 
     private static boolean oldShortCattail(CompoundTag state) {
         // BOP reused this ID for the tall plant. The old one-block state has no half property.
-        return state.getString("Name").equals("biomesoplenty:cattail")
-                && !state.getCompound("Properties").contains("half");
+        return state.getStringOr("Name", "").equals("biomesoplenty:cattail")
+                && !state.getCompoundOrEmpty("Properties").contains("half");
     }
 
     private static boolean stateField(String key) {
@@ -478,11 +525,35 @@ public final class NamedBopRecovery {
     }
 
     private static ListTag chunkSections(CompoundTag chunk) {
-        if (!chunk.contains("DataVersion", Tag.TAG_ANY_NUMERIC) || !chunk.contains("xPos", Tag.TAG_ANY_NUMERIC)
-                || !chunk.contains("zPos", Tag.TAG_ANY_NUMERIC)) {
+        if (!(chunk.get("DataVersion") instanceof net.minecraft.nbt.NumericTag) || !(chunk.get("xPos") instanceof net.minecraft.nbt.NumericTag)
+                || !(chunk.get("zPos") instanceof net.minecraft.nbt.NumericTag)) {
             return new ListTag();
         }
-        return chunk.getList("sections", Tag.TAG_COMPOUND);
+        return chunk.getListOrEmpty("sections");
+    }
+
+    private static boolean retiredBlockTicks(CompoundTag chunk, boolean update) {
+        if (!(chunk.get("xPos") instanceof net.minecraft.nbt.NumericTag)
+                || !(chunk.get("zPos") instanceof net.minecraft.nbt.NumericTag)) {
+            return false;
+        }
+        boolean changed = false;
+        for (String key : new String[] { "block_ticks", "TileTicks" }) {
+            for (Tag value : chunk.getListOrEmpty(key)) {
+                if (!(value instanceof CompoundTag tick)) {
+                    continue;
+                }
+                String replacement = BLOCKS.get(tick.getStringOr("i", ""));
+                if (replacement != null) {
+                    if (!update) {
+                        return true;
+                    }
+                    tick.putString("i", replacement);
+                    changed = true;
+                }
+            }
+        }
+        return changed;
     }
 
     private static boolean removedSectionBiomes(CompoundTag chunk) {
@@ -495,12 +566,12 @@ public final class NamedBopRecovery {
     }
 
     private static boolean removedSectionBiome(CompoundTag section) {
-        if (!section.contains("Y", Tag.TAG_BYTE) || !section.contains("biomes", Tag.TAG_COMPOUND)) {
+        if (!(section.get("Y") instanceof net.minecraft.nbt.ByteTag) || !(section.get("biomes") instanceof net.minecraft.nbt.CompoundTag)) {
             return false;
         }
-        ListTag palette = section.getCompound("biomes").getList("palette", Tag.TAG_STRING);
+        ListTag palette = section.getCompoundOrEmpty("biomes").getListOrEmpty("palette");
         for (int index = 0; index < palette.size(); index++) {
-            if (SECTION_BIOMES.containsKey(palette.getString(index))) {
+            if (SECTION_BIOMES.containsKey(palette.getStringOr(index, ""))) {
                 return true;
             }
         }
@@ -508,16 +579,16 @@ public final class NamedBopRecovery {
     }
 
     private static Map<Integer, String> biomeTable(CompoundTag root) {
-        int version = root.getInt("DataVersion");
-        CompoundTag level = root.getCompound("Level");
+        int version = root.getIntOr("DataVersion", 0);
+        CompoundTag level = root.getCompoundOrEmpty("Level");
 
-        if (version < 1451 || !level.contains("Biomes", 11)) {
+        if (version < 1451 || !(level.get("Biomes") instanceof net.minecraft.nbt.IntArrayTag)) {
             return null;
         }
 
-        int current = SharedConstants.getCurrentVersion().getDataVersion().getVersion();
+        int current = SharedConstants.getCurrentVersion().dataVersion().version();
 
-        if (version >= current || level.getInt(BIOME_MARKER) >= current) {
+        if (version >= current || level.getIntOr(BIOME_MARKER, 0) >= current) {
             return null;
         }
 
@@ -527,25 +598,34 @@ public final class NamedBopRecovery {
     }
 
     private static void rewriteState(CompoundTag saved, String target) {
-        Block block = ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse(target));
+        Block block = ForgeRegistries.BLOCKS.getValue(Identifier.parse(target));
 
         if (block == null || block == Blocks.AIR) {
             throw new IllegalStateException("Missing named BOP block replacement: " + target);
         }
 
         BlockState state = block.defaultBlockState();
-        CompoundTag properties = saved.getCompound("Properties");
+        CompoundTag properties = saved.getCompoundOrEmpty("Properties");
 
-        if (saved.contains("Properties") && !saved.contains("Properties", 10)) {
+        if (saved.contains("Properties") && !(saved.get("Properties") instanceof net.minecraft.nbt.CompoundTag)) {
             throw new IllegalStateException("Malformed saved BOP block properties: " + saved);
         }
-        for (String name : properties.getAllKeys()) {
+        String source = saved.getStringOr("Name", "");
+        if (RECENT_BLOCKS.containsKey(source) && source.endsWith("_maple_leaf_pile")) {
+            // The old pile covered the whole block. A single litter segment would leave most of it bare.
+            Property<?> amount = block.getStateDefinition().getProperty("segment_amount");
+            if (amount == null || !properties.isEmpty()) {
+                throw new IllegalStateException("Cannot recover the maple leaf pile: " + saved);
+            }
+            state = withProperty(state, amount, "4");
+        }
+        for (String name : properties.keySet()) {
             Property<?> property = block.getStateDefinition().getProperty(name);
 
-            if (property == null || !properties.contains(name, 8)) {
+            if (property == null || !(properties.get(name) instanceof net.minecraft.nbt.StringTag)) {
                 throw new IllegalStateException("No safe " + name + " property on replacement " + target);
             }
-            state = withProperty(state, property, properties.getString(name));
+            state = withProperty(state, property, properties.getString(name).orElseThrow());
         }
         if (state.hasProperty(net.minecraft.world.level.block.SlabBlock.TYPE)
                 && state.getValue(net.minecraft.world.level.block.SlabBlock.TYPE) == net.minecraft.world.level.block.state.properties.SlabType.DOUBLE) {
@@ -566,9 +646,9 @@ public final class NamedBopRecovery {
 
         CompoundTag result = NbtUtils.writeBlockState(state);
 
-        saved.putString("Name", result.getString("Name"));
-        if (result.contains("Properties", 10)) {
-            saved.put("Properties", result.getCompound("Properties"));
+        saved.putString("Name", result.getStringOr("Name", ""));
+        if ((result.get("Properties") instanceof net.minecraft.nbt.CompoundTag)) {
+            saved.put("Properties", result.getCompoundOrEmpty("Properties"));
         } else {
             saved.remove("Properties");
         }
@@ -588,24 +668,34 @@ public final class NamedBopRecovery {
 
     // Raw tags are converted before deserialization. Ignoring these old registry entries avoids aliasing
     // two identities onto an existing object, which would make mixed old/current saves ambiguous.
-    @SubscribeEvent
+
     public static void missingBlocks(MissingMappingsEvent event) {
         if (!event.getKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
         event.getAllMappings(ForgeRegistries.Keys.BLOCKS).stream().filter(mapping -> BLOCKS.containsKey(mapping.getKey().toString()))
                 .forEach(MissingMappingsEvent.Mapping::ignore);
     }
 
-    @SubscribeEvent
     public static void missingItems(MissingMappingsEvent event) {
         if (!event.getKey().equals(ForgeRegistries.Keys.ITEMS)) return;
         event.getAllMappings(ForgeRegistries.Keys.ITEMS).stream().filter(mapping -> ITEMS.containsKey(mapping.getKey().toString()))
                 .forEach(MissingMappingsEvent.Mapping::ignore);
     }
 
-    @SubscribeEvent
+    public static void missingEntities(MissingMappingsEvent event) {
+        for (var mapping : event.getAllMappings(ForgeRegistries.Keys.ENTITY_TYPES)) {
+            if (OLD_BOATS.contains(mapping.getKey().toString())) {
+                mapping.ignore();
+            }
+        }
+    }
+
+    public static boolean ownsRetiredBiome(Identifier id) {
+        return BIOMES.containsKey(id.toString());
+    }
+
     public static void missingBiomes(MissingMappingsEvent event) {
         if (!event.getKey().equals(net.minecraft.core.registries.Registries.BIOME)) return;
-        event.getAllMappings(net.minecraft.core.registries.Registries.BIOME).stream().filter(mapping -> BIOMES.containsKey(mapping.getKey().toString()))
+        event.getAllMappings(net.minecraft.core.registries.Registries.BIOME).stream().filter(mapping -> ownsRetiredBiome(mapping.getKey()))
                 .forEach(MissingMappingsEvent.Mapping::ignore);
     }
 }

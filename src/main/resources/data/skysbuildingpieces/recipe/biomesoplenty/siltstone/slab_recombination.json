@@ -7,9 +7,7 @@
         "group": "skysbuildingpieces/siltstone",
         "pattern": ["XX"],
         "key": {
-          "X": {
-            "item": "skysbuildingpiecesbop:siltstone_slab"
-          }
+          "X": "skysbuildingpiecesbop:siltstone_slab"
         },
         "result": {
           "id": "mineralogy:siltstone",
@@ -37,9 +35,7 @@
         "group": "skysbuildingpieces/siltstone",
         "pattern": ["XX"],
         "key": {
-          "X": {
-            "item": "skysbuildingpiecesbop:siltstone_slab"
-          }
+          "X": "skysbuildingpiecesbop:siltstone_slab"
         },
         "result": {
           "id": "skysbuildingpiecesbop:retired_siltstone",

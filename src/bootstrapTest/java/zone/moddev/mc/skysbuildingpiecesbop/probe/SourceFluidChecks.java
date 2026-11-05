@@ -20,7 +20,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.chunk.storage.ChunkStorage;
+import net.minecraft.world.level.chunk.storage.SimpleRegionStorage;
 
 /** Check saved water before ticking can move the range fixture's unsupported flows. */
 final class SourceFluidChecks {
@@ -41,7 +41,7 @@ final class SourceFluidChecks {
                         "Water controls belong to a different Minecraft version");
                 Path temporary = Files.createTempDirectory(Path.of("."), "source-water-fixer-");
                 int cells = 0;
-                try (ChunkStorage storage = new ChunkStorage(new net.minecraft.world.level.chunk.storage.RegionStorageInfo("test", net.minecraft.world.level.Level.OVERWORLD, "chunk"), temporary, world.getServer().getFixerUpper(), false)) {
+                try (SimpleRegionStorage storage = new SimpleRegionStorage(new net.minecraft.world.level.chunk.storage.RegionStorageInfo("test", net.minecraft.world.level.Level.OVERWORLD, "chunk"), temporary, world.getServer().getFixerUpper(), false, net.minecraft.util.datafix.DataFixTypes.CHUNK)) {
                     for (JsonElement chunkEntry : receipt.getAsJsonArray("chunks")) {
                         JsonObject chunk = chunkEntry.getAsJsonObject();
                         byte[] bytes;
@@ -53,17 +53,16 @@ final class SourceFluidChecks {
                                 .digest(bytes)).equals(chunk.get("sha256").getAsString()), "Saved water chunk changed");
                         CompoundTag source = NbtIo.readCompressed(new ByteArrayInputStream(bytes), net.minecraft.nbt.NbtAccounter.unlimitedHeap());
                         CompoundTag before = source.copy();
-                        CompoundTag fixed = storage.upgradeChunkTag(Level.OVERWORLD, () -> null,
-                                source.copy(), java.util.Optional.empty());
+                        CompoundTag fixed = storage.upgradeChunkTag(source.copy(), 0, BopProbeItems.overworldUpgradeContext());
                         require(source.equals(before), "The independent source water tag changed");
                         for (JsonElement positionEntry : chunk.getAsJsonArray("positions")) {
                             JsonObject row = positionEntry.getAsJsonObject();
                             BlockPos position = new BlockPos(row.get("x").getAsInt(), row.get("y").getAsInt(),
                                     row.get("z").getAsInt());
-                            CompoundTag expected = TagParser.parseTag(row.get("state").getAsString());
-                            require(NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(), expected) == NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(), state(fixed, position)),
+                            CompoundTag expected = TagParser.parseCompoundFully(row.get("state").getAsString());
+                            require(NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, expected) == NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, state(fixed, position)),
                                     "Saved water was lost during native data fixing at " + position);
-                            if (Integer.parseInt(expected.getCompound("Properties").getString("level")) > 0) {
+                            if (Integer.parseInt(expected.getCompoundOrEmpty("Properties").getStringOr("level", "")) > 0) {
                                 require(flowing.add(position), "Repeated source water position");
                             }
                             cells++;
@@ -80,19 +79,19 @@ final class SourceFluidChecks {
     }
 
     private static CompoundTag state(CompoundTag chunk, BlockPos position) {
-        ListTag sections = chunk.getList("sections", 10);
+        ListTag sections = chunk.getListOrEmpty("sections");
         for (int sectionIndex = 0; sectionIndex < sections.size(); sectionIndex++) {
-            CompoundTag section = sections.getCompound(sectionIndex);
-            if (section.getByte("Y") != position.getY() >> 4) continue;
-            CompoundTag states = section.getCompound("block_states");
-            ListTag palette = states.getList("palette", 10);
+            CompoundTag section = sections.getCompoundOrEmpty(sectionIndex);
+            if (section.getByteOr("Y", (byte) 0) != position.getY() >> 4) continue;
+            CompoundTag states = section.getCompoundOrEmpty("block_states");
+            ListTag palette = states.getListOrEmpty("palette");
             require(!palette.isEmpty(), "Missing upgraded water palette");
-            if (palette.size() == 1) return palette.getCompound(0);
+            if (palette.size() == 1) return palette.getCompoundOrEmpty(0);
             int bits = Math.max(4, 32 - Integer.numberOfLeadingZeros(palette.size() - 1));
             int perLong = 64 / bits;
             int index = (position.getY() & 15) * 256 + (position.getZ() & 15) * 16 + (position.getX() & 15);
-            long number = states.getLongArray("data")[index / perLong] >>> (index % perLong * bits);
-            return palette.getCompound((int) (number & ((1L << bits) - 1)));
+            long number = states.getLongArray("data").orElseThrow()[index / perLong] >>> (index % perLong * bits);
+            return palette.getCompound((int) (number & ((1L << bits) - 1))).orElseThrow();
         }
         throw new AssertionError("Missing upgraded water section at " + position);
     }

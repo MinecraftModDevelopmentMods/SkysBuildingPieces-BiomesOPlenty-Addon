@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/shale",
   "pattern": ["X", "X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:shale_corner"
-    }
+    "X": "skysbuildingpiecesbop:shale_corner"
   },
   "result": {
     "id": "skysbuildingpiecesbop:shale_horizontal_step",

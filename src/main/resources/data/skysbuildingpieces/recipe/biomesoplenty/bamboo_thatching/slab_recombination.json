@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/bamboo_thatching",
   "pattern": ["XX"],
   "key": {
-    "X": {
-      "item": "biomesoplenty:willow_slab"
-    }
+    "X": "biomesoplenty:willow_slab"
   },
   "result": {
     "id": "biomesoplenty:willow_planks",

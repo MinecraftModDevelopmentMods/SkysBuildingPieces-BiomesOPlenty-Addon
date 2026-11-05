@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/mineralogy",
   "pattern": ["X  ", "XX ", "XXX"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:siltstone_slab"
-    }
+    "X": "skysbuildingpiecesbop:siltstone_slab"
   },
   "result": {
     "id": "skysbuildingpiecesbop:siltstone_stairs",

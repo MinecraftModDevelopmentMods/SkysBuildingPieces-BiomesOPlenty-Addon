@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/biomesoplenty",
   "pattern": ["X ", " X"],
   "key": {
-    "X": {
-      "item": "biomesoplenty:jacaranda_slab"
-    }
+    "X": "biomesoplenty:jacaranda_slab"
   },
   "result": {
     "id": "skysbuildingpiecesbop:planks_jacaranda_horizontal_step",

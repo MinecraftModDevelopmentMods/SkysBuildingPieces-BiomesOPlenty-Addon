@@ -85,15 +85,15 @@ def argument_file(java, directory, phase, arguments):
 
 def client_command(options, directory):
     runtime = options.runtime.resolve()
-    base = json.loads((runtime / "versions/1.21.1/1.21.1.json").read_text(encoding="utf-8"))
+    base = json.loads((runtime / "versions/1.21.11/1.21.11.json").read_text(encoding="utf-8"))
     profiles = [runtime / "versions" / name / (name + ".json")
-                for name in ("1.21.1-forge-52.1.0", "forge-52.1.0")]
+                for name in ("1.21.11-forge-61.1.0", "forge-61.1.0")]
     profile = next((path for path in profiles if path.is_file()), None)
     if profile is None:
-        raise ValueError("The installed client has no Forge 52.1.0 profile")
+        raise ValueError("The installed client has no Forge 61.1.0 profile")
     forge = json.loads(profile.read_text(encoding="utf-8"))
-    if base["id"] != "1.21.1" or forge["inheritsFrom"] != "1.21.1":
-        raise ValueError("This launcher requires the verified Forge 52 client metadata")
+    if base["id"] != "1.21.11" or forge["inheritsFrom"] != "1.21.11":
+        raise ValueError("This launcher requires the verified Forge 61 client metadata")
     libraries = {}
     for layer in (base, forge):
         for library in layer["libraries"]:
@@ -115,7 +115,7 @@ def client_command(options, directory):
         classpath.append(path)
         if classifier == "natives-windows":
             native_artifacts.append(path)
-    client = runtime / "versions/1.21.1/1.21.1.jar"
+    client = runtime / "versions/1.21.11/1.21.11.jar"
     if digest(client, "sha1") != base["downloads"]["client"]["sha1"].upper():
         raise ValueError("Official client checksum changed")
     classpath.append(client)
@@ -154,11 +154,11 @@ def server_command(options, directory):
     runtime = options.runtime.resolve()
     filename = "win_args.txt" if os.name == "nt" else "unix_args.txt"
     libraries = runtime / "libraries"
-    source = libraries / "net/minecraftforge/forge/1.21.1-52.1.0" / filename
+    source = libraries / "net/minecraftforge/forge/1.21.11-61.1.0" / filename
     launch = shlex.split(source.read_text(encoding="utf-8"))
-    shim = runtime / "forge-1.21.1-52.1.0-shim.jar"
+    shim = runtime / "forge-1.21.11-61.1.0-shim.jar"
     if len(launch) != 3 or launch[-2:] != ["-jar", shim.name] or not shim.is_file():
-        raise ValueError("Expected the official Forge 50 server shim")
+        raise ValueError("Expected the official Forge 61 server shim")
     local_libraries = directory / "libraries"
     if not local_libraries.exists():
         if os.name == "nt":
@@ -215,6 +215,9 @@ def prepare(options, directory):
         block_renames = options.fixture.with_suffix(".forge50-grass-rename.json")
         if block_renames.is_file():
             shutil.copyfile(block_renames, directory / "forward-block-renames.json")
+        fluid = options.fixture.with_suffix(".forge61-fluid.json")
+        if fluid.is_file():
+            shutil.copyfile(fluid, directory / "forward-fluid-changes.json")
         biomes = options.fixture.with_suffix(".biomes.json")
         if biomes.is_file():
             shutil.copyfile(biomes, directory / "forward-biomes.json")
@@ -225,7 +228,7 @@ def prepare(options, directory):
 
 def audit(directory, phase, mode, biomes_only=False):
     if mode == "client":
-        audit_client(directory, phase)
+        audit_client(directory, phase, packaged_offline=True)
         shutil.copyfile(directory / "logs/latest.log", directory / (phase + "-complete.log"))
         shutil.copyfile(directory / "logs/debug.log", directory / (phase + "-debug.log"))
         return
@@ -253,6 +256,7 @@ def main():
     parser.add_argument("--fixture", type=Path)
     parser.add_argument("--extra-mod", type=Path, action="append", default=[])
     parser.add_argument("--fresh", action="store_true")
+    parser.add_argument("--strict-event-bus", action="store_true")
     parser.add_argument("--persistence-order", choices=("forward", "reverse"))
     parser.add_argument("--biomes-only", action="store_true",
                         help="Isolate the saved-biome regression; does not qualify block or item upgrades.")
@@ -284,6 +288,8 @@ def main():
         command = server_command(options, directory)
         if options.biomes_only:
             command.insert(1, "-Dskysbuildingpieces.bopBiomeOnly=true")
+    if options.strict_event_bus:
+        command.insert(1, "-Deventbus.api.strictRuntimeChecks=true")
     if options.persistence_order:
         command.insert(1, "-Dskysbuildingpieces.persistenceOrder=" + options.persistence_order)
     (directory / (options.phase + '-scope.json')).write_text(

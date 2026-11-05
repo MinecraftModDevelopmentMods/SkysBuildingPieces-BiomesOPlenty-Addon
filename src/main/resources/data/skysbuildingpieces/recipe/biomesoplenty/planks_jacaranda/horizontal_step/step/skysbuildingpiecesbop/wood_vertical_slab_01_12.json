@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/skysbuildingpiecesbop",
   "pattern": ["X ", " X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:planks_jacaranda_vertical_slab"
-    }
+    "X": "skysbuildingpiecesbop:planks_jacaranda_vertical_slab"
   },
   "result": {
     "id": "skysbuildingpiecesbop:planks_jacaranda_horizontal_step",

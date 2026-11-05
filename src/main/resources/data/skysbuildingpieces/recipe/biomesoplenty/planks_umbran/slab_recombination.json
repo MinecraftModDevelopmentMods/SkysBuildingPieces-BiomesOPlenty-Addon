@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/planks_umbran",
   "pattern": ["XX"],
   "key": {
-    "X": {
-      "item": "biomesoplenty:umbran_slab"
-    }
+    "X": "biomesoplenty:umbran_slab"
   },
   "result": {
     "id": "biomesoplenty:umbran_planks",

@@ -7,9 +7,7 @@
         "group": "skysbuildingpieces/crag_rock",
         "pattern": ["XX"],
         "key": {
-          "X": {
-            "item": "skysbuildingpiecesbop:crag_rock_slab"
-          }
+          "X": "skysbuildingpiecesbop:crag_rock_slab"
         },
         "result": {
           "id": "mineralogy:gabbro",
@@ -37,9 +35,7 @@
         "group": "skysbuildingpieces/crag_rock",
         "pattern": ["XX"],
         "key": {
-          "X": {
-            "item": "skysbuildingpiecesbop:crag_rock_slab"
-          }
+          "X": "skysbuildingpiecesbop:crag_rock_slab"
         },
         "result": {
           "id": "skysbuildingpiecesbop:retired_gabbro",

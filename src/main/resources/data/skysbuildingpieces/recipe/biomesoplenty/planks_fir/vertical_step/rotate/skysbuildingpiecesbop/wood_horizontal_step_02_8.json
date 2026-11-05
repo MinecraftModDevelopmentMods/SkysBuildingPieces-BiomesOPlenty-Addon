@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/skysbuildingpiecesbop",
   "pattern": ["X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:planks_fir_horizontal_step"
-    }
+    "X": "skysbuildingpiecesbop:planks_fir_horizontal_step"
   },
   "result": {
     "id": "skysbuildingpiecesbop:planks_fir_vertical_step",

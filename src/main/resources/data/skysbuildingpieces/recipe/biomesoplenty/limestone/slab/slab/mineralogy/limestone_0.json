@@ -7,9 +7,7 @@
         "group": "skysbuildingpieces/mineralogy",
         "pattern": ["X ", " X"],
         "key": {
-          "X": {
-            "item": "mineralogy:limestone"
-          }
+          "X": "mineralogy:limestone"
         },
         "result": {
           "id": "skysbuildingpiecesbop:limestone_slab",
@@ -37,9 +35,7 @@
         "group": "skysbuildingpieces/mineralogy",
         "pattern": ["X ", " X"],
         "key": {
-          "X": {
-            "item": "skysbuildingpiecesbop:retired_limestone"
-          }
+          "X": "skysbuildingpiecesbop:retired_limestone"
         },
         "result": {
           "id": "skysbuildingpiecesbop:limestone_slab",

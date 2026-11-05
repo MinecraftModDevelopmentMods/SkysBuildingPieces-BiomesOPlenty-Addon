@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/limestone",
   "pattern": ["X", "X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:limestone_corner"
-    }
+    "X": "skysbuildingpiecesbop:limestone_corner"
   },
   "result": {
     "id": "skysbuildingpiecesbop:limestone_horizontal_step",

@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/biomesoplenty",
   "pattern": ["X ", " X"],
   "key": {
-    "X": {
-      "item": "biomesoplenty:magic_slab"
-    }
+    "X": "biomesoplenty:magic_slab"
   },
   "result": {
     "id": "skysbuildingpiecesbop:planks_magic_horizontal_step",

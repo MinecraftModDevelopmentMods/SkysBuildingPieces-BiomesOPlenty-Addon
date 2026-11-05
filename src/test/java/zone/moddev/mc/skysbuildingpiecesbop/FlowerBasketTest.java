@@ -17,7 +17,7 @@ class FlowerBasketTest {
                 StandardCharsets.UTF_8)).getAsJsonObject();
 
         assertEquals("minecraft:crafting_shaped", json.get("type").getAsString());
-        assertEquals("forge:rods/wooden", json.getAsJsonObject("key").getAsJsonObject("S").get("tag").getAsString());
+        assertEquals("#forge:rods/wooden", json.getAsJsonObject("key").get("S").getAsString());
         assertEquals("skysbuildingpiecesbop:flower_basket", json.getAsJsonObject("result").get("id").getAsString());
 
         StringBuilder pattern = new StringBuilder();
@@ -36,7 +36,16 @@ class FlowerBasketTest {
 
         assertEquals("skysbuildingpiecesbop:item/flower_basket_empty",
                 model.getAsJsonObject("textures").get("layer0").getAsString());
-        assertEquals(1, model.getAsJsonArray("overrides").size());
+        assertFalse(model.has("overrides"));
+        JsonObject definition = json("items/flower_basket.json").getAsJsonObject("model");
+        assertEquals("minecraft:condition", definition.get("type").getAsString());
+        assertEquals("minecraft:component", definition.get("property").getAsString());
+        assertEquals("minecraft:custom_data", definition.get("predicate").getAsString());
+        assertEquals("{Items:[{}]}", definition.get("value").getAsString());
+        assertEquals("skysbuildingpiecesbop:item/flower_basket_full",
+                definition.getAsJsonObject("on_true").get("model").getAsString());
+        assertEquals("skysbuildingpiecesbop:item/flower_basket",
+                definition.getAsJsonObject("on_false").get("model").getAsString());
 
         for (String variant : new String[] { "empty", "full" }) {
             Path png = ROOT.resolve("textures/item/flower_basket_" + variant + ".png");

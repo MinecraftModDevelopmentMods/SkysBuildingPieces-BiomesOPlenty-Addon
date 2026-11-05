@@ -7,9 +7,7 @@
         "group": "skysbuildingpieces/shale",
         "pattern": ["XX"],
         "key": {
-          "X": {
-            "item": "skysbuildingpiecesbop:shale_slab"
-          }
+          "X": "skysbuildingpiecesbop:shale_slab"
         },
         "result": {
           "id": "mineralogy:shale",
@@ -37,9 +35,7 @@
         "group": "skysbuildingpieces/shale",
         "pattern": ["XX"],
         "key": {
-          "X": {
-            "item": "skysbuildingpiecesbop:shale_slab"
-          }
+          "X": "skysbuildingpiecesbop:shale_slab"
         },
         "result": {
           "id": "skysbuildingpiecesbop:retired_shale",

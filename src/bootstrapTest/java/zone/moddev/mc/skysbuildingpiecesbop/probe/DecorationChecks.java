@@ -50,7 +50,7 @@ final class DecorationChecks {
             require(forms.size() == 8, "All eight formation profiles remain available");
             world.removeBlock(position.above(), false);
             world.removeBlock(position.below(), false);
-            formation.handleNeighborChanged(world, position, Blocks.AIR, position.below(), false);
+            formation.handleNeighborChanged(world, position, Blocks.AIR, null, false);
             require(world.getBlockState(position).getBlock() == RetiredDecorations.STONE_FORMATIONS,
                     "Old formations survive missing anchors");
 

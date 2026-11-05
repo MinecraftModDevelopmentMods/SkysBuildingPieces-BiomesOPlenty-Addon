@@ -1,11 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "building",
-  "ingredients": [
-    {
-      "item": "skysbuildingpiecesbop:retired_siltstone"
-    }
-  ],
+  "ingredients": ["skysbuildingpiecesbop:retired_siltstone"],
   "result": {
     "id": "mineralogy:siltstone"
   },

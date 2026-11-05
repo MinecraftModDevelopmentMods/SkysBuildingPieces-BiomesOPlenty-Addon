@@ -1,4 +1,4 @@
-"""Negative controls for Forge 50 completion and unchanged native settings."""
+"""Negative controls for Forge 61 completion and unchanged native settings."""
 
 import unittest
 import json
@@ -10,7 +10,7 @@ from native_client_log import audit, classify
 
 
 LOGIN = "[Client thread/INFO] [NetworkHooks/]: Connected to a modded server."
-START = "[Server thread/INFO] [MinecraftServer/]: Preparing start region for dimension minecraft:overworld"
+START = "[Server thread/INFO] [MinecraftServer/]: Starting integrated minecraft server version 1.21.11"
 NOTICE = "[Thread-1/FATAL] [net.minecraftforge.common.ForgeConfig/CORE]: Forge config just got changed on the file system!"
 PAYLOAD = "[Client thread/ERROR] [net.minecraftforge.fml.network.simple.IndexedMessageCodec/SIMPLENET]: Received empty payload on channel fml:handshake"
 
@@ -59,6 +59,22 @@ class NativeClientLogTest(unittest.TestCase):
             classify("\n".join((START, LOGIN, "[STDERR/]: java.lang.IllegalStateException")), True)
 
 
+    def test_only_the_packaged_offline_authentication_failure_is_accepted(self):
+        notice = ("[time] [Download-1/ERROR] [com.mojang.realmsclient.client.RealmsClient/]: "
+                  "Failed to fetch Realms feature flags\n"
+                  "com.mojang.realmsclient.exception.RealmsServiceException: Realms authentication error with message "
+                  "'java.lang.RuntimeException: Failed to parse into SignedJWT: 0'")
+        startup = "\n".join((START, LOGIN))
+        self.assertEqual(classify(notice + "\n" + startup, True, packaged_offline=True)["notices"],
+                         ["Failed to fetch Realms feature flags"])
+        with self.assertRaises(ValueError):
+            classify(notice + "\n" + startup, True)
+        for invalid in (notice.replace("SignedJWT: 0", "SignedJWT: 1"), notice + "\n" + notice,
+                        notice.replace("RealmsClient/", "UnrelatedMod/")):
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                classify(invalid + "\n" + startup, True, packaged_offline=True)
+
+
 class NativeClientFilesTest(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
@@ -72,7 +88,7 @@ class NativeClientFilesTest(unittest.TestCase):
         (self.directory / "logs").mkdir()
         (self.directory / "logs/latest.log").write_text("\n".join((
             START, LOGIN,
-            "FORGE50_CLIENT_CONTROL_PASS joined=true sky_mods=false")), encoding="utf-8")
+            "FORGE61_CLIENT_CONTROL_PASS joined=true sky_mods=false")), encoding="utf-8")
 
     def test_native_defaults_with_different_order_and_comments(self):
         client = self.directory / "config/forge-client.toml"

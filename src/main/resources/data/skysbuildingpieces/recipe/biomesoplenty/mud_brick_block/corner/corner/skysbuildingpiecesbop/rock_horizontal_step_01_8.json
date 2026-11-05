@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/skysbuildingpiecesbop",
   "pattern": ["XX"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
-    }
+    "X": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
   },
   "result": {
     "id": "skysbuildingpiecesbop:mud_brick_block_corner",

@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/biomesoplenty",
   "pattern": ["X ", " X"],
   "key": {
-    "X": {
-      "item": "biomesoplenty:redwood_slab"
-    }
+    "X": "biomesoplenty:redwood_slab"
   },
   "result": {
     "id": "skysbuildingpiecesbop:planks_redwood_horizontal_step",

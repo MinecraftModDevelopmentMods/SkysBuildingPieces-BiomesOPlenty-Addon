@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/planks_mahogany",
   "pattern": ["XX"],
   "key": {
-    "X": {
-      "item": "biomesoplenty:mahogany_slab"
-    }
+    "X": "biomesoplenty:mahogany_slab"
   },
   "result": {
     "id": "biomesoplenty:mahogany_planks",

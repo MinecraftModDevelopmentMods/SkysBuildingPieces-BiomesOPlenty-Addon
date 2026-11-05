@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/skysbuildingpiecesbop",
   "pattern": ["XX"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:crag_rock_vertical_step"
-    }
+    "X": "skysbuildingpiecesbop:crag_rock_vertical_step"
   },
   "result": {
     "id": "skysbuildingpiecesbop:crag_rock_corner",

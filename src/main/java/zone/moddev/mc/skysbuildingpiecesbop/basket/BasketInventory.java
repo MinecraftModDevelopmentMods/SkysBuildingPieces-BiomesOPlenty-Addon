@@ -29,11 +29,11 @@ public final class BasketInventory extends SimpleContainer {
         // Old contents remain recoverable even when the current insertion rules would reject them.
         BasketData.validate(tag);
 
-        ListTag entries = tag.getList("Items", 10);
+        ListTag entries = tag.getListOrEmpty("Items");
 
         for (int entryIndex = 0; entryIndex < entries.size(); entryIndex++) {
-            CompoundTag entry = entries.getCompound(entryIndex);
-            setItem(entry.getInt("Slot"), BasketData.readStack(entry, registries));
+            CompoundTag entry = entries.getCompoundOrEmpty(entryIndex);
+            setItem(entry.getIntOr("Slot", 0), BasketData.readStack(entry, registries));
         }
 
         loading = false;
@@ -72,7 +72,8 @@ public final class BasketInventory extends SimpleContainer {
             ItemStack stack = getItem(slot);
 
             if (!stack.isEmpty()) {
-                CompoundTag entry = (CompoundTag) stack.save(registries);
+                CompoundTag entry = (CompoundTag) ItemStack.CODEC.encodeStart(
+                        registries.createSerializationContext(net.minecraft.nbt.NbtOps.INSTANCE), stack).getOrThrow();
 
                 entry.putByte("Slot", (byte) slot);
                 entries.add(entry);

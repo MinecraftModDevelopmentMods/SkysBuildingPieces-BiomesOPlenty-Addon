@@ -35,25 +35,25 @@ final class WallRecoveryChecks {
             if (!name.equals("biomesoplenty:white_sandstone_wall")
                     && !name.equals("biomesoplenty:mud_brick_wall")) continue;
             for (JsonElement value : block.getAsJsonArray("states")) {
-                CompoundTag state = TagParser.parseTag(value.getAsString());
+                CompoundTag state = TagParser.parseCompoundFully(value.getAsString());
                 CompoundTag root = palette(state.copy());
                 new LegacyItemRecovery().fixTagCompound(root);
-                CompoundTag prepared = root.getCompound("Level").getList("Sections", 10).getCompound(0)
-                        .getList("Palette", 10).getCompound(0);
+                CompoundTag prepared = root.getCompoundOrEmpty("Level").getListOrEmpty("Sections").getCompoundOrEmpty(0)
+                        .getListOrEmpty("Palette").getCompoundOrEmpty(0);
                 CompoundTag fixed = (CompoundTag) server.getFixerUpper().update(References.BLOCK_STATE,
                         new Dynamic<>(NbtOps.INSTANCE, prepared), 2230,
-                        SharedConstants.getCurrentVersion().getDataVersion().getVersion()).getValue();
-                BlockState actual = NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(), fixed);
-                CompoundTag result = NbtUtils.writeBlockState(actual).getCompound("Properties");
-                CompoundTag original = state.getCompound("Properties");
+                        SharedConstants.getCurrentVersion().dataVersion().version()).getValue();
+                BlockState actual = NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, fixed);
+                CompoundTag result = NbtUtils.writeBlockState(actual).getCompoundOrEmpty("Properties");
+                CompoundTag original = state.getCompoundOrEmpty("Properties");
                 for (String direction : new String[] {"north", "south", "east", "west"}) {
-                    String expected = original.getString(direction).equals("true") ? "low" : "none";
-                    if (!result.getString(direction).equals(expected)) {
+                    String expected = original.getStringOr(direction, "").equals("true") ? "low" : "none";
+                    if (!result.getStringOr(direction, "").equals(expected)) {
                         throw new AssertionError("Native BOP wall lost its " + direction + " arm: " + state + " -> " + fixed);
                     }
                 }
                 for (String property : new String[] {"up", "waterlogged"}) {
-                    if (!result.getString(property).equals(original.getString(property))) {
+                    if (!result.getStringOr(property, "").equals(original.getStringOr(property, ""))) {
                         throw new AssertionError("Native BOP wall changed " + property + ": " + state);
                     }
                 }
@@ -66,13 +66,13 @@ final class WallRecoveryChecks {
                 itemData.putString("custom_data", "Keep this exactly");
                 stack.put("tag", itemData);
                 new LegacyItemRecovery().fixTagCompound(stack);
-                if (stack.getByte("Count") != 37 || stack.getByte("Slot") != 11
-                        || !stack.getCompound("tag").getString("custom_data").equals("Keep this exactly")) {
+                if (stack.getByteOr("Count", (byte) 0) != 37 || stack.getByteOr("Slot", (byte) 0) != 11
+                        || !stack.getCompoundOrEmpty("tag").getStringOr("custom_data", "").equals("Keep this exactly")) {
                     throw new AssertionError("BOP wall item lost its count, slot or custom data");
                 }
                 for (String direction : new String[] {"north", "south", "east", "west"}) {
-                    String expected = original.getString(direction).equals("true") ? "low" : "none";
-                    if (!stack.getCompound("tag").getCompound("BlockStateTag").getString(direction).equals(expected)) {
+                    String expected = original.getStringOr(direction, "").equals("true") ? "low" : "none";
+                    if (!stack.getCompoundOrEmpty("tag").getCompoundOrEmpty("BlockStateTag").getStringOr(direction, "").equals(expected)) {
                         throw new AssertionError("BOP wall item lost its " + direction + " connection");
                     }
                 }

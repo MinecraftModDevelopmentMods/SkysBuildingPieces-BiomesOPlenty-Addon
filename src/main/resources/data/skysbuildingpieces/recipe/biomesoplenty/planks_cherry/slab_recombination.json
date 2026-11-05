@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/planks_cherry",
   "pattern": ["XX"],
   "key": {
-    "X": {
-      "item": "minecraft:cherry_slab"
-    }
+    "X": "minecraft:cherry_slab"
   },
   "result": {
     "id": "minecraft:cherry_planks",

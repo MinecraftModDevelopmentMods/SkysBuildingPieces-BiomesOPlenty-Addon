@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/skysbuildingpiecesbop",
   "pattern": ["X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:limestone_polished_vertical_slab"
-    }
+    "X": "skysbuildingpiecesbop:limestone_polished_vertical_slab"
   },
   "result": {
     "id": "skysbuildingpiecesbop:limestone_polished_slab",

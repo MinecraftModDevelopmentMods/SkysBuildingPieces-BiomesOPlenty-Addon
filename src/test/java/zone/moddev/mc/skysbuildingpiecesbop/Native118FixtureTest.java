@@ -41,13 +41,13 @@ class Native118FixtureTest {
         var originals = source.getAsJsonObject("basket_source").getAsJsonArray("baskets");
         assertEquals(8, originals.size());
         for (int basket = 0; basket < originals.size(); basket++) {
-            var stack = TagParser.parseTag(originals.get(basket).getAsJsonObject().get("stack").getAsString());
+            var stack = TagParser.parseCompoundFully(originals.get(basket).getAsJsonObject().get("stack").getAsString());
             int units = 0;
             Set<Integer> slots = new HashSet<>();
-            for (var entry : stack.getCompound("tag").getList("Items", 10)) {
+            for (var entry : stack.getCompoundOrEmpty("tag").getListOrEmpty("Items")) {
                 var item = (net.minecraft.nbt.CompoundTag) entry;
-                assertTrue(slots.add(item.getByte("Slot") & 255));
-                units += item.getByte("Count") & 255;
+                assertTrue(slots.add(item.getByteOr("Slot", (byte) 0) & 255));
+                units += item.getByteOr("Count", (byte) 0) & 255;
             }
             assertEquals(expectedUnits[basket], units);
         }

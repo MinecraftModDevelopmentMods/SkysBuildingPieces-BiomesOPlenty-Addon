@@ -57,13 +57,10 @@ final class SourceNeighbourChecks {
             BlockState upper = side == Direction.UP ? neighbour : source;
             // These source halves disagree. A pending update can leave the original state,
             // and either half can be validated first as neighbouring chunks become ready.
-            BlockState lowerFirst = lower.updateShape(Direction.UP, upper, world, lowerPosition, lowerPosition.above());
-            BlockState upperAfterLower = upper.updateShape(Direction.DOWN, lowerFirst, world,
-                    lowerPosition.above(), lowerPosition);
-            BlockState upperFirst = upper.updateShape(Direction.DOWN, lower, world,
-                    lowerPosition.above(), lowerPosition);
-            BlockState lowerAfterUpper = lower.updateShape(Direction.UP, upperFirst, world,
-                    lowerPosition, lowerPosition.above());
+            BlockState lowerFirst = lower.updateShape(world, world, lowerPosition, Direction.UP, lowerPosition.above(), upper, world.getRandom());
+            BlockState upperAfterLower = upper.updateShape(world, world, lowerPosition.above(), Direction.DOWN, lowerPosition, lowerFirst, world.getRandom());
+            BlockState upperFirst = upper.updateShape(world, world, lowerPosition.above(), Direction.DOWN, lowerPosition, lower, world.getRandom());
+            BlockState lowerAfterUpper = lower.updateShape(world, world, lowerPosition, Direction.UP, lowerPosition.above(), upperFirst, world.getRandom());
             var expected = java.util.List.of(source, side == Direction.UP ? lowerFirst : upperAfterLower,
                     side == Direction.UP ? lowerAfterUpper : upperFirst);
             require(result.put(position, expected) == null, "Repeated source door position");
@@ -102,10 +99,10 @@ final class SourceNeighbourChecks {
     }
 
     private static BlockState state(String text, JsonObject aliases) throws Exception {
-        var saved = TagParser.parseTag(text);
-        String name = saved.getString("Name");
+        var saved = TagParser.parseCompoundFully(text);
+        String name = saved.getStringOr("Name", "");
         if (aliases.has(name)) saved.putString("Name", aliases.get(name).getAsString());
-        return NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(), saved);
+        return NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, saved);
     }
 
     private static void require(boolean condition, String message) {

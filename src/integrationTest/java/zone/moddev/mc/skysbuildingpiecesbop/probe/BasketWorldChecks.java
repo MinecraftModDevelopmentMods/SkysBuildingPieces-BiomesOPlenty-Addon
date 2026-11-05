@@ -10,7 +10,6 @@ import java.nio.file.*;
 import net.minecraft.nbt.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.server.ServerLifecycleHooks;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.event.TickEvent;
 import zone.moddev.mc.skysbuildingpieces.legacy.*;
 
@@ -21,11 +20,20 @@ public final class BasketWorldChecks {
 
     private int ticks;
 
-    @SubscribeEvent
-    public void tick(TickEvent.ServerTickEvent event) throws Exception {
-        if (event.phase != TickEvent.Phase.END) {
-            return;
-        }
+    private net.minecraftforge.eventbus.api.listener.EventListener listener;
+
+    static void register() {
+        var check = new BasketWorldChecks();
+        check.listener = TickEvent.ServerTickEvent.Post.BUS.addListener(event -> {
+            try {
+                check.tick(event);
+            } catch (Exception failure) {
+                throw new IllegalStateException("Cannot audit the copied world", failure);
+            }
+        });
+    }
+
+    public void tick(TickEvent.ServerTickEvent.Post event) throws Exception {
 
         net.minecraft.server.MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 
@@ -49,7 +57,7 @@ public final class BasketWorldChecks {
 
         LegacyBridge.report(world);
 
-        CompoundTag state = PiecesWorldState.get(world).save(new CompoundTag(), world.registryAccess());
+        CompoundTag state = PiecesWorldState.get(world).saveTag(new CompoundTag());
         File snapshot = new File(world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(), "basket-qualification-state.dat");
         boolean reload = System.getProperty("skysbuildingpieces.integrationPhase").endsWith("reload");
 
@@ -69,9 +77,9 @@ public final class BasketWorldChecks {
             }
         }
 
-        LOGGER.info("BOP_BASKET_SYLVESTER_PASS all_carriers_loaded=true schema=" + state.getInt("schema_version")
+        LOGGER.info("BOP_BASKET_SYLVESTER_PASS all_carriers_loaded=true schema=" + state.getIntOr("schema_version", 0)
                 + " reload=" + reload);
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.unregister(this);
+        TickEvent.ServerTickEvent.Post.BUS.removeListener(listener);
         server.halt(false);
     }
 }

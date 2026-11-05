@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/skysbuildingpiecesbop",
   "pattern": ["X ", " X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:shale_polished_slab"
-    }
+    "X": "skysbuildingpiecesbop:shale_polished_slab"
   },
   "result": {
     "id": "skysbuildingpiecesbop:shale_polished_horizontal_step",

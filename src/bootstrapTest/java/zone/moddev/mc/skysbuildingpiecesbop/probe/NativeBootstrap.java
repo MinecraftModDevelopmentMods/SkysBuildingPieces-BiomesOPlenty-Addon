@@ -24,18 +24,18 @@ public final class NativeBootstrap {
     private MinecraftServer recipeServer;
     private long nextRecipeBatch;
 
-    public NativeBootstrap() {
+    public NativeBootstrap(net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext context) {
         zone.moddev.mc.skysbuildingpieces.probe.PersistenceRegistrationChecks.register(
-                net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus());
-        MinecraftForge.EVENT_BUS.addListener(this::started);
-        MinecraftForge.EVENT_BUS.addListener(this::tick);
-        net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus()
+                context.getModBusGroup());
+        ServerStartedEvent.BUS.addListener(this::started);
+        net.minecraftforge.event.TickEvent.ServerTickEvent.Post.BUS.addListener(this::tick);
+        net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent.getBus(context.getModBusGroup())
                 .addListener(BopPersistenceOrderChecks::ready);
         net.minecraftforge.fml.DistExecutor.runWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> {
             new zone.moddev.mc.skysbuildingpieces.probe.ClientProbe().init();
-            MinecraftForge.EVENT_BUS.register(BasketGuiClientChecks.class);
-            MinecraftForge.EVENT_BUS.register(BasketDisconnectClientChecks.class);
-            MinecraftForge.EVENT_BUS.register(BasketClientChecks.class);
+            BasketClientChecks.register();
+            BasketGuiClientChecks.register();
+            BasketDisconnectClientChecks.register();
         });
     }
 
@@ -53,10 +53,7 @@ public final class NativeBootstrap {
         }
     }
 
-    private void tick(net.minecraftforge.event.TickEvent.ServerTickEvent event) {
-        if (event.phase != net.minecraftforge.event.TickEvent.Phase.END) {
-            return;
-        }
+    private void tick(net.minecraftforge.event.TickEvent.ServerTickEvent.Post event) {
         if (recipeServer != null && System.nanoTime() >= nextRecipeBatch) {
             finishRecipeBatch();
             return;

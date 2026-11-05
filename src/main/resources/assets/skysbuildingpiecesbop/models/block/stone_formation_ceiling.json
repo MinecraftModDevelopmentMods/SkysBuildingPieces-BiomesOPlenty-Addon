@@ -53,5 +53,6 @@
         "east": {"texture": "#stone"}
       }
     }
-  ]
+  ],
+  "render_type": "minecraft:cutout"
 }

@@ -75,7 +75,7 @@ final class ForwardUpgradeChecks {
         if (manifest.has("source_saved_states")) {
             for (JsonElement value : manifest.getAsJsonArray("source_saved_states")) {
                 JsonObject row = value.getAsJsonObject();
-                sourceStates.put(position(row), TagParser.parseTag(row.get("state").getAsString()));
+                sourceStates.put(position(row), TagParser.parseCompoundFully(row.get("state").getAsString()));
             }
         }
 
@@ -128,14 +128,14 @@ final class ForwardUpgradeChecks {
                 // These older range fixtures include unsupported plants and incomplete tall plants.
                 // Keep their saved properties, then use the same native neighbour validation as chunk loading.
                 if (manifest.has("source_saved_states")
-                        && (expected.getBlock() instanceof net.minecraft.world.level.block.BushBlock
+                        && (expected.getBlock() instanceof net.minecraft.world.level.block.VegetationBlock
                         || expected.getBlock() instanceof net.minecraft.world.level.block.VineBlock)) {
                     CompoundTag original = sourceStates.get(position);
                     if (original != null) {
-                        for (String key : original.getCompound("Properties").getAllKeys()) {
+                        for (String key : original.getCompoundOrEmpty("Properties").keySet()) {
                             var property = expected.getBlock().getStateDefinition().getProperty(key);
                             if (property != null) {
-                                expected = sourceProperty(expected, property, original.getCompound("Properties").getString(key));
+                                expected = sourceProperty(expected, property, original.getCompoundOrEmpty("Properties").getStringOr(key, ""));
                             }
                         }
                     }
@@ -150,8 +150,8 @@ final class ForwardUpgradeChecks {
 
                 CompoundTag sourceState = sourceStates.get(position);
                 if (verifiedFlows.contains(position) && expected.is(net.minecraft.world.level.block.Blocks.WATER)
-                        && sourceState != null && sourceState.getString("Name").equals("minecraft:water")
-                        && Integer.parseInt(sourceState.getCompound("Properties").getString("level")) > 0) {
+                        && sourceState != null && sourceState.getStringOr("Name", "").equals("minecraft:water")
+                        && Integer.parseInt(sourceState.getCompoundOrEmpty("Properties").getStringOr("level", "")) > 0) {
                     // The native data fixer preserved this exact source state. Ticking can then move its water.
                     // Source water and waterlogged pieces retain their usual exact-state checks.
                     require(actual.isAir() || actual.is(net.minecraft.world.level.block.Blocks.WATER),
@@ -219,36 +219,36 @@ final class ForwardUpgradeChecks {
             BlockPos storagePosition = SourceNeighbourChecks.containerPosition(world, chestPosition);
             ChestBlockEntity chest = (ChestBlockEntity) world.getBlockEntity(storagePosition);
             ItemStack actual = chest.getItem(row.get("slot").getAsInt());
-            CompoundTag original = TagParser.parseTag(row.get("item").getAsString());
+            CompoundTag original = TagParser.parseCompoundFully(row.get("item").getAsString());
 
-            require(actual.getCount() == original.getByte("Count"), "Saved stack count changed: " + row + ", actual " + actual);
+            require(actual.getCount() == original.getByteOr("Count", (byte) 0), "Saved stack count changed: " + row + ", actual " + actual);
 
             if (row.has("basket")) {
                 require(net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(actual.getItem()).toString().equals("skysbuildingpiecesbop:flower_basket"),
                         "Saved basket became another item");
 
-                ListTag contents = BopProbeItems.custom(actual).getList("Items", 10);
+                ListTag contents = BopProbeItems.custom(actual).getListOrEmpty("Items");
                 int expectedUnits = 0;
-                ListTag source = original.getCompound("tag").getList("Items", 10);
+                ListTag source = original.getCompoundOrEmpty("tag").getListOrEmpty("Items");
 
                 require(contents.size() == source.size(), "A basket lost stored slots: " + row.get("basket"));
 
                 var inventory = new zone.moddev.mc.skysbuildingpiecesbop.basket.BasketInventory(actual, world.registryAccess());
                 for (int slot = 0; slot < source.size(); slot++) {
-                    CompoundTag before = source.getCompound(slot);
-                    CompoundTag after = contents.getCompound(slot);
+                    CompoundTag before = source.getCompoundOrEmpty(slot);
+                    CompoundTag after = contents.getCompoundOrEmpty(slot);
 
-                    require(before.getByte("Slot") == after.getByte("Slot")
-                            && before.getByte("Count") == zone.moddev.mc.skysbuildingpiecesbop.basket.BasketData.count(after),
+                    require(before.getByteOr("Slot", (byte) 0) == after.getByteOr("Slot", (byte) 0)
+                            && before.getByteOr("Count", (byte) 0) == zone.moddev.mc.skysbuildingpiecesbop.basket.BasketData.count(after),
                             "Basket slot/count changed");
-                    ItemStack stored = inventory.getItem(before.getByte("Slot"));
-                    require(stored.getCount() == before.getByte("Count"), "Basket could not read the saved slot");
+                    ItemStack stored = inventory.getItem(before.getByteOr("Slot", (byte) 0));
+                    require(stored.getCount() == before.getByteOr("Count", (byte) 0), "Basket could not read the saved slot");
 
                     String expectedId = currentItemTarget(plant(before));
 
-                    require(after.getString("id").equals(expectedId),
+                    require(after.getStringOr("id", "").equals(expectedId),
                             "Basket plant changed: " + before + ", expected " + expectedId + ", actual " + after);
-                    expectedUnits += before.getByte("Count");
+                    expectedUnits += before.getByteOr("Count", (byte) 0);
                 }
 
                 units += expectedUnits;
@@ -257,12 +257,12 @@ final class ForwardUpgradeChecks {
                 require(net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(actual.getItem()).toString()
                         .equals(currentItemTarget(row.get("target_item").getAsString())),
                         "Saved native BOP item changed: " + row + ", actual " + actual);
-                require(original.getCompound("tag").equals(BopProbeItems.custom(actual)), "Saved native item custom data changed");
+                require(original.getCompoundOrEmpty("tag").equals(BopProbeItems.custom(actual)), "Saved native item custom data changed");
             } else {
-                ItemStack expected = Pieces.legacyItem(original.getString("id"), original.getShort("Damage"), 1);
+                ItemStack expected = Pieces.legacyItem(original.getStringOr("id", ""), original.getShortOr("Damage", (short) 0), 1);
 
                 require(expected.getItem() == actual.getItem(), "Saved piece item changed: " + row);
-                require(original.getCompound("tag").equals(BopProbeItems.custom(actual)), "Saved custom item NBT changed: " + row);
+                require(original.getCompoundOrEmpty("tag").equals(BopProbeItems.custom(actual)), "Saved custom item NBT changed: " + row);
             }
         }
 
@@ -273,8 +273,8 @@ final class ForwardUpgradeChecks {
 
         ItemStack shovel = ((ChestBlockEntity) world.getBlockEntity(
                 SourceNeighbourChecks.containerPosition(world, shovelPosition))).getItem(0);
-        var efficiency = world.registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.ENCHANTMENT)
-                .getHolderOrThrow(net.minecraft.world.item.enchantment.Enchantments.EFFICIENCY);
+        var efficiency = world.registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.ENCHANTMENT)
+                .getOrThrow(net.minecraft.world.item.enchantment.Enchantments.EFFICIENCY);
 
         require(shovel.getItem() == net.minecraft.world.item.Items.DIAMOND_SHOVEL && shovel.getDamageValue() == 17
                 && shovel.getHoverName().getString().equals("A saved slope shovel")
@@ -329,11 +329,11 @@ final class ForwardUpgradeChecks {
                     CompoundTag firstData = net.minecraft.nbt.NbtIo.readCompressed(original, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
                     CompoundTag currentData = net.minecraft.nbt.NbtIo.readCompressed(reloaded, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
                     if (name.equals("skysbuildingpieces_world_state.dat")) {
-                        require(firstData.contains("data", 10) && currentData.contains("data", 10),
+                        require((firstData.get("data") instanceof net.minecraft.nbt.CompoundTag) && (currentData.get("data") instanceof net.minecraft.nbt.CompoundTag),
                                 "The saved-data wrapper is missing its contents");
-                        int previousVersion = firstData.getInt("DataVersion");
-                        int currentVersion = currentData.getInt("DataVersion");
-                        int targetVersion = net.minecraft.SharedConstants.getCurrentVersion().getDataVersion().getVersion();
+                        int previousVersion = firstData.getIntOr("DataVersion", 0);
+                        int currentVersion = currentData.getIntOr("DataVersion", 0);
+                        int targetVersion = net.minecraft.SharedConstants.getCurrentVersion().dataVersion().version();
                         require(previousVersion <= targetVersion
                                 && (currentVersion == previousVersion || currentVersion == targetVersion),
                                 "Unexpected saved-data version change");
@@ -359,7 +359,7 @@ final class ForwardUpgradeChecks {
             return false;
         }
         CompoundTag source = readCompressed(new File("source-level.dat"));
-        if (source.contains("FML", 10) || source.getCompound("Data").getInt("DataVersion") < 1451) {
+        if ((source.get("FML") instanceof net.minecraft.nbt.CompoundTag) || source.getCompoundOrEmpty("Data").getIntOr("DataVersion", 0) < 1451) {
             return false;
         }
         // A named source can carry the old FML table in the core sidecar
@@ -369,8 +369,8 @@ final class ForwardUpgradeChecks {
         if (!coreSidecar.isFile()) {
             return false;
         }
-        CompoundTag fml = readCompressed(coreSidecar).getCompound("FML");
-        CompoundTag blocks = fml.getCompound("Registries").getCompound("minecraft:blocks");
+        CompoundTag fml = readCompressed(coreSidecar).getCompoundOrEmpty("FML");
+        CompoundTag blocks = fml.getCompoundOrEmpty("Registries").getCompoundOrEmpty("minecraft:blocks");
         CompoundTag expected = new CompoundTag();
         expected.put("Blocks", blocks);
         if (grass) {
@@ -391,12 +391,12 @@ final class ForwardUpgradeChecks {
         if (manifest.has("source_saved_states")) {
             for (JsonElement element : manifest.getAsJsonArray("source_saved_states")) {
                 JsonObject row = element.getAsJsonObject();
-                CompoundTag saved = TagParser.parseTag(row.get("state").getAsString());
+                CompoundTag saved = TagParser.parseCompoundFully(row.get("state").getAsString());
 
                 // Installing Mineralogy later does not replace an already named fallback block.
                 // Its bridge recipe is the player's explicit conversion route.
-                if (saved.getString("Name").equals("skysbuildingpiecesbop:retired_rocks")) {
-                    BlockState state = net.minecraft.nbt.NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(), saved);
+                if (saved.getStringOr("Name", "").equals("skysbuildingpiecesbop:retired_rocks")) {
+                    BlockState state = net.minecraft.nbt.NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, saved);
 
                     require(state.getBlock() == zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks.BLOCK,
                             "A named fallback rock no longer resolves");
@@ -441,7 +441,7 @@ final class ForwardUpgradeChecks {
 
             world.getChunk(position(row));
 
-            String actual = world.registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.BIOME)
+            String actual = world.registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.BIOME)
                     .getKey(world.getBiome(position(row)).value()).toString();
 
             require(actual.equals(currentTarget("biomes", row.get("target_biome").getAsString())),
@@ -465,8 +465,8 @@ final class ForwardUpgradeChecks {
     }
 
     private static String plant(CompoundTag original) {
-        String id = original.getString("id");
-        int metadata = original.getShort("Damage");
+        String id = original.getStringOr("id", "");
+        int metadata = original.getShortOr("Damage", (short) 0);
 
         if (id.equals("minecraft:sapling")) {
             return "minecraft:" + new String[] { "oak", "spruce", "birch", "jungle", "acacia", "dark_oak" }[metadata]
@@ -507,6 +507,10 @@ final class ForwardUpgradeChecks {
         }
     }
 
+    static boolean isRecentBlockRename(String id) {
+        return TARGET_UPGRADES.getAsJsonObject("renamed_1_21_11").has(id);
+    }
+
     static String currentTarget(String group, String id) {
         if (group.equals("blocks") || group.equals("items")) {
             if (id.equals("minecraft:grass_path")) {
@@ -519,6 +523,13 @@ final class ForwardUpgradeChecks {
         JsonObject mappings = TARGET_UPGRADES.getAsJsonObject(group);
 
         String target = mappings.has(id) ? mappings.get(id).getAsString() : id;
+
+        if (group.equals("blocks") || group.equals("items")) {
+            var recent = TARGET_UPGRADES.getAsJsonObject("renamed_1_21_11");
+            if (recent.has(target)) {
+                target = recent.get(target).getAsString();
+            }
+        }
 
         if (group.equals("biomes")) {
             if (target.equals("minecraft:nether")) return "minecraft:nether_wastes";

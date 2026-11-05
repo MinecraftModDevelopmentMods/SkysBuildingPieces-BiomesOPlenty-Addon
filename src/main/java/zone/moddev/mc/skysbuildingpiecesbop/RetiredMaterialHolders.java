@@ -8,18 +8,12 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.MissingMappingsEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 /** Separate hidden identities keep mixed old and current palette saves unambiguous. */
-@Mod.EventBusSubscriber(
-        modid = SkysBuildingPiecesBop.ID,
-        bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class RetiredMaterialHolders {
     public static Block STONE;
     public static Block CRAG;
@@ -32,8 +26,6 @@ public final class RetiredMaterialHolders {
     private RetiredMaterialHolders() {
     }
 
-    @SubscribeEvent(
-            priority = EventPriority.HIGHEST)
     public static void blocks(RegisterEvent event) {
         if (!event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
         STONE = new Holder("legacy_bop_stone");
@@ -46,15 +38,15 @@ public final class RetiredMaterialHolders {
         for (int index = 0; index < BLOCKS.length; index++) {
             String id = new String[] { "legacy_bop_stone", "legacy_bop_crag_rock", "legacy_bop_stone_formations",
                     "legacy_bop_jelled_poison", "legacy_bop_tree_moss" }[index];
-            ForgeRegistries.BLOCKS.register(ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, id), BLOCKS[index]);
+            ForgeRegistries.BLOCKS.register(Identifier.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, id), BLOCKS[index]);
         }
     }
 
-    @SubscribeEvent
     public static void items(RegisterEvent event) {
         if (!event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) return;
         for (Block block : BLOCKS) {
-            ForgeRegistries.ITEMS.register(ForgeRegistries.BLOCKS.getKey(block), new BlockItem(block, new Item.Properties()));
+            Identifier id = ForgeRegistries.BLOCKS.getKey(block);
+            ForgeRegistries.ITEMS.register(id, new BlockItem(block, SkysBuildingPiecesBop.itemProperties(id)));
         }
     }
 
@@ -62,7 +54,7 @@ public final class RetiredMaterialHolders {
         if (!event.getKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
         for (MissingMappingsEvent.Mapping<Block> mapping : event.getAllMappings(ForgeRegistries.Keys.BLOCKS)) {
             for (int legacyIdIndex = 0; legacyIdIndex < OLD_IDS.length; legacyIdIndex++) {
-                if (mapping.getKey().equals(ResourceLocation.fromNamespaceAndPath("biomesoplenty", OLD_IDS[legacyIdIndex]))) {
+                if (mapping.getKey().equals(Identifier.fromNamespaceAndPath("biomesoplenty", OLD_IDS[legacyIdIndex]))) {
                     mapping.remap(BLOCKS[legacyIdIndex]);
                 }
             }
@@ -73,7 +65,7 @@ public final class RetiredMaterialHolders {
         if (!event.getKey().equals(ForgeRegistries.Keys.ITEMS)) return;
         for (MissingMappingsEvent.Mapping<Item> mapping : event.getAllMappings(ForgeRegistries.Keys.ITEMS)) {
             for (int legacyIdIndex = 0; legacyIdIndex < OLD_IDS.length; legacyIdIndex++) {
-                if (mapping.getKey().equals(ResourceLocation.fromNamespaceAndPath("biomesoplenty", OLD_IDS[legacyIdIndex]))) {
+                if (mapping.getKey().equals(Identifier.fromNamespaceAndPath("biomesoplenty", OLD_IDS[legacyIdIndex]))) {
                     mapping.remap(Item.byBlock(BLOCKS[legacyIdIndex]));
                 }
             }
@@ -84,7 +76,7 @@ public final class RetiredMaterialHolders {
         private static final IntegerProperty META = IntegerProperty.create("metadata", 0, 15);
 
         Holder(String name) {
-            super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(-1, 3600000));
+            super(SkysBuildingPiecesBop.blockProperties(name).mapColor(MapColor.STONE).strength(-1, 3600000));
             registerDefaultState(stateDefinition.any().setValue(META, 0));
         }
 

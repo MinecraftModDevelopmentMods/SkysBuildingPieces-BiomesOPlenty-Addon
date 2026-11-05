@@ -44,6 +44,8 @@ def native_conflict(rows, ingredient, output, native_recipes, tags):
     def accepts(value, visited=frozenset()):
         if isinstance(value, list):
             return any(accepts(entry, visited) for entry in value)
+        if isinstance(value, str):
+            value = {'tag': value[1:]} if value.startswith('#') else {'item': value}
         if 'item' in value:
             return value['item'] == ingredient
         if 'tag' in value:
@@ -299,18 +301,35 @@ def all_conditions(conditions):
 def native_recipe(recipe):
     if recipe.get('type') == 'forge:conditional':
         for choice in recipe['recipes']:
-            choice['forge:condition'] = all_conditions(choice.pop('conditions'))
+            if 'conditions' in choice:
+                choice['forge:condition'] = all_conditions(choice.pop('conditions'))
             native_recipe(choice['recipe'])
     if 'conditions' in recipe:
         recipe['forge:condition'] = all_conditions(recipe.pop('conditions'))
-    if 'result' in recipe and 'item' in recipe['result']:
+    if isinstance(recipe.get('result'), dict) and 'item' in recipe['result']:
         recipe['result'] = {'id' if key == 'item' else key: value for key, value in recipe['result'].items()}
+    if 'key' in recipe:
+        recipe['key'] = {key: native_ingredient(value) for key, value in recipe['key'].items()}
+    if 'ingredient' in recipe:
+        recipe['ingredient'] = native_ingredient(recipe['ingredient'])
+    if 'ingredients' in recipe:
+        recipe['ingredients'] = [native_ingredient(value) for value in recipe['ingredients']]
     return recipe
+
+
+def native_ingredient(value):
+    if isinstance(value, list):
+        return [native_ingredient(entry) for entry in value]
+    if isinstance(value, dict) and set(value) == {'item'}:
+        return value['item']
+    if isinstance(value, dict) and set(value) == {'tag'}:
+        return '#' + value['tag']
+    return value
 
 
 def native_advancement(advancement):
     if 'advancements' in advancement:
-        return {'advancements': [
+        return {'forge:conditional': [
             {'forge:condition': all_conditions(choice['conditions']), **native_advancement(choice['advancement'])}
             for choice in advancement['advancements']
         ]}

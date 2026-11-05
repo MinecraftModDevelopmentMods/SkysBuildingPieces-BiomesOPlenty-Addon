@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/skysbuildingpiecesbop",
   "pattern": ["X ", " X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:planks_mahogany_vertical_slab"
-    }
+    "X": "skysbuildingpiecesbop:planks_mahogany_vertical_slab"
   },
   "result": {
     "id": "skysbuildingpiecesbop:planks_mahogany_horizontal_step",

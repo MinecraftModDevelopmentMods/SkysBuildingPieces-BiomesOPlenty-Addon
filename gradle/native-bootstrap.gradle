@@ -26,7 +26,7 @@ def compileBootstrap = tasks.register('compileNativeBootstrap', JavaCompile) {
     source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/RecipeBookChecks.java'))
     source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/RecombinationChecks.java'))
     source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/PersistenceRegistrationChecks.java'))
-    ['NativeLegacyChecks', 'DirtCoverageChecks', 'CoverageContributor', 'NativeProbeItems'].each { name ->
+    ['NativeRecipeProbe', 'NativeLegacyChecks', 'DirtCoverageChecks', 'CoverageContributor', 'NativeProbeItems'].each { name ->
         source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/' + name + '.java'))
     }
     source fileTree(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/legacy'))
@@ -126,6 +126,10 @@ def prepare = tasks.register('prepareNativeBootstrap') {
             File blockRenames = file(archive.path.replaceFirst(/\.zip$/, '.forge50-grass-rename.json'))
             if (blockRenames.isFile()) {
                 copy { from blockRenames; into target; rename { 'forward-block-renames.json' } }
+            }
+            File fluid = file(archive.path.replaceFirst(/\.zip$/, '.forge61-fluid.json'))
+            if (fluid.isFile()) {
+                copy { from fluid; into target; rename { 'forward-fluid-changes.json' } }
             }
             File biomes = file(archive.path.replaceFirst(/\.zip$/, '.biomes.json'))
             if (biomes.isFile()) {

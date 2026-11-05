@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/planks_hellbark",
   "pattern": ["X", "X"],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:planks_hellbark_corner"
-    }
+    "X": "skysbuildingpiecesbop:planks_hellbark_corner"
   },
   "result": {
     "id": "skysbuildingpiecesbop:planks_hellbark_horizontal_step",

@@ -24,7 +24,7 @@
     "15": "biomesoplenty:snowblossom_sapling"
   },
   "biomesoplenty:sapling_1": {
-    "0": "biomesoplenty:origin_sapling",
+    "0": "biomesoplenty:origin_oak_sapling",
     "1": "minecraft:cherry_sapling",
     "2": "biomesoplenty:snowblossom_sapling",
     "3": "biomesoplenty:red_maple_sapling",
@@ -32,7 +32,7 @@
     "5": "biomesoplenty:flowering_oak_sapling",
     "6": "biomesoplenty:jacaranda_sapling",
     "7": "minecraft:oak_sapling",
-    "8": "biomesoplenty:origin_sapling",
+    "8": "biomesoplenty:origin_oak_sapling",
     "9": "minecraft:cherry_sapling",
     "10": "biomesoplenty:snowblossom_sapling",
     "11": "biomesoplenty:red_maple_sapling",
@@ -62,7 +62,7 @@
   "biomesoplenty:plant_0": {
     "0": "minecraft:grass",
     "1": "minecraft:grass",
-    "2": "biomesoplenty:bush",
+    "2": "minecraft:bush",
     "3": "biomesoplenty:sprout",
     "4": "biomesoplenty:bramble",
     "5": "minecraft:sweet_berries",
@@ -99,7 +99,7 @@
     "4": "biomesoplenty:blue_hydrangea",
     "5": "biomesoplenty:orange_cosmos",
     "6": "biomesoplenty:pink_daffodil",
-    "7": "biomesoplenty:wildflower",
+    "7": "biomesoplenty:purple_wildflowers",
     "8": "biomesoplenty:violet",
     "9": "minecraft:oxeye_daisy",
     "10": "biomesoplenty:wilted_lily",
@@ -115,6 +115,6 @@
     "2": "minecraft:cornflower",
     "3": "biomesoplenty:glowflower",
     "4": "biomesoplenty:blue_hydrangea",
-    "5": "biomesoplenty:rose"
+    "5": "biomesoplenty:origin_rose"
   }
 }

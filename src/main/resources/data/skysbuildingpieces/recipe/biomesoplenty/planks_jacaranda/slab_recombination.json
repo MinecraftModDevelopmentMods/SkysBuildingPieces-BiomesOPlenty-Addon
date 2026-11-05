@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/planks_jacaranda",
   "pattern": ["XX"],
   "key": {
-    "X": {
-      "item": "biomesoplenty:jacaranda_slab"
-    }
+    "X": "biomesoplenty:jacaranda_slab"
   },
   "result": {
     "id": "biomesoplenty:jacaranda_planks",

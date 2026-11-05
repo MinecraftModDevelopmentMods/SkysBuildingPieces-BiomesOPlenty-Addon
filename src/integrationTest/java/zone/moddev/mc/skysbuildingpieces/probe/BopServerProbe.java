@@ -4,11 +4,10 @@ import java.nio.file.Files;
 import java.util.Properties;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import zone.moddev.mc.skysbuildingpiecesbop.probe.BopChecks;
 
@@ -21,6 +20,7 @@ public final class BopServerProbe {
     private RecombinationChecks.Audit combinations;
     private int startupTicks;
     private long nextBatch;
+    private net.minecraftforge.eventbus.api.listener.EventListener listener;
 
     private BopServerProbe(MinecraftServer server, String phase) {
         this.server = server;
@@ -29,12 +29,13 @@ public final class BopServerProbe {
     }
 
     public static void register(MinecraftServer server, String phase) {
-        MinecraftForge.EVENT_BUS.register(new BopServerProbe(server, phase));
+        BopServerProbe probe = new BopServerProbe(server, phase);
+        GameplayChecks.prepare(probe.world);
+        probe.listener = TickEvent.ServerTickEvent.Post.BUS.addListener(probe::tick);
     }
 
-    @SubscribeEvent
-    public void tick(TickEvent.ServerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || System.nanoTime() < nextBatch) {
+    public void tick(TickEvent.ServerTickEvent.Post event) {
+        if (System.nanoTime() < nextBatch) {
             return;
         }
         try {
@@ -45,8 +46,14 @@ public final class BopServerProbe {
                     }
                     return;
                 }
-                world.getGameRules().getRule(GameRules.RULE_RANDOMTICKING).set(0, server);
-                world.getGameRules().getRule(GameRules.RULE_DOFIRETICK).set(false, server);
+                server.getCommands().performPrefixedCommand(server.createCommandSourceStack().withSuppressedOutput(),
+                        "gamerule minecraft:random_tick_speed 0");
+                server.getCommands().performPrefixedCommand(server.createCommandSourceStack().withSuppressedOutput(),
+                        "gamerule minecraft:fire_spread_radius_around_player 0");
+                if (world.getGameRules().get(GameRules.RANDOM_TICK_SPEED) != 0
+                        || world.getGameRules().get(GameRules.FIRE_SPREAD_RADIUS_AROUND_PLAYER) != 0) {
+                    throw new AssertionError("The disposable runtime rules were not applied");
+                }
                 recipes = new RecipeChecks.Audit(world);
             }
             if (combinations == null) {
@@ -98,7 +105,7 @@ public final class BopServerProbe {
 
     private void stop() {
         GameplayChecks.release(world);
-        MinecraftForge.EVENT_BUS.unregister(this);
+        TickEvent.ServerTickEvent.Post.BUS.removeListener(listener);
         server.halt(false);
     }
 }

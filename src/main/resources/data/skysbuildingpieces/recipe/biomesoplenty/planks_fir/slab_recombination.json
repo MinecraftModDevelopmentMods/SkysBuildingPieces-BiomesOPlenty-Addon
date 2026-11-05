@@ -3,9 +3,7 @@
   "group": "skysbuildingpieces/planks_fir",
   "pattern": ["XX"],
   "key": {
-    "X": {
-      "item": "biomesoplenty:fir_slab"
-    }
+    "X": "biomesoplenty:fir_slab"
   },
   "result": {
     "id": "biomesoplenty:fir_planks",
