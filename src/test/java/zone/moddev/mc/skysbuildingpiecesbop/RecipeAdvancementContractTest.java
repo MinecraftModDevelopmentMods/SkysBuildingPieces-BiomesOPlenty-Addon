@@ -18,7 +18,7 @@ class RecipeAdvancementContractTest {
         for (JsonElement element : entries) {
             String relative = element.getAsString();
 
-            if (!relative.contains("/advancements/")) {
+            if (!relative.contains("/advancement/")) {
                 continue;
             }
 
@@ -54,7 +54,7 @@ class RecipeAdvancementContractTest {
 
         assertTrue(
                 Files.isRegularFile(
-                        Paths.get("src/main/resources/data/" + identity[0] + "/recipes/" + identity[1] + ".json")),
+                        Paths.get("src/main/resources/data/" + identity[0] + "/recipe/" + identity[1] + ".json")),
                 recipe);
         assertFalse(advancement.has("parent"),
                 "Large recipe catalogues must not share a recursive visibility parent: " + recipe);

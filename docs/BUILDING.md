@@ -2,13 +2,13 @@
 
 Use Temurin 21.0.7+6 for Gradle and Temurin 21.0.7+6 for production. Set
 `SBP_JAVA21_HOME` to the Java 21 installation. The wrapper uses Gradle 9.6.1
-and ForgeGradle 7.0.34 for Minecraft 1.20.6 and Forge 50.2.0. ForgeGradle's
+and ForgeGradle 7.0.34 for Minecraft 1.21.1 and Forge 52.1.0. ForgeGradle's
 Mavenizer also needs Java 25; it is not used to compile or run the mod.
 
 The runtime log checks use Python 3.11 or later. If `python` is not on your
 path, pass `-PpythonExecutable=<python executable>` to Gradle.
 
-Check out Building Pieces 0.3.8.120061 at the exact source commit in
+Check out Building Pieces 0.3.8.121011 at the exact source commit in
 `gradle/core-dependency.properties`, then run its `gradlew assemble` task.
 Build this add-on with:
 
@@ -46,7 +46,7 @@ advancements use matching Forge conditions.
 material, basket, decoration and migration checks, then reloads the saved world.
 The accepted 1.12, 1.14, 1.15, 1.16, 1.17 and 1.18 jars produced the sealed worlds in
 `src/testFixtures`; the forward tests copy those worlds before starting the
-native Forge 1.20.6 server.
+native Forge 1.21.1 server.
 Older synthetic fixture writers are no longer used to create pre-flattening saves.
 
 `nativeClientTest` checks the baked models and basket GUI through real client
@@ -56,7 +56,7 @@ disconnecting with the basket open. All these runs use disposable build folders.
 
 The development integration harness uses one mod-loading thread. Packaged checks
 retain Forge's normal loading settings. Unexpected errors or crashes fail either
-profile; native Forge 50 controls complete without severe log messages.
+profile; the native Forge controls must complete without severe log messages.
 
 `nativeInstalledBopPolicyTest` checks all 33 materials with replacement off and
 on, including placed pieces and inventories. It uses a labelled test fixture,

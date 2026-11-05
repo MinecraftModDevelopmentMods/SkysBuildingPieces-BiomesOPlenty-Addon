@@ -7,6 +7,8 @@ import re
 
 
 def expected_mappings(profile):
+    if "forge52_mappings" in profile:
+        return profile["forge52_mappings"]
     expected = {kind: entries.copy() for kind, entries in profile["mappings"].items()}
     for kind, entries in profile.get("forge50_additional_mappings", {}).items():
         expected.setdefault(kind, {}).update(entries)
@@ -103,12 +105,18 @@ def profile_for(directory):
     source = json.loads(manifest.read_text(encoding="utf-8"))
     root = Path(__file__).resolve().parent.parent
     profiles = json.loads((root / "tools/native-log-profiles.json").read_text(encoding="utf-8"))["profiles"]
-    profile = profiles.get(source.get("archive_sha256"))
+    current_path = root / "tools/native-log-forge52-profiles.json"
+    current_profiles = json.loads(current_path.read_text(encoding="utf-8"))["profiles"] if current_path.is_file() else {}
+    fixture_id = source.get("archive_sha256")
+    current = current_profiles.get(fixture_id)
+    profile = profiles.get(fixture_id, current)
     if profile is None:
         return None
     fixture = root / profile["fixture"]
     sources = {source.get("source_jar_sha256")}
-    sources.update(entry.get("sha256") for entry in source.get("source_artifacts", []))
+    artifacts = source.get("source_artifacts")
+    if isinstance(artifacts, list):
+        sources.update(entry.get("sha256") for entry in artifacts)
     if (hashlib.sha256(fixture.read_bytes()).hexdigest().upper() != profile["sha256"]
             or profile["source_jar_sha256"] not in sources
             or profile.get("non_biome_saved_uses", profile["saved_uses"]) != 0
@@ -129,6 +137,14 @@ def profile_for(directory):
                 + profile.get("dynamic_biome_saved_uses", 0)):
             raise ValueError("The native biome contract does not match this source fixture")
     validate_registry_proofs(root, profile)
+    if current is not None:
+        if (current["sha256"] != fixture_id or current["fixture"] != profile["fixture"]
+                or current["source_jar_sha256"] not in sources or not current["mappings"]
+                or current["inspected_nbt_records"] <= 0):
+            raise ValueError("The Forge 52 registry proof does not match this fixture")
+        # Keep the historical proofs for data conversion. Only the exact set
+        # of registry notices changes with this Forge version.
+        profile = {**profile, "forge52_mappings": current["mappings"]}
     return profile
 
 
@@ -184,11 +200,14 @@ def audit_text(text, profile=None):
             raise ValueError("Unexpected native failure: " + line)
     if seen != headers:
         raise ValueError("The native registry notice is incomplete")
+    # A class-loading trace can name AssertionError without throwing one.
+    if re.search(r"(?m)^\s*(?:Caused by: )?java\.lang\.AssertionError(?::|$)", text):
+        raise ValueError("Unexpected native failure: java.lang.AssertionError")
     for problem in ("Encountered an unexpected exception", "Exception stopping the server",
                     "MissingModsException", "NoSuchMethodError", "NoClassDefFoundError",
                     "ExceptionInInitializerError", "cascading worldgen lag", "Unable to load model",
                     "Unable to load blockstate", "Unable to read property", "outside of the generating region",
-                    "java.lang.AssertionError", "java.lang.IllegalStateException:"):
+                    "java.lang.IllegalStateException:"):
         if problem in text:
             raise ValueError("Unexpected native failure: " + problem)
     return sorted(headers)

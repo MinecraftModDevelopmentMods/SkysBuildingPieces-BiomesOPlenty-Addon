@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.4.121011
+
+- Updated the add-on to Minecraft 1.21.1 and Forge 52.1.0.
+- Updated crafting and recipe-book data for this version.
+
 ## 0.2.4.120061
 
 - Ported to Minecraft 1.20.6 and Forge 50.2.0.

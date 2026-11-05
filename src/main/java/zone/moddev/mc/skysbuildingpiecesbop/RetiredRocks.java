@@ -114,7 +114,7 @@ public final class RetiredRocks extends Block {
     public static void blocks(RegisterEvent event) {
         if (!event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
         BLOCK = new RetiredRocks();
-        ForgeRegistries.BLOCKS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "retired_rocks"), BLOCK);
+        ForgeRegistries.BLOCKS.register(ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "retired_rocks"), BLOCK);
     }
 
     @SubscribeEvent
@@ -128,7 +128,7 @@ public final class RetiredRocks extends Block {
             VariantItem item = new VariantItem(variant);
 
             ITEMS[variant] = item;
-            ForgeRegistries.ITEMS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]), item);
+            ForgeRegistries.ITEMS.register(ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]), item);
         }
 
         zone.moddev.mc.skysbuildingpieces.api.BuildingPiecesApi.registerStateItems(BLOCK, RetiredRocks::item);
@@ -163,7 +163,7 @@ public final class RetiredRocks extends Block {
         }
 
         boolean visibleInCreativeTab() {
-            Block nativeRock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("mineralogy", NAMES[variant]));
+            Block nativeRock = ForgeRegistries.BLOCKS.getValue(ResourceLocation.fromNamespaceAndPath("mineralogy", NAMES[variant]));
             return nativeRock == null || nativeRock == net.minecraft.world.level.block.Blocks.AIR;
         }
 

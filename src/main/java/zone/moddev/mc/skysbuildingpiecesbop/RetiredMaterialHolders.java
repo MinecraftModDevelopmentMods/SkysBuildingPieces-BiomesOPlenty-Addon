@@ -46,7 +46,7 @@ public final class RetiredMaterialHolders {
         for (int index = 0; index < BLOCKS.length; index++) {
             String id = new String[] { "legacy_bop_stone", "legacy_bop_crag_rock", "legacy_bop_stone_formations",
                     "legacy_bop_jelled_poison", "legacy_bop_tree_moss" }[index];
-            ForgeRegistries.BLOCKS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, id), BLOCKS[index]);
+            ForgeRegistries.BLOCKS.register(ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, id), BLOCKS[index]);
         }
     }
 
@@ -62,7 +62,7 @@ public final class RetiredMaterialHolders {
         if (!event.getKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
         for (MissingMappingsEvent.Mapping<Block> mapping : event.getAllMappings(ForgeRegistries.Keys.BLOCKS)) {
             for (int legacyIdIndex = 0; legacyIdIndex < OLD_IDS.length; legacyIdIndex++) {
-                if (mapping.getKey().equals(new ResourceLocation("biomesoplenty", OLD_IDS[legacyIdIndex]))) {
+                if (mapping.getKey().equals(ResourceLocation.fromNamespaceAndPath("biomesoplenty", OLD_IDS[legacyIdIndex]))) {
                     mapping.remap(BLOCKS[legacyIdIndex]);
                 }
             }
@@ -73,7 +73,7 @@ public final class RetiredMaterialHolders {
         if (!event.getKey().equals(ForgeRegistries.Keys.ITEMS)) return;
         for (MissingMappingsEvent.Mapping<Item> mapping : event.getAllMappings(ForgeRegistries.Keys.ITEMS)) {
             for (int legacyIdIndex = 0; legacyIdIndex < OLD_IDS.length; legacyIdIndex++) {
-                if (mapping.getKey().equals(new ResourceLocation("biomesoplenty", OLD_IDS[legacyIdIndex]))) {
+                if (mapping.getKey().equals(ResourceLocation.fromNamespaceAndPath("biomesoplenty", OLD_IDS[legacyIdIndex]))) {
                     mapping.remap(Item.byBlock(BLOCKS[legacyIdIndex]));
                 }
             }

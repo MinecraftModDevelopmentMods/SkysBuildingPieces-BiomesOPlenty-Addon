@@ -51,7 +51,7 @@ class MineralogyRecipeChecks(unittest.TestCase):
 
     def test_packaged_cuts_do_not_conflict_with_native_recipes(self):
         checked = 0
-        for path in (ROOT / 'src/main/resources/data/skysbuildingpieces/recipes/biomesoplenty').rglob('*.json'):
+        for path in (ROOT / 'src/main/resources/data/skysbuildingpieces/recipe/biomesoplenty').rglob('*.json'):
             value = json.loads(path.read_text())
             recipe = value['recipes'][0]['recipe'] if value.get('type') == 'forge:conditional' else value
             if 'pattern' not in recipe or recipe.get('key', {}).keys() != {'X'}:

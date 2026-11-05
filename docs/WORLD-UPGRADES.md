@@ -1,8 +1,10 @@
 # Existing worlds
 
-## Moving to Minecraft 1.20.6
+## Moving to Minecraft 1.21.1
 
-Use Biomes O' Plenty 18.4.0.8, TerraBlender 3.5.0.5 and GlitchCore 1.1.0.10.
+Use Biomes O' Plenty 21.1.0.14, TerraBlender 4.1.0.8 and GlitchCore 2.1.0.2.
+The BOP blocks, items and biomes from the supported 1.20.6 build have the
+same IDs in this version.
 Keep a backup of the whole world, including its data folder. Flower Baskets
 can read their older inventory format and use Minecraft's new item data when
 you change what is inside. Existing pieces keep their material and shape.

@@ -134,6 +134,26 @@ class NativeRegistryNoticeProofTest {
         return JsonParser.parseString(new String(bytes, StandardCharsets.UTF_8)).getAsJsonObject();
     }
 
+    @Test
+    void forge52RegistryNoticesMatchTheSourceSnapshots() throws Exception {
+        JsonObject profiles = JsonParser.parseString(Files.readString(Paths.get("tools/native-log-forge52-profiles.json")))
+                .getAsJsonObject().getAsJsonObject("profiles");
+        assertFalse(profiles.isEmpty());
+        for (var entry : profiles.entrySet()) {
+            JsonObject profile = entry.getValue().getAsJsonObject();
+            var fixture = Paths.get(profile.get("fixture").getAsString());
+            assertEquals(entry.getKey(), profile.get("sha256").getAsString());
+            assertEquals(entry.getKey(), checksum(Files.readAllBytes(fixture)));
+            assertTrue(profile.get("inspected_nbt_records").getAsInt() > 0);
+            assertFalse(profile.getAsJsonObject("mappings").isEmpty());
+            try (ZipFile archive = new ZipFile(fixture.toFile());
+                    InputStream input = archive.getInputStream(archive.getEntry("level.dat"))) {
+                verifyRegistryNumbers(NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap()),
+                        profile);
+            }
+        }
+    }
+
     private static void verifyRegistryNumbers(CompoundTag root, JsonObject profile) {
         CompoundTag registries = root.getCompound(root.contains("fml", 10) ? "fml" : "FML").getCompound("Registries");
         JsonObject expected = profile.getAsJsonObject("mappings").deepCopy();

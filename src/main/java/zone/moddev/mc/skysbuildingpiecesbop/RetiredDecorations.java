@@ -59,7 +59,7 @@ public final class RetiredDecorations {
     }
 
     private static BlockState vine(int metadata) {
-        Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("biomesoplenty", "willow_vine"));
+        Block block = ForgeRegistries.BLOCKS.getValue(ResourceLocation.fromNamespaceAndPath("biomesoplenty", "willow_vine"));
 
         if (block == null || block == net.minecraft.world.level.block.Blocks.AIR || metadata < 0 || metadata > 15) {
             return null;
@@ -75,8 +75,8 @@ public final class RetiredDecorations {
         if (!event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
         STONE_FORMATIONS = new Formation();
         JELLED_POISON = new JelledPoison();
-        ForgeRegistries.BLOCKS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "stone_formations"), STONE_FORMATIONS);
-        ForgeRegistries.BLOCKS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "jelled_poison"), JELLED_POISON);
+        ForgeRegistries.BLOCKS.register(ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "stone_formations"), STONE_FORMATIONS);
+        ForgeRegistries.BLOCKS.register(ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "jelled_poison"), JELLED_POISON);
     }
 
     @SubscribeEvent

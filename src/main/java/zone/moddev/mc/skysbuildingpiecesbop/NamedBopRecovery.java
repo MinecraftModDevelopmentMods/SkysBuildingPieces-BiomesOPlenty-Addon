@@ -182,7 +182,7 @@ public final class NamedBopRecovery {
             }
 
             String target = BIOMES.getOrDefault(source, source);
-            Biome biome = biomeRegistry().get(new ResourceLocation(target));
+            Biome biome = biomeRegistry().get(ResourceLocation.parse(target));
 
             if (biome == null) {
                 throw new IllegalStateException("No safe named BOP biome replacement for " + source);
@@ -298,7 +298,7 @@ public final class NamedBopRecovery {
                     }
                 }
                 String target = ITEMS.get(tag.getString("id"));
-                Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(target));
+                Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(target));
 
                 if (item == null || item == Items.AIR) {
                     throw new IllegalStateException("Missing named BOP item replacement: " + target);
@@ -325,7 +325,7 @@ public final class NamedBopRecovery {
 
                 // Forge restores a world's numeric registry after AboutToStart. Resolve names at the chunk read.
                 biomes.forEach((source, target) -> {
-                    Biome biome = biomeRegistry().get(new ResourceLocation(target));
+                    Biome biome = biomeRegistry().get(ResourceLocation.parse(target));
                     int currentId = biome == null ? -1 : biomeRegistry().getId(biome);
 
                     if (currentId < 0) {
@@ -527,7 +527,7 @@ public final class NamedBopRecovery {
     }
 
     private static void rewriteState(CompoundTag saved, String target) {
-        Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(target));
+        Block block = ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse(target));
 
         if (block == null || block == Blocks.AIR) {
             throw new IllegalStateException("Missing named BOP block replacement: " + target);

@@ -49,6 +49,14 @@ class NativeServerLogTest(unittest.TestCase):
             with self.subTest(extra=extra), self.assertRaises(ValueError):
                 classify_server(LOG + '\n' + extra, DETAILS, True)
 
+    def test_assertion_class_loading_is_not_an_assertion_failure(self):
+        trace = "[main/DEBUG] [cpw.mods.modlauncher.LaunchPluginHandler/LAUNCHPLUGIN]: " \
+                "Final flags state for java.lang.AssertionError is 0"
+        classify_server(LOG + "\n" + trace, DETAILS, True)
+        for error in ("java.lang.AssertionError", "Caused by: java.lang.AssertionError: missing piece"):
+            with self.subTest(error=error), self.assertRaises(ValueError):
+                classify_server(LOG + "\n" + error, DETAILS, True)
+
     def test_invalid_saved_property_warning_is_rejected(self):
         warning = '[Server thread/WARN] [minecraft/NBTUtil]: Unable to read property: north with value: true'
         with self.assertRaises(ValueError):

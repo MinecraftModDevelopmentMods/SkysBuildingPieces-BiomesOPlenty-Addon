@@ -289,7 +289,7 @@ final class NamedRecoveryChecks {
 
             net.minecraft.world.level.biome.Biome target = net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
                     .registryOrThrow(net.minecraft.core.registries.Registries.BIOME)
-                    .get(new net.minecraft.resources.ResourceLocation("biomesoplenty:undergrowth"));
+                    .get(net.minecraft.resources.ResourceLocation.parse("biomesoplenty:undergrowth"));
             int targetId = net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
                             .registryOrThrow(net.minecraft.core.registries.Registries.BIOME).getId(target);
 

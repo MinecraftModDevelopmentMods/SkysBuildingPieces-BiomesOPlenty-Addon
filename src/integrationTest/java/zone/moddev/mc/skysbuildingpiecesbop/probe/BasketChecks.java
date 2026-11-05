@@ -63,11 +63,11 @@ public final class BasketChecks {
             }
 
             net.minecraft.world.item.crafting.CraftingRecipe recipe = world
-                    .getRecipeManager().getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING, crafting, world)
+                    .getRecipeManager().getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING, crafting.asCraftInput(), world)
                     .map(net.minecraft.world.item.crafting.RecipeHolder::value).orElse(null);
 
-            require(recipe != null && recipe.assemble(crafting, world.registryAccess()).getItem() == Baskets.ITEM
-                    && recipe.assemble(crafting, world.registryAccess()).getCount() == 1, "real six-stick crafting recipe");
+            require(recipe != null && recipe.assemble(crafting.asCraftInput(), world.registryAccess()).getItem() == Baskets.ITEM
+                    && recipe.assemble(crafting.asCraftInput(), world.registryAccess()).getCount() == 1, "real six-stick crafting recipe");
             require(new ItemStack(Baskets.ITEM).getMaxStackSize() == 1, "one basket per stack");
             if (net.minecraftforge.fml.loading.FMLEnvironment.dist == net.minecraftforge.api.distmarker.Dist.CLIENT) {
                 require(hidden(Baskets.HOLDER, world), "hidden recovery item");
