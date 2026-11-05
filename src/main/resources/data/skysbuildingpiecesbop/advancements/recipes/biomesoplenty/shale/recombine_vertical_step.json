@@ -23,14 +23,19 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/shale/recombine_vertical_step"]
   },
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:shale_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:shale_vertical_step"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:shale_slab"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:shale_vertical_step"
+        }
+      ]
     }
   ]
 }

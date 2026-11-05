@@ -1,10 +1,4 @@
 {
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "mineralogy:gabbro"
-    }
-  ],
   "criteria": {
     "has_ingredient": {
       "trigger": "minecraft:inventory_changed",
@@ -28,5 +22,11 @@
   ],
   "rewards": {
     "recipes": ["skysbuildingpiecesbop:restore_gabbro"]
-  }
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "mineralogy:gabbro"
+    }
+  ]
 }

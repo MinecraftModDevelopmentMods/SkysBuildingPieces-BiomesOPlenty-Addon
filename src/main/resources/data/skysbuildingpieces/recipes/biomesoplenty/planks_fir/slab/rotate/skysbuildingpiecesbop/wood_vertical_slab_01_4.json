@@ -8,19 +8,24 @@
     }
   },
   "result": {
-    "item": "biomesoplenty:fir_slab",
+    "id": "biomesoplenty:fir_slab",
     "count": 1
   },
   "preserve_tag": true,
-  "conditions": [
+  "category": "building",
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:fir_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_fir_vertical_slab"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "biomesoplenty:fir_slab"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_fir_vertical_slab"
+        }
+      ]
     }
-  ],
-  "category": "building"
+  ]
 }

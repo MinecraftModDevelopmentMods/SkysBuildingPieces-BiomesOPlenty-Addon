@@ -1,29 +1,15 @@
-import groovy.json.JsonSlurper
-import java.nio.charset.StandardCharsets
 import java.nio.file.Files
-import java.security.MessageDigest
-import java.util.zip.ZipFile
 import org.apache.tools.ant.filters.FixCrLfFilter
-import net.minecraftforge.srgutils.IMappingFile
-
-buildscript {
-    repositories {
-        maven {
-            url = 'https://maven.minecraftforge.net/'
-            metadataSources { artifact() }
-            content { includeModule('net.minecraftforge', 'srgutils') }
-        }
-    }
-    dependencies { classpath 'net.minecraftforge:srgutils:0.4.15' }
-}
+import java.security.MessageDigest
+import java.nio.charset.StandardCharsets
+import java.util.zip.ZipFile
 
 plugins {
-    id 'java'
     id 'eclipse'
     id 'idea'
+    id 'java-library'
     id 'maven-publish'
-    id 'net.minecraftforge.renamer' version '1.1.5'
-    id 'net.minecraftforge.gradle' version '7.0.34'
+    id 'net.neoforged.gradle.userdev' version '7.1.38'
 }
 
 def sha256Of = { File inputFile ->
@@ -37,94 +23,61 @@ def sha256Of = { File inputFile ->
     digest.digest().encodeHex().toString().toUpperCase()
 }
 
-def mavenizerToolsDirectory = layout.projectDirectory.dir('ci-fixtures/tools')
-def mavenizerCompatibilityJar = mavenizerToolsDirectory.file(
-        'minecraft-mavenizer-0.5.21-orespawn-compat.jar')
-def mavenizerRuleManifest = mavenizerToolsDirectory.file(
-        'minecraft-source-compatibility.json')
-def mavenizerSourcePatch = mavenizerToolsDirectory.file(
-        'minecraft-mavenizer-0.5.21-orespawn-compat.patch')
-def mavenizerLicense = mavenizerToolsDirectory.file('LICENSE-MAVENIZER.txt')
-def mavenizerReadme = mavenizerToolsDirectory.file('README.md')
-def mavenizerFixtureChecksums = [
-        (mavenizerCompatibilityJar.asFile):
-                'F4DB44F64C98F6401ED3A856ECEBCC5E1C2126E7C02BD1237FAB38793B4AF275',
-        (mavenizerRuleManifest.asFile):
-                '351746200B44A4B9656C9AD5888DA3371E69AA601880FECA048C0131223DCCAC',
-        (mavenizerSourcePatch.asFile):
-                '0AC522C64FEBA87C14792364D86FE1487E064681C54629F747E7DC80E8A83650',
-        (mavenizerLicense.asFile):
-                '20C17D8B8C48A600800DFD14F95D5CB9FF47066A9641DDEAB48DC54AEC96E331',
-        (mavenizerReadme.asFile):
-                '49CAB3466A552B546527A7080FCD6A9B40A66A4690F3CD881B1A6D82D2CA29A9'
-]
+version = mod_version
+group = mod_group
 
-// ForgeGradle invokes Mavenizer while configuring the project. Verify the
-// complete five-file fixture before any Mavenizer code is allowed to run.
-mavenizerFixtureChecksums.keySet().each { fixture ->
-    if (!fixture.isFile()) {
-        throw new GradleException("Missing Mavenizer compatibility fixture: ${fixture}")
-    }
-    String actual = sha256Of(fixture)
-    String expected = mavenizerFixtureChecksums[fixture]
-    if (actual != expected) {
-        throw new GradleException("Mavenizer compatibility fixture checksum mismatch for " +
-                "${fixture.name}: expected ${expected}, found ${actual}")
-    }
+base {
+    archivesName = 'SkysBuildingPieces-BiomesOPlenty-Addon'
 }
-
-fgtools.configure('mavenizer') {
-    classpath.from(mavenizerCompatibilityJar)
-    mainClass.set('net.minecraftforge.mcmaven.cli.Main')
-    javaLauncher.set(javaToolchains.launcherFor {
-        languageVersion = JavaLanguageVersion.of(25)
-        vendor = JvmVendorSpec.ADOPTIUM
-    })
-}
-
-group = project.mod_group
-version = project.mod_version
-base.archivesName = 'SkysBuildingPieces-BiomesOPlenty-Addon'
-
-def versionParts = project.mod_version.toString().tokenize('.')
-if (versionParts.size() != 4 || !versionParts.every { it ==~ /\d+/ }) {
-    throw new GradleException("mod_version must use Major.Minor.Bug.Target numeric form: ${project.mod_version}")
-}
-def minecraftVersionParts = project.minecraft_version.toString().tokenize('.')
-def expectedTargetVersion = "${minecraftVersionParts[0]}" +
-        "${minecraftVersionParts[1].padLeft(2, '0')}" +
-        "${minecraftVersionParts[2].padLeft(2, '0')}" + project.loader_code
-if (versionParts[3] != expectedTargetVersion) {
-    throw new GradleException("mod_version target ${versionParts[3]} does not match ${expectedTargetVersion}")
-}
-
-ext.functional_version = versionParts[0..2].join('.')
-ext.display_version = project.mod_version
-ext.release_tag = project.mod_version
-def pinnedJava17 = providers.environmentVariable('SBP_JAVA17_HOME')
-// Gradle 9.6.1's ordinary language-level selector prefers the newest cached
-// Java 17. This opt-in specific installation keeps local/CI qualification exact.
-def exactJava17Spec = pinnedJava17.isPresent() ?
-        org.gradle.jvm.toolchain.internal.SpecificInstallationToolchainSpec.fromJavaHome(
-                project.services.get(org.gradle.api.internal.provider.PropertyFactory), file(pinnedJava17.get())) : null
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+        vendor = JvmVendorSpec.ADOPTIUM
+    }
     withSourcesJar()
     withJavadocJar()
 }
 
 tasks.withType(JavaCompile).configureEach {
     javaCompiler = javaToolchains.compilerFor {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
+        vendor = JvmVendorSpec.ADOPTIUM
     }
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
     options.encoding = 'UTF-8'
-    options.compilerArgs.addAll(['-Xmaxerrs', '1000'])
-    if (pinnedJava17.isPresent()) {
-        javaCompiler = javaToolchains.compilerFor(exactJava17Spec)
+}
+
+tasks.withType(Javadoc).configureEach {
+    failOnError = true
+    options.encoding = 'UTF-8'
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addBooleanOption('notimestamp', true)
+}
+
+def java21Launcher = javaToolchains.launcherFor {
+    languageVersion = JavaLanguageVersion.of(21)
+    vendor = JvmVendorSpec.ADOPTIUM
+}
+
+tasks.register('verifyJava21Toolchain') {
+    group = 'verification'
+    description = 'Verifies the pinned Temurin Java 21 production toolchain.'
+    doLast {
+        def metadata = java21Launcher.get().metadata
+        String runtimeVersion = metadata.javaRuntimeVersion
+        if (project.java_toolchain_version != '21.0.7+6'
+                || metadata.vendor.toString() != 'Eclipse Temurin'
+                || !(runtimeVersion == '21.0.7+6' || runtimeVersion == '21.0.7+6-LTS')) {
+            throw new GradleException("Expected Temurin ${project.java_toolchain_version}, found " +
+                    "${metadata.vendor} ${runtimeVersion} at ${metadata.installationPath}")
+        }
     }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyJava21Toolchain')
 }
 
 tasks.named('compileTestJava', JavaCompile) {
@@ -134,33 +87,17 @@ tasks.named('compileTestJava', JavaCompile) {
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
     workingDir = project.projectDir
-    // Repository checks read these files as well as the compiled test classes.
-    inputs.files('build.gradle', 'gradle.properties', '.gitignore', 'README.md')
-    inputs.files(fileTree('gradle'), fileTree('.github/workflows'), fileTree('docs'))
-    inputs.files(fileTree('src/testFixtures'))
+    // These saved-world audits read files outside the compiled test resources.
     inputs.file('tools/native-log-profiles.json')
-    inputs.files(fileTree('tools/fixtures'))
-    if (pinnedJava17.isPresent()) javaLauncher = javaToolchains.launcherFor(exactJava17Spec)
+    inputs.dir('src/testFixtures')
+    javaLauncher = java21Launcher
 }
-tasks.withType(JavaExec).configureEach {
-    if (pinnedJava17.isPresent()) javaLauncher = javaToolchains.launcherFor(exactJava17Spec)
-}
-
-tasks.withType(Javadoc).configureEach {
-    if (pinnedJava17.isPresent()) javadocTool = javaToolchains.javadocToolFor(exactJava17Spec)
-    failOnError = true
-    options.encoding = 'UTF-8'
-    options.addStringOption('Xdoclint:none', '-quiet')
-    options.addBooleanOption('notimestamp', true)
-}
-
 tasks.withType(AbstractArchiveTask).configureEach {
-    // Generated empty folders do not exist in a fresh checkout.
     includeEmptyDirs = false
     filteringCharset = 'UTF-8'
-    inputs.property('archiveLineEndings', 'utf8-lf-with-toml')
     preserveFileTimestamps = false
     reproducibleFileOrder = true
+    inputs.property('archiveLineEndings', 'utf8-lf-with-toml')
 }
 
 def archiveTextSuffixes = [
@@ -178,156 +115,60 @@ def normalizeArchiveLineEndings = { details ->
             eof: FixCrLfFilter.AddAsisRemove.newInstance('asis'))
 }
 
-def developmentRunDirectory = providers.gradleProperty('skysBuildingPiecesBopRunDirectory').getOrElse('run')
-minecraft {
-    mappings channel: project.mapping_channel, version: project.mapping_version
-    runs {
-        configureEach {
-            jvmArgs '--add-opens', 'java.base/java.lang.invoke=ALL-UNNAMED'
-            workingDir.convention layout.projectDirectory.dir(developmentRunDirectory)
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
-            systemProperty 'forge.logging.console.level', 'debug'
-            // Development classes and Mixin targets use official names.
-            systemProperty 'mixin.env.disableRefMap', 'true'
-            mods { skysbuildingpiecesbop { source sourceSets.main } }
-            environment 'MOD_CLASSES',
-                    "${mod_id}%%${buildDir}/forge-run-mod-classes/main${File.pathSeparator}" +
-                            "${mod_id}%%${buildDir}/forge-run-mod-classes/main"
-            if (name.toLowerCase(Locale.ROOT).contains('client') &&
-                    providers.gradleProperty('forgeClientAssets').isPresent()) {
-                environment 'assetIndex', '5'
-                environment 'assetDirectory', providers.gradleProperty('forgeClientAssets').get()
-                if (providers.gradleProperty('forgeClientNatives').isPresent()) {
-                    environment 'nativesDirectory', providers.gradleProperty('forgeClientNatives').get()
-                }
-            }
-        }
-        register('client')
-        register('server') { args '--nogui' }
-    }
-}
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+def developmentRunDirectory = providers.gradleProperty('skysBuildingPiecesBopRunDirectory')
+        .getOrElse('run')
+def probePhase = providers.gradleProperty('skysBuildingPiecesBopProbePhase')
+sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-def forgeRunModClassesDirectory = file("${buildDir}/forge-run-mod-classes/main")
-def prepareForgeRunModClasses = tasks.register('prepareForgeRunModClasses', Sync) {
-    dependsOn tasks.named('classes')
-    from sourceSets.main.output.classesDirs
-    from sourceSets.main.output.resourcesDir
-    into forgeRunModClassesDirectory
-}
-
-def configureForge40Run = { JavaExec runTask, String launchTarget ->
-    runTask.dependsOn prepareForgeRunModClasses
-    runTask.environment 'MOD_CLASSES', "${mod_id}%%${forgeRunModClassesDirectory}"
-}
-tasks.withType(JavaExec).configureEach { JavaExec runTask ->
-    Map<String, String> targets = [runClient: 'fmluserdevclient', runServer: 'fmluserdevserver']
-    String launchTarget = targets.get(runTask.name)
-    if (launchTarget != null) {
-        configureForge40Run(runTask, launchTarget)
+runs {
+    matching { it.name == 'gameTestServer' }.configureEach {
+        shouldExportToIDE.set(false)
     }
-}
 
-// Clone ForgeGradle's generated launch at execution time so verification runs
-// use the same mappings and Java 17 runtime without exposing probe code to the
-// ordinary client or server classpath.
-def configureFromForgeRun = { JavaExec process, String runTaskName, boolean includeMain = true ->
-    process.actions.clear()
-    process.dependsOn {
-        JavaExec run = tasks.getByName(runTaskName) as JavaExec
-        run.taskDependencies.getDependencies(run)
-    }
-    process.doLast {
-        JavaExec run = tasks.getByName(runTaskName) as JavaExec
-        String runConfigurationName = runTaskName.substring(3).uncapitalize()
-        def runOptions = minecraft.runs.getByName(runConfigurationName)
-        File originalConfiguredWorkingDir = runOptions.workingDir.get().asFile
-        File originalWorkingDir = run.workingDir
-        List<String> originalArgs = new ArrayList<>(run.args)
-        List<String> originalJvmArgs = new ArrayList<>(run.jvmArgs)
-        Map<String, Object> originalSystemProperties = new LinkedHashMap<>(run.systemProperties)
-        Map<String, Object> originalEnvironment = new LinkedHashMap<>(run.environment)
-        Map<String, String> originalConfiguredEnvironment = new LinkedHashMap<>(runOptions.environment.get())
-        FileCollection originalClasspath = files(run.classpath.files)
-        String originalMinHeap = run.minHeapSize
-        String originalMaxHeap = run.maxHeapSize
-        String originalMainClass = run.mainClass.orNull
-        try {
-            runOptions.workingDir.set(process.workingDir)
-            run.workingDir(process.workingDir)
-            run.args(process.args)
-            run.jvmArgs(process.jvmArgs)
-            run.systemProperties(process.systemProperties)
-            run.environment(process.environment)
-            run.maxHeapSize = '3g'
-            if (includeMain) {
-                run.environment('MOD_CLASSES',
-                        "${mod_id}%%${forgeRunModClassesDirectory}${File.pathSeparator}" +
-                                "${mod_id}%%${forgeRunModClassesDirectory}")
-            } else {
-                runOptions.environment.put('MOD_CLASSES', '')
-                Set<File> excluded = (sourceSets.main.output.files + [forgeRunModClassesDirectory])
-                        .collect { it.canonicalFile } as Set<File>
-                run.setClasspath(originalClasspath.filter { !excluded.contains(it.canonicalFile) })
-                run.environment('MOD_CLASSES', '')
-            }
-            run.exec()
-        } finally {
-            runOptions.workingDir.set(originalConfiguredWorkingDir)
-            if (!includeMain) runOptions.environment.set(originalConfiguredEnvironment)
-            run.workingDir(originalWorkingDir)
-            run.setArgs(originalArgs)
-            run.setJvmArgs(originalJvmArgs)
-            run.setSystemProperties(originalSystemProperties)
-            run.setEnvironment(originalEnvironment)
-            run.setClasspath(originalClasspath)
-            run.minHeapSize = originalMinHeap
-            run.maxHeapSize = originalMaxHeap
-            if (originalMainClass == null) {
-                run.mainClass.unset()
-            } else {
-                run.mainClass.set(originalMainClass)
-            }
+    configureEach {
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+        systemProperty 'forge.logging.console.level', 'debug'
+        workingDirectory project.layout.projectDirectory.dir(developmentRunDirectory)
+        if (probePhase.isPresent()) {
+            systemProperty 'skysbuildingpieces.integrationPhase', probePhase.get()
         }
     }
-}
 
-repositories {
-    minecraft.mavenizer(it)
-    maven {
-        name = 'NeoForge'
-        url = 'https://maven.neoforged.net/releases'
-        content { includeGroupAndSubgroups('net.neoforged') }
+    client {
+        modSource project.sourceSets.main
     }
-    maven fg.forgeMaven
-    maven fg.minecraftLibsMaven
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = 'Sponge'
-                url = 'https://repo.spongepowered.org/repository/maven-public'
-            }
-        }
-        filter { includeGroupAndSubgroups('org.spongepowered') }
+
+    server {
+        argument '--nogui'
+        modSource project.sourceSets.main
     }
-    mavenCentral()
-    maven {
-        name = 'MinecraftLibraries'
-        url = 'https://libraries.minecraft.net/'
+
+    data {
+        workingDirectory project.layout.projectDirectory.dir('run-data')
+        modSource project.sourceSets.main
+        arguments.addAll '--mod', mod_id, '--all', '--output',
+                file('src/generated/resources/').absolutePath, '--existing',
+                file('src/main/resources/').absolutePath
     }
 }
 
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
 
 def coreLock = new Properties()
 file('gradle/core-dependency.properties').withInputStream { coreLock.load(it) }
-def coreDirectory = file(providers.gradleProperty('buildingPiecesCoreDir').getOrElse('../../SkysBuildingPieces1201NEO/SkysBuildingPieces'))
+def coreDirectory = file(providers.gradleProperty('buildingPiecesCoreDir').getOrElse('../../SkysBuildingPieces1206NEO/SkysBuildingPieces'))
 def localCoreVersion = providers.gradleProperty('buildingPiecesCoreVersion')
 if (localCoreVersion.isPresent() && (System.getenv('CI') == 'true' || !providers.gradleProperty('buildingPiecesCoreDir').isPresent()))
     throw new GradleException('The core-version override is local only and requires an explicit core directory; it is not permitted in CI.')
 def effectiveCoreVersion = localCoreVersion.getOrElse(coreLock.version)
-def coreDevelopmentJar = new File(coreDirectory, "build/libs-dev/SkysBuildingPieces-${effectiveCoreVersion}-deobf.jar")
+def coreDevelopmentJar = new File(coreDirectory, "build/libs/SkysBuildingPieces-${effectiveCoreVersion}.jar")
 configurations {
     bopRelease
     terraBlenderRelease
+    glitchCoreRelease
 }
 repositories {
     exclusiveContent {
@@ -338,12 +179,6 @@ repositories {
             }
         }
         filter { includeGroup('maven.modrinth') }
-    }
-    maven {
-        name = 'LegacyMcpMappings'
-        url = 'https://maven.minecraftforge.net/'
-        metadataSources { artifact() }
-        content { includeModule('de.oceanlabs.mcp', 'mcp_snapshot') }
     }
 }
 tasks.register('verifyCoreDependency') {
@@ -387,6 +222,11 @@ dependencies {
     } else {
         terraBlenderRelease "maven.modrinth:kkmrDlKT:${coreLock.terrablender_modrinth_version}"
     }
+    if (providers.gradleProperty('glitchCoreMainJar').isPresent()) {
+        glitchCoreRelease files(providers.gradleProperty('glitchCoreMainJar').get())
+    } else {
+        glitchCoreRelease "maven.modrinth:s3dmwKy5:${coreLock.glitchcore_modrinth_version}"
+    }
     compileOnly files(coreDevelopmentJar)
     testImplementation files(coreDevelopmentJar)
     if (providers.gradleProperty('biomesOPlentyMainJar').isPresent()) {
@@ -396,333 +236,70 @@ dependencies {
     }
 }
 
-// Legacy dependencies carry their own SRG access rules. Apply BOP's original
-// rules to the mapped development Minecraft jar; keep its release jar intact.
-def bopDevelopmentAccessRules = file('.gradle/dependencies/biomesoplenty_at.cfg')
+// NeoForge uses the same official names for development and packaged jars.
 File bopJar = configurations.bopRelease.singleFile
-if (MessageDigest.getInstance('SHA-256').digest(Files.readAllBytes(bopJar.toPath()))
-        .encodeHex().toString().toUpperCase() != coreLock.bop_sha256)
-    throw new GradleException('The BOP dependency does not match the qualified jar.')
 File terraBlenderJar = configurations.terraBlenderRelease.singleFile
-if (MessageDigest.getInstance('SHA-256').digest(terraBlenderJar.bytes)
-        .encodeHex().toString().toUpperCase(Locale.ROOT) != coreLock.terrablender_sha256) {
-    throw new GradleException('The TerraBlender dependency does not match the qualified jar.')
+File glitchCoreJar = configurations.glitchCoreRelease.singleFile
+def nativeBopDependencies = [
+        (bopJar): coreLock.bop_sha256,
+        (terraBlenderJar): coreLock.terrablender_sha256,
+        (glitchCoreJar): coreLock.glitchcore_sha256
+]
+nativeBopDependencies.each { artifact, expected ->
+    if (sha256Of(artifact) != expected) {
+        throw new GradleException('The pinned dependency changed: ' + artifact.name)
+    }
 }
+ext.coreDirectory = coreDirectory
+ext.coreDevelopmentJar = coreDevelopmentJar
+ext.bopMainJar = bopJar
 ext.terraBlenderMainJar = terraBlenderJar
-def originalBopManifest = new ZipFile(bopJar).withCloseable { archive ->
-    new java.util.jar.Manifest(archive.getInputStream(archive.getEntry('META-INF/MANIFEST.MF')))
-            .mainAttributes.collectEntries { key, value -> [(key.toString()): value.toString()] }
-}
-def mappedMembers = new Properties()
-file('gradle/bop-access-names.properties').withInputStream { mappedMembers.load(it) }
-new ZipFile(bopJar).withCloseable { archive ->
-    def entry = archive.getEntry('META-INF/accesstransformer.cfg')
-    if (entry == null) throw new GradleException('BOP development access rules are missing.')
-    bopDevelopmentAccessRules.parentFile.mkdirs()
-    archive.getInputStream(entry).withCloseable { input ->
-        // BOP 18 still lists a few rules for the removed Material API.
-        // Omit those unused rules from the mapped copy and leave the original jar intact.
-        String activeRules = input.getText('UTF-8').readLines().findAll { line ->
-            !line.startsWith('public net.minecraft.world.level.material.Material$Builder ') &&
-                    !line.startsWith('public net.minecraft.world.level.block.Blocks m_50788_(Lnet/minecraft/world/level/material/MaterialColor;')
-        }.join('\n') + '\n'
-        String rules = activeRules.replaceAll(/\b[fm]_\d+_\b/) { member ->
-            if (!mappedMembers.containsKey(member)) throw new GradleException("Unmapped BOP access rule: ${member}")
-            mappedMembers[member]
+ext.glitchCoreMainJar = glitchCoreJar
+ext.bopDevelopmentJar = bopJar
+ext.terraBlenderDevelopmentJar = terraBlenderJar
+ext.glitchCoreDevelopmentJar = glitchCoreJar
+def bopDevelopmentArchive = tasks.register('verifyNativeBopDependencies') {
+    dependsOn tasks.named('verifyCoreDependency')
+    inputs.files(nativeBopDependencies.keySet())
+    doLast {
+        nativeBopDependencies.each { artifact, expected ->
+            if (sha256Of(artifact) != expected) {
+                throw new GradleException('The pinned dependency changed: ' + artifact.name)
+            }
         }
-        bopDevelopmentAccessRules.setText(rules, 'UTF-8')
     }
 }
-def terraBlenderDevelopmentAccessRules = file('.gradle/dependencies/terrablender_at.cfg')
-def originalTerraBlenderManifest = new ZipFile(terraBlenderJar).withCloseable { archive ->
-    new java.util.jar.Manifest(archive.getInputStream(archive.getEntry('META-INF/MANIFEST.MF')))
-            .mainAttributes.collectEntries { key, value -> [(key.toString()): value.toString()] }
-}
-new ZipFile(terraBlenderJar).withCloseable { archive ->
-    def entry = archive.getEntry('META-INF/accesstransformer.cfg')
-    if (entry == null) throw new GradleException('TerraBlender development access rules are missing')
-    terraBlenderDevelopmentAccessRules.parentFile.mkdirs()
-    archive.getInputStream(entry).withCloseable { input ->
-        String rules = input.getText('UTF-8').replaceAll(/\b[fm]_\d+_\b/) { member ->
-            if (!mappedMembers.containsKey(member)) throw new GradleException("Unmapped TerraBlender access rule: ${member}")
-            mappedMembers[member]
-        }
-        terraBlenderDevelopmentAccessRules.setText(rules, 'UTF-8')
-    }
-}
+ext.bopDevelopmentTask = bopDevelopmentArchive
 
 dependencies {
-    implementation minecraft.dependency(
-            "net.neoforged:forge:${project.minecraft_version}-${project.forge_version}") {
-        accessTransformers.from(bopDevelopmentAccessRules, terraBlenderDevelopmentAccessRules)
-    }
+    implementation "net.neoforged:neoforge:${neo_version}"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.2'
 }
 
-def integrationTestClasses = layout.buildDirectory.dir('integration-test-mod/classes')
 
-// Released BOP classes use SRG names. Development Minecraft uses official names;
-// keep this derived jar separate from the unchanged packaged dependency.
-def developmentBopMappings = layout.buildDirectory.file('development-dependencies/srg-to-mcp.tsrg')
-def reverseBopMappings = tasks.register('prepareBopDevelopmentMappings') {
-    inputs.files(minecraft.dependency.toSrgFile)
-    outputs.file(developmentBopMappings)
+def stageRunDependencies = tasks.register('prepareDevelopmentDependencies') {
+    group = 'ide'
+    description = 'Copies the verified mod dependencies into the ordinary development run.'
+    dependsOn 'verifyNativeBopDependencies'
     doLast {
-        File source = files(minecraft.dependency.toSrgFile).singleFile
-        File target = developmentBopMappings.get().asFile
-        target.parentFile.mkdirs()
-        source.withInputStream { input ->
-            InputStream mappings = source.name.endsWith('.gz') ? new java.util.zip.GZIPInputStream(input) : input
-            IMappingFile.load(mappings).reverse().write(target.toPath(), IMappingFile.Format.TSRG, false)
-        }
-    }
-}
-def bopDevelopmentInput = tasks.register('bopDevelopmentInput', Jar) {
-    dependsOn tasks.named('verifyCoreDependency')
-    archiveFileName = 'biomesoplenty-development-input.jar'
-    destinationDirectory = layout.buildDirectory.dir('development-dependencies')
-    manifest.attributes(originalBopManifest)
-    from(zipTree(bopJar)) {
-        exclude 'META-INF/MANIFEST.MF', 'META-INF/accesstransformer.cfg'
-        exclude 'META-INF/*.SF', 'META-INF/*.RSA', 'META-INF/*.DSA'
-    }
-}
-def mappedBop = renamer.classes(bopDevelopmentInput) {
-    map.from reverseBopMappings
-    libraries.from sourceSets.main.compileClasspath
-    // The available Minecraft library is already officially mapped. Resolve unique
-    // SRG member names when source-namespace inheritance cannot be inspected.
-    naiveSrg = true
-    accessTransformers = false
-    output = layout.buildDirectory.file('development-dependencies/biomesoplenty-official-classes.jar')
-}
-def bopDevelopmentArchive = tasks.register('bopDevelopmentJar', Jar) {
-    dependsOn mappedBop
-    archiveFileName = 'biomesoplenty-official.jar'
-    destinationDirectory = layout.buildDirectory.dir('development-dependencies')
-    // BOP reads its version from the manifest. Keep the public jar's metadata
-    // on this mapped development copy as well as its unchanged production jar.
-    manifest.attributes(originalBopManifest)
-    from { zipTree(layout.buildDirectory.file('development-dependencies/biomesoplenty-official-classes.jar').get().asFile) }
-    exclude 'META-INF/MANIFEST.MF'
-    // Renamer 1.1.5 does not accept the native *() AT wildcard. Add these
-    // already mapped rules after class remapping, retaining every rule.
-    from(bopDevelopmentAccessRules) {
-        into 'META-INF'
-        rename { 'accesstransformer.cfg' }
-    }
-}
-ext.bopDevelopmentJar = layout.buildDirectory.file('development-dependencies/biomesoplenty-official.jar')
-ext.bopDevelopmentTask = bopDevelopmentArchive
-
-def terraBlenderDevelopmentInput = tasks.register('terraBlenderDevelopmentInput', Jar) {
-    archiveFileName = 'terrablender-development-input.jar'
-    destinationDirectory = layout.buildDirectory.dir('development-dependencies')
-    manifest.attributes(originalTerraBlenderManifest)
-    from(zipTree(terraBlenderJar)) {
-        exclude 'META-INF/MANIFEST.MF', 'META-INF/accesstransformer.cfg'
-        exclude 'META-INF/*.SF', 'META-INF/*.RSA', 'META-INF/*.DSA'
-    }
-}
-def mappedTerraBlender = renamer.classes(terraBlenderDevelopmentInput) {
-    map.from reverseBopMappings
-    libraries.from sourceSets.main.compileClasspath
-    naiveSrg = true
-    accessTransformers = false
-    output = layout.buildDirectory.file('development-dependencies/terrablender-official-classes.jar')
-}
-def terraBlenderDevelopmentArchive = tasks.register('terraBlenderDevelopmentJar', Jar) {
-    dependsOn mappedTerraBlender
-    archiveFileName = 'terrablender-official.jar'
-    destinationDirectory = layout.buildDirectory.dir('development-dependencies')
-    manifest.attributes(originalTerraBlenderManifest)
-    from { zipTree(layout.buildDirectory.file('development-dependencies/terrablender-official-classes.jar').get().asFile) }
-    exclude 'META-INF/MANIFEST.MF'
-    from(terraBlenderDevelopmentAccessRules) {
-        into 'META-INF'
-        rename { 'accesstransformer.cfg' }
-    }
-}
-ext.terraBlenderDevelopmentJar = layout.buildDirectory.file('development-dependencies/terrablender-official.jar')
-ext.terraBlenderDevelopmentTask = terraBlenderDevelopmentArchive
-
-tasks.named('bopDevelopmentJar') { dependsOn terraBlenderDevelopmentArchive }
-def compileIntegrationTestMod = tasks.register('compileIntegrationTestMod', JavaCompile) {
-    group = 'verification'
-    dependsOn tasks.named('classes')
-    source fileTree('src/integrationTest/java'), fileTree(new File(coreDirectory, 'src/integrationTest/java'))
-    source fileTree('src/bootstrapTest/java') { exclude '**/NativeBootstrap.java' }
-    classpath = files(sourceSets.main.output, sourceSets.main.compileClasspath, sourceSets.main.runtimeClasspath)
-    destinationDirectory = integrationTestClasses
-    options.encoding = 'UTF-8'
-}
-
-def integrationTestModJar = tasks.register('integrationTestModJar', Jar) {
-    group = 'verification'
-    dependsOn compileIntegrationTestMod
-    archiveFileName = 'skysbuildingpieces-integration-test.jar'
-    destinationDirectory = layout.buildDirectory.dir('integration-test-mod')
-    from integrationTestClasses
-    from('src/integrationTest/resources') { exclude 'log4j2.xml' }
-    from(new File(coreDirectory, 'src/integrationTest/resources')) {
-        exclude 'META-INF/mods.toml', 'log4j2.xml'
-    }
-}
-
-def packagedIntegrationTestModJar = renamer.classes(integrationTestModJar) {
-    map.from minecraft.dependency.toSrgFile
-    libraries.from tasks.named('jar', Jar).flatMap { it.archiveFile }
-    libraries.from sourceSets.main.compileClasspath
-    output = layout.buildDirectory.file(
-            'integration-test-mod/skysbuildingpieces-integration-test-reobf.jar')
-}
-
-tasks.register('preparePackagedIntegrationProbe') {
-    group = 'verification'
-    description = 'Builds the reobfuscated probe used only in disposable packaged runtimes.'
-    dependsOn packagedIntegrationTestModJar
-}
-
-def integrationRunName = providers.gradleProperty('bopIntegrationRunName').getOrElse('integration-test-run-' + UUID.randomUUID())
-if (!(integrationRunName ==~ /[a-z0-9-]+/)) {
-    throw new GradleException('Use a simple name for the integration run directory.')
-}
-def integrationRunDirectory = layout.buildDirectory.dir(integrationRunName)
-
-tasks.register('prepareDevelopmentDependencies') {
-    dependsOn bopDevelopmentArchive
-    doLast {
-        project.copy {
-            from project.ext.bopDevelopmentJar
-            from project.ext.terraBlenderDevelopmentJar
-            from coreDevelopmentJar
-            into file("${developmentRunDirectory}/mods")
-        }
-    }
-}
-tasks.matching { it.name in ['runClient', 'runServer'] }.configureEach {
-    dependsOn 'prepareDevelopmentDependencies'
-}
-tasks.named('eclipse') { dependsOn 'prepareDevelopmentDependencies' }
-def prepareIntegrationTest = tasks.register('prepareIntegrationTest') {
-    group = 'verification'
-    dependsOn integrationTestModJar, bopDevelopmentArchive
-    doLast {
-        File runDirectory = integrationRunDirectory.get().asFile
-        if (runDirectory.canonicalFile != new File(buildDir, integrationRunName).canonicalFile
-                || runDirectory.exists()) {
-            throw new GradleException('The integration checks require a new directory under build: ' + runDirectory)
-        }
-        File mods = new File(runDirectory, 'mods')
-        mods.mkdirs()
-        project.copy {
-            from integrationTestModJar.flatMap { it.archiveFile }
-            from project.ext.bopDevelopmentJar
-            from project.ext.terraBlenderDevelopmentJar
-            from coreDevelopmentJar
-            into mods
-        }
-        project.copy {
-            from 'src/bootstrapTest/defaultconfigs'
-            into runDirectory
-        }
-        // Use one mod-loading thread for the dense development probe. The
-        // packaged checks keep the loader's normal settings.
-        new File(runDirectory, 'config/fml.toml').setText('''versionCheck=true
-splashscreen=true
-defaultConfigPath="defaultconfigs"
-maxThreads=1
-''', 'UTF-8')
-        new File(runDirectory, 'eula.txt').setText('eula=true\n', 'UTF-8')
-        new File(runDirectory, 'server.properties').setText('''\
-level-name=world
-level-seed=skys-building-pieces-integration
-level-type=minecraft:normal
-online-mode=false
-server-ip=127.0.0.1
-server-port=0
-generate-structures=false
-spawn-animals=false
-spawn-monsters=false
-spawn-protection=0
-max-tick-time=120000
-''', 'UTF-8')
-    }
-}
-
-def createIntegrationProcess = { String phase, Object dependency ->
-    tasks.register("integration${phase}Process", JavaExec) {
-        group = 'verification'
-        dependsOn dependency
-        workingDir integrationRunDirectory
-        systemProperty 'skysbuildingpieces.integrationPhase', phase.toLowerCase(Locale.ROOT)
-        configureFromForgeRun(delegate, 'runServer')
-        doLast {
-            File runDirectory = integrationRunDirectory.get().asFile
-            project.ext.auditNativeBopServerLogs(runDirectory, phase.toLowerCase(Locale.ROOT))
-            String log = new File(runDirectory, 'logs/latest.log').getText('UTF-8')
-            if (log.find(/(?:\/|\[)(?:ERROR|FATAL)\]/) || log.contains('[STDERR')
-                    || !fileTree(new File(runDirectory, 'crash-reports')).isEmpty()) {
-                throw new GradleException(phase + ' integration produced an unexpected failure')
-            }
-            File marker = new File(integrationRunDirectory.get().asFile,
-                    'world/skysbuildingpieces-integration.properties')
-            if (!marker.isFile()) {
-                throw new GradleException("${phase} integration marker is missing: ${marker}")
-            }
-            Properties values = new Properties()
-            marker.withInputStream { values.load(it) }
-            if (values.getProperty("${phase.toLowerCase(Locale.ROOT)}_complete") != 'true') {
-                throw new GradleException("${phase} integration did not complete: ${marker}")
+        File mods = file(developmentRunDirectory + '/mods')
+        List<File> required = [coreDevelopmentJar, bopJar, terraBlenderJar, glitchCoreJar]
+        required.each { artifact ->
+            File target = new File(mods, artifact.name)
+            if (target.isFile() && sha256Of(target) != sha256Of(artifact)) {
+                throw new GradleException("Existing run dependency has changed: ${target.name}")
             }
         }
+        project.copy { from(required); into(mods) }
     }
 }
-
-def integrationFreshProcess = createIntegrationProcess('Fresh', prepareIntegrationTest)
-def integrationReloadProcess = createIntegrationProcess('Reload', integrationFreshProcess)
-
-tasks.register('integrationTest') {
-    group = 'verification'
-    description = 'Runs the build-only legacy gameplay probe through fresh and reload servers.'
-    dependsOn integrationReloadProcess
-    doLast {
-        File runDirectory = integrationRunDirectory.get().asFile
-        File marker = new File(runDirectory, 'world/skysbuildingpieces-integration.properties')
-        Properties values = new Properties()
-        marker.withInputStream { values.load(it) }
-        ['fresh_complete', 'reload_complete', 'gameplay_checks', 'migration_checks'].each { key ->
-            if (!values.getProperty(key)) throw new GradleException("Missing integration evidence ${key}")
-        }
-        List<File> crashReports = fileTree(new File(runDirectory, 'crash-reports')).files as List<File>
-        if (!crashReports.isEmpty()) {
-            throw new GradleException("Integration runtime produced crash reports: ${crashReports}")
-        }
-        File latest = new File(runDirectory, 'logs/latest.log')
-        if (!latest.isFile() || latest.text.contains('Encountered an unexpected exception')) {
-            throw new GradleException("Integration runtime log is missing or contains a server failure: ${latest}")
-        }
-    }
-}
-
-tasks.register('integrationClientProcess', JavaExec) {
-    group = 'verification'
-    dependsOn prepareIntegrationTest
-    workingDir integrationRunDirectory
-    systemProperty 'skysbuildingpieces.integrationPhase', 'client'
-    configureFromForgeRun(delegate, 'runClient')
-    doLast {
-        if (!new File(integrationRunDirectory.get().asFile, 'building-pieces-client-pass.txt').isFile())
-            throw new GradleException('Client did not complete resource baking')
-    }
-}
-
-tasks.named('check') {
-    dependsOn tasks.named('integrationTest')
-}
+tasks.matching { it.name in ['runClient', 'runServer', 'prepareRunClient', 'prepareRunServer'] }
+        .configureEach { dependsOn stageRunDependencies }
+tasks.named('eclipse') { dependsOn stageRunDependencies }
+tasks.withType(JavaExec).configureEach { javaLauncher = java21Launcher }
 
 tasks.named('processResources', ProcessResources) {
     filteringCharset = 'UTF-8'
@@ -735,13 +312,11 @@ tasks.named('processResources', ProcessResources) {
             name: project.mod_name,
             description: project.mod_description
     ])
-    filesMatching('META-INF/mods.toml') { expand project.properties }
+    filesMatching('META-INF/neoforge.mods.toml') { expand project.properties }
     filesMatching(archiveTextPatterns, normalizeArchiveLineEndings)
 }
 
 tasks.named('jar', Jar) {
-    archiveClassifier = 'deobf'
-    destinationDirectory = layout.buildDirectory.dir('libs-dev')
     from(['LICENSE', 'LICENSE.spdx', 'NOTICE', 'BUILDINGBRICKS-MIT.txt', 'MINERALOGY-LGPL-3.0.txt', 'MINERALOGY-GPL-3.0.txt']) { into 'META-INF' }
     manifest {
         attributes([
@@ -750,18 +325,13 @@ tasks.named('jar', Jar) {
                 'Implementation-Version': project.version,
                 'Implementation-Vendor': project.mod_authors,
                 'Built-On-Java': project.java_version,
-                'Built-On': "${project.minecraft_version}-${project.forge_version}"
+                'Built-On': "${project.minecraft_version}-${project.neo_version}"
         ])
     }
     filesMatching(archiveTextPatterns, normalizeArchiveLineEndings)
 }
 
-def releaseJar = renamer.classes(tasks.named('jar', Jar)) {
-    map.from minecraft.dependency.toSrgFile
-    libraries.from sourceSets.main.compileClasspath
-    archiveClassifier = null
-    output = layout.buildDirectory.file("libs/${base.archivesName.get()}-${project.version}.jar")
-}
+def releaseJar = tasks.named('jar', Jar)
 
 tasks.named('sourcesJar', Jar) {
     from(['LICENSE', 'LICENSE.spdx', 'NOTICE', 'BUILDINGBRICKS-MIT.txt', 'MINERALOGY-LGPL-3.0.txt', 'MINERALOGY-GPL-3.0.txt']) { into 'META-INF' }
@@ -772,10 +342,6 @@ tasks.named('javadocJar', Jar) {
     filesMatching(archiveTextPatterns, normalizeArchiveLineEndings)
 }
 
-['apiElements', 'runtimeElements'].each { configurationName ->
-    configurations.named(configurationName) { artifacts.clear() }
-    artifacts { add(configurationName, releaseJar) }
-}
 tasks.named('assemble') {
     dependsOn releaseJar, tasks.named('sourcesJar'), tasks.named('javadocJar')
 }
@@ -791,12 +357,17 @@ def releaseFiles = provider {
 tasks.register('verifyReleaseMetadata') {
     group = 'verification'
     doLast {
-        if (project.minecraft_version != '1.20.1' || project.forge_version != '47.1.106' ||
-                project.mapping_channel != 'official' || project.mapping_version != '1.20.1' ||
+        def parts = project.minecraft_version.toString().split('\\.')
+        String target = parts[0] + parts[1].padLeft(2, '0') + parts[2].padLeft(2, '0') + project.loader_code
+        if (!(project.version.toString() ==~ /[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/) ||
+                project.version.toString().tokenize('.').last() != target) {
+            throw new GradleException('The add-on version must end with the Minecraft and loader target')
+        }
+        if (project.minecraft_version != '1.20.6' || project.neo_version != '20.6.139' ||
                 project.loader_name != 'neoforge' || project.loader_code != '2' ||
-                project.java_version != '17' || project.java_toolchain_version != '17.0.1+12' ||
+                project.java_version != '21' || project.java_toolchain_version != '21.0.7+6' ||
                 project.mod_id != 'skysbuildingpiecesbop') {
-            throw new GradleException('Unexpected 1.20.1 release metadata')
+            throw new GradleException('Unexpected 1.20.6 release metadata')
         }
     }
 }
@@ -819,7 +390,7 @@ tasks.register('verifyReleaseArtifacts') {
                 throw new GradleException("The jar's Java label does not match its production target")
             }
             Set<String> names = zip.entries().collect { it.name } as Set<String>
-            ['META-INF/mods.toml', 'META-INF/LICENSE', 'META-INF/LICENSE.spdx', 'META-INF/NOTICE',
+            ['META-INF/neoforge.mods.toml', 'META-INF/LICENSE', 'META-INF/LICENSE.spdx', 'META-INF/NOTICE',
              'zone/moddev/mc/skysbuildingpiecesbop/SkysBuildingPiecesBop.class', 'META-INF/BUILDINGBRICKS-MIT.txt',
              'META-INF/MINERALOGY-LGPL-3.0.txt', 'META-INF/MINERALOGY-GPL-3.0.txt',
              'assets/skysbuildingpiecesbop/blockstates/retired_rocks.json',
@@ -872,8 +443,8 @@ tasks.register('verifyReleaseArtifacts') {
                 if (!entry.directory) {
                     byte[] auditBytes = zip.getInputStream(entry).bytes
                     if (entry.name.endsWith('.class') &&
-                            (((auditBytes[6] & 255) << 8) | (auditBytes[7] & 255)) != 61) {
-                        throw new GradleException("Non-Java-16 production class: ${entry.name}")
+                            (((auditBytes[6] & 255) << 8) | (auditBytes[7] & 255)) != 65) {
+                        throw new GradleException("Non-Java-21 production class: ${entry.name}")
                     }
                     String content = new String(zip.getInputStream(entry).bytes,
                             StandardCharsets.ISO_8859_1).toLowerCase(Locale.ROOT)
@@ -977,13 +548,9 @@ tasks.register('publishRelease') {
 idea {
     module { downloadSources = true; downloadJavadoc = true }
 }
-eclipse {
-    classpath { downloadSources = true; downloadJavadoc = true }
-    synchronizationTasks 'genEclipseRuns'
-}
-
 def prepareEclipseResources = tasks.register('prepareEclipseResources') {
     group = 'ide'
+    description = 'Copies processed resources into Eclipse production output.'
     dependsOn tasks.named('processResources')
     doLast {
         project.copy {
@@ -995,136 +562,184 @@ def prepareEclipseResources = tasks.register('prepareEclipseResources') {
 
 def configureEclipseBuildship = tasks.register('configureEclipseBuildship') {
     group = 'ide'
+    description = 'Pins Eclipse Buildship to the Gradle home used for NeoForge.'
     doLast {
+        String requestedGradleHome = System.getenv('GRADLE_USER_HOME')
+        File gradleHome = requestedGradleHome == null || requestedGradleHome.trim().isEmpty()
+                ? gradle.gradleUserHomeDir : file(requestedGradleHome)
         File preferencesFile = file('.settings/org.eclipse.buildship.core.prefs')
         Properties preferences = new Properties()
-        if (preferencesFile.isFile()) preferencesFile.withInputStream { preferences.load(it) }
-        [
-                'eclipse.preferences.version': '1',
-                'connection.gradle.distribution': 'GRADLE_DISTRIBUTION(WRAPPER)',
-                'connection.gradle.user.home': gradle.gradleUserHomeDir.canonicalPath,
-                'connection.project.dir': '',
-                'gradle.user.home': gradle.gradleUserHomeDir.canonicalPath,
-                'override.workspace.settings': 'true'
-        ].each { key, value -> preferences.setProperty(key, value) }
-        List<String> arguments = preferences.getProperty('arguments', '').tokenize(' ')
-        arguments.removeAll { it.startsWith('-PbuildingPiecesCoreDir=') || it.startsWith('-PbuildingPiecesCoreVersion=') }
-        arguments.add('-PbuildingPiecesCoreDir=' + relativePath(coreDirectory))
-        if (localCoreVersion.isPresent()) arguments.add('-PbuildingPiecesCoreVersion=' + effectiveCoreVersion)
-        preferences.setProperty('arguments', arguments.join(' '))
+        if (preferencesFile.isFile()) {
+            preferencesFile.withInputStream { preferences.load(it) }
+        }
+        preferences.setProperty('eclipse.preferences.version', '1')
+        preferences.setProperty('connection.gradle.distribution', 'GRADLE_DISTRIBUTION(WRAPPER)')
+        preferences.setProperty('connection.gradle.user.home', gradleHome.canonicalPath)
+        preferences.setProperty('connection.project.dir', '')
+        preferences.setProperty('gradle.user.home', gradleHome.canonicalPath)
+        preferences.setProperty('java.home', System.getProperty('java.home'))
+        preferences.setProperty('override.workspace.settings', 'true')
         preferencesFile.parentFile.mkdirs()
-        preferencesFile.withOutputStream { preferences.store(it, 'Generated Buildship configuration.') }
+        preferencesFile.withOutputStream { preferences.store(it,
+                'Generated Buildship configuration for the NeoForge development environment.') }
     }
 }
 
-tasks.register('isolateEclipseProductionRuns') {
-    group = 'ide'
+eclipse {
+    project {
+        natures 'org.eclipse.buildship.core.gradleprojectnature'
+        buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
+    }
+    classpath {
+        downloadSources = true
+        downloadJavadoc = true
+        file.whenMerged { classpath ->
+            def libraryPaths = new LinkedHashSet<String>()
+            classpath.entries = classpath.entries.findAll { entry ->
+                !(entry instanceof org.gradle.plugins.ide.eclipse.model.Library)
+                        || libraryPaths.add(entry.path)
+            }
+            classpath.entries.removeAll { entry ->
+                entry instanceof org.gradle.plugins.ide.eclipse.model.SourceFolder &&
+                        ['src/main/resources', 'src/generated/resources'].contains(entry.path)
+            }
+            if (!classpath.entries.any { entry -> entry.path == 'build/resources/main' }) {
+                classpath.entries.add(new org.gradle.plugins.ide.eclipse.model.SourceFolder(
+                        'build/resources/main', 'bin/main'))
+            }
+        }
+    }
+    synchronizationTasks 'prepareEclipseResources'
+}
+
+tasks.named('eclipse').configure {
     dependsOn prepareEclipseResources
+    dependsOn configureEclipseBuildship
     doLast {
-        ['runClient.launch', 'runServer.launch', 'runTestClient.launch', 'runTestServer.launch'].each { name ->
-            File launch = file(name)
-            if (!launch.isFile()) throw new GradleException("ForgeGradle did not generate ${name}")
-            String contents = launch.getText('UTF-8')
-            boolean production = name in ['runClient.launch', 'runServer.launch']
-            if (production) {
-                // Eclipse compiles into bin/main; use that same merged output
-                // for both of Forge 37's discovery passes, including fresh edits.
-                String roots = "${mod_id}%%${projectDir}/bin/main${File.pathSeparator}" +
-                        "${mod_id}%%${projectDir}/bin/main"
-                contents = contents.replaceAll(/key="MOD_CLASSES" value="[^"]*"/) {
-                    'key="MOD_CLASSES" value="' + roots + '"'
-                }
+        fileTree(file('.eclipse/configurations')) { include '**/*.launch' }.files.each { launch ->
+            def model = new groovy.xml.XmlParser(false, false).parse(launch)
+            if (model.@type != 'org.eclipse.jdt.launching.localJavaApplication') return
+            def exclude = model.booleanAttribute.find {
+                it.@key == 'org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE'
             }
-            if (production && !contents.contains('org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE')) {
-                contents = contents.replace('</launchConfiguration>',
-                        '  <booleanAttribute key="org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE" value="true"/>' +
-                                System.lineSeparator() + '</launchConfiguration>')
+            if (exclude == null) {
+                model.appendNode('booleanAttribute', [
+                        key: 'org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE', value: 'true'])
+            } else {
+                exclude.@value = 'true'
             }
-            ['--cache', '--metadata', '--to-srg', '--to-obf'].each { option ->
-                String prefix = option + ' '
-                int start = contents.indexOf(prefix)
-                if (start < 0) throw new GradleException("${name} is missing ${option}")
-                start += prefix.length()
-                int end = contents.indexOf(' --', start)
-                if (end < 0) throw new GradleException("${name} has malformed ${option}")
-                String value = contents.substring(start, end)
-                if (value.find(/\s/) != null && !value.startsWith('&quot;')) {
-                    contents = contents.substring(0, start) + '&quot;' + value + '&quot;' + contents.substring(end)
-                }
-            }
-            launch.setText(contents, 'UTF-8')
+            launch.setText(groovy.xml.XmlUtil.serialize(model).replace('\r\n', '\n'), 'UTF-8')
         }
     }
 }
 
-tasks.named('genEclipseRuns') {
-    finalizedBy configureEclipseBuildship, 'isolateEclipseProductionRuns'
-}
-
-tasks.register('verifyEclipseProductionClasspath') {
+def verifyEclipseConfiguration = tasks.register('verifyEclipseConfiguration') {
     group = 'verification'
-    dependsOn tasks.named('genEclipseRuns'), tasks.named('eclipse')
+    description = 'Rejects duplicate Eclipse dependencies and production/test classpath leakage.'
+    dependsOn tasks.named('eclipse')
     doLast {
-        File prefsFile = file('.settings/org.eclipse.buildship.core.prefs')
-        if (!prefsFile.isFile()) throw new GradleException('Missing Buildship preferences')
-        Properties prefs = new Properties()
-        prefsFile.withInputStream { prefs.load(it) }
-        if (file(prefs.getProperty('connection.gradle.user.home', '')).canonicalFile != gradle.gradleUserHomeDir.canonicalFile) {
-            throw new GradleException('Eclipse Buildship uses the wrong Gradle home')
+        File classpathFile = file('.classpath')
+        if (!classpathFile.isFile()) throw new GradleException('Eclipse .classpath was not generated')
+        String classpathText = classpathFile.getText('UTF-8')
+        if (!classpathText.contains('path="build/resources/main"') ||
+                classpathText.contains('path="src/main/resources"') ||
+                classpathText.contains('path="src/generated/resources"')) {
+            throw new GradleException('Eclipse must consume only Gradle-processed production resources')
         }
-        File metadata = file('bin/main/META-INF/mods.toml')
-        String text = metadata.isFile() ? metadata.getText('UTF-8') : ''
-        if (!text.contains("version=\"${project.mod_version}\"") ||
-                !text.contains("versionRange=\"${project.minecraft_version_range}\"")) {
-            throw new GradleException('Eclipse output contains incorrect mods.toml')
+        def classpath = new groovy.xml.XmlParser(false, false).parse(classpathFile)
+        def entries = classpath.classpathentry
+        if (entries.find { it.@kind == 'output' }.@path != 'bin/default' ||
+                entries.find { it.@path == 'src/main/java' }.@output != 'bin/main' ||
+                entries.find { it.@path == 'src/test/java' }.@output != 'bin/test' ||
+                !classpathText.contains('/JavaSE-21/')) {
+            throw new GradleException('Eclipse production, test and default output must be separate on Java 21')
         }
-        ['runClient.launch', 'runServer.launch', 'runTestClient.launch', 'runTestServer.launch'].each { name ->
-            String contents = file(name).getText('UTF-8')
-            if (contents.contains('${MC_VERSION}')) {
-                throw new GradleException("${name} retains ForgeGradle's unresolved MC_VERSION token")
+        List<String> libraries = entries.findAll { it.@kind == 'lib' }
+                .collect { file(it.@path).canonicalPath }
+        if (libraries.size() != libraries.toSet().size()) {
+            throw new GradleException('Eclipse has a duplicate library path')
+        }
+        File preferencesFile = file('.settings/org.eclipse.buildship.core.prefs')
+        if (!preferencesFile.isFile()) throw new GradleException('Missing Buildship preferences')
+        Properties preferences = new Properties()
+        preferencesFile.withInputStream { preferences.load(it) }
+        if (preferences.getProperty('override.workspace.settings') != 'true') {
+            throw new GradleException('Eclipse Buildship workspace override is not active')
+        }
+        Set<File> runLaunches = fileTree(file('.eclipse/configurations')) {
+            include '**/*.launch'
+        }.files.findAll { launch ->
+            String name = launch.name.toLowerCase(Locale.ROOT)
+            name.startsWith('run ') && (name.contains('client') || name.contains('server'))
+        }
+        if (runLaunches.size() != 2) {
+            throw new GradleException('Expected isolated Eclipse client and server launches')
+        }
+        runLaunches.each { launch ->
+            String launchText = launch.getText('UTF-8')
+            if (launchText.contains('neoforge.enabledGameTestNamespaces=') ||
+                    launchText.contains('integration-test') || launchText.contains('src/test')) {
+                throw new GradleException("${launch.name} exposes test code to a regular run")
             }
-            if (!contents.contains('--main cpw.mods.bootstraplauncher.BootstrapLauncher') ||
-                    !contents.contains("--fml.mcVersion ${project.minecraft_version} ")) {
-                throw new GradleException("${name} must use the native launcher and Minecraft ${project.minecraft_version}")
+            def model = new groovy.xml.XmlParser(false, false).parse(launch)
+            def exclude = model.booleanAttribute.find {
+                it.@key == 'org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE'
+            }
+            def modSources = model.mapAttribute.mapEntry.flatten().find { it.@key == 'MOD_CLASSES' }
+            String expectedOutput = file('bin/main').canonicalPath.replace('\\', '/')
+            if (model.@type != 'org.eclipse.jdt.launching.localJavaApplication' ||
+                    exclude?.@value != 'true' ||
+                    modSources?.@value?.toString()?.replace('\\', '/') != project.name + '%%' + expectedOutput) {
+                throw new GradleException("${launch.name} must use only the merged production output")
             }
         }
-        ['runClient.launch', 'runServer.launch'].each { name ->
-            String contents = file(name).getText('UTF-8').replace('\\', '/')
-            if (!contents.contains('org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE') ||
-                    contents.contains('src/test') || contents.contains('bin/test') || contents.contains('junit-')) {
-                throw new GradleException("${name} exposes test code or dependencies")
-            }
-            def xml = new groovy.xml.XmlParser(false, false).parse(file(name))
-            String modClasses = xml.mapAttribute.find {
-                it.@key == 'org.eclipse.debug.core.environmentVariables'
-            }.mapEntry.find { it.@key == 'MOD_CLASSES' }.@value
-            List<String> roots = modClasses.split(java.util.regex.Pattern.quote(File.pathSeparator)).toList()
-            if (roots.size() != 2 || roots[0] != roots[1] ||
-                    roots[0].replace('\\', '/') != "${mod_id}%%${projectDir}/bin/main".replace('\\', '/')) {
-                throw new GradleException("${name} must repeat the merged production output in MOD_CLASSES")
+        File metadata = file('bin/main/META-INF/neoforge.mods.toml')
+        if (!metadata.isFile() || metadata.getText('UTF-8').contains('${mod_version}') ||
+                !metadata.getText('UTF-8').contains("version=\"${project.version}\"")) {
+            throw new GradleException('Eclipse output contains missing or unexpanded NeoForge metadata')
+        }
+        List<String> forbidden = ['src/test', 'bin/test', 'build/classes/java/test',
+                'net.minecraftforge', 'META-INF/mods.toml']
+        fileTree(project.projectDir) { include 'run*.launch' }.files.each { launch ->
+            List<String> leaked = forbidden.findAll { launch.getText('UTF-8').contains(it) }
+            if (!leaked.isEmpty()) {
+                throw new GradleException("${launch.name} exposes test/Forge/local content: ${leaked}")
             }
         }
     }
 }
 
-tasks.named('check') {
-    dependsOn tasks.named('verifyReleaseMetadata')
+
+
+apply from: 'gradle/native-probes.gradle'
+apply from: 'gradle/native-coremod-checks.gradle'
+
+// Unit tests need the same pre-initialization array patch as a Forge process.
+// This launcher is absent from production jars and ordinary development runs.
+def compileLauncher = tasks.register('compileNativeUnitLauncher', JavaCompile) {
+    source fileTree(new File(coreDirectory, 'src/testLauncher/java'))
+    classpath = files()
+    destinationDirectory = layout.buildDirectory.dir('native-unit-launcher/classes')
+}
+def launcher = tasks.register('nativeUnitLauncherJar', Jar) {
+    dependsOn compileLauncher
+    archiveFileName = 'native-unit-launcher.jar'
+    destinationDirectory = layout.buildDirectory.dir('native-unit-launcher')
+    from compileLauncher.flatMap { it.destinationDirectory }
+    manifest.attributes('Premain-Class': 'zone.moddev.mc.skysbuildingpieces.testlaunch.NativeTestLauncher')
+}
+tasks.withType(Test).configureEach {
+    dependsOn launcher
+    doFirst {
+        jvmArgs '-javaagent:' + launcher.get().archiveFile.get().asFile.absolutePath
+    }
 }
 
 tasks.register('verifyNativeRecipeConflicts', Exec) {
     group = 'verification'
-    environment 'BUILDING_PIECES_CORE_RESOURCES', new File(coreDirectory, 'src/main/resources').absolutePath
+    description = 'Checks BOP cuts against the locked native Mineralogy recipes.'
     commandLine providers.gradleProperty('pythonExecutable').getOrElse('python'),
             'tools/test_recipe_conflicts.py'
+    environment 'BUILDING_PIECES_CORE_RESOURCES', new File(coreDirectory, 'src/main/resources').path
 }
 tasks.named('check') { dependsOn tasks.named('verifyNativeRecipeConflicts') }
-
-// Recipes and unlocks use the native datapack tree.
-
-ext.configureRecipeBookRun = configureFromForgeRun
-ext.recipeBookExtraMods = files(project.ext.bopDevelopmentJar, project.ext.terraBlenderDevelopmentJar, coreDevelopmentJar)
-apply from: 'gradle/recipe-book-verification.gradle'
-ext.coreDirectory = coreDirectory
-ext.coreDevelopmentJar = coreDevelopmentJar
-apply from: 'gradle/native-bootstrap.gradle'
-apply from: 'gradle/native-coremod-checks.gradle'

@@ -1,18 +1,18 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "building",
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "mineralogy:limestone"
-    }
-  ],
   "ingredients": [
     {
       "item": "skysbuildingpiecesbop:retired_limestone"
     }
   ],
   "result": {
-    "item": "mineralogy:limestone"
-  }
+    "id": "mineralogy:limestone"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "mineralogy:limestone"
+    }
+  ]
 }

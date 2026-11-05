@@ -83,8 +83,8 @@ public final class BopMigrationChecks {
 
                 LegacyBridge.finalizeLegacyChunk(remaining);
                 new zone.moddev.mc.skysbuildingpieces.legacy.MigrationEvents()
-                        .load(new net.minecraftforge.event.level.ChunkDataEvent.Load(world.getChunk(0, 0),
-                                remaining.getCompound("Level"), net.minecraft.world.level.chunk.ChunkStatus.ChunkType.LEVELCHUNK));
+                        .load(new net.neoforged.neoforge.event.level.ChunkDataEvent.Load(world.getChunk(0, 0),
+                                remaining.getCompound("Level"), net.minecraft.world.level.chunk.status.ChunkType.LEVELCHUNK));
                 require(totals.modules.get("biomesoplenty").blocks == blocks + 1
                         && totals.modules.get("biomesoplenty").chunks == chunks,
                         "Covered recovery must not count the chunk twice");

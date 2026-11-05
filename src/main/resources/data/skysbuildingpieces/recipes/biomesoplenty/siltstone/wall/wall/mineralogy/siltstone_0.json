@@ -1,70 +1,112 @@
 {
-  "type": "forge:conditional",
+  "type": "skysbuildingpiecesbop:material_recipe",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:or",
+      "values": [
+        {
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:item_exists",
+              "item": "mineralogy:siltstone"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:siltstone_wall"
+            }
+          ]
+        },
+        {
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:not",
+              "value": {
+                "type": "neoforge:item_exists",
+                "item": "mineralogy:siltstone"
+              }
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:retired_siltstone"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:siltstone_wall"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "recipes": [
     {
-      "conditions": [
+      "neoforge:conditions": [
         {
-          "type": "forge:item_exists",
-          "item": "mineralogy:siltstone"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:siltstone"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:siltstone_wall"
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:item_exists",
+              "item": "mineralogy:siltstone"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:siltstone_wall"
+            }
+          ]
         }
       ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/mineralogy",
-        "pattern": ["XX", "XX", "XX"],
-        "key": {
-          "X": {
-            "item": "mineralogy:siltstone"
-          }
-        },
-        "result": {
-          "item": "skysbuildingpiecesbop:siltstone_wall",
-          "count": 6
-        },
-        "category": "building"
-      }
+      "type": "minecraft:crafting_shaped",
+      "group": "skysbuildingpieces/mineralogy",
+      "pattern": ["XX", "XX", "XX"],
+      "key": {
+        "X": {
+          "item": "mineralogy:siltstone"
+        }
+      },
+      "result": {
+        "id": "skysbuildingpiecesbop:siltstone_wall",
+        "count": 6
+      },
+      "category": "building"
     },
     {
-      "conditions": [
+      "neoforge:conditions": [
         {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:item_exists",
-            "item": "mineralogy:siltstone"
-          }
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:retired_siltstone"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:siltstone_wall"
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:not",
+              "value": {
+                "type": "neoforge:item_exists",
+                "item": "mineralogy:siltstone"
+              }
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:retired_siltstone"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:siltstone_wall"
+            }
+          ]
         }
       ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/mineralogy",
-        "pattern": ["XX", "XX", "XX"],
-        "key": {
-          "X": {
-            "item": "skysbuildingpiecesbop:retired_siltstone"
-          }
-        },
-        "result": {
-          "item": "skysbuildingpiecesbop:siltstone_wall",
-          "count": 6
-        },
-        "category": "building"
-      }
+      "type": "minecraft:crafting_shaped",
+      "group": "skysbuildingpieces/mineralogy",
+      "pattern": ["XX", "XX", "XX"],
+      "key": {
+        "X": {
+          "item": "skysbuildingpiecesbop:retired_siltstone"
+        }
+      },
+      "result": {
+        "id": "skysbuildingpiecesbop:siltstone_wall",
+        "count": 6
+      },
+      "category": "building"
     }
   ]
 }

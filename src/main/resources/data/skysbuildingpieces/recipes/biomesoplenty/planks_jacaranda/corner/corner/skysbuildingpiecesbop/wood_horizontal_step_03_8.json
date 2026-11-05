@@ -8,18 +8,23 @@
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:planks_jacaranda_corner",
+    "id": "skysbuildingpiecesbop:planks_jacaranda_corner",
     "count": 4
   },
-  "conditions": [
+  "category": "building",
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_jacaranda_corner"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_jacaranda_horizontal_step"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_jacaranda_corner"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_jacaranda_horizontal_step"
+        }
+      ]
     }
-  ],
-  "category": "building"
+  ]
 }

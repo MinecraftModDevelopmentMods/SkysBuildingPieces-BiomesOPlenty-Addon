@@ -23,14 +23,19 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/limestone_polished/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_01_0"]
   },
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:limestone_polished_corner"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:limestone_polished_horizontal_step"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:limestone_polished_corner"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:limestone_polished_horizontal_step"
+        }
+      ]
     }
   ]
 }

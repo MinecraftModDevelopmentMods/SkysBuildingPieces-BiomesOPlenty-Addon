@@ -1,0 +1,15 @@
+modLoader="javafml"
+loaderVersion="[2,)"
+license="LGPL-2.1-only"
+
+[[mods]]
+modId="bopregistrycontrol"
+version="1"
+displayName="BOP Registry Control"
+
+[[dependencies.bopregistrycontrol]]
+modId="biomesoplenty"
+type="required"
+versionRange="[18.4.0.8,19)"
+ordering="AFTER"
+side="SERVER"

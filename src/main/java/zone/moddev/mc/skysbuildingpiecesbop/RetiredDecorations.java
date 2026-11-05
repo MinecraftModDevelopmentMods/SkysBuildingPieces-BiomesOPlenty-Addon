@@ -27,18 +27,18 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.minecraft.core.registries.BuiltInRegistries;
 import zone.moddev.mc.skysbuildingpieces.legacy.HistoricalFullBlocks;
 
 /** Restored decorations keep their original purpose and never generate terrain. */
-@Mod.EventBusSubscriber(
+@EventBusSubscriber(
         modid = SkysBuildingPiecesBop.ID,
-        bus = Mod.EventBusSubscriber.Bus.MOD)
+        bus = EventBusSubscriber.Bus.MOD)
 public final class RetiredDecorations {
     public static final String MODULE = "retired_bop_decorations";
     public static Formation STONE_FORMATIONS;
@@ -59,7 +59,7 @@ public final class RetiredDecorations {
     }
 
     private static BlockState vine(int metadata) {
-        Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("biomesoplenty", "willow_vine"));
+        Block block = BuiltInRegistries.BLOCK.getOptional(new ResourceLocation("biomesoplenty", "willow_vine")).orElse(null);
 
         if (block == null || block == net.minecraft.world.level.block.Blocks.AIR || metadata < 0 || metadata > 15) {
             return null;
@@ -72,18 +72,18 @@ public final class RetiredDecorations {
 
     @SubscribeEvent
     public static void blocks(RegisterEvent event) {
-        if (!event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
+        if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.BLOCK)) return;
         STONE_FORMATIONS = new Formation();
         JELLED_POISON = new JelledPoison();
-        ForgeRegistries.BLOCKS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "stone_formations"), STONE_FORMATIONS);
-        ForgeRegistries.BLOCKS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "jelled_poison"), JELLED_POISON);
+        net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(SkysBuildingPiecesBop.ID, "stone_formations"), STONE_FORMATIONS);
+        net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(SkysBuildingPiecesBop.ID, "jelled_poison"), JELLED_POISON);
     }
 
     @SubscribeEvent
     public static void items(RegisterEvent event) {
-        if (!event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) return;
+        if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.ITEM)) return;
         for (Block block : new Block[] { STONE_FORMATIONS, JELLED_POISON }) {
-            ForgeRegistries.ITEMS.register(ForgeRegistries.BLOCKS.getKey(block), new BlockItem(block, new Item.Properties()));
+            net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, BuiltInRegistries.BLOCK.getKey(block), new BlockItem(block, new Item.Properties()));
         }
     }
 

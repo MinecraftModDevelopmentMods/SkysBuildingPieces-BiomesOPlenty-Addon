@@ -23,14 +23,19 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/planks_mangrove/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_05_0"]
   },
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:planks_birch_corner"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:planks_birch_horizontal_step"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpieces:planks_birch_corner"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpieces:planks_birch_horizontal_step"
+        }
+      ]
     }
   ]
 }

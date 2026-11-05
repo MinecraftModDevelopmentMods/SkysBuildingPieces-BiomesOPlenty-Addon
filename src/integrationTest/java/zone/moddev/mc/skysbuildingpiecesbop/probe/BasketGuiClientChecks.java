@@ -10,9 +10,9 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.*;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.*;
-import net.minecraftforge.event.TickEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.bus.api.*;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 
 import zone.moddev.mc.skysbuildingpieces.probe.ClientStatus;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.*;
@@ -31,9 +31,8 @@ public final class BasketGuiClientChecks {
 
     @SubscribeEvent(
             priority = EventPriority.HIGHEST)
-    public static void tick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END
-                || !System.getProperty("skysbuildingpieces.integrationPhase", "").equals("client-basket")) {
+    public static void tick(ClientTickEvent.Post event) {
+        if (!System.getProperty("skysbuildingpieces.integrationPhase", "").equals("client-basket")) {
             return;
         }
         if (stage == 10) {
@@ -84,7 +83,7 @@ public final class BasketGuiClientChecks {
                 CompoundTag tag = new CompoundTag();
 
                 tag.putString("TestBasket", TEST_BASKET);
-                basket.setTag(tag);
+                BopProbeItems.setCustom(basket, tag);
                 player.getInventory().setItem(0, basket);
                 player.getInventory().setItem(9, new ItemStack(net.minecraft.world.level.block.Blocks.OAK_SAPLING, 5));
                 player.inventoryMenu.broadcastChanges();
@@ -109,7 +108,7 @@ public final class BasketGuiClientChecks {
                         .getPlayer(minecraft.player.getUUID());
 
                 if (player.getInventory().getItem(0).getItem() != Baskets.ITEM
-                        || new BasketInventory(player.getInventory().getItem(0)).getItem(0).getCount() != 5) {
+                        || new BasketInventory(player.getInventory().getItem(0), BopProbeItems.registries()).getItem(0).getCount() != 5) {
                     throw new AssertionError("GUI throw lost the owner or its contents");
                 }
 
@@ -130,9 +129,9 @@ public final class BasketGuiClientChecks {
                     // Wait for the actual close packet. Moving the owner earlier
                     // correctly makes the basket rescue itself into its locked slot.
                     ItemStack basket = player.getInventory().getItem(0);
-                    if (basket.getItem() != Baskets.ITEM || !basket.hasTag()
-                            || !basket.getTag().getString("TestBasket").equals(TEST_BASKET)
-                            || new BasketInventory(basket).getItem(0).getCount() != 5) {
+                    if (basket.getItem() != Baskets.ITEM || !BopProbeItems.hasCustom(basket)
+                            || !BopProbeItems.custom(basket).getString("TestBasket").equals(TEST_BASKET)
+                            || new BasketInventory(basket, BopProbeItems.registries()).getItem(0).getCount() != 5) {
                         throw new AssertionError("The closed basket keeps its owner and five saplings");
                     }
                     player.getInventory().setItem(0, ItemStack.EMPTY);
@@ -186,11 +185,11 @@ public final class BasketGuiClientChecks {
                     if (entity instanceof net.minecraft.world.entity.item.ItemEntity) {
                         ItemStack stack = ((net.minecraft.world.entity.item.ItemEntity) entity).getItem();
 
-                        if (stack.getItem() == Baskets.ITEM && stack.hasTag()
-                                && stack.getTag().getString("TestBasket").equals(TEST_BASKET)) {
+                        if (stack.getItem() == Baskets.ITEM && BopProbeItems.hasCustom(stack)
+                                && BopProbeItems.custom(stack).getString("TestBasket").equals(TEST_BASKET)) {
                             dropped++;
 
-                            if (new BasketInventory(stack).getItem(0).getCount() != 3) {
+                            if (new BasketInventory(stack, BopProbeItems.registries()).getItem(0).getCount() != 3) {
                                 throw new AssertionError("Death lost basket contents");
                             }
                         }

@@ -1,18 +1,18 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "building",
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "mineralogy:shale"
-    }
-  ],
   "ingredients": [
     {
       "item": "skysbuildingpiecesbop:retired_shale"
     }
   ],
   "result": {
-    "item": "mineralogy:shale"
-  }
+    "id": "mineralogy:shale"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "mineralogy:shale"
+    }
+  ]
 }

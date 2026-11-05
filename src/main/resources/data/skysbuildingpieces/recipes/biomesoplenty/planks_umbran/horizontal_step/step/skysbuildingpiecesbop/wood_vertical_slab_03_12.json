@@ -8,18 +8,23 @@
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:planks_umbran_horizontal_step",
+    "id": "skysbuildingpiecesbop:planks_umbran_horizontal_step",
     "count": 4
   },
-  "conditions": [
+  "category": "building",
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_umbran_horizontal_step"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_umbran_vertical_slab"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_umbran_horizontal_step"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_umbran_vertical_slab"
+        }
+      ]
     }
-  ],
-  "category": "building"
+  ]
 }

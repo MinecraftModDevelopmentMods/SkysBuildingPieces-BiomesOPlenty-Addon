@@ -23,18 +23,18 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 /** Stable full-block fallbacks for the rock materials removed from BOP. */
-@Mod.EventBusSubscriber(
+@EventBusSubscriber(
         modid = SkysBuildingPiecesBop.ID,
-        bus = Mod.EventBusSubscriber.Bus.MOD)
+        bus = EventBusSubscriber.Bus.MOD)
 public final class RetiredRocks extends Block {
     public static final String[] NAMES = { "gabbro", "limestone", "limestone_smooth", "shale", "shale_smooth",
             "siltstone", "siltstone_smooth" };
@@ -83,8 +83,8 @@ public final class RetiredRocks extends Block {
     @Override
     public float getDestroyProgress(BlockState state, Player player, BlockGetter world, BlockPos position) {
         BlockState reference = miningReference(state);
-        int divisor = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(reference, player) ? 30 : 100;
-        return player.getDigSpeed(reference, position) / materialDestroySpeed(state, world, position) / divisor;
+        int divisor = player.hasCorrectToolForDrops(reference) ? 30 : 100;
+        return player.getDestroySpeed(reference) / materialDestroySpeed(state, world, position) / divisor;
     }
 
     private static BlockState miningReference(BlockState state) {
@@ -104,7 +104,7 @@ public final class RetiredRocks extends Block {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult hit, BlockGetter world, BlockPos position,
+    public ItemStack getCloneItemStack(BlockState state, HitResult hit, net.minecraft.world.level.LevelReader world, BlockPos position,
             Player player) {
         return new ItemStack(item(state));
     }
@@ -112,23 +112,23 @@ public final class RetiredRocks extends Block {
     @SubscribeEvent(
             priority = EventPriority.HIGHEST)
     public static void blocks(RegisterEvent event) {
-        if (!event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
+        if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.BLOCK)) return;
         BLOCK = new RetiredRocks();
-        ForgeRegistries.BLOCKS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "retired_rocks"), BLOCK);
+        net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(SkysBuildingPiecesBop.ID, "retired_rocks"), BLOCK);
     }
 
     @SubscribeEvent
     public static void items(RegisterEvent event) {
-        if (!event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) return;
+        if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.ITEM)) return;
         // The old palette identity remains a hidden recovery carrier. Normal inventory stacks have a distinct item
         // identity for each rock.
-        ForgeRegistries.ITEMS.register(ForgeRegistries.BLOCKS.getKey(BLOCK), new BlockItem(BLOCK, new Item.Properties()));
+        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, BuiltInRegistries.BLOCK.getKey(BLOCK), new BlockItem(BLOCK, new Item.Properties()));
 
         for (int variant = 0; variant < NAMES.length; variant++) {
             VariantItem item = new VariantItem(variant);
 
             ITEMS[variant] = item;
-            ForgeRegistries.ITEMS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]), item);
+            net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]), item);
         }
 
         zone.moddev.mc.skysbuildingpieces.api.BuildingPiecesApi.registerStateItems(BLOCK, RetiredRocks::item);
@@ -163,7 +163,7 @@ public final class RetiredRocks extends Block {
         }
 
         boolean visibleInCreativeTab() {
-            Block nativeRock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("mineralogy", NAMES[variant]));
+            Block nativeRock = BuiltInRegistries.BLOCK.getOptional(new ResourceLocation("mineralogy", NAMES[variant])).orElse(null);
             return nativeRock == null || nativeRock == net.minecraft.world.level.block.Blocks.AIR;
         }
 

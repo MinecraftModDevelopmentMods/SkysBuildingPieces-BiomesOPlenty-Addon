@@ -8,14 +8,14 @@
     }
   },
   "result": {
-    "item": "minecraft:light_blue_terracotta",
+    "id": "minecraft:light_blue_terracotta",
     "count": 1
   },
-  "conditions": [
+  "category": "building",
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
+      "type": "neoforge:item_exists",
       "item": "skysbuildingpieces:stained_hardened_clay_light_blue_slab"
     }
-  ],
-  "category": "building"
+  ]
 }

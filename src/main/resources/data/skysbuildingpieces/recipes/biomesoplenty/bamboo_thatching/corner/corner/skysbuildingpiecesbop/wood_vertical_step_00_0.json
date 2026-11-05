@@ -8,18 +8,23 @@
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:planks_willow_corner",
+    "id": "skysbuildingpiecesbop:planks_willow_corner",
     "count": 4
   },
-  "conditions": [
+  "category": "building",
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_willow_corner"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_willow_vertical_step"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_willow_corner"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_willow_vertical_step"
+        }
+      ]
     }
-  ],
-  "category": "building"
+  ]
 }

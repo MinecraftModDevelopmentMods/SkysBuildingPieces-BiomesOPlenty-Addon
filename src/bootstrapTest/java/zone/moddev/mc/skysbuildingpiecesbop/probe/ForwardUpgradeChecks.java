@@ -224,21 +224,25 @@ final class ForwardUpgradeChecks {
             require(actual.getCount() == original.getByte("Count"), "Saved stack count changed: " + row + ", actual " + actual);
 
             if (row.has("basket")) {
-                require(net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(actual.getItem()).toString().equals("skysbuildingpiecesbop:flower_basket"),
+                require(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(actual.getItem()).toString().equals("skysbuildingpiecesbop:flower_basket"),
                         "Saved basket became another item");
 
-                ListTag contents = actual.getTag().getList("Items", 10);
+                ListTag contents = BopProbeItems.custom(actual).getList("Items", 10);
                 int expectedUnits = 0;
                 ListTag source = original.getCompound("tag").getList("Items", 10);
 
                 require(contents.size() == source.size(), "A basket lost stored slots: " + row.get("basket"));
 
+                var inventory = new zone.moddev.mc.skysbuildingpiecesbop.basket.BasketInventory(actual, world.registryAccess());
                 for (int slot = 0; slot < source.size(); slot++) {
                     CompoundTag before = source.getCompound(slot);
                     CompoundTag after = contents.getCompound(slot);
 
                     require(before.getByte("Slot") == after.getByte("Slot")
-                            && before.getByte("Count") == after.getByte("Count"), "Basket slot/count changed");
+                            && before.getByte("Count") == zone.moddev.mc.skysbuildingpiecesbop.basket.BasketData.count(after),
+                            "Basket slot/count changed");
+                    ItemStack stored = inventory.getItem(before.getByte("Slot"));
+                    require(stored.getCount() == before.getByte("Count"), "Basket could not read the saved slot");
 
                     String expectedId = currentItemTarget(plant(before));
 
@@ -250,15 +254,15 @@ final class ForwardUpgradeChecks {
                 units += expectedUnits;
                 baskets++;
             } else if (row.has("native_item")) {
-                require(net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(actual.getItem()).toString()
+                require(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(actual.getItem()).toString()
                         .equals(currentItemTarget(row.get("target_item").getAsString())),
                         "Saved native BOP item changed: " + row + ", actual " + actual);
-                require(original.getCompound("tag").equals(actual.getTag()), "Saved native item custom data changed");
+                require(original.getCompound("tag").equals(BopProbeItems.custom(actual)), "Saved native item custom data changed");
             } else {
                 ItemStack expected = Pieces.legacyItem(original.getString("id"), original.getShort("Damage"), 1);
 
                 require(expected.getItem() == actual.getItem(), "Saved piece item changed: " + row);
-                require(original.getCompound("tag").equals(actual.getTag()), "Saved custom item NBT changed: " + row);
+                require(original.getCompound("tag").equals(BopProbeItems.custom(actual)), "Saved custom item NBT changed: " + row);
             }
         }
 
@@ -273,7 +277,7 @@ final class ForwardUpgradeChecks {
         require(shovel.getItem() == net.minecraft.world.item.Items.DIAMOND_SHOVEL && shovel.getDamageValue() == 17
                 && shovel.getHoverName().getString().equals("A saved slope shovel")
                 && net.minecraft.world.item.enchantment.EnchantmentHelper
-                        .getItemEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.BLOCK_EFFICIENCY, shovel) == 3,
+                        .getItemEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.EFFICIENCY, shovel) == 3,
                 "Saved shovel identity, damage, name or enchantment changed");
         require(state.blocks == 17 && state.items == 31 && state.chunks == 7, "Existing vanilla totals changed");
 
@@ -320,8 +324,8 @@ final class ForwardUpgradeChecks {
             if (before.isFile()) {
                 try (InputStream original = new FileInputStream(before);
                         InputStream reloaded = new FileInputStream(after)) {
-                    CompoundTag firstData = net.minecraft.nbt.NbtIo.readCompressed(original);
-                    CompoundTag currentData = net.minecraft.nbt.NbtIo.readCompressed(reloaded);
+                    CompoundTag firstData = net.minecraft.nbt.NbtIo.readCompressed(original, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
+                    CompoundTag currentData = net.minecraft.nbt.NbtIo.readCompressed(reloaded, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
                     if (name.equals("skysbuildingpieces_world_state.dat")) {
                         require(firstData.contains("data", 10) && currentData.contains("data", 10),
                                 "The saved-data wrapper is missing its contents");
@@ -375,7 +379,7 @@ final class ForwardUpgradeChecks {
 
     private static CompoundTag readCompressed(File file) throws java.io.IOException {
         try (InputStream input = new FileInputStream(file)) {
-            return net.minecraft.nbt.NbtIo.readCompressed(input);
+            return net.minecraft.nbt.NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
         }
     }
 
@@ -502,8 +506,13 @@ final class ForwardUpgradeChecks {
     }
 
     static String currentTarget(String group, String id) {
-        if ((group.equals("blocks") || group.equals("items")) && id.equals("minecraft:grass_path")) {
-            return "minecraft:dirt_path";
+        if (group.equals("blocks") || group.equals("items")) {
+            if (id.equals("minecraft:grass_path")) {
+                return "minecraft:dirt_path";
+            }
+            if (id.equals("minecraft:grass")) {
+                return "minecraft:short_grass";
+            }
         }
         JsonObject mappings = TARGET_UPGRADES.getAsJsonObject(group);
 

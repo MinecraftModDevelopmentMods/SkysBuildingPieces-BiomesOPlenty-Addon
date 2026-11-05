@@ -23,14 +23,19 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/siltstone_polished/recombine_vertical_step"]
   },
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:siltstone_polished_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:siltstone_polished_vertical_step"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:siltstone_polished_slab"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:siltstone_polished_vertical_step"
+        }
+      ]
     }
   ]
 }

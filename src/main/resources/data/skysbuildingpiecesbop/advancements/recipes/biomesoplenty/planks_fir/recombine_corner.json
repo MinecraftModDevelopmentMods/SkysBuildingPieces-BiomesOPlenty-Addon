@@ -23,14 +23,19 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/planks_fir/recombine_corner"]
   },
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_fir_corner"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_fir_horizontal_step"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_fir_corner"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_fir_horizontal_step"
+        }
+      ]
     }
   ]
 }

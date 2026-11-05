@@ -4,10 +4,10 @@
   "pattern": [" S ", "S S", "SSS"],
   "key": {
     "S": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:flower_basket"
+    "id": "skysbuildingpiecesbop:flower_basket"
   }
 }

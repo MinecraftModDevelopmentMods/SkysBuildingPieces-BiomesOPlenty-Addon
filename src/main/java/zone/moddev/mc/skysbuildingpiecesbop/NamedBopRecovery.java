@@ -34,13 +34,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.registries.MissingMappingsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 /** Recovers named BOP content removed after flattening, before native loaders read it. */
-@Mod.EventBusSubscriber(modid = SkysBuildingPiecesBop.ID)
 public final class NamedBopRecovery {
     private static final Map<String, String> BLOCKS = mappings("blocks");
     private static final Map<String, String> ITEMS = itemMappings();
@@ -86,7 +82,7 @@ public final class NamedBopRecovery {
         saved.putInt("schema_version", 1);
         if (sidecar.isFile()) {
             try (FileInputStream input = new FileInputStream(sidecar)) {
-                saved = NbtIo.readCompressed(input);
+                saved = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
             }
             if (saved.getInt("schema_version") != 1) {
                 throw new IllegalStateException("Unsupported named BOP registry snapshot schema");
@@ -102,7 +98,7 @@ public final class NamedBopRecovery {
             CompoundTag root;
 
             try (FileInputStream input = new FileInputStream(level)) {
-                root = NbtIo.readCompressed(input);
+                root = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
             }
 
             original.putInt("DataVersion", root.getCompound("Data").getInt("DataVersion"));
@@ -152,7 +148,7 @@ public final class NamedBopRecovery {
 
     private static Registry<Biome> biomeRegistry() {
         // The active world's registry owns the saved numeric IDs, not Forge's registration objects.
-        return net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
+        return net.neoforged.neoforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
                 .registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
     }
 
@@ -223,8 +219,8 @@ public final class NamedBopRecovery {
 
             if (blockState && (BLOCKS.containsKey(tag.getString("Name")) || oldShortCattail(tag)
                     || oldWall(tag.getString("Name"), tag.getCompound("Properties")))
-                    || tag.contains("Count", 99) && (ITEMS.containsKey(tag.getString("id"))
-                    || oldWall(tag.getString("id"), tag.getCompound("tag").getCompound("BlockStateTag")))
+                    || isStack(tag) && (ITEMS.containsKey(tag.getString("id"))
+                    || oldWall(tag.getString("id"), stackProperties(tag)))
                     || biomeTable(tag) != null || removedSectionBiomes(tag)) {
                 return true;
             }
@@ -245,6 +241,18 @@ public final class NamedBopRecovery {
 
     static void rewrite(CompoundTag root) {
         rewrite(root, 0, false);
+    }
+
+    private static boolean isStack(CompoundTag tag) {
+        return tag.contains("id", Tag.TAG_STRING) && (tag.contains("Count", Tag.TAG_ANY_NUMERIC)
+                || tag.contains("count", Tag.TAG_ANY_NUMERIC) || tag.contains("components", Tag.TAG_COMPOUND));
+    }
+
+    private static CompoundTag stackProperties(CompoundTag tag) {
+        if (tag.contains("components", Tag.TAG_COMPOUND)) {
+            return tag.getCompound("components").getCompound("minecraft:block_state");
+        }
+        return tag.getCompound("tag").getCompound("BlockStateTag");
     }
 
     private static void rewrite(Tag value, int depth, boolean blockState) {
@@ -287,18 +295,20 @@ public final class NamedBopRecovery {
             } else if (blockState && BLOCKS.containsKey(name)) {
                 rewriteState(tag, BLOCKS.get(name));
             }
-            if (tag.contains("Count", 99) && ITEMS.containsKey(tag.getString("id"))) {
+            if (isStack(tag) && ITEMS.containsKey(tag.getString("id"))) {
                 if (tag.getString("id").equals("biomesoplenty:nether_crystal")) {
-                    CompoundTag itemData = tag.getCompound("tag");
-                    if (itemData.contains("BlockStateTag")) {
-                        if (!itemData.contains("BlockStateTag", 10)) {
+                    boolean components = tag.contains("components", Tag.TAG_COMPOUND);
+                    CompoundTag itemData = tag.getCompound(components ? "components" : "tag");
+                    String stateKey = components ? "minecraft:block_state" : "BlockStateTag";
+                    if (itemData.contains(stateKey)) {
+                        if (!itemData.contains(stateKey, Tag.TAG_COMPOUND)) {
                             throw new IllegalStateException("Malformed nether crystal item properties: " + tag);
                         }
-                        itemData.put("BlockStateTag", crystalProperties(itemData.getCompound("BlockStateTag")));
+                        itemData.put(stateKey, crystalProperties(itemData.getCompound(stateKey)));
                     }
                 }
                 String target = ITEMS.get(tag.getString("id"));
-                Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(target));
+                Item item = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(target)).orElse(null);
 
                 if (item == null || item == Items.AIR) {
                     throw new IllegalStateException("Missing named BOP item replacement: " + target);
@@ -306,9 +316,8 @@ public final class NamedBopRecovery {
                 tag.putString("id", target);
             }
 
-            if (tag.contains("Count", 99)
-                    && oldWall(tag.getString("id"), tag.getCompound("tag").getCompound("BlockStateTag"))) {
-                rewriteWall(tag.getCompound("tag").getCompound("BlockStateTag"));
+            if (isStack(tag) && oldWall(tag.getString("id"), stackProperties(tag))) {
+                rewriteWall(stackProperties(tag));
             }
 
             Map<Integer, String> biomes = biomeTable(tag);
@@ -323,7 +332,7 @@ public final class NamedBopRecovery {
                     throw new IllegalStateException("Malformed saved BOP biome array: " + values.length + " cells");
                 }
 
-                // Forge restores a world's numeric registry after AboutToStart. Resolve names at the chunk read.
+                // Resolve names at chunk read against the live registry.
                 biomes.forEach((source, target) -> {
                     Biome biome = biomeRegistry().get(new ResourceLocation(target));
                     int currentId = biome == null ? -1 : biomeRegistry().getId(biome);
@@ -527,7 +536,7 @@ public final class NamedBopRecovery {
     }
 
     private static void rewriteState(CompoundTag saved, String target) {
-        Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(target));
+        Block block = BuiltInRegistries.BLOCK.getOptional(new ResourceLocation(target)).orElse(null);
 
         if (block == null || block == Blocks.AIR) {
             throw new IllegalStateException("Missing named BOP block replacement: " + target);
@@ -586,26 +595,19 @@ public final class NamedBopRecovery {
         }
     }
 
-    // Raw tags are converted before deserialization. Ignoring these old registry entries avoids aliasing
-    // two identities onto an existing object, which would make mixed old/current saves ambiguous.
-    @SubscribeEvent
-    public static void missingBlocks(MissingMappingsEvent event) {
-        if (!event.getKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
-        event.getAllMappings(ForgeRegistries.Keys.BLOCKS).stream().filter(mapping -> BLOCKS.containsKey(mapping.getKey().toString()))
-                .forEach(MissingMappingsEvent.Mapping::ignore);
+    static String currentBlockId(String savedTarget) {
+        return BLOCKS.getOrDefault(savedTarget, savedTarget);
     }
 
-    @SubscribeEvent
-    public static void missingItems(MissingMappingsEvent event) {
-        if (!event.getKey().equals(ForgeRegistries.Keys.ITEMS)) return;
-        event.getAllMappings(ForgeRegistries.Keys.ITEMS).stream().filter(mapping -> ITEMS.containsKey(mapping.getKey().toString()))
-                .forEach(MissingMappingsEvent.Mapping::ignore);
+    static String currentItemId(String savedTarget) {
+        return ITEMS.getOrDefault(savedTarget, savedTarget);
     }
 
-    @SubscribeEvent
-    public static void missingBiomes(MissingMappingsEvent event) {
-        if (!event.getKey().equals(net.minecraft.core.registries.Registries.BIOME)) return;
-        event.getAllMappings(net.minecraft.core.registries.Registries.BIOME).stream().filter(mapping -> BIOMES.containsKey(mapping.getKey().toString()))
-                .forEach(MissingMappingsEvent.Mapping::ignore);
+    static void registerBlockAliases() {
+        BLOCKS.forEach((former, target) -> BopRegistryAliases.block(former, new ResourceLocation(target)));
+    }
+
+    static void registerItemAliases() {
+        ITEMS.forEach((former, target) -> BopRegistryAliases.item(former, new ResourceLocation(target)));
     }
 }

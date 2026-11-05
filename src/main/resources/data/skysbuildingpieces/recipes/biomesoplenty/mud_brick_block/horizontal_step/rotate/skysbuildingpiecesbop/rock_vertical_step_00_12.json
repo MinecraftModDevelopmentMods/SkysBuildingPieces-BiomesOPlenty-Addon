@@ -8,19 +8,24 @@
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step",
+    "id": "skysbuildingpiecesbop:mud_brick_block_horizontal_step",
     "count": 1
   },
   "preserve_tag": true,
-  "conditions": [
+  "category": "building",
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:mud_brick_block_vertical_step"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:mud_brick_block_vertical_step"
+        }
+      ]
     }
-  ],
-  "category": "building"
+  ]
 }

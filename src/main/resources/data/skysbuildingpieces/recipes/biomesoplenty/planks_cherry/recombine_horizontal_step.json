@@ -8,18 +8,23 @@
     }
   },
   "result": {
-    "item": "minecraft:cherry_slab",
+    "id": "minecraft:cherry_slab",
     "count": 1
   },
-  "conditions": [
+  "category": "building",
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "minecraft:cherry_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_cherry_horizontal_step"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "minecraft:cherry_slab"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_cherry_horizontal_step"
+        }
+      ]
     }
-  ],
-  "category": "building"
+  ]
 }

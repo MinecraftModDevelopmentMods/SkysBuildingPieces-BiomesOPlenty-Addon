@@ -56,7 +56,17 @@
     "biomesoplenty:potted_pink_cherry_sapling": "minecraft:potted_cherry_sapling",
     "biomesoplenty:potted_white_cherry_sapling": "biomesoplenty:potted_snowblossom_sapling",
     "biomesoplenty:overgrown_black_sand": "biomesoplenty:mossy_black_sand",
-    "biomesoplenty:potted_clover": "biomesoplenty:potted_origin_sapling"
+    "biomesoplenty:potted_clover": "biomesoplenty:potted_origin_sapling",
+    "biomesoplenty:maple_leaves": "biomesoplenty:red_maple_leaves",
+    "biomesoplenty:maple_sapling": "biomesoplenty:red_maple_sapling",
+    "biomesoplenty:orange_autumn_leaves": "biomesoplenty:orange_maple_leaves",
+    "biomesoplenty:orange_autumn_sapling": "biomesoplenty:orange_maple_sapling",
+    "biomesoplenty:potted_maple_sapling": "biomesoplenty:potted_red_maple_sapling",
+    "biomesoplenty:potted_orange_autumn_sapling": "biomesoplenty:potted_orange_maple_sapling",
+    "biomesoplenty:potted_wildflower": "biomesoplenty:potted_lavender",
+    "biomesoplenty:potted_yellow_autumn_sapling": "biomesoplenty:potted_yellow_maple_sapling",
+    "biomesoplenty:yellow_autumn_leaves": "biomesoplenty:yellow_maple_leaves",
+    "biomesoplenty:yellow_autumn_sapling": "biomesoplenty:yellow_maple_sapling"
   },
   "items": {
     "biomesoplenty:ethereal_boat": "minecraft:birch_boat",
@@ -114,7 +124,7 @@
     "biomesoplenty:flower_meadow": "biomesoplenty:field",
     "biomesoplenty:fungal_field": "biomesoplenty:fungal_jungle",
     "biomesoplenty:golden_prairie": "biomesoplenty:pasture",
-    "biomesoplenty:grassland_clover_patch": "biomesoplenty:clover_patch",
+    "biomesoplenty:grassland_clover_patch": "biomesoplenty:grassland",
     "biomesoplenty:gravel_beach": "minecraft:stony_shore",
     "biomesoplenty:grove": "biomesoplenty:mediterranean_forest",
     "biomesoplenty:grove_clearing": "biomesoplenty:mediterranean_forest",
@@ -142,7 +152,10 @@
     "biomesoplenty:wooded_wasteland": "biomesoplenty:wasteland",
     "biomesoplenty:bamboo_grove": "minecraft:bamboo_jungle",
     "biomesoplenty:cherry_blossom_grove": "minecraft:cherry_grove",
-    "biomesoplenty:highland_moor": "biomesoplenty:moor"
+    "biomesoplenty:highland_moor": "biomesoplenty:moor",
+    "biomesoplenty:clover_patch": "biomesoplenty:grassland",
+    "biomesoplenty:lavender_forest": "biomesoplenty:lavender_field",
+    "biomesoplenty:seasonal_orchard": "biomesoplenty:orchard"
   },
   "section_biomes": {
     "biomesoplenty:boreal_forest": "biomesoplenty:coniferous_forest",
@@ -151,6 +164,9 @@
     "biomesoplenty:wooded_wasteland": "biomesoplenty:wasteland",
     "biomesoplenty:bamboo_grove": "minecraft:bamboo_jungle",
     "biomesoplenty:cherry_blossom_grove": "minecraft:cherry_grove",
-    "biomesoplenty:highland_moor": "biomesoplenty:moor"
+    "biomesoplenty:highland_moor": "biomesoplenty:moor",
+    "biomesoplenty:clover_patch": "biomesoplenty:grassland",
+    "biomesoplenty:lavender_forest": "biomesoplenty:lavender_field",
+    "biomesoplenty:seasonal_orchard": "biomesoplenty:orchard"
   }
 }

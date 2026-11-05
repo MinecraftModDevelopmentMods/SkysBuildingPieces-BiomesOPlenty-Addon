@@ -23,14 +23,19 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/siltstone/slab/rotate/skysbuildingpiecesbop/rock_vertical_slab_01_8"]
   },
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:siltstone_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:siltstone_vertical_slab"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:siltstone_slab"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:siltstone_vertical_slab"
+        }
+      ]
     }
   ]
 }

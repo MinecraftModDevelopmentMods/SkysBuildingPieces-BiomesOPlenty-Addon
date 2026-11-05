@@ -23,14 +23,19 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/sapphire_block/horizontal_step/step/skysbuildingpiecesbop/metal_vertical_slab_01_4"]
   },
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:stained_hardened_clay_light_blue_horizontal_step"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:stained_hardened_clay_light_blue_vertical_slab"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpieces:stained_hardened_clay_light_blue_horizontal_step"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpieces:stained_hardened_clay_light_blue_vertical_slab"
+        }
+      ]
     }
   ]
 }

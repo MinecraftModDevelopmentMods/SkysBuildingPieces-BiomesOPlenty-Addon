@@ -9,9 +9,9 @@ import java.io.*;
 import java.nio.file.*;
 import net.minecraft.nbt.*;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.server.ServerLifecycleHooks;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.event.TickEvent;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import zone.moddev.mc.skysbuildingpieces.legacy.*;
 
 /** Loads every original basket carrier in a fresh full-world copy, without visiting unrelated chunks. */
@@ -22,10 +22,7 @@ public final class BasketWorldChecks {
     private int ticks;
 
     @SubscribeEvent
-    public void tick(TickEvent.ServerTickEvent event) throws Exception {
-        if (event.phase != TickEvent.Phase.END) {
-            return;
-        }
+    public void tick(ServerTickEvent.Post event) throws Exception {
 
         net.minecraft.server.MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 
@@ -49,7 +46,7 @@ public final class BasketWorldChecks {
 
         LegacyBridge.report(world);
 
-        CompoundTag state = PiecesWorldState.get(world).save(new CompoundTag());
+        CompoundTag state = PiecesWorldState.get(world).save(new CompoundTag(), world.registryAccess());
         File snapshot = new File(world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(), "basket-qualification-state.dat");
         boolean reload = System.getProperty("skysbuildingpieces.integrationPhase").endsWith("reload");
 
@@ -57,7 +54,7 @@ public final class BasketWorldChecks {
             CompoundTag before;
 
             try (InputStream input = new FileInputStream(snapshot)) {
-                before = NbtIo.readCompressed(input);
+                before = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
             }
             if (!state.equals(before)) {
                 throw new AssertionError(
@@ -71,7 +68,7 @@ public final class BasketWorldChecks {
 
         LOGGER.info("BOP_BASKET_SYLVESTER_PASS all_carriers_loaded=true schema=" + state.getInt("schema_version")
                 + " reload=" + reload);
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.unregister(this);
+        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.unregister(this);
         server.halt(false);
     }
 }

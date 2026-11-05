@@ -1,70 +1,112 @@
 {
-  "type": "forge:conditional",
+  "type": "skysbuildingpiecesbop:material_recipe",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:or",
+      "values": [
+        {
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:item_exists",
+              "item": "mineralogy:shale_smooth"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:shale_polished_slab"
+            }
+          ]
+        },
+        {
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:not",
+              "value": {
+                "type": "neoforge:item_exists",
+                "item": "mineralogy:shale_smooth"
+              }
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:retired_shale_smooth"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:shale_polished_slab"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "recipes": [
     {
-      "conditions": [
+      "neoforge:conditions": [
         {
-          "type": "forge:item_exists",
-          "item": "mineralogy:shale_smooth"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:shale_smooth"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:shale_polished_slab"
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:item_exists",
+              "item": "mineralogy:shale_smooth"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:shale_polished_slab"
+            }
+          ]
         }
       ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/mineralogy",
-        "pattern": ["X ", " X"],
-        "key": {
-          "X": {
-            "item": "mineralogy:shale_smooth"
-          }
-        },
-        "result": {
-          "item": "skysbuildingpiecesbop:shale_polished_slab",
-          "count": 4
-        },
-        "category": "building"
-      }
+      "type": "minecraft:crafting_shaped",
+      "group": "skysbuildingpieces/mineralogy",
+      "pattern": ["X ", " X"],
+      "key": {
+        "X": {
+          "item": "mineralogy:shale_smooth"
+        }
+      },
+      "result": {
+        "id": "skysbuildingpiecesbop:shale_polished_slab",
+        "count": 4
+      },
+      "category": "building"
     },
     {
-      "conditions": [
+      "neoforge:conditions": [
         {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:item_exists",
-            "item": "mineralogy:shale_smooth"
-          }
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:retired_shale_smooth"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:shale_polished_slab"
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:not",
+              "value": {
+                "type": "neoforge:item_exists",
+                "item": "mineralogy:shale_smooth"
+              }
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:retired_shale_smooth"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:shale_polished_slab"
+            }
+          ]
         }
       ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/mineralogy",
-        "pattern": ["X ", " X"],
-        "key": {
-          "X": {
-            "item": "skysbuildingpiecesbop:retired_shale_smooth"
-          }
-        },
-        "result": {
-          "item": "skysbuildingpiecesbop:shale_polished_slab",
-          "count": 4
-        },
-        "category": "building"
-      }
+      "type": "minecraft:crafting_shaped",
+      "group": "skysbuildingpieces/mineralogy",
+      "pattern": ["X ", " X"],
+      "key": {
+        "X": {
+          "item": "skysbuildingpiecesbop:retired_shale_smooth"
+        }
+      },
+      "result": {
+        "id": "skysbuildingpiecesbop:shale_polished_slab",
+        "count": 4
+      },
+      "category": "building"
     }
   ]
 }

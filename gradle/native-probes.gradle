@@ -1,0 +1,55 @@
+// Build runtime probes separately so normal launches contain only the add-on.
+def compileRegistryControl = tasks.register('compileRegistryControl', JavaCompile) {
+    group = 'verification'
+    source fileTree('src/registryControl/java')
+    classpath = sourceSets.main.compileClasspath
+    destinationDirectory = layout.buildDirectory.dir('bop-registry-control/classes')
+}
+
+tasks.register('registryControlJar', Jar) {
+    group = 'verification'
+    description = 'Builds a standalone probe for the actual BOP block, item and biome registries.'
+    dependsOn compileRegistryControl
+    archiveFileName = 'bop-registry-control.jar'
+    destinationDirectory = layout.buildDirectory.dir('bop-registry-control')
+    from compileRegistryControl.flatMap { it.destinationDirectory }
+    from 'src/registryControl/resources'
+}
+
+def bootstrapClasses = layout.buildDirectory.dir('native-bootstrap/classes')
+def compileBootstrap = tasks.register('compileNativeBootstrap', JavaCompile) {
+    dependsOn tasks.named('classes')
+    source fileTree('src/bootstrapTest/java')
+    source file('src/integrationTest/java/zone/moddev/mc/skysbuildingpiecesbop/probe/BasketChecks.java')
+    source file('src/integrationTest/java/zone/moddev/mc/skysbuildingpiecesbop/probe/RetiredItemChecks.java')
+    source file(new File(project.ext.coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/RecipeChecks.java'))
+    source file(new File(project.ext.coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/RecipeBookChecks.java'))
+    source file(new File(project.ext.coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/RecombinationChecks.java'))
+    source file(new File(project.ext.coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/PersistenceRegistrationChecks.java'))
+    ['NativeLegacyChecks', 'DirtCoverageChecks', 'CoverageContributor', 'NativeProbeItems'].each { name ->
+        source file(new File(project.ext.coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/' + name + '.java'))
+    }
+    source fileTree(new File(project.ext.coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/legacy'))
+    ['ClientProbe', 'ClientStatus', 'ProbeProxy', 'RecipePreviewModels', 'PresentationChecks'].each { name ->
+        source file(new File(project.ext.coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/' + name + '.java'))
+    }
+    ['BasketGuiClientChecks', 'BasketDisconnectClientChecks', 'BasketClientChecks', 'BopProbeItems'].each { name ->
+        source file('src/integrationTest/java/zone/moddev/mc/skysbuildingpiecesbop/probe/' + name + '.java')
+    }
+    classpath = files(sourceSets.main.output, sourceSets.main.compileClasspath, sourceSets.main.runtimeClasspath)
+    destinationDirectory = bootstrapClasses
+}
+def bootstrapJar = tasks.register('nativeBootstrapJar', Jar) {
+    dependsOn compileBootstrap
+    archiveFileName = 'building-pieces-bop-native-checks.jar'
+    destinationDirectory = layout.buildDirectory.dir('native-bootstrap')
+    from bootstrapClasses
+    from 'src/bootstrapTest/resources'
+    from('src/testFixtures/bop-1.14.4-native-catalogue.json') { into 'fixtures' }
+    from('src/testFixtures/bop-1.15.2-native-catalogue.json') { into 'fixtures' }
+    from('src/testFixtures/bop-1.16.5-native-catalogue.json') { into 'fixtures' }
+    from('src/testFixtures/bop-1.17.1-native-catalogue.json') { into 'fixtures' }
+    from('src/testFixtures/bop-1.18.2-native-catalogue.json') { into 'fixtures' }
+    from('src/testFixtures/biomes') { into 'fixtures/biomes' }
+}
+tasks.register('preparePackagedNativeProbe') { dependsOn bootstrapJar }

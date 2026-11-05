@@ -8,14 +8,14 @@
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step",
+    "id": "skysbuildingpiecesbop:mud_brick_block_horizontal_step",
     "count": 4
   },
-  "conditions": [
+  "category": "building",
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
+      "type": "neoforge:item_exists",
       "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
     }
-  ],
-  "category": "building"
+  ]
 }

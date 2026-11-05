@@ -9,9 +9,9 @@ import java.io.*;
 import java.nio.file.*;
 import net.minecraft.nbt.*;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.server.ServerLifecycleHooks;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.event.TickEvent;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import zone.moddev.mc.skysbuildingpieces.legacy.*;
 
 /** A fresh full-world copy, normally loading every carrier of the three retired item types. */
@@ -22,10 +22,7 @@ public final class RetiredItemWorldChecks {
     private int ticks;
 
     @SubscribeEvent
-    public void tick(TickEvent.ServerTickEvent event) throws Exception {
-        if (event.phase != TickEvent.Phase.END) {
-            return;
-        }
+    public void tick(ServerTickEvent.Post event) throws Exception {
 
         net.minecraft.server.MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 
@@ -51,7 +48,7 @@ public final class RetiredItemWorldChecks {
 
         LegacyBridge.report(world);
 
-        CompoundTag state = PiecesWorldState.get(world).save(new CompoundTag());
+        CompoundTag state = PiecesWorldState.get(world).save(new CompoundTag(), world.registryAccess());
         File snapshot = new File(world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(), "retired-item-qualification-state.dat");
         boolean reload = System.getProperty("skysbuildingpieces.integrationPhase").endsWith("reload");
 
@@ -59,7 +56,7 @@ public final class RetiredItemWorldChecks {
             CompoundTag before;
 
             try (InputStream input = new FileInputStream(snapshot)) {
-                before = NbtIo.readCompressed(input);
+                before = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
             }
             if (!state.equals(before)) {
                 throw new AssertionError("Retired-item reload changed piece migration state");
@@ -72,7 +69,7 @@ public final class RetiredItemWorldChecks {
 
         LOGGER.info("BOP_RETIRED_ITEM_SYLVESTER_PASS all_carriers_loaded=true schema="
                 + state.getInt("schema_version") + " reload=" + reload);
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.unregister(this);
+        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.unregister(this);
         server.halt(false);
     }
 }

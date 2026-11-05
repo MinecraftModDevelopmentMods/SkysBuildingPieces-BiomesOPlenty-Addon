@@ -23,14 +23,19 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/limestone/recombine_corner"]
   },
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:limestone_corner"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:limestone_horizontal_step"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:limestone_corner"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:limestone_horizontal_step"
+        }
+      ]
     }
   ]
 }

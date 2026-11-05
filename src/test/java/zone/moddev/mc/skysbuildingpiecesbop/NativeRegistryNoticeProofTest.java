@@ -88,7 +88,7 @@ class NativeRegistryNoticeProofTest {
                     String label = member.getName();
                     try (InputStream input = archive.getInputStream(member)) {
                         if (label.endsWith(".dat") || label.endsWith(".dat_old")) {
-                            CompoundTag root = NbtIo.readCompressed(input);
+                            CompoundTag root = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
                             if (label.equals("level.dat")) verifyRegistryNumbers(root, profile);
                             // Registry availability is not a saved block, entity or inventory use.
                             root.remove("FML");
@@ -214,9 +214,11 @@ class NativeRegistryNoticeProofTest {
             boolean neo1201 = targetForge.equals("47.1.106");
             boolean target1201 = neo1201 || targetForge.equals("47.4.10");
             byte[] aliases = Files.readAllBytes(Paths.get(target1201
-                    ? "src/main/resources/assets/skysbuildingpiecesbop/catalogue/named_legacy.json"
+                    ? "src/testFixtures/bop-1.20.1-neo-named-recovery.json"
                     : "src/testFixtures/bop-1.19.4-named-recovery.json"));
-            if (!target1201) {
+            if (target1201) {
+                assertEquals("897553FDD74B35360D63AD007418D58E5F497C2F75DF5AA252D401CE966A046B", checksum(aliases));
+            } else {
                 assertEquals("B665129A6A455FD9E7815D2D4E0FE7D358386752541034A991FF4372B56D7CF0", checksum(aliases));
             }
             bopReplacements = JsonParser.parseString(new String(aliases, StandardCharsets.UTF_8))

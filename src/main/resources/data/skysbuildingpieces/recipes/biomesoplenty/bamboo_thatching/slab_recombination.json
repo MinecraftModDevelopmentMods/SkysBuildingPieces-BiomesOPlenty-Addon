@@ -8,18 +8,23 @@
     }
   },
   "result": {
-    "item": "biomesoplenty:willow_planks",
+    "id": "biomesoplenty:willow_planks",
     "count": 1
   },
-  "conditions": [
+  "category": "building",
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:willow_planks"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:willow_slab"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "biomesoplenty:willow_planks"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "biomesoplenty:willow_slab"
+        }
+      ]
     }
-  ],
-  "category": "building"
+  ]
 }

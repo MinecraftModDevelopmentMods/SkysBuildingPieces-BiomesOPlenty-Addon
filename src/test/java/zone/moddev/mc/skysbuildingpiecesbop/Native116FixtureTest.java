@@ -38,7 +38,7 @@ class Native116FixtureTest {
                 }
             }
             try (java.io.InputStream input = saved.getInputStream(saved.getEntry("level.dat"))) {
-                CompoundTag level = NbtIo.readCompressed(input).getCompound("Data");
+                CompoundTag level = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap()).getCompound("Data");
                 assertEquals(2586, level.getInt("DataVersion"), "The source must be a genuinely flattened 1.16 save");
             }
         }

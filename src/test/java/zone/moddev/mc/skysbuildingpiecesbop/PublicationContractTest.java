@@ -57,7 +57,7 @@ class PublicationContractTest {
         assertTrue(ciWorkflow.contains("  push:"));
         assertTrue(ciWorkflow.contains("  pull_request:"));
         assertTrue(ciWorkflow.contains("if-no-files-found: error"));
-        assertTrue(ciWorkflow.contains("integrationTest"));
+        assertTrue(ciWorkflow.contains("preparePackagedNativeProbe"));
         assertTrue(ciWorkflow.contains("--offline"));
     }
 

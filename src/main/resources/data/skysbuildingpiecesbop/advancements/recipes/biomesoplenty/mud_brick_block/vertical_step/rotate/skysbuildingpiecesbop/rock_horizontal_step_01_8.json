@@ -23,14 +23,19 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/mud_brick_block/vertical_step/rotate/skysbuildingpiecesbop/rock_horizontal_step_01_8"]
   },
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:mud_brick_block_vertical_step"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:mud_brick_block_vertical_step"
+        }
+      ]
     }
   ]
 }

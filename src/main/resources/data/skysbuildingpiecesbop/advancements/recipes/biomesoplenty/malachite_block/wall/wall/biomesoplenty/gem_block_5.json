@@ -23,9 +23,9 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/malachite_block/wall/wall/biomesoplenty/gem_block_5"]
   },
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
+      "type": "neoforge:item_exists",
       "item": "skysbuildingpieces:stained_hardened_clay_cyan_wall"
     }
   ]

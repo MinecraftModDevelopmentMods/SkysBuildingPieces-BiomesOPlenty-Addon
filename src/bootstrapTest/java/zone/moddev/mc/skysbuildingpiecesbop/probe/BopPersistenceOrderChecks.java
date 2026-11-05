@@ -11,8 +11,8 @@ import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.level.storage.LevelStorageSource.LevelDirectory;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 
 /** Exercises real capture/write callbacks; native transformer orders are checked separately. */
 final class BopPersistenceOrderChecks {
@@ -47,7 +47,7 @@ final class BopPersistenceOrderChecks {
             }
             callbacks = List.copyOf(selected);
             org.apache.logging.log4j.LogManager.getLogger().info("BOP_PERSISTENCE_ORDER_SET "
-                    + order + " actual_hooks=" + callbacks.size() + " mechanism=forge_level_hooks callback_order_only=true");
+                    + order + " actual_hooks=" + callbacks.size() + " mechanism=neoforge_level_hooks callback_order_only=true");
         } catch (ReflectiveOperationException failure) {
             throw new IllegalStateException("Cannot arrange the native persistence callbacks", failure);
         }
@@ -104,7 +104,7 @@ final class BopPersistenceOrderChecks {
 
     private static CompoundTag read(File file) throws Exception {
         try (FileInputStream input = new FileInputStream(file)) {
-            return NbtIo.readCompressed(input);
+            return NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
         }
     }
 

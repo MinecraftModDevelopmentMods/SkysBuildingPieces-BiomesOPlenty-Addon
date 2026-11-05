@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 /** Named equivalents for native BOP blocks saved before flattening. */
 public final class BopWorldMappings {
@@ -49,8 +49,10 @@ public final class BopWorldMappings {
             throw new IllegalStateException(target.get("unsupported").getAsString());
         }
 
-        ResourceLocation identity = new ResourceLocation(target.get("id").getAsString());
-        Block block = ForgeRegistries.BLOCKS.getValue(identity);
+        String savedTarget = NamedBopRecovery.currentBlockId(target.get("id").getAsString());
+        ResourceLocation identity = new ResourceLocation(savedTarget.equals("minecraft:grass")
+                ? "minecraft:short_grass" : savedTarget);
+        Block block = BuiltInRegistries.BLOCK.getOptional(identity).orElse(null);
 
         if (block == null || block == Blocks.AIR) {
             throw new IllegalStateException("Missing BOP world replacement: " + identity);

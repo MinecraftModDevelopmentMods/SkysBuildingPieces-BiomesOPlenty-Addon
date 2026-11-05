@@ -8,18 +8,23 @@
     }
   },
   "result": {
-    "item": "biomesoplenty:jacaranda_slab",
+    "id": "biomesoplenty:jacaranda_slab",
     "count": 1
   },
-  "conditions": [
+  "category": "building",
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:jacaranda_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:planks_jacaranda_horizontal_step"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "biomesoplenty:jacaranda_slab"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_jacaranda_horizontal_step"
+        }
+      ]
     }
-  ],
-  "category": "building"
+  ]
 }

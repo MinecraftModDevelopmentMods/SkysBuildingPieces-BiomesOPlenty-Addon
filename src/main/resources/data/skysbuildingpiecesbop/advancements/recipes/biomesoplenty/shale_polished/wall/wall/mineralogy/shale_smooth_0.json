@@ -1,91 +1,66 @@
 {
-  "advancements": [
-    {
-      "conditions": [
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:shale_smooth"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:shale_smooth"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:shale_polished_wall"
-        }
-      ],
-      "advancement": {
-        "criteria": {
-          "has_ingredient": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-              "items": [
-                {
-                  "items": ["mineralogy:shale_smooth"]
-                }
-              ]
-            }
-          },
-          "has_the_recipe": {
-            "trigger": "minecraft:recipe_unlocked",
-            "conditions": {
-              "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/wall/wall/mineralogy/shale_smooth_0"
-            }
+  "criteria": {
+    "has_ingredient": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#skysbuildingpiecesbop:recipe_materials/892c88884b138eec"
           }
-        },
-        "requirements": [
-          ["has_ingredient", "has_the_recipe"]
-        ],
-        "rewards": {
-          "recipes": ["skysbuildingpieces:biomesoplenty/shale_polished/wall/wall/mineralogy/shale_smooth_0"]
-        }
+        ]
       }
     },
-    {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:item_exists",
-            "item": "mineralogy:shale_smooth"
-          }
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:retired_shale_smooth"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:shale_polished_wall"
-        }
-      ],
-      "advancement": {
-        "criteria": {
-          "has_ingredient": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-              "items": [
-                {
-                  "items": ["skysbuildingpiecesbop:retired_shale_smooth"]
-                }
-              ]
-            }
-          },
-          "has_the_recipe": {
-            "trigger": "minecraft:recipe_unlocked",
-            "conditions": {
-              "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/wall/wall/mineralogy/shale_smooth_0"
-            }
-          }
-        },
-        "requirements": [
-          ["has_ingredient", "has_the_recipe"]
-        ],
-        "rewards": {
-          "recipes": ["skysbuildingpieces:biomesoplenty/shale_polished/wall/wall/mineralogy/shale_smooth_0"]
-        }
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/wall/wall/mineralogy/shale_smooth_0"
       }
+    }
+  },
+  "requirements": [
+    ["has_ingredient", "has_the_recipe"]
+  ],
+  "rewards": {
+    "recipes": ["skysbuildingpieces:biomesoplenty/shale_polished/wall/wall/mineralogy/shale_smooth_0"]
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:or",
+      "values": [
+        {
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:item_exists",
+              "item": "mineralogy:shale_smooth"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:shale_polished_wall"
+            }
+          ]
+        },
+        {
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:not",
+              "value": {
+                "type": "neoforge:item_exists",
+                "item": "mineralogy:shale_smooth"
+              }
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:retired_shale_smooth"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:shale_polished_wall"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -1,91 +1,66 @@
 {
-  "advancements": [
-    {
-      "conditions": [
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:limestone"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:limestone"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:limestone_wall"
-        }
-      ],
-      "advancement": {
-        "criteria": {
-          "has_ingredient": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-              "items": [
-                {
-                  "items": ["mineralogy:limestone"]
-                }
-              ]
-            }
-          },
-          "has_the_recipe": {
-            "trigger": "minecraft:recipe_unlocked",
-            "conditions": {
-              "recipe": "skysbuildingpieces:biomesoplenty/limestone/wall/wall/mineralogy/limestone_0"
-            }
+  "criteria": {
+    "has_ingredient": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#skysbuildingpiecesbop:recipe_materials/e977a07072993bc5"
           }
-        },
-        "requirements": [
-          ["has_ingredient", "has_the_recipe"]
-        ],
-        "rewards": {
-          "recipes": ["skysbuildingpieces:biomesoplenty/limestone/wall/wall/mineralogy/limestone_0"]
-        }
+        ]
       }
     },
-    {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:item_exists",
-            "item": "mineralogy:limestone"
-          }
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:limestone_wall"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:retired_limestone"
-        }
-      ],
-      "advancement": {
-        "criteria": {
-          "has_ingredient": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-              "items": [
-                {
-                  "items": ["skysbuildingpiecesbop:retired_limestone"]
-                }
-              ]
-            }
-          },
-          "has_the_recipe": {
-            "trigger": "minecraft:recipe_unlocked",
-            "conditions": {
-              "recipe": "skysbuildingpieces:biomesoplenty/limestone/wall/wall/mineralogy/limestone_0"
-            }
-          }
-        },
-        "requirements": [
-          ["has_ingredient", "has_the_recipe"]
-        ],
-        "rewards": {
-          "recipes": ["skysbuildingpieces:biomesoplenty/limestone/wall/wall/mineralogy/limestone_0"]
-        }
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "skysbuildingpieces:biomesoplenty/limestone/wall/wall/mineralogy/limestone_0"
       }
+    }
+  },
+  "requirements": [
+    ["has_ingredient", "has_the_recipe"]
+  ],
+  "rewards": {
+    "recipes": ["skysbuildingpieces:biomesoplenty/limestone/wall/wall/mineralogy/limestone_0"]
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:or",
+      "values": [
+        {
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:item_exists",
+              "item": "mineralogy:limestone"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:limestone_wall"
+            }
+          ]
+        },
+        {
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:not",
+              "value": {
+                "type": "neoforge:item_exists",
+                "item": "mineralogy:limestone"
+              }
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:limestone_wall"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:retired_limestone"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

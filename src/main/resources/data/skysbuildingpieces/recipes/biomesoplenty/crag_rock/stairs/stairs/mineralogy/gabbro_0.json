@@ -8,18 +8,23 @@
     }
   },
   "result": {
-    "item": "skysbuildingpiecesbop:crag_rock_stairs",
+    "id": "skysbuildingpiecesbop:crag_rock_stairs",
     "count": 4
   },
-  "conditions": [
+  "category": "building",
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:crag_rock_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpiecesbop:crag_rock_stairs"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:crag_rock_slab"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:crag_rock_stairs"
+        }
+      ]
     }
-  ],
-  "category": "building"
+  ]
 }

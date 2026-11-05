@@ -103,7 +103,7 @@ public final class BasketPreflight {
                             input.unread(first);
                         }
                         if (first == 31 && second == 139) {
-                            validator.fixTagCompound(NbtIo.readCompressed(input));
+                            validator.fixTagCompound(NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap()));
                         } else {
                             validator.fixTagCompound(NbtIo.read(new DataInputStream(input)));
                         }

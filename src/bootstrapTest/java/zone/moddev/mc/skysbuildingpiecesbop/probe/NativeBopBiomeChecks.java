@@ -53,13 +53,13 @@ public final class NativeBopBiomeChecks {
             Registry<net.minecraft.world.level.biome.Biome> current = server.registryAccess()
                     .registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
             int bog = current.getId(current.get(new ResourceLocation("biomesoplenty:bog")));
-            int cloverPatch = current.getId(current.get(new ResourceLocation("biomesoplenty:clover_patch")));
+            int grassland = current.getId(current.get(new ResourceLocation("biomesoplenty:grassland")));
             int[] recovered = root.getCompound("Level").getIntArray("Biomes");
-            if (bog < 0 || cloverPatch < 0 || recovered.length != cells.length) {
+            if (bog < 0 || grassland < 0 || recovered.length != cells.length) {
                 throw new AssertionError("The active registry is missing the expected BOP biomes");
             }
             for (int cell = 0; cell < recovered.length; cell++) {
-                int expected = cell < 128 ? bog : cloverPatch;
+                int expected = cell < 128 ? bog : grassland;
                 if (recovered[cell] != expected) {
                     throw new AssertionError("Pre-flattening BOP biome changed at cell " + cell);
                 }

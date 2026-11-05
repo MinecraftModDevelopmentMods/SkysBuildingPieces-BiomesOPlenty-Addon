@@ -7,9 +7,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.*;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.*;
-import net.minecraftforge.event.TickEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.bus.api.*;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 
 import zone.moddev.mc.skysbuildingpiecesbop.basket.*;
 
@@ -22,9 +22,8 @@ public final class BasketClientChecks {
 
     @SubscribeEvent(
             priority = EventPriority.HIGHEST)
-    public static void tick(TickEvent.ClientTickEvent event) {
-        if (checked || event.phase != TickEvent.Phase.END
-                || !System.getProperty("skysbuildingpieces.integrationPhase", "").startsWith("client")) {
+    public static void tick(ClientTickEvent.Post event) {
+        if (checked || !System.getProperty("skysbuildingpieces.integrationPhase", "").startsWith("client")) {
             return;
         }
 
@@ -41,12 +40,12 @@ public final class BasketClientChecks {
                 if (filled) {
                     CompoundTag tag = new CompoundTag();
                     ListTag entries = new ListTag();
-                    CompoundTag child = new ItemStack(net.minecraft.world.level.block.Blocks.OAK_SAPLING).save(new CompoundTag());
+                    CompoundTag child = BopProbeItems.legacy(new ItemStack(net.minecraft.world.level.block.Blocks.OAK_SAPLING));
 
                     child.putByte("Slot", (byte) 0);
                     entries.add(child);
                     tag.put("Items", entries);
-                    stack.setTag(tag);
+                    BopProbeItems.setCustom(stack, tag);
                 }
 
                 BakedModel model = minecraft.getItemRenderer().getModel(stack, null, null, 0);
@@ -57,7 +56,7 @@ public final class BasketClientChecks {
                 }
                 if (filled && model == previous) {
                     throw new AssertionError("Filled basket override did not change the model: "
-                            + net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(basket));
+                            + net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(basket));
                 }
 
                 previous = model;

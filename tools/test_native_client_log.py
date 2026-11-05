@@ -1,4 +1,4 @@
-"""Negative controls for Forge 45 completion and unchanged native settings."""
+"""Negative controls for the exact Forge 47 native log classification."""
 
 import unittest
 import json
@@ -6,10 +6,13 @@ from pathlib import Path
 import shutil
 import tempfile
 import tomllib
+from unittest.mock import patch
 from native_client_log import audit, classify
+import run_packaged_checks
 
 
-LOGIN = "[Client thread/INFO] [NetworkHooks/]: Connected to a modded server."
+LOGIN = ("[Server thread/INFO]: PiecesChecks logged in with entity id 21 at (0, 64, 0)\n"
+         "[Server thread/INFO]: PiecesChecks joined the game")
 START = "[Server thread/INFO] [MinecraftServer/]: Preparing start region for dimension minecraft:overworld"
 NOTICE = "[Thread-1/FATAL] [net.minecraftforge.common.ForgeConfig/CORE]: Forge config just got changed on the file system!"
 PAYLOAD = "[Client thread/ERROR] [net.minecraftforge.fml.network.simple.IndexedMessageCodec/SIMPLENET]: Received empty payload on channel fml:handshake"
@@ -66,16 +69,14 @@ class NativeClientFilesTest(unittest.TestCase):
         self.directory = Path(self.temporary.name)
         defaults = Path(__file__).resolve().parent.parent / "src/bootstrapTest/defaultconfigs"
         shutil.copytree(defaults / "config", self.directory / "config")
-        self.server = self.directory / "saves/world/serverconfig"
-        self.server.mkdir(parents=True)
-        shutil.copyfile(defaults / "defaultconfigs/forge-server.toml", self.server / "forge-server.toml")
+        self.server = self.directory / "config"
         (self.directory / "logs").mkdir()
         (self.directory / "logs/latest.log").write_text("\n".join((
             START, LOGIN,
-            "FORGE45_CLIENT_CONTROL_PASS joined=true sky_mods=false")), encoding="utf-8")
+            "NEOFORGE_CLIENT_CONTROL_PASS joined=true sky_mods=false")), encoding="utf-8")
 
     def test_native_defaults_with_different_order_and_comments(self):
-        client = self.directory / "config/forge-client.toml"
+        client = self.directory / "config/neoforge-client.toml"
         settings = tomllib.loads(client.read_text(encoding="utf-8"))["client"]
         client.write_text("[client]\n" + "\n".join(
             name + " = " + json.dumps(value) for name, value in reversed(list(settings.items()))),
@@ -85,7 +86,7 @@ class NativeClientFilesTest(unittest.TestCase):
         self.assertEqual(receipt["native_config_notices"], 0)
 
     def test_changed_default_stops_the_check(self):
-        client = self.directory / "config/forge-client.toml"
+        client = self.directory / "config/neoforge-client.toml"
         original = client.read_text(encoding="utf-8")
         self.assertIn("showLoadWarnings = true", original)
         client.write_text(original.replace("showLoadWarnings = true",
@@ -94,8 +95,16 @@ class NativeClientFilesTest(unittest.TestCase):
             audit(self.directory, "control", True)
 
     def test_missing_server_config_stops_the_check(self):
-        (self.server / "forge-server.toml").unlink()
+        (self.server / "neoforge-server.toml").unlink()
         with self.assertRaises(ValueError):
+            audit(self.directory, "control", True)
+
+    def test_login_exception_in_info_log_stops_the_check(self):
+        log = self.directory / "logs/latest.log"
+        with log.open("a", encoding="utf-8") as output:
+            output.write("\n[Server thread/INFO]: lost connection: Internal Exception: "
+                         "java.util.ConcurrentModificationException")
+        with self.assertRaisesRegex(ValueError, "ConcurrentModificationException"):
             audit(self.directory, "control", True)
 
     def test_crash_report_stops_the_check(self):
@@ -103,6 +112,35 @@ class NativeClientFilesTest(unittest.TestCase):
         (self.directory / "crash-reports/test.txt").write_text("Simulated failure")
         with self.assertRaises(ValueError):
             audit(self.directory, "control", True)
+
+
+class PackagedClientLogArchiveTest(unittest.TestCase):
+    def test_reload_preserves_each_phases_complete_debug_log(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            logs = directory / "logs"
+            logs.mkdir()
+            with patch.object(run_packaged_checks, "audit_client"):
+                for phase in ("client-fresh", "client-reload"):
+                    (logs / "latest.log").write_text("Normal log: " + phase, encoding="utf-8")
+                    (logs / "debug.log").write_text("Complete debug log: " + phase, encoding="utf-8")
+                    (directory / (phase + "-console.log")).write_text("Normal console", encoding="utf-8")
+                    run_packaged_checks.audit(directory, phase, "client")
+            for phase in ("client-fresh", "client-reload"):
+                self.assertEqual((directory / (phase + "-complete.log")).read_text(encoding="utf-8"),
+                                 "Normal log: " + phase)
+                self.assertEqual((directory / (phase + "-debug.log")).read_text(encoding="utf-8"),
+                                 "Complete debug log: " + phase)
+
+    def test_missing_debug_log_stops_packaged_client_check(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            (directory / "logs").mkdir()
+            (directory / "logs/latest.log").write_text("Normal log", encoding="utf-8")
+            (directory / "client-fresh-console.log").write_text("Normal console", encoding="utf-8")
+            with patch.object(run_packaged_checks, "audit_client"):
+                with self.assertRaisesRegex(FileNotFoundError, "debug.log"):
+                    run_packaged_checks.audit(directory, "client-fresh", "client")
 
 
 if __name__ == "__main__":

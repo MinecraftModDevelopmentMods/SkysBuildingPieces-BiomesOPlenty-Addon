@@ -117,6 +117,8 @@ final class NativeNamedForwardChecks {
             } else if (source.equals("biomesoplenty:nether_crystal_block")) {
                 expected.putString("Name", "biomesoplenty:rose_quartz_block");
                 crystals++;
+            } else if (source.equals("minecraft:grass")) {
+                expected.putString("Name", "minecraft:short_grass");
             } else if (source.equals("minecraft:grass_path")) {
                 expected.putString("Name", "minecraft:dirt_path");
             } else if (source.equals("biomesoplenty:rooted_sand")) {
@@ -166,10 +168,10 @@ final class NativeNamedForwardChecks {
                 ItemStack actual = chest.getItem(entry.get("slot").getAsInt());
                 ItemStack expected = expectedItem(entry.get("stack").getAsString());
                 require(ItemStack.matches(expected, actual), "Saved inventory data changed: " + entry + ", actual "
-                        + actual.save(new CompoundTag()));
+                        + BopProbeItems.save(actual));
                 units += actual.getCount();
                 if (actual.getItem() == zone.moddev.mc.skysbuildingpiecesbop.basket.Baskets.ITEM) {
-                    require(actual.getTag().getList("Items", 10).equals(expected.getTag().getList("Items", 10)), "Saved basket lost a slot");
+                    require(BopProbeItems.custom(actual).getList("Items", 10).equals(BopProbeItems.custom(expected).getList("Items", 10)), "Saved basket lost a slot");
                     baskets++;
                 }
             }
@@ -184,7 +186,7 @@ final class NativeNamedForwardChecks {
             units += expected.getCount();
         }
         UUID playerId = UUID.fromString(fixture.get("player").getAsString());
-        net.minecraftforge.common.util.FakePlayer player = net.minecraftforge.common.util.FakePlayerFactory.get(world,
+        net.minecraft.server.level.ServerPlayer player = BopProbeItems.player(world,
                 new com.mojang.authlib.GameProfile(playerId, "PieceFixture"));
         require(world.getServer().getPlayerList().load(player) != null, "Saved player data is missing");
         require(ItemStack.matches(expectedItem(fixture.get("player_shovel").getAsString()), player.getInventory().getItem(0)),
@@ -204,7 +206,7 @@ final class NativeNamedForwardChecks {
         require(save != null, "Native player-save method is missing");
         save.setAccessible(true);
         save.invoke(world.getServer().getPlayerList(), player);
-        require(PiecesWorldState.get(world).save(new CompoundTag()).equals(
+        require(PiecesWorldState.get(world).save(new CompoundTag(), world.registryAccess()).equals(
                 TagParser.parseTag(fixture.get("world_state").getAsString())), "Saved schema or migration counters changed");
         for (ChunkPos chunk : CHUNKS) {
             world.setChunkForced(chunk.x, chunk.z, false);
@@ -221,7 +223,7 @@ final class NativeNamedForwardChecks {
     private static ItemStack expectedItem(String text) throws Exception {
         CompoundTag saved = TagParser.parseTag(text);
         rewriteExpectedItems(saved);
-        return ItemStack.of(saved);
+        return BopProbeItems.read(saved);
     }
 
     private static void rewriteExpectedItems(Tag value) {
@@ -229,7 +231,9 @@ final class NativeNamedForwardChecks {
             CompoundTag saved = (CompoundTag) value;
             if (saved.contains("Count", 99)) {
                 String id = saved.getString("id");
-                if (id.equals("minecraft:grass_path")) {
+                if (id.equals("minecraft:grass")) {
+                    saved.putString("id", "minecraft:short_grass");
+                } else if (id.equals("minecraft:grass_path")) {
                     saved.putString("id", "minecraft:dirt_path");
                 } else if (id.equals("biomesoplenty:rooted_sand")) {
                     saved.putString("id", "minecraft:rooted_dirt");
@@ -291,16 +295,103 @@ final class NativeNamedForwardChecks {
             require(sign.getType() == net.minecraft.world.level.block.entity.BlockEntityType.SIGN,
                     "Saved cherry sign still uses an incompatible block entity type at " + position);
             var front = sign.getFrontText();
+            if (original.contains("front_text", Tag.TAG_COMPOUND)) {
+                checkSignFace(world, front, original.getCompound("front_text"), position);
+                checkSignFace(world, sign.getBackText(), original.getCompound("back_text"), position);
+                require(sign.isWaxed() == original.getBoolean("is_waxed"), "Saved sign wax changed at " + position);
+                continue;
+            }
             for (int line = 0; line < 4; line++) {
                 require(front.getMessage(line, false).equals(net.minecraft.network.chat.Component.Serializer
-                        .fromJson(original.getString("Text" + (line + 1)))), "Saved sign text changed at " + position);
+                        .fromJson(original.getString("Text" + (line + 1)), world.registryAccess())), "Saved sign text changed at " + position);
                 require(front.getMessage(line, true).equals(net.minecraft.network.chat.Component.Serializer
-                        .fromJson(original.getString("FilteredText" + (line + 1)))), "Saved filtered sign text changed at " + position);
+                        .fromJson(original.getString("FilteredText" + (line + 1)), world.registryAccess())), "Saved filtered sign text changed at " + position);
             }
             require(front.getColor().getName().equals(original.getString("Color"))
                     && front.hasGlowingText() == original.getBoolean("GlowingText"),
                     "Saved sign colour or glow changed at " + position);
         }
+    }
+
+    static void checkNativeBlockRename(ServerLevel world) throws Exception {
+        var path = java.nio.file.Path.of("forward-block-renames.json");
+        if (!java.nio.file.Files.isRegularFile(path)) {
+            return;
+        }
+        JsonObject proof = JsonParser.parseString(java.nio.file.Files.readString(path)).getAsJsonObject();
+        require(proof.get("source").getAsString().equals("minecraft:grass")
+                && proof.get("target").getAsString().equals("minecraft:short_grass"), "Unexpected source rename");
+        var seen = new java.util.HashSet<BlockPos>();
+        boolean oldHeight = proof.has("pre_height_change") && proof.get("pre_height_change").getAsBoolean();
+        int naturalChanges = 0;
+        java.util.Map<BlockPos, JsonObject> adjacentFluids = new java.util.HashMap<>();
+        if (proof.has("adjacent_fluids")) {
+            for (var entry : proof.getAsJsonArray("adjacent_fluids")) {
+                JsonObject expected = entry.getAsJsonObject();
+                var xyz = expected.getAsJsonArray("position");
+                var position = new BlockPos(xyz.get(0).getAsInt(), xyz.get(1).getAsInt(), xyz.get(2).getAsInt());
+                require(adjacentFluids.put(position, expected) == null, "Duplicate source fluid position");
+            }
+        }
+        for (var row : proof.getAsJsonArray("positions")) {
+            var xyz = row.getAsJsonArray();
+            var position = new BlockPos(xyz.get(0).getAsInt(), xyz.get(1).getAsInt(), xyz.get(2).getAsInt());
+            require(seen.add(position), "Duplicate source grass position at " + position);
+            var state = world.getBlockState(position);
+            if (!state.is(net.minecraft.world.level.block.Blocks.SHORT_GRASS)) {
+                var grass = net.minecraft.world.level.block.Blocks.SHORT_GRASS.defaultBlockState();
+                JsonObject fluid = adjacentFluids.get(position);
+                var blocks = net.minecraft.core.registries.BuiltInRegistries.BLOCK;
+                boolean matchesFluid = fluid != null
+                        && fluid.get("target").getAsString().equals(blocks.getKey(state.getBlock()).toString())
+                        && fluid.get("support").getAsString().equals(
+                                blocks.getKey(world.getBlockState(position.below()).getBlock()).toString());
+                require(matchesFluid || oldHeight && (state.is(net.minecraft.world.level.block.Blocks.WATER)
+                        || state.isAir() && !grass.canSurvive(world, position)), "Saved short grass changed at " + position);
+                naturalChanges++;
+            }
+        }
+        require(seen.size() == proof.get("checked_positions").getAsInt(), "Incomplete vanilla grass rename check");
+        org.apache.logging.log4j.LogManager.getLogger().info(
+                "BUILDING_PIECES_NATIVE_BLOCK_RENAME_PASS source=minecraft:grass target=minecraft:short_grass positions={}",
+                seen.size());
+        if (proof.has("staged_states") && proof.get("staged_states").getAsInt() > 0) {
+            var saved = world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT)
+                    .resolve("data/skysbuildingpieces_legacy_registry.dat");
+            var states = net.minecraft.nbt.NbtIo.readCompressed(saved, net.minecraft.nbt.NbtAccounter.unlimitedHeap())
+                    .getList("staging", Tag.TAG_COMPOUND);
+            int renamed = 0;
+            for (Tag row : states) {
+                String name = ((CompoundTag) row).getCompound("state").getString("Name");
+                require(!name.equals("minecraft:grass"), "A saved numeric staging state still uses the old grass name");
+                if (name.equals("minecraft:short_grass")) {
+                    renamed++;
+                }
+            }
+            require(renamed >= proof.get("staged_states").getAsInt(), "A short grass staging state is missing");
+        }
+        if (naturalChanges > 0) {
+            org.apache.logging.log4j.LogManager.getLogger().info(
+                    "BOP_NATIVE_GRASS_POST_PROCESSING_PASS fluids_or_unsupported={}", naturalChanges);
+        }
+    }
+
+    private static void checkSignFace(ServerLevel world, net.minecraft.world.level.block.entity.SignText actual,
+            CompoundTag saved, BlockPos position) {
+        var lines = saved.getList("messages", Tag.TAG_STRING);
+        var filtered = saved.getList("filtered_messages", Tag.TAG_STRING);
+        require(lines.size() == 4 && (filtered.isEmpty() || filtered.size() == 4), "Malformed source sign text");
+        for (int line = 0; line < 4; line++) {
+            var visible = net.minecraft.network.chat.Component.Serializer.fromJson(lines.getString(line),
+                    world.registryAccess());
+            var filteredText = filtered.isEmpty() ? visible : net.minecraft.network.chat.Component.Serializer
+                    .fromJson(filtered.getString(line), world.registryAccess());
+            require(actual.getMessage(line, false).equals(visible) && actual.getMessage(line, true).equals(filteredText),
+                    "Saved sign text changed at " + position);
+        }
+        require(actual.getColor().getName().equals(saved.getString("color"))
+                && actual.hasGlowingText() == saved.getBoolean("has_glowing_text"),
+                "Saved sign colour or glow changed at " + position);
     }
 
     private static void require(boolean condition, String message) {

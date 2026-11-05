@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.4.120062
+
+- Ported to Minecraft 1.20.6 and NeoForge.
+- Preserved Flower Basket contents through the item data update.
+- Updated old maple foliage, potted plants and three retired BOP biomes to their current equivalents.
+
 ## 0.2.4.120012
 
 - Ported to Minecraft 1.20.1 and NeoForge 47.1.106.

@@ -1,70 +1,112 @@
 {
-  "type": "forge:conditional",
+  "type": "skysbuildingpiecesbop:material_recipe",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:or",
+      "values": [
+        {
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:item_exists",
+              "item": "mineralogy:siltstone_smooth"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:siltstone_polished_slab"
+            }
+          ]
+        },
+        {
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:not",
+              "value": {
+                "type": "neoforge:item_exists",
+                "item": "mineralogy:siltstone_smooth"
+              }
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:retired_siltstone_smooth"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:siltstone_polished_slab"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "recipes": [
     {
-      "conditions": [
+      "neoforge:conditions": [
         {
-          "type": "forge:item_exists",
-          "item": "mineralogy:siltstone_smooth"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "mineralogy:siltstone_smooth"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:siltstone_polished_slab"
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:item_exists",
+              "item": "mineralogy:siltstone_smooth"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:siltstone_polished_slab"
+            }
+          ]
         }
       ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/siltstone_polished",
-        "pattern": ["XX"],
-        "key": {
-          "X": {
-            "item": "skysbuildingpiecesbop:siltstone_polished_slab"
-          }
-        },
-        "result": {
-          "item": "mineralogy:siltstone_smooth",
-          "count": 1
-        },
-        "category": "building"
-      }
+      "type": "minecraft:crafting_shaped",
+      "group": "skysbuildingpieces/siltstone_polished",
+      "pattern": ["XX"],
+      "key": {
+        "X": {
+          "item": "skysbuildingpiecesbop:siltstone_polished_slab"
+        }
+      },
+      "result": {
+        "id": "mineralogy:siltstone_smooth",
+        "count": 1
+      },
+      "category": "building"
     },
     {
-      "conditions": [
+      "neoforge:conditions": [
         {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:item_exists",
-            "item": "mineralogy:siltstone_smooth"
-          }
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:retired_siltstone_smooth"
-        },
-        {
-          "type": "forge:item_exists",
-          "item": "skysbuildingpiecesbop:siltstone_polished_slab"
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:not",
+              "value": {
+                "type": "neoforge:item_exists",
+                "item": "mineralogy:siltstone_smooth"
+              }
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:retired_siltstone_smooth"
+            },
+            {
+              "type": "neoforge:item_exists",
+              "item": "skysbuildingpiecesbop:siltstone_polished_slab"
+            }
+          ]
         }
       ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/siltstone_polished",
-        "pattern": ["XX"],
-        "key": {
-          "X": {
-            "item": "skysbuildingpiecesbop:siltstone_polished_slab"
-          }
-        },
-        "result": {
-          "item": "skysbuildingpiecesbop:retired_siltstone_smooth",
-          "count": 1
-        },
-        "category": "building"
-      }
+      "type": "minecraft:crafting_shaped",
+      "group": "skysbuildingpieces/siltstone_polished",
+      "pattern": ["XX"],
+      "key": {
+        "X": {
+          "item": "skysbuildingpiecesbop:siltstone_polished_slab"
+        }
+      },
+      "result": {
+        "id": "skysbuildingpiecesbop:retired_siltstone_smooth",
+        "count": 1
+      },
+      "category": "building"
     }
   ]
 }

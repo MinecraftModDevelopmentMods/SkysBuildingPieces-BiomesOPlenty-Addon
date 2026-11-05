@@ -26,9 +26,10 @@ class NamedRecoveryContractTest {
                     Paths.get("src/compatibilityTest/resources/pack.mcmeta")), new HashSet<>(packs));
             for (java.nio.file.Path pack : packs) {
                 JsonObject metadata = read(pack.toString()).getAsJsonObject("pack");
-                assertEquals(15, metadata.get("pack_format").getAsInt(), pack.toString());
-                assertEquals(15, metadata.get("forge:resource_pack_format").getAsInt(), pack.toString());
-                assertEquals(15, metadata.get("forge:data_pack_format").getAsInt(), pack.toString());
+                assertEquals(32, metadata.get("pack_format").getAsInt(), pack.toString());
+                JsonObject formats = metadata.getAsJsonObject("supported_formats");
+                assertEquals(32, formats.get("min_inclusive").getAsInt(), pack.toString());
+                assertEquals(41, formats.get("max_inclusive").getAsInt(), pack.toString());
             }
         }
     }
@@ -51,6 +52,7 @@ class NamedRecoveryContractTest {
         removedBlocks.addAll(identities(source19.getAsJsonArray("blocks"), "id"));
         removedBlocks.removeAll(identities(target.getAsJsonArray("blocks"), "id"));
         assertEquals(55, removedBlocks.size());
+        removedBlocks.addAll(removedAtThisHop("blocks", 10));
         assertEquals(removedBlocks, keys(mapping.getAsJsonObject("blocks")));
 
         Set<String> removedItems = identities(earlier.getAsJsonArray("items"), null);
@@ -64,6 +66,7 @@ class NamedRecoveryContractTest {
         assertTrue(itemMappings.remove("biomesoplenty:cherry_wall_sign"));
         itemMappings.addAll(keys(mapping.getAsJsonObject("items")));
         assertEquals(60, removedItems.size());
+        removedItems.addAll(removedAtThisHop("items", 10));
         assertEquals(removedItems, itemMappings);
     }
 
@@ -87,7 +90,8 @@ class NamedRecoveryContractTest {
         removed.removeAll(identities(target.getAsJsonArray("biomes"), null));
         assertTrue(removed.size() > 60);
         assertTrue(keys(mapping).containsAll(removed), "Every removed biome needs an explicit replacement");
-        Set<String> current = identities(target.getAsJsonArray("biomes"), null);
+        assertTrue(keys(mapping).containsAll(removedAtThisHop("biomes", 3)));
+        Set<String> current = liveTargets("biomes");
         mapping.entrySet().forEach(entry -> {
             if (entry.getValue().getAsString().startsWith("biomesoplenty:")) {
                 assertTrue(current.contains(entry.getValue().getAsString()), entry.toString());
@@ -106,8 +110,7 @@ class NamedRecoveryContractTest {
         JsonObject fixture = read("src/testFixtures/worlds/building-pieces-bop-biomes-1.12.2.json")
                 .getAsJsonObject("manifest");
         JsonObject aliases = read("src/main/resources/assets/skysbuildingpiecesbop/catalogue/legacy_biomes.json");
-        Set<String> current = identities(read("src/testFixtures/bop-1.20.1-native-catalogue.json")
-                .getAsJsonArray("biomes"), null);
+        Set<String> current = liveTargets("biomes");
 
         assertEquals(73, fixture.getAsJsonArray("biomes").size());
         for (com.google.gson.JsonElement element : fixture.getAsJsonArray("biomes")) {
@@ -135,6 +138,19 @@ class NamedRecoveryContractTest {
         assertFalse(NamedBopRecovery.relevant(root));
         NamedBopRecovery.rewrite(root);
         assertEquals(before, root);
+    }
+
+    private Set<String> liveTargets(String registry) throws Exception {
+        return identities(read("src/testFixtures/bop-1.20.6-neo-native-catalogue.json")
+                .getAsJsonObject(registry).getAsJsonArray("target"), null);
+    }
+
+    private Set<String> removedAtThisHop(String registry, int expected) throws Exception {
+        JsonObject catalogue = read("src/testFixtures/bop-1.20.6-neo-native-catalogue.json").getAsJsonObject(registry);
+        Set<String> removed = identities(catalogue.getAsJsonArray("source"), null);
+        removed.removeAll(identities(catalogue.getAsJsonArray("target"), null));
+        assertEquals(expected, removed.size(), registry);
+        return removed;
     }
 
     private Set<String> keys(JsonObject value) {

@@ -67,7 +67,7 @@ def native_conflict(rows, ingredient, output, native_recipes, tags):
             if len(inputs) == len(pattern) and all(accepts(value) for value in inputs):
                 result = recipe['result']
                 result = {'item': result} if isinstance(result, str) else result
-                if (result['item'], result.get('count', 1)) != output:
+                if (result.get('id', result.get('item')), result.get('count', 1)) != output:
                     return True
             continue
         if recipe.get('type') != 'minecraft:crafting_shaped':
@@ -79,7 +79,7 @@ def native_conflict(rows, ingredient, output, native_recipes, tags):
         if all(accepts(value) for value in inputs):
             result = recipe['result']
             result = {'item': result} if isinstance(result, str) else result
-            if (result['item'], result.get('count', 1)) != output:
+            if (result.get('id', result.get('item')), result.get('count', 1)) != output:
                 return True
     return False
 
@@ -290,6 +290,39 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
 
 
 
+
+def all_conditions(conditions):
+    unique = list({json.dumps(condition, sort_keys=True): condition for condition in conditions}.values())
+    return unique[0] if len(unique) == 1 else {'type': 'forge:and', 'values': unique}
+
+
+def native_recipe(recipe):
+    if recipe.get('type') == 'forge:conditional':
+        for choice in recipe['recipes']:
+            choice['forge:condition'] = all_conditions(choice.pop('conditions'))
+            native_recipe(choice['recipe'])
+    if 'conditions' in recipe:
+        recipe['forge:condition'] = all_conditions(recipe.pop('conditions'))
+    if 'result' in recipe and 'item' in recipe['result']:
+        recipe['result'] = {'id' if key == 'item' else key: value for key, value in recipe['result'].items()}
+    return recipe
+
+
+def native_advancement(advancement):
+    if 'advancements' in advancement:
+        return {'advancements': [
+            {'forge:condition': all_conditions(choice['conditions']), **native_advancement(choice['advancement'])}
+            for choice in advancement['advancements']
+        ]}
+    if 'conditions' in advancement:
+        advancement['forge:condition'] = all_conditions(advancement.pop('conditions'))
+    for criterion in advancement['criteria'].values():
+        for item in criterion.get('conditions', {}).get('items', []):
+            if 'tag' in item:
+                item['items'] = '#' + item.pop('tag')
+    return advancement
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--resources', type=Path, default=Path('src/main/resources'))
@@ -374,6 +407,9 @@ def main():
                                    'conditions': {'items': [{'items': [ingredient]}]}},
                 'has_the_recipe': {'trigger': 'minecraft:recipe_unlocked', 'conditions': {'recipe': identity}}},
             'requirements': [['has_ingredient', 'has_the_recipe']], 'rewards': {'recipes': [identity]}}
+    from neo_recipe_resources import convert
+    outputs = convert({relative: (native_advancement(data) if '/advancements/' in relative else native_recipe(data))
+                       for relative, data in outputs.items()})
     manifest = args.resources.parent / 'recipe-book/native-1.14-generated.json'
     previous = json.loads(manifest.read_text(encoding='utf-8')) if manifest.is_file() else []
     changed = 0

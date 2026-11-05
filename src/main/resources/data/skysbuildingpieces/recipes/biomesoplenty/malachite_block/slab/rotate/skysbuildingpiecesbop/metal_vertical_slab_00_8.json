@@ -8,19 +8,24 @@
     }
   },
   "result": {
-    "item": "skysbuildingpieces:stained_hardened_clay_cyan_slab",
+    "id": "skysbuildingpieces:stained_hardened_clay_cyan_slab",
     "count": 1
   },
   "preserve_tag": true,
-  "conditions": [
+  "category": "building",
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:stained_hardened_clay_cyan_slab"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:stained_hardened_clay_cyan_vertical_slab"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpieces:stained_hardened_clay_cyan_slab"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpieces:stained_hardened_clay_cyan_vertical_slab"
+        }
+      ]
     }
-  ],
-  "category": "building"
+  ]
 }

@@ -1,10 +1,4 @@
 {
-  "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "mineralogy:limestone_smooth"
-    }
-  ],
   "criteria": {
     "has_ingredient": {
       "trigger": "minecraft:inventory_changed",
@@ -28,5 +22,11 @@
   ],
   "rewards": {
     "recipes": ["skysbuildingpiecesbop:restore_limestone_smooth"]
-  }
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "mineralogy:limestone_smooth"
+    }
+  ]
 }

@@ -9,17 +9,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.registries.MissingMappingsEvent;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
 
 /** Separate hidden identities keep mixed old and current palette saves unambiguous. */
-@Mod.EventBusSubscriber(
+@EventBusSubscriber(
         modid = SkysBuildingPiecesBop.ID,
-        bus = Mod.EventBusSubscriber.Bus.MOD)
+        bus = EventBusSubscriber.Bus.MOD)
 public final class RetiredMaterialHolders {
     public static Block STONE;
     public static Block CRAG;
@@ -35,7 +34,7 @@ public final class RetiredMaterialHolders {
     @SubscribeEvent(
             priority = EventPriority.HIGHEST)
     public static void blocks(RegisterEvent event) {
-        if (!event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
+        if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.BLOCK)) return;
         STONE = new Holder("legacy_bop_stone");
         CRAG = new Holder("legacy_bop_crag_rock");
         FORMATIONS = new Holder("legacy_bop_stone_formations");
@@ -46,37 +45,29 @@ public final class RetiredMaterialHolders {
         for (int index = 0; index < BLOCKS.length; index++) {
             String id = new String[] { "legacy_bop_stone", "legacy_bop_crag_rock", "legacy_bop_stone_formations",
                     "legacy_bop_jelled_poison", "legacy_bop_tree_moss" }[index];
-            ForgeRegistries.BLOCKS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, id), BLOCKS[index]);
+            net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(SkysBuildingPiecesBop.ID, id), BLOCKS[index]);
         }
     }
 
     @SubscribeEvent
     public static void items(RegisterEvent event) {
-        if (!event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) return;
+        if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.ITEM)) return;
         for (Block block : BLOCKS) {
-            ForgeRegistries.ITEMS.register(ForgeRegistries.BLOCKS.getKey(block), new BlockItem(block, new Item.Properties()));
+            net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, BuiltInRegistries.BLOCK.getKey(block), new BlockItem(block, new Item.Properties()));
         }
     }
 
-    public static void missingBlocks(MissingMappingsEvent event) {
-        if (!event.getKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
-        for (MissingMappingsEvent.Mapping<Block> mapping : event.getAllMappings(ForgeRegistries.Keys.BLOCKS)) {
-            for (int legacyIdIndex = 0; legacyIdIndex < OLD_IDS.length; legacyIdIndex++) {
-                if (mapping.getKey().equals(new ResourceLocation("biomesoplenty", OLD_IDS[legacyIdIndex]))) {
-                    mapping.remap(BLOCKS[legacyIdIndex]);
-                }
-            }
+    static void registerBlockAliases() {
+        for (int index = 0; index < BLOCKS.length; index++) {
+            BopRegistryAliases.block("biomesoplenty:" + OLD_IDS[index],
+                    BuiltInRegistries.BLOCK.getKey(BLOCKS[index]));
         }
     }
 
-    public static void missingItems(MissingMappingsEvent event) {
-        if (!event.getKey().equals(ForgeRegistries.Keys.ITEMS)) return;
-        for (MissingMappingsEvent.Mapping<Item> mapping : event.getAllMappings(ForgeRegistries.Keys.ITEMS)) {
-            for (int legacyIdIndex = 0; legacyIdIndex < OLD_IDS.length; legacyIdIndex++) {
-                if (mapping.getKey().equals(new ResourceLocation("biomesoplenty", OLD_IDS[legacyIdIndex]))) {
-                    mapping.remap(Item.byBlock(BLOCKS[legacyIdIndex]));
-                }
-            }
+    static void registerItemAliases() {
+        for (int index = 0; index < BLOCKS.length; index++) {
+            BopRegistryAliases.item("biomesoplenty:" + OLD_IDS[index],
+                    BuiltInRegistries.ITEM.getKey(Item.byBlock(BLOCKS[index])));
         }
     }
 

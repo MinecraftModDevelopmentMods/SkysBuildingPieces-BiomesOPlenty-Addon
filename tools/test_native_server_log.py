@@ -2,6 +2,7 @@
 
 from pathlib import Path
 import shutil
+import gzip
 import tempfile
 import unittest
 
@@ -118,23 +119,42 @@ class NativeServerFilesTest(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
         self.directory = Path(temporary.name)
-        self.config = self.directory / 'world/serverconfig/forge-server.toml'
-        self.config.parent.mkdir(parents=True)
+        self.config = self.directory / 'config/neoforge-server.toml'
         defaults = Path(__file__).resolve().parent.parent / 'src/bootstrapTest/defaultconfigs'
-        shutil.copyfile(defaults / 'defaultconfigs/forge-server.toml', self.config)
+        shutil.copytree(defaults / 'config', self.directory / 'config')
         logs = self.directory / 'logs'
         logs.mkdir()
         (logs / 'latest.log').write_text(LOG, encoding='utf-8')
         (logs / 'debug.log').write_text(DETAILS, encoding='utf-8')
+
+    def test_rolled_first_load_failure_stops_a_clean_reload(self):
+        for name, failure in (("first.log", "[Server thread/ERROR] [Example/]: Failed"),
+                              ("first.log.gz", "[STDERR/]: java.lang.AssertionError")):
+            with self.subTest(name=name):
+                path = self.directory / "logs" / name
+                if name.endswith(".gz"):
+                    with gzip.open(path, "wt", encoding="utf-8") as output:
+                        output.write(failure)
+                else:
+                    path.write_text(failure, encoding="utf-8")
+                with self.assertRaises(ValueError):
+                    audit_server(self.directory, "reload")
+                path.unlink()
+
+    def test_clean_rolled_logs_are_retained_in_the_receipt(self):
+        with gzip.open(self.directory / "logs/first.log.gz", "wt", encoding="utf-8") as output:
+            output.write(LOG)
+        self.assertEqual(audit_server(self.directory, "reload")["complete_log_files"], 3)
 
     def test_unchanged_defaults_pass(self):
         self.assertEqual(audit_server(self.directory, 'test')['native_server_config_notices'], 0)
 
     def test_changed_defaults_fail(self):
         original = self.config.read_text()
-        self.assertIn('removeErroringEntities = false', original)
-        self.config.write_text(original.replace('removeErroringEntities = false',
-                                                'removeErroringEntities = true'))
+        changed = original.replace('advertiseDedicatedServerToLan = true',
+                                   'advertiseDedicatedServerToLan = false')
+        self.assertNotEqual(original, changed, "The negative control must alter a native setting")
+        self.config.write_text(changed)
         with self.assertRaises(ValueError):
             audit_server(self.directory, 'test')
 

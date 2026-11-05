@@ -27,17 +27,8 @@ class RecipeAdvancementContractTest {
             Path path = Paths.get("src/main/resources", relative);
             JsonObject advancement = new JsonParser().parse(read(path)).getAsJsonObject();
 
-            if (advancement.has("advancements")) {
-                for (JsonElement alternative : advancement.getAsJsonArray("advancements")) {
-                    JsonObject conditional = alternative.getAsJsonObject();
-
-                    assertTrue(conditional.getAsJsonArray("conditions").size() > 0);
-                    check(conditional.getAsJsonObject("advancement"));
-                }
-            } else {
-                check(advancement);
-            }
-
+            assertFalse(advancement.has("advancements"), "NeoForge uses native conditional advancement data");
+            check(advancement);
             count++;
         }
 

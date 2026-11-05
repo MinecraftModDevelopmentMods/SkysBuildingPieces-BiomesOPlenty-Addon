@@ -23,14 +23,19 @@
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/planks_magic/slab_recombination"]
   },
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:magic_planks"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "biomesoplenty:magic_slab"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "biomesoplenty:magic_planks"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "biomesoplenty:magic_slab"
+        }
+      ]
     }
   ]
 }

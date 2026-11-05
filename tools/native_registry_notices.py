@@ -151,7 +151,8 @@ def audit_text(text, profile=None):
                     "MissingModsException", "NoSuchMethodError", "NoClassDefFoundError",
                     "ExceptionInInitializerError", "cascading worldgen lag", "Unable to load model",
                     "Unable to load blockstate", "Unable to read property", "outside of the generating region",
-                    "java.lang.AssertionError", "java.lang.IllegalStateException:"):
+                    "java.lang.AssertionError", "java.lang.IllegalStateException:",
+                    "java.util.ConcurrentModificationException", "java.nio.channels.ClosedChannelException"):
         if problem in text:
             raise ValueError("Unexpected native failure: " + problem)
     return sorted(headers)

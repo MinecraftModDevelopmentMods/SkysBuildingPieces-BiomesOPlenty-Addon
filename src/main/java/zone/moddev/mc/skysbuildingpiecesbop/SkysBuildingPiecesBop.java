@@ -4,15 +4,17 @@ import java.io.IOException;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.registries.RegisterEvent;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import zone.moddev.mc.skysbuildingpieces.api.BuildingPiecesApi;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue;
 import zone.moddev.mc.skysbuildingpieces.legacy.HistoricalFullBlocks;
@@ -23,9 +25,9 @@ import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketPreflight;
 @Mod(SkysBuildingPiecesBop.ID)
 public final class SkysBuildingPiecesBop {
     public static final String ID = "skysbuildingpiecesbop";
-    public static final String VERSION = "0.2.4.120012";
+    public static final String VERSION = "0.2.4.120062";
 
-    public SkysBuildingPiecesBop() {
+    public SkysBuildingPiecesBop(IEventBus modBus) {
         if (BuildingPiecesApi.VERSION != 1) {
             throw new IllegalStateException("Unsupported Building Pieces catalogue API");
         }
@@ -46,10 +48,11 @@ public final class SkysBuildingPiecesBop {
         BopFlattening.register();
         BopWorldMappings.registerBiomes();
         Baskets.registerRecovery();
-        MinecraftForge.EVENT_BUS.addListener(this::beforeServer);
-        MinecraftForge.EVENT_BUS.addListener(Baskets::pickup);
-        DistExecutor.runWhenOn(Dist.CLIENT,
-                () -> zone.moddev.mc.skysbuildingpiecesbop.client.RetiredRockModels::register);
+        NeoForge.EVENT_BUS.addListener(this::beforeServer);
+        NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.LOWEST, Baskets::pickup);
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            zone.moddev.mc.skysbuildingpiecesbop.client.RetiredRockModels.register(modBus);
+        }
     }
 
     private void beforeServer(ServerAboutToStartEvent event) {
@@ -61,22 +64,26 @@ public final class SkysBuildingPiecesBop {
         }
     }
 
-    @Mod.EventBusSubscriber(
+    @EventBusSubscriber(
             modid = ID,
-            bus = Mod.EventBusSubscriber.Bus.MOD)
+            bus = EventBusSubscriber.Bus.MOD)
     public static final class Registries {
         private Registries() {
         }
 
         @SubscribeEvent
         public static void register(RegisterEvent event) {
-            if (event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) {
-                BuildingPiecesApi.registerBlocks(ID, ForgeRegistries.BLOCKS);
-            } else if (event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) {
-                BuildingPiecesApi.registerItems(ID, ForgeRegistries.ITEMS);
+            if (event.getRegistryKey().equals(net.minecraft.core.registries.Registries.BLOCK)) {
+                BuildingPiecesApi.registerBlocks(ID, BuiltInRegistries.BLOCK);
+            } else if (event.getRegistryKey().equals(net.minecraft.core.registries.Registries.ITEM)) {
+                BuildingPiecesApi.registerItems(ID, BuiltInRegistries.ITEM);
                 Baskets.items(event);
-            } else if (event.getRegistryKey().equals(ForgeRegistries.Keys.MENU_TYPES)) {
+            } else if (event.getRegistryKey().equals(net.minecraft.core.registries.Registries.MENU)) {
                 Baskets.containers(event);
+            } else if (event.getRegistryKey().equals(net.minecraft.core.registries.Registries.RECIPE_SERIALIZER)) {
+                event.register(net.minecraft.core.registries.Registries.RECIPE_SERIALIZER,
+                        new net.minecraft.resources.ResourceLocation(ID, "material_recipe"),
+                        ChoiceRecipeSerializer::new);
             }
         }
 

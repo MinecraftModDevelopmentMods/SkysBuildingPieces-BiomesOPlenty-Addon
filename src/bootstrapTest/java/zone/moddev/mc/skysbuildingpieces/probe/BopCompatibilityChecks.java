@@ -2,6 +2,12 @@ package zone.moddev.mc.skysbuildingpieces.probe;
 
 import java.lang.reflect.Method;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.core.registries.Registries;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -13,6 +19,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import zone.moddev.mc.skysbuildingpiecesbop.probe.BopProbeItems;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -21,18 +28,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.BlockSnapshot;
-import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.util.BlockSnapshot;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.minecraft.core.registries.BuiltInRegistries;
 import zone.moddev.mc.skysbuildingpieces.SkysBuildingPieces;
 import zone.moddev.mc.skysbuildingpieces.content.LegacyPieceRecipe;
 import zone.moddev.mc.skysbuildingpieces.legacy.LegacyBridge;
@@ -47,9 +50,9 @@ public final class BopCompatibilityChecks {
 
     public static ItemStack legacy(int count) {
         ItemStack stack = new ItemStack(
-                ForgeRegistries.ITEMS.getValue(new ResourceLocation("buildingbricks:rock_step")), count);
+                BuiltInRegistries.ITEM.get(new ResourceLocation("buildingbricks:rock_step")), count);
 
-        stack.setTag(NativeLegacyChecks.stack(material, count).getCompound("tag").copy());
+        BopProbeItems.setCustom(stack, NativeLegacyChecks.stack(material, count).getCompound("tag").copy());
         return stack;
     }
 
@@ -64,7 +67,7 @@ public final class BopCompatibilityChecks {
             for (boolean convert : new boolean[] { false, true }) {
                 SkysBuildingPieces.forceReplace = convert;
                 CompoundTag before = zone.moddev.mc.skysbuildingpieces.legacy.PiecesWorldState
-                        .get(world).save(new CompoundTag());
+                        .get(world).save(new CompoundTag(), world.registryAccess());
                 for (zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue.MaterialDef definition
                         : zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue.INSTANCE.modules
                                 .get("biomesoplenty").materials.values()) {
@@ -76,7 +79,7 @@ public final class BopCompatibilityChecks {
                 if (!convert) {
                     NativeLegacyChecks.require(before.equals(
                             zone.moddev.mc.skysbuildingpieces.legacy.PiecesWorldState.get(world)
-                                    .save(new CompoundTag())),
+                                    .save(new CompoundTag(), world.registryAccess())),
                             "Disabled replacement must retain every migration counter and report");
                 }
             }
@@ -103,20 +106,20 @@ public final class BopCompatibilityChecks {
             NativeLegacyChecks.require(stack.getItem() == legacy(count).getItem(),
                     "Disabled replacement keeps the original item for " + material);
         }
-        NativeLegacyChecks.require(stack.hasTag() && stack.getTag().equals(legacy(count).getTag()),
+        NativeLegacyChecks.require(BopProbeItems.hasCustom(stack) && BopProbeItems.custom(stack).equals(BopProbeItems.custom(legacy(count))),
                 "Complete unrelated custom data is retained");
     }
 
     private static void liveInventories(ServerLevel world, boolean convert) throws Exception {
-        ServerPlayer player = FakePlayerFactory.getMinecraft(world);
+        ServerPlayer player = BopProbeItems.player(world);
 
         player.getInventory().setItem(0, legacy(13));
         player.getEnderChestInventory().setItem(0, legacy(11));
-        MinecraftForge.EVENT_BUS.post(new EntityJoinLevelEvent(player, world));
+        NeoForge.EVENT_BUS.post(new EntityJoinLevelEvent(player, world));
         identity(player.getInventory().getItem(0), 13, convert);
         identity(player.getEnderChestInventory().getItem(0), 11, convert);
         player.getInventory().setItem(1, legacy(9));
-        MinecraftForge.EVENT_BUS.post(new PlayerEvent.LoadFromFile(player, world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(),
+        NeoForge.EVENT_BUS.post(new PlayerEvent.LoadFromFile(player, world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(),
                 player.getUUID().toString()));
         identity(player.getInventory().getItem(1), 9, convert);
         world.getChunk(new BlockPos(930, 70, 930));
@@ -136,9 +139,10 @@ public final class BopCompatibilityChecks {
         world.addFreshEntity(frame);
         identity(frame.getItem(), 1, convert);
 
-        HandlerTile tile = new HandlerTile(position);
-
-        tile.setLevel(world);
+        BlockPos handlerPosition = position.west();
+        world.setBlock(handlerPosition, handlerBlock.defaultBlockState(), 2);
+        HandlerTile tile = (HandlerTile) world.getBlockEntity(handlerPosition);
+        NativeLegacyChecks.require(tile != null, "BOP policy fixture item handler is installed");
         tile.handler.setStackInSlot(0, legacy(17));
 
         Method scan = MigrationEvents.class.getDeclaredMethod("containers", BlockEntity.class);
@@ -147,10 +151,12 @@ public final class BopCompatibilityChecks {
         scan.invoke(null, tile);
         identity(tile.handler.getStackInSlot(0), 17, convert);
 
-        CompoundTag once = tile.handler.serializeNBT();
+        CompoundTag once = tile.handler.serializeNBT(world.registryAccess());
 
         scan.invoke(null, tile);
-        NativeLegacyChecks.require(once.equals(tile.handler.serializeNBT()), "Shared handler faces convert only once");
+        NativeLegacyChecks.require(once.equals(tile.handler.serializeNBT(world.registryAccess())), "Shared handler faces convert only once");
+
+        world.removeBlock(handlerPosition, false);
 
         ItemStack crate = new ItemStack(Blocks.CHEST);
         CompoundTag tag = new CompoundTag();
@@ -159,15 +165,15 @@ public final class BopCompatibilityChecks {
 
         ListTag contents = new ListTag();
 
-        contents.add(legacy(7).save(new CompoundTag()));
+        contents.add(BopProbeItems.save(legacy(7)));
         tag.put("Items", contents);
-        crate.setTag(tag);
+        BopProbeItems.setCustom(crate, tag);
 
         ItemStack migrated = MigrationEvents.convert(crate, world);
-        CompoundTag recovered = migrated.getTag().getList("Items", 10).getCompound(0);
+        CompoundTag recovered = BopProbeItems.custom(migrated).getList("Items", 10).getCompound(0);
 
-        identity(ItemStack.of(recovered), 7, convert);
-        NativeLegacyChecks.require(migrated.getItem() == crate.getItem() && migrated.getTag().getBoolean("Sealed"),
+        identity(BopProbeItems.read(recovered), 7, convert);
+        NativeLegacyChecks.require(migrated.getItem() == crate.getItem() && BopProbeItems.custom(migrated).getBoolean("Sealed"),
                 "Sealed container identity and custom data");
         NativeLegacyChecks.require(MigrationEvents.convert(migrated, world) == migrated,
                 "Live nested inventory is idempotent");
@@ -186,7 +192,7 @@ public final class BopCompatibilityChecks {
 
         grid.setItem(0, legacy(1));
 
-        LegacyPieceRecipe recipe = new LegacyPieceRecipe(new ResourceLocation("skysbuildingpieces:bridge_test"), net.minecraft.world.item.crafting.CraftingBookCategory.BUILDING);
+        LegacyPieceRecipe recipe = new LegacyPieceRecipe(net.minecraft.world.item.crafting.CraftingBookCategory.BUILDING);
 
         NativeLegacyChecks.require(recipe.matches(grid, world),
                 "Explicit bridge recipe works independently of replacement");
@@ -200,20 +206,20 @@ public final class BopCompatibilityChecks {
 
     private static void newlyPlaced(ServerLevel world, boolean convert) {
         BlockPos position = new BlockPos(934, 70, 932);
-        Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("buildingbricks:rock_step"));
+        Block block = BuiltInRegistries.BLOCK.get(new ResourceLocation("buildingbricks:rock_step"));
         BlockState old = block.defaultBlockState().setValue((IntegerProperty) block.getStateDefinition().getProperty("meta"),
                 11);
 
         world.setBlock(position, old, 2);
 
         BlockEntity tile = world.getBlockEntity(position);
-        CompoundTag tag = tile.saveWithFullMetadata();
+        CompoundTag tag = tile.saveWithFullMetadata(world.registryAccess());
 
         tag.putString("material", material);
         tag.putString("custom", "Keep the old tile in coverage");
-        tile.load(tag);
-        MinecraftForge.EVENT_BUS.post(new BlockEvent.EntityPlaceEvent(BlockSnapshot.create(world.dimension(), world, position),
-                Blocks.STONE.defaultBlockState(), FakePlayerFactory.getMinecraft(world)));
+        tile.loadWithComponents(tag, world.registryAccess());
+        NeoForge.EVENT_BUS.post(new BlockEvent.EntityPlaceEvent(BlockSnapshot.create(world.dimension(), world, position),
+                Blocks.STONE.defaultBlockState(), BopProbeItems.player(world)));
         if (convert) {
             zone.moddev.mc.skysbuildingpieces.catalogue.Shape shape =
                     zone.moddev.mc.skysbuildingpieces.legacy.LegacyMapping.shape("buildingbricks:rock_step", 11);
@@ -233,12 +239,14 @@ public final class BopCompatibilityChecks {
     private static void unknownMaterial(ServerLevel world) {
         ItemStack unknown = legacy(3);
 
-        unknown.getTag().putString("material", "missing:unknown");
+        CompoundTag unknownData = BopProbeItems.custom(unknown);
+        unknownData.putString("material", "missing:unknown");
+        BopProbeItems.setCustom(unknown, unknownData);
 
-        CompoundTag before = unknown.save(new CompoundTag());
+        CompoundTag before = BopProbeItems.save(unknown);
         ItemStack result = MigrationEvents.convert(unknown, world);
 
-        NativeLegacyChecks.require(result.save(new CompoundTag()).equals(before),
+        NativeLegacyChecks.require(BopProbeItems.save(result).equals(before),
                 "Installed legacy mod retains unsupported materials");
 
         // Horizontal soil recovery belongs to Grass Slabs and must stay outside this bridge.
@@ -250,18 +258,36 @@ public final class BopCompatibilityChecks {
         NativeLegacyChecks.require(soil.equals(before), "Core must not take ownership of horizontal soil slabs");
     }
 
-    public static final class HandlerTile extends BlockEntity {
-        final ItemStackHandler handler = new ItemStackHandler(2);
-        private final LazyOptional<ItemStackHandler> optional = LazyOptional.of(() -> handler);
+    private static Block handlerBlock;
+    private static BlockEntityType<HandlerTile> handlerType;
 
-        HandlerTile(BlockPos position) {
-            super(BlockEntityType.CHEST, position, Blocks.CHEST.defaultBlockState());
+    public static void registerHandler(IEventBus modBus) {
+        ResourceLocation id = new ResourceLocation("buildingpiecesbopchecks", "item_handler_fixture");
+        modBus.addListener((RegisterEvent event) -> {
+            event.register(Registries.BLOCK, id, () -> handlerBlock = new HandlerBlock());
+            event.register(Registries.BLOCK_ENTITY_TYPE, id,
+                    () -> handlerType = BlockEntityType.Builder.of(HandlerTile::new, handlerBlock).build(null));
+        });
+        modBus.addListener((RegisterCapabilitiesEvent event) ->
+                event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, handlerType, (tile, side) -> tile.handler));
+    }
+
+    private static final class HandlerBlock extends Block implements EntityBlock {
+        private HandlerBlock() {
+            super(Block.Properties.of());
         }
 
         @Override
-        public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction side) {
-            return capability == ForgeCapabilities.ITEM_HANDLER ? optional.cast()
-                    : super.getCapability(capability, side);
+        public BlockEntity newBlockEntity(BlockPos position, BlockState state) {
+            return new HandlerTile(position, state);
+        }
+    }
+
+    public static final class HandlerTile extends BlockEntity {
+        final ItemStackHandler handler = new ItemStackHandler(2);
+
+        HandlerTile(BlockPos position, BlockState state) {
+            super(handlerType, position, state);
         }
     }
 }

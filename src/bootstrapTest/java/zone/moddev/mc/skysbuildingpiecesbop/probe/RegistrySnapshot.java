@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 /** Keep the target's actual registry states beside the disposable upgrade receipts. */
 final class RegistrySnapshot {
@@ -18,14 +18,14 @@ final class RegistrySnapshot {
     static void write() throws java.io.IOException {
         JsonArray states = new JsonArray();
 
-        for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-            if (!net.minecraftforge.registries.ForgeRegistries.BLOCKS.getKey(block).getNamespace().equals("biomesoplenty")) {
+        for (Block block : BuiltInRegistries.BLOCK) {
+            if (!net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(block).getNamespace().equals("biomesoplenty")) {
                 continue;
             }
             for (BlockState state : block.getStateDefinition().getPossibleStates()) {
                 JsonObject row = new JsonObject();
 
-                row.addProperty("id", net.minecraftforge.registries.ForgeRegistries.BLOCKS.getKey(block).toString());
+                row.addProperty("id", net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(block).toString());
 
                 JsonObject properties = new JsonObject();
 
@@ -42,7 +42,7 @@ final class RegistrySnapshot {
 
         JsonArray items = new JsonArray();
 
-        ForgeRegistries.ITEMS.getKeys().stream().filter(key -> key.getNamespace().equals("biomesoplenty"))
+        BuiltInRegistries.ITEM.keySet().stream().filter(key -> key.getNamespace().equals("biomesoplenty"))
                 .sorted(java.util.Comparator.comparing(Object::toString)).forEach(key -> items.add(key.toString()));
 
         try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream("target-bop-items.json"),
@@ -52,7 +52,7 @@ final class RegistrySnapshot {
 
         JsonArray biomes = new JsonArray();
 
-        var biomeRegistry = net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
+        var biomeRegistry = net.neoforged.neoforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
                 .registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
         biomeRegistry.forEach(biome -> {
             JsonObject row = new JsonObject();

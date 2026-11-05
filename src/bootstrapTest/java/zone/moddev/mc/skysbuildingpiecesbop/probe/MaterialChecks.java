@@ -8,7 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Geometry;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Shape;
@@ -115,8 +115,8 @@ final class MaterialChecks {
                 }
             }
 
-            long registered = ForgeRegistries.BLOCKS.getValues().stream()
-                    .filter(block -> net.minecraftforge.registries.ForgeRegistries.BLOCKS.getKey(block).getNamespace().equals(SkysBuildingPiecesBop.ID)).count();
+            long registered = BuiltInRegistries.BLOCK.stream()
+                    .filter(block -> net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(block).getNamespace().equals(SkysBuildingPiecesBop.ID)).count();
 
             require(registered == 74 && registered <= 80, "Complete add-on block budget: " + registered);
             LOGGER.info("BOP_NATIVE_MATERIALS_PASS states=" + checked + " blocks=" + registered);
@@ -126,7 +126,7 @@ final class MaterialChecks {
     }
 
     private static void retiredMining(ServerLevel world, BlockPos position) {
-        net.minecraftforge.common.util.FakePlayer player = net.minecraftforge.common.util.FakePlayerFactory.get(world,
+        net.minecraft.server.level.ServerPlayer player = BopProbeItems.player(world,
                 new com.mojang.authlib.GameProfile(java.util.UUID.fromString("f8ca0294-a7f9-453f-9533-66fc7c45d698"),
                         "RetiredRockProbe"));
         net.minecraft.world.item.Item[] tools = {
@@ -148,7 +148,7 @@ final class MaterialChecks {
                         "Retired-rock tool tier " + variant + " / " + tool);
                 BlockState reference = (variant == 0 ? net.minecraft.world.level.block.Blocks.DIAMOND_ORE
                         : net.minecraft.world.level.block.Blocks.STONE).defaultBlockState();
-                float progress = player.getDigSpeed(reference, position) / hardness[variant] / (expected ? 30 : 100);
+                float progress = player.getDestroySpeed(reference) / hardness[variant] / (expected ? 30 : 100);
                 require(Math.abs(state.getDestroyProgress(player, world, position) - progress) < .000001f,
                         "Retired-rock mining speed " + variant + " / " + tool);
                 checked++;

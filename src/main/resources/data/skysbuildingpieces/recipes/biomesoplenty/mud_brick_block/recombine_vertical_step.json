@@ -8,14 +8,14 @@
     }
   },
   "result": {
-    "item": "minecraft:mud_brick_slab",
+    "id": "minecraft:mud_brick_slab",
     "count": 1
   },
-  "conditions": [
+  "category": "building",
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
+      "type": "neoforge:item_exists",
       "item": "skysbuildingpiecesbop:mud_brick_block_vertical_step"
     }
-  ],
-  "category": "building"
+  ]
 }

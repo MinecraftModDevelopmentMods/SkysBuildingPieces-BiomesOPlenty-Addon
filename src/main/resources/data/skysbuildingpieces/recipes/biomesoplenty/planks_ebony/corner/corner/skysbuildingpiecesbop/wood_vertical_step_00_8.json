@@ -8,18 +8,23 @@
     }
   },
   "result": {
-    "item": "skysbuildingpieces:planks_dark_oak_corner",
+    "id": "skysbuildingpieces:planks_dark_oak_corner",
     "count": 4
   },
-  "conditions": [
+  "category": "building",
+  "neoforge:conditions": [
     {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:planks_dark_oak_corner"
-    },
-    {
-      "type": "forge:item_exists",
-      "item": "skysbuildingpieces:planks_dark_oak_vertical_step"
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpieces:planks_dark_oak_corner"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpieces:planks_dark_oak_vertical_step"
+        }
+      ]
     }
-  ],
-  "category": "building"
+  ]
 }
