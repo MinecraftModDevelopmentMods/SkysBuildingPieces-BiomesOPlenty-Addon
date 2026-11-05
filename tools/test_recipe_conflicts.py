@@ -43,7 +43,7 @@ class MineralogyRecipeChecks(unittest.TestCase):
 
     def test_standalone_and_mineralogy_keep_the_same_recipe_ids(self):
         resources = ROOT / 'src/main/resources'
-        default_core = ROOT.parent.parent / 'SkysBuildingPieces1206NEO/SkysBuildingPieces/src/main/resources'
+        default_core = ROOT.parent.parent / 'SkysBuildingPieces1211NEO/SkysBuildingPieces/src/main/resources'
         core = Path(os.environ.get('BUILDING_PIECES_CORE_RESOURCES', str(default_core)))
         normal, _ = prepare(resources, core, self.recipes, self.tags)
         fallback, _ = prepare(resources, core, self.recipes, self.tags, True)
@@ -51,7 +51,7 @@ class MineralogyRecipeChecks(unittest.TestCase):
 
     def test_packaged_cuts_do_not_conflict_with_native_recipes(self):
         checked = 0
-        for path in (ROOT / 'src/main/resources/data/skysbuildingpieces/recipes/biomesoplenty').rglob('*.json'):
+        for path in (ROOT / 'src/main/resources/data/skysbuildingpieces/recipe/biomesoplenty').rglob('*.json'):
             value = json.loads(path.read_text())
             recipe = value['recipes'][0] if value.get('type') == 'skysbuildingpiecesbop:material_recipe' else value
             if 'pattern' not in recipe or recipe.get('key', {}).keys() != {'X'}:

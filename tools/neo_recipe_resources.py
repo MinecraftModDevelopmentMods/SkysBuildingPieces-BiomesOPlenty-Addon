@@ -80,7 +80,7 @@ def advancement(value, extra):
             ingredients.update(items)
         names = sorted(ingredients)
         tag = "recipe_materials/" + hashlib.sha256("\n".join(names).encode()).hexdigest()[:16]
-        path = "data/skysbuildingpiecesbop/tags/items/" + tag + ".json"
+        path = "data/skysbuildingpiecesbop/tags/item/" + tag + ".json"
         extra[path] = {"replace": False, "values": [{"id": item, "required": False} for item in names]}
         result["criteria"][criterion]["conditions"]["items"] = [{"items": "#skysbuildingpiecesbop:" + tag}]
     result[CONDITIONS] = [{"type": "neoforge:or", "values": guards}]
@@ -89,6 +89,6 @@ def advancement(value, extra):
 
 def convert(resources):
     extra = {}
-    outputs = {path: (advancement(value, extra) if "/advancements/" in path else recipe(value))
+    outputs = {path: (advancement(value, extra) if "/advancement/" in path else recipe(value))
                for path, value in resources.items()}
     return outputs | extra

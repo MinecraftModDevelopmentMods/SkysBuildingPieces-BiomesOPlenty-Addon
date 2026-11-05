@@ -159,7 +159,7 @@ configurations {
 
 def coreLock = new Properties()
 file('gradle/core-dependency.properties').withInputStream { coreLock.load(it) }
-def coreDirectory = file(providers.gradleProperty('buildingPiecesCoreDir').getOrElse('../../SkysBuildingPieces1206NEO/SkysBuildingPieces'))
+def coreDirectory = file(providers.gradleProperty('buildingPiecesCoreDir').getOrElse('../../SkysBuildingPieces1211NEO/SkysBuildingPieces'))
 def localCoreVersion = providers.gradleProperty('buildingPiecesCoreVersion')
 if (localCoreVersion.isPresent() && (System.getenv('CI') == 'true' || !providers.gradleProperty('buildingPiecesCoreDir').isPresent()))
     throw new GradleException('The core-version override is local only and requires an explicit core directory; it is not permitted in CI.')
@@ -363,11 +363,11 @@ tasks.register('verifyReleaseMetadata') {
                 project.version.toString().tokenize('.').last() != target) {
             throw new GradleException('The add-on version must end with the Minecraft and loader target')
         }
-        if (project.minecraft_version != '1.20.6' || project.neo_version != '20.6.139' ||
+        if (project.minecraft_version != '1.21.1' || project.neo_version != '21.1.247' ||
                 project.loader_name != 'neoforge' || project.loader_code != '2' ||
                 project.java_version != '21' || project.java_toolchain_version != '21.0.7+6' ||
                 project.mod_id != 'skysbuildingpiecesbop') {
-            throw new GradleException('Unexpected 1.20.6 release metadata')
+            throw new GradleException('Unexpected 1.21.1 release metadata')
         }
     }
 }
@@ -398,8 +398,8 @@ tasks.register('verifyReleaseArtifacts') {
              'assets/skysbuildingpiecesbop/blockstates/jelled_poison.json',
              'zone/moddev/mc/skysbuildingpiecesbop/RetiredDecorations.class',
              'zone/moddev/mc/skysbuildingpiecesbop/basket/BasketItem.class',
-             'data/skysbuildingpiecesbop/recipes/flower_basket.json',
-             'data/skysbuildingpiecesbop/loot_tables/blocks/jelled_poison.json',
+             'data/skysbuildingpiecesbop/recipe/flower_basket.json',
+             'data/skysbuildingpiecesbop/loot_table/blocks/jelled_poison.json',
              'assets/skysbuildingpiecesbop/catalogue/legacy_world_states.json',
              'assets/skysbuildingpiecesbop/catalogue/legacy_biomes.json',
              'assets/skysbuildingpiecesbop/catalogue/legacy_items.json',

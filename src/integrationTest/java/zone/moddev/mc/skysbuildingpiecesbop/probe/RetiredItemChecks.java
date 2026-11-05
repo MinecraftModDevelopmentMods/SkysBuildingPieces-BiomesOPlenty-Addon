@@ -37,7 +37,7 @@ public final class RetiredItemChecks {
                 require(BasketChecks.hidden(LegacyItemRecovery.HOLDERS[entryIndex], world), "holder is hidden");
             }
 
-            Item target = BuiltInRegistries.ITEM.get(new ResourceLocation(LegacyItemRecovery.target(entryIndex)));
+            Item target = BuiltInRegistries.ITEM.get(ResourceLocation.parse(LegacyItemRecovery.target(entryIndex)));
 
             for (String registryId : new String[] { "biomesoplenty:" + legacyIds[entryIndex],
                     BuiltInRegistries.ITEM.getKey(LegacyItemRecovery.HOLDERS[entryIndex]).toString() }) {

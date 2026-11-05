@@ -178,7 +178,7 @@ public final class NamedBopRecovery {
             }
 
             String target = BIOMES.getOrDefault(source, source);
-            Biome biome = biomeRegistry().get(new ResourceLocation(target));
+            Biome biome = biomeRegistry().get(ResourceLocation.parse(target));
 
             if (biome == null) {
                 throw new IllegalStateException("No safe named BOP biome replacement for " + source);
@@ -308,7 +308,7 @@ public final class NamedBopRecovery {
                     }
                 }
                 String target = ITEMS.get(tag.getString("id"));
-                Item item = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(target)).orElse(null);
+                Item item = BuiltInRegistries.ITEM.getOptional(ResourceLocation.parse(target)).orElse(null);
 
                 if (item == null || item == Items.AIR) {
                     throw new IllegalStateException("Missing named BOP item replacement: " + target);
@@ -334,7 +334,7 @@ public final class NamedBopRecovery {
 
                 // Resolve names at chunk read against the live registry.
                 biomes.forEach((source, target) -> {
-                    Biome biome = biomeRegistry().get(new ResourceLocation(target));
+                    Biome biome = biomeRegistry().get(ResourceLocation.parse(target));
                     int currentId = biome == null ? -1 : biomeRegistry().getId(biome);
 
                     if (currentId < 0) {
@@ -536,7 +536,7 @@ public final class NamedBopRecovery {
     }
 
     private static void rewriteState(CompoundTag saved, String target) {
-        Block block = BuiltInRegistries.BLOCK.getOptional(new ResourceLocation(target)).orElse(null);
+        Block block = BuiltInRegistries.BLOCK.getOptional(ResourceLocation.parse(target)).orElse(null);
 
         if (block == null || block == Blocks.AIR) {
             throw new IllegalStateException("Missing named BOP block replacement: " + target);
@@ -604,10 +604,10 @@ public final class NamedBopRecovery {
     }
 
     static void registerBlockAliases() {
-        BLOCKS.forEach((former, target) -> BopRegistryAliases.block(former, new ResourceLocation(target)));
+        BLOCKS.forEach((former, target) -> BopRegistryAliases.block(former, ResourceLocation.parse(target)));
     }
 
     static void registerItemAliases() {
-        ITEMS.forEach((former, target) -> BopRegistryAliases.item(former, new ResourceLocation(target)));
+        ITEMS.forEach((former, target) -> BopRegistryAliases.item(former, ResourceLocation.parse(target)));
     }
 }

@@ -35,7 +35,7 @@ public final class LegacyItemRecovery {
             HOLDERS[holderIndex] = new Item(new Item.Properties()) {
                 @Override
                 public net.minecraft.network.chat.Component getName(ItemStack stack) {
-                    Item target = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(TARGET[targetIndex])).orElse(null);
+                    Item target = BuiltInRegistries.ITEM.getOptional(ResourceLocation.parse(TARGET[targetIndex])).orElse(null);
 
                     return target == null || target == net.minecraft.world.item.Items.AIR
                             ? net.minecraft.network.chat.Component.translatable(
@@ -266,7 +266,7 @@ public final class LegacyItemRecovery {
             throw invalid("malformed saved item data for " + old.getString("id"));
         }
 
-        Item target = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(TARGET[legacyItemIndex])).orElse(null);
+        Item target = BuiltInRegistries.ITEM.getOptional(ResourceLocation.parse(TARGET[legacyItemIndex])).orElse(null);
 
         if (target == null || target == net.minecraft.world.item.Items.AIR) {
             throw invalid("replacement " + TARGET[legacyItemIndex] + " is unavailable for " + OLD[legacyItemIndex]
@@ -349,7 +349,7 @@ public final class LegacyItemRecovery {
         if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.ITEM)) return;
         createHolders();
         for (int index = 0; index < HOLDERS.length; index++) {
-            net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(SkysBuildingPiecesBop.ID,
+            net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID,
                     "legacy_" + OLD[index].substring(14)), HOLDERS[index]);
         }
     }

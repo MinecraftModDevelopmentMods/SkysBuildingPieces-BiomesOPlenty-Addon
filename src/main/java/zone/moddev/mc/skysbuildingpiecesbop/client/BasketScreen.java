@@ -9,7 +9,7 @@ import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketContainer;
 
 /** Two basket rows above the player's inventory, using the native chest texture. */
 public final class BasketScreen extends AbstractContainerScreen<BasketContainer> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.parse("textures/gui/container/generic_54.png");
 
     public BasketScreen(BasketContainer basket, Inventory inventory, Component title) {
         super(basket, inventory, title);

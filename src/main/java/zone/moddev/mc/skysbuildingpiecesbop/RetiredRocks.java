@@ -114,7 +114,7 @@ public final class RetiredRocks extends Block {
     public static void blocks(RegisterEvent event) {
         if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.BLOCK)) return;
         BLOCK = new RetiredRocks();
-        net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(SkysBuildingPiecesBop.ID, "retired_rocks"), BLOCK);
+        net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "retired_rocks"), BLOCK);
     }
 
     @SubscribeEvent
@@ -128,7 +128,7 @@ public final class RetiredRocks extends Block {
             VariantItem item = new VariantItem(variant);
 
             ITEMS[variant] = item;
-            net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]), item);
+            net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]), item);
         }
 
         zone.moddev.mc.skysbuildingpieces.api.BuildingPiecesApi.registerStateItems(BLOCK, RetiredRocks::item);
@@ -163,7 +163,7 @@ public final class RetiredRocks extends Block {
         }
 
         boolean visibleInCreativeTab() {
-            Block nativeRock = BuiltInRegistries.BLOCK.getOptional(new ResourceLocation("mineralogy", NAMES[variant])).orElse(null);
+            Block nativeRock = BuiltInRegistries.BLOCK.getOptional(ResourceLocation.fromNamespaceAndPath("mineralogy", NAMES[variant])).orElse(null);
             return nativeRock == null || nativeRock == net.minecraft.world.level.block.Blocks.AIR;
         }
 

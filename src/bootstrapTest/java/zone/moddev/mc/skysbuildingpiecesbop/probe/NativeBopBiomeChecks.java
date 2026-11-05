@@ -52,8 +52,8 @@ public final class NativeBopBiomeChecks {
             invoke("finish", root);
             Registry<net.minecraft.world.level.biome.Biome> current = server.registryAccess()
                     .registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
-            int bog = current.getId(current.get(new ResourceLocation("biomesoplenty:bog")));
-            int grassland = current.getId(current.get(new ResourceLocation("biomesoplenty:grassland")));
+            int bog = current.getId(current.get(ResourceLocation.parse("biomesoplenty:bog")));
+            int grassland = current.getId(current.get(ResourceLocation.parse("biomesoplenty:grassland")));
             int[] recovered = root.getCompound("Level").getIntArray("Biomes");
             if (bog < 0 || grassland < 0 || recovered.length != cells.length) {
                 throw new AssertionError("The active registry is missing the expected BOP biomes");

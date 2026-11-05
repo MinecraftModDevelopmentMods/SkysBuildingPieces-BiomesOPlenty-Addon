@@ -273,11 +273,13 @@ final class ForwardUpgradeChecks {
 
         ItemStack shovel = ((ChestBlockEntity) world.getBlockEntity(
                 SourceNeighbourChecks.containerPosition(world, shovelPosition))).getItem(0);
+        var efficiency = world.registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.ENCHANTMENT)
+                .getHolderOrThrow(net.minecraft.world.item.enchantment.Enchantments.EFFICIENCY);
 
         require(shovel.getItem() == net.minecraft.world.item.Items.DIAMOND_SHOVEL && shovel.getDamageValue() == 17
                 && shovel.getHoverName().getString().equals("A saved slope shovel")
                 && net.minecraft.world.item.enchantment.EnchantmentHelper
-                        .getItemEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.EFFICIENCY, shovel) == 3,
+                        .getItemEnchantmentLevel(efficiency, shovel) == 3,
                 "Saved shovel identity, damage, name or enchantment changed");
         require(state.blocks == 17 && state.items == 31 && state.chunks == 7, "Existing vanilla totals changed");
 

@@ -2,15 +2,17 @@ package zone.moddev.mc.skysbuildingpiecesbop.basket;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
-
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.CactusBlock;
+import net.minecraft.world.level.block.SugarCaneBlock;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.CustomData;
-import net.neoforged.neoforge.common.IPlantable;
 import net.neoforged.neoforge.common.IShearable;
 
 /** A basket keeps its inventory on the owning stack, including when it is dropped. */
@@ -44,13 +46,15 @@ public final class BasketInventory extends SimpleContainer {
     }
 
     public static boolean accepts(ItemStack stack) {
-        if (stack.isEmpty() || stack.getItem() instanceof BasketItem) {
+        if (stack.isEmpty() || !(stack.getItem() instanceof BlockItem item)) {
             return false;
         }
 
-        Block block = Block.byItem(stack.getItem());
-
-        return block instanceof IPlantable || block instanceof BonemealableBlock || block instanceof IShearable;
+        Block block = item.getBlock();
+        // Cactus and sugar cane grow without bonemeal, but still belong in the basket.
+        return block instanceof BushBlock || block instanceof BonemealableBlock
+                || block instanceof CactusBlock || block instanceof SugarCaneBlock
+                || block instanceof IShearable;
     }
 
     @Override

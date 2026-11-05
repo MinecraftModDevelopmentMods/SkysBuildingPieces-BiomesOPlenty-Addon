@@ -90,7 +90,7 @@ final class NamedRecoveryChecks {
         net.minecraft.world.item.ItemStack stack = BopProbeItems.read(stored);
         require(!stack.isEmpty() && stack.getCount() == 7 && stored.getByte("Slot") == 4
                         && !stored.contains("Damage")
-                        && new net.minecraft.resources.ResourceLocation("biomesoplenty:dead_grass")
+                        && net.minecraft.resources.ResourceLocation.parse("biomesoplenty:dead_grass")
                                 .equals(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()))
                         && "From the old root".equals(BopProbeItems.custom(stack).getString("custom_data")),
                 "Legacy root item lost its identity, quantity, slot or saved data: " + stored);
@@ -333,7 +333,7 @@ final class NamedRecoveryChecks {
 
             net.minecraft.world.level.biome.Biome target = net.neoforged.neoforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
                     .registryOrThrow(net.minecraft.core.registries.Registries.BIOME)
-                    .get(new net.minecraft.resources.ResourceLocation("biomesoplenty:undergrowth"));
+                    .get(net.minecraft.resources.ResourceLocation.parse("biomesoplenty:undergrowth"));
             int targetId = net.neoforged.neoforge.server.ServerLifecycleHooks.getCurrentServer().registryAccess()
                             .registryOrThrow(net.minecraft.core.registries.Registries.BIOME).getId(target);
 

@@ -63,17 +63,21 @@ public final class BasketChecks {
             }
 
             net.minecraft.world.item.crafting.CraftingRecipe recipe = world
-                    .getRecipeManager().getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING, crafting, world)
+                    .getRecipeManager().getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING, crafting.asCraftInput(), world)
                     .map(net.minecraft.world.item.crafting.RecipeHolder::value).orElse(null);
 
-            require(recipe != null && recipe.assemble(crafting, world.registryAccess()).getItem() == Baskets.ITEM
-                    && recipe.assemble(crafting, world.registryAccess()).getCount() == 1, "real six-stick crafting recipe");
+            require(recipe != null && recipe.assemble(crafting.asCraftInput(), world.registryAccess()).getItem() == Baskets.ITEM
+                    && recipe.assemble(crafting.asCraftInput(), world.registryAccess()).getCount() == 1, "real six-stick crafting recipe");
             require(new ItemStack(Baskets.ITEM).getMaxStackSize() == 1, "one basket per stack");
             if (net.neoforged.fml.loading.FMLEnvironment.dist == net.neoforged.api.distmarker.Dist.CLIENT) {
                 require(hidden(Baskets.HOLDER, world), "hidden recovery item");
             }
             require(BasketInventory.accepts(new ItemStack(Blocks.OAK_SAPLING)), "saplings accepted");
             require(BasketInventory.accepts(new ItemStack(Blocks.OAK_LEAVES)), "leaves accepted");
+            require(BasketInventory.accepts(new ItemStack(Blocks.CACTUS)), "cactus accepted");
+            require(BasketInventory.accepts(new ItemStack(Blocks.SUGAR_CANE)), "sugar cane accepted");
+            require(BasketInventory.accepts(new ItemStack(Blocks.BAMBOO)), "bamboo accepted");
+            require(!BasketInventory.accepts(new ItemStack(Blocks.STONE)), "ordinary blocks rejected");
             require(!BasketInventory.accepts(new ItemStack(Items.DIAMOND)), "non-plants rejected");
             require(BasketInventory.accepts(new ItemStack(Items.WHEAT_SEEDS)),
                     "native crop seed block-items retain plant eligibility");

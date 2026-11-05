@@ -39,7 +39,7 @@ public final class BopRegistryAliases {
     }
 
     private static void register(Registry<?> registry, String name, ResourceLocation target) {
-        ResourceLocation former = new ResourceLocation(name);
+        ResourceLocation former = ResourceLocation.parse(name);
         if (!registry.containsKey(former) && registry.containsKey(target)) {
             LegacyRegistryAliases.register(registry, former, target);
         }

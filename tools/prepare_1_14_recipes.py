@@ -340,10 +340,10 @@ def main():
     for path in args.native_jar:
         with ZipFile(path) as archive:
             for name in archive.namelist():
-                if name.startswith('data/') and '/recipes/' in name and name.endswith('.json'):
+                if name.startswith('data/') and '/recipe/' in name and name.endswith('.json'):
                     native.append(json.loads(archive.read(name)))
-                if name.startswith('data/') and '/tags/items/' in name and name.endswith('.json'):
-                    identifier = name.split('/')[1] + ':' + name.split('/tags/items/', 1)[1][:-5]
+                if name.startswith('data/') and '/tags/item/' in name and name.endswith('.json'):
+                    identifier = name.split('/')[1] + ':' + name.split('/tags/item/', 1)[1][:-5]
                     data = json.loads(archive.read(name))
                     if data.get('replace', False):
                         tags[identifier] = data['values']
@@ -378,14 +378,14 @@ def main():
     # their resources. Advancement identities keep the add-on namespace.
     outputs = {}
     for identity, recipe in recipes.items():
-        outputs['data/skysbuildingpieces/recipes/' + identity + '.json'] = recipe
+        outputs['data/skysbuildingpieces/recipe/' + identity + '.json'] = recipe
     for identity, advancement in advancements.items():
-        outputs['data/skysbuildingpiecesbop/advancements/' + identity + '.json'] = advancement
-    outputs['data/skysbuildingpiecesbop/recipes/flower_basket.json'] = {
+        outputs['data/skysbuildingpiecesbop/advancement/' + identity + '.json'] = advancement
+    outputs['data/skysbuildingpiecesbop/recipe/flower_basket.json'] = {
         'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': [' S ', 'S S', 'SSS'],
         'key': {'S': {'tag': 'forge:rods/wooden'}},
         'result': {'item': 'skysbuildingpiecesbop:flower_basket'}}
-    outputs['data/skysbuildingpiecesbop/advancements/recipes/flower_basket.json'] = {
+    outputs['data/skysbuildingpiecesbop/advancement/recipes/flower_basket.json'] = {
         'criteria': {
             'has_sticks': {'trigger': 'minecraft:inventory_changed',
                            'conditions': {'items': [{'tag': 'forge:rods/wooden'}]}},
@@ -394,13 +394,13 @@ def main():
         'requirements': [['has_sticks', 'has_the_recipe']],
         'rewards': {'recipes': ['skysbuildingpiecesbop:flower_basket']}}
     for name in ('gabbro', 'limestone', 'limestone_smooth', 'shale', 'shale_smooth', 'siltstone', 'siltstone_smooth'):
-        outputs['data/skysbuildingpiecesbop/recipes/restore_' + name + '.json'] = {
+        outputs['data/skysbuildingpiecesbop/recipe/restore_' + name + '.json'] = {
             'type': 'minecraft:crafting_shapeless', 'category': 'building', 'conditions': [exists('mineralogy:' + name)],
             'ingredients': [{'item': 'skysbuildingpiecesbop:retired_' + name}],
             'result': {'item': 'mineralogy:' + name}}
         identity = 'skysbuildingpiecesbop:restore_' + name
         ingredient = 'skysbuildingpiecesbop:retired_' + name
-        outputs['data/skysbuildingpiecesbop/advancements/recipes/restore_' + name + '.json'] = {
+        outputs['data/skysbuildingpiecesbop/advancement/recipes/restore_' + name + '.json'] = {
             'conditions': [exists('mineralogy:' + name)],
             'criteria': {
                 'has_ingredient': {'trigger': 'minecraft:inventory_changed',
@@ -408,7 +408,7 @@ def main():
                 'has_the_recipe': {'trigger': 'minecraft:recipe_unlocked', 'conditions': {'recipe': identity}}},
             'requirements': [['has_ingredient', 'has_the_recipe']], 'rewards': {'recipes': [identity]}}
     from neo_recipe_resources import convert
-    outputs = convert({relative: (native_advancement(data) if '/advancements/' in relative else native_recipe(data))
+    outputs = convert({relative: (native_advancement(data) if '/advancement/' in relative else native_recipe(data))
                        for relative, data in outputs.items()})
     manifest = args.resources.parent / 'recipe-book/native-1.14-generated.json'
     previous = json.loads(manifest.read_text(encoding='utf-8')) if manifest.is_file() else []

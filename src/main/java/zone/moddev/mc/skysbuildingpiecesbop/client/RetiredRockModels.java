@@ -3,6 +3,10 @@ package zone.moddev.mc.skysbuildingpiecesbop.client;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketData;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.bus.api.IEventBus;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.Baskets;
@@ -24,9 +28,10 @@ public final class RetiredRockModels {
 
     private static void setup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            for (net.minecraft.world.item.Item basket : new net.minecraft.world.item.Item[] {Baskets.ITEM, Baskets.HOLDER}) {
-                net.minecraft.client.renderer.item.ItemProperties.register(basket, new net.minecraft.resources.ResourceLocation("filled"),
-                        (stack, world, entity, seed) -> !zone.moddev.mc.skysbuildingpiecesbop.basket.BasketData.customData(stack).getList("Items", 10).isEmpty() ? 1 : 0);
+            for (Item basket : new Item[] {Baskets.ITEM, Baskets.HOLDER}) {
+                ItemProperties.register(basket, ResourceLocation.withDefaultNamespace("filled"),
+                        (stack, world, entity, seed) -> BasketData.customData(stack).getList("Items", 10).isEmpty()
+                                ? 0 : 1);
             }
             ItemBlockRenderTypes.setRenderLayer(RetiredDecorations.STONE_FORMATIONS, RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(RetiredDecorations.JELLED_POISON, RenderType.translucent());

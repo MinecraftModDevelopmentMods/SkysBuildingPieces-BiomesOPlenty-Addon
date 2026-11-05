@@ -1,6 +1,6 @@
 # Existing worlds
 
-## Moving to Minecraft 1.20.6
+## Moving to Minecraft 1.21.1
 
 Old maple and autumn foliage and saplings move to the corresponding red,
 orange or yellow maple forms. Pots keep their plants where an equivalent
@@ -8,8 +8,8 @@ exists; potted wildflowers become potted lavender. Existing Clover Patch,
 Lavender Forest and Seasonal Orchard biome names become Grassland, Lavender
 Field and Orchard. Saved blocks and terrain are left in place.
 
-Use the NeoForge builds of Biomes O' Plenty 18.4.0.8, TerraBlender 3.5.0.5
-and GlitchCore 1.1.0.10. Test a backup before opening a world from an earlier
+Use the NeoForge builds of Biomes O' Plenty 21.1.0.14, TerraBlender 4.1.0.8
+and GlitchCore 2.1.0.2. Test a backup before opening a world from an earlier
 loader or game version.
 
 ## Moving to Minecraft 1.20.1

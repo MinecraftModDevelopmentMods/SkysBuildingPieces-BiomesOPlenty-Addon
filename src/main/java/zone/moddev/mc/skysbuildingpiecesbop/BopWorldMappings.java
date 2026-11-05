@@ -50,7 +50,7 @@ public final class BopWorldMappings {
         }
 
         String savedTarget = NamedBopRecovery.currentBlockId(target.get("id").getAsString());
-        ResourceLocation identity = new ResourceLocation(savedTarget.equals("minecraft:grass")
+        ResourceLocation identity = ResourceLocation.parse(savedTarget.equals("minecraft:grass")
                 ? "minecraft:short_grass" : savedTarget);
         Block block = BuiltInRegistries.BLOCK.getOptional(identity).orElse(null);
 

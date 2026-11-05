@@ -36,13 +36,13 @@ public final class Baskets {
     public static void items(RegisterEvent event) {
         ITEM = new BasketItem(false);
         HOLDER = new BasketItem(true);
-        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(BasketData.ID), ITEM);
-        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(BasketData.HOLDER), HOLDER);
+        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, ResourceLocation.parse(BasketData.ID), ITEM);
+        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, ResourceLocation.parse(BasketData.HOLDER), HOLDER);
     }
 
     public static void containers(RegisterEvent event) {
         TYPE = IMenuTypeExtension.create(BasketContainer::new);
-        net.minecraft.core.Registry.register(BuiltInRegistries.MENU, new ResourceLocation(SkysBuildingPiecesBop.ID, "flower_basket"), TYPE);
+        net.minecraft.core.Registry.register(BuiltInRegistries.MENU, ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "flower_basket"), TYPE);
     }
 
     public static void creativeContents(BuildCreativeModeTabContentsEvent event) {

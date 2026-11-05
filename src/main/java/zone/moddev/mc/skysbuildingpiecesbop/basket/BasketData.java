@@ -157,7 +157,7 @@ public final class BasketData {
         Item item;
 
         try {
-            item = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(isBasket(registryId) ? ID : registryId)).orElse(null);
+            item = BuiltInRegistries.ITEM.getOptional(ResourceLocation.parse(isBasket(registryId) ? ID : registryId)).orElse(null);
         } catch (RuntimeException failure) {
             throw invalid(where + " has an invalid item ID: " + registryId);
         }

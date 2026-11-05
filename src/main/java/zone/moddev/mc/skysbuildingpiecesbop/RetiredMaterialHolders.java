@@ -45,7 +45,7 @@ public final class RetiredMaterialHolders {
         for (int index = 0; index < BLOCKS.length; index++) {
             String id = new String[] { "legacy_bop_stone", "legacy_bop_crag_rock", "legacy_bop_stone_formations",
                     "legacy_bop_jelled_poison", "legacy_bop_tree_moss" }[index];
-            net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(SkysBuildingPiecesBop.ID, id), BLOCKS[index]);
+            net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, id), BLOCKS[index]);
         }
     }
 
