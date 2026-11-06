@@ -126,14 +126,14 @@ public final class BasketGuiClientChecks {
         } else if (stage == 1 && minecraft.player.getMainHandItem().getItem() == Baskets.ITEM) {
             stage = 2;
             minecraft.gameMode.useItem(minecraft.player, InteractionHand.MAIN_HAND);
-        } else if (stage == 2 && minecraft.screen instanceof BasketScreen) {
+        } else if (stage == 2 && minecraft.gui.screen() instanceof BasketScreen) {
             stage = 3;
             minecraft.gameMode.handleContainerInput(minecraft.player.containerMenu.containerId, 18, 0, ContainerInput.QUICK_MOVE,
                     minecraft.player);
         } else if (stage == 3 && depositConfirmed && minecraft.player.containerMenu instanceof BasketContainer
                 && ((BasketContainer) minecraft.player.containerMenu).basket.getItem(0).getCount() == 5) {
             net.minecraft.client.Screenshot.grab(minecraft.gameDirectory, "flower-basket-gui.png",
-                    minecraft.getMainRenderTarget(), 1, message -> {
+                    minecraft.gameRenderer.mainRenderTarget(), 1, message -> {
                     });
             minecraft.gameMode.handleContainerInput(minecraft.player.containerMenu.containerId, 45, 1, ContainerInput.THROW,
                     minecraft.player);
@@ -181,7 +181,7 @@ public final class BasketGuiClientChecks {
                 stage = 6;
                 minecraft.gameMode.useItem(minecraft.player, InteractionHand.OFF_HAND);
             }
-        } else if (stage == 6 && minecraft.screen instanceof BasketScreen) {
+        } else if (stage == 6 && minecraft.gui.screen() instanceof BasketScreen) {
             stage = 7;
             minecraft.gameMode.handleContainerInput(minecraft.player.containerMenu.containerId, 0, 0, ContainerInput.QUICK_MOVE,
                     minecraft.player);
@@ -239,7 +239,7 @@ public final class BasketGuiClientChecks {
             serverChecked = false;
             stage = 9;
             minecraft.player.respawn();
-            minecraft.setScreen(null);
+            minecraft.gui.setScreen(null);
         } else if (stage == 9 && minecraft.player.isAlive() && !respawnChecked) {
             respawnChecked = true;
             minecraft.getSingleplayerServer().execute(() -> {

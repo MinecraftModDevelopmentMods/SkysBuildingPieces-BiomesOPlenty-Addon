@@ -1,5 +1,11 @@
 # Existing worlds
 
+## Moving to Minecraft 26.2
+
+Brimstone and its shapes carry forward as orpiment. Thermal calcite and its
+vent carry forward as sphalerite and potent sphalerite. Saved slab, stair and
+wall shapes keep their orientation.
+
 ## Moving to Minecraft 26.1.2
 
 Use the NeoForge builds of Biomes O' Plenty 26.1.2.0.22, TerraBlender

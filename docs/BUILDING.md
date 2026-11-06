@@ -1,7 +1,7 @@
 # Building from source
 
 Use Temurin 25.0.3+9. The wrapper runs Gradle 9.2.1 and NeoGradle 7.1.38
-for Minecraft 26.1.2 and NeoForge 26.1.2.94.
+for Minecraft 26.2 and NeoForge 26.2.0.45-beta.
 
 Check out the Building Pieces commit in `gradle/core-dependency.properties`
 and run `gradlew assemble` there. Put the core checkout alongside this

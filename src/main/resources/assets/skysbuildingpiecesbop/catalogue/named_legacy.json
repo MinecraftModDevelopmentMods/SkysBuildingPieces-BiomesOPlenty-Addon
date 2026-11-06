@@ -179,6 +179,19 @@
     "biomesoplenty:grassland": "biomesoplenty:field",
     "biomesoplenty:jacaranda_glade": "biomesoplenty:lavender_field"
   },
+  "renamed_26_2": {
+    "biomesoplenty:brimstone": "biomesoplenty:orpiment",
+    "biomesoplenty:brimstone_brick_slab": "biomesoplenty:orpiment_brick_slab",
+    "biomesoplenty:brimstone_brick_stairs": "biomesoplenty:orpiment_brick_stairs",
+    "biomesoplenty:brimstone_brick_wall": "biomesoplenty:orpiment_brick_wall",
+    "biomesoplenty:brimstone_bricks": "biomesoplenty:orpiment_bricks",
+    "biomesoplenty:brimstone_bud": "biomesoplenty:orpiment_bud",
+    "biomesoplenty:brimstone_cluster": "biomesoplenty:orpiment_cluster",
+    "biomesoplenty:brimstone_fumarole": "biomesoplenty:orpiment_fumarole",
+    "biomesoplenty:chiseled_brimstone_bricks": "biomesoplenty:chiseled_orpiment",
+    "biomesoplenty:thermal_calcite": "biomesoplenty:sphalerite",
+    "biomesoplenty:thermal_calcite_vent": "biomesoplenty:potent_sphalerite"
+  },
   "renamed_1_21_11": {
     "biomesoplenty:bush": "minecraft:bush",
     "biomesoplenty:orange_maple_leaf_pile": "biomesoplenty:orange_maple_leaf_litter",

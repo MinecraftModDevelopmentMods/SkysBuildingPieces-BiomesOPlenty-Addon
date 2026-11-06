@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.4.2602002
+
+- Updated the add-on for Minecraft 26.2 on NeoForge.
+- Saved brimstone and thermal calcite pieces use their closest current BOP blocks.
+
 ## 0.2.4.2601022
 
 - Updated the add-on for Minecraft 26.1.2 on NeoForge.

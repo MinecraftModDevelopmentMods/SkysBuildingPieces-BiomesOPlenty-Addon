@@ -159,7 +159,7 @@ configurations {
 
 def coreLock = new Properties()
 file('gradle/core-dependency.properties').withInputStream { coreLock.load(it) }
-def coreDirectory = file(providers.gradleProperty('buildingPiecesCoreDir').getOrElse('../../SkysBuildingPieces2612NEO/SkysBuildingPieces'))
+def coreDirectory = file(providers.gradleProperty('buildingPiecesCoreDir').getOrElse('../../SkysBuildingPieces262NEO/SkysBuildingPieces'))
 def localCoreVersion = providers.gradleProperty('buildingPiecesCoreVersion')
 if (localCoreVersion.isPresent() && (System.getenv('CI') == 'true' || !providers.gradleProperty('buildingPiecesCoreDir').isPresent()))
     throw new GradleException('The core-version override is local only and requires an explicit core directory; it is not permitted in CI.')
@@ -357,17 +357,21 @@ def releaseFiles = provider {
 tasks.register('verifyReleaseMetadata') {
     group = 'verification'
     doLast {
-        def parts = project.minecraft_version.toString().split('\\.')
-        String target = parts[0] + parts[1].padLeft(2, '0') + parts[2].padLeft(2, '0') + project.loader_code
+        def parts = project.minecraft_version.toString().split('\\.', -1)
+        if (!(parts.length in 2..3) || !parts.every { it ==~ /\d+/ }) {
+            throw new GradleException('Minecraft version must have two or three numeric components')
+        }
+        String patch = parts.length == 3 ? parts[2] : '0'
+        String target = parts[0] + parts[1].padLeft(2, '0') + patch.padLeft(2, '0') + project.loader_code
         if (!(project.version.toString() ==~ /[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/) ||
                 project.version.toString().tokenize('.').last() != target) {
             throw new GradleException('The add-on version must end with the Minecraft and loader target')
         }
-        if (project.minecraft_version != '26.1.2' || project.neo_version != '26.1.2.94' ||
+        if (project.minecraft_version != '26.2' || project.neo_version != '26.2.0.45-beta' ||
                 project.loader_name != 'neoforge' || project.loader_code != '2' ||
                 project.java_version != '25' || project.java_toolchain_version != '25.0.3+9' ||
                 project.mod_id != 'skysbuildingpiecesbop') {
-            throw new GradleException('Unexpected 26.1.2 release metadata')
+            throw new GradleException('Unexpected 26.2 release metadata')
         }
     }
 }

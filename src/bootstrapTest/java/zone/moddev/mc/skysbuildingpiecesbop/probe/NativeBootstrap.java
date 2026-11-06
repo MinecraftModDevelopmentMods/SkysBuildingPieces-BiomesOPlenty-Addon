@@ -60,6 +60,12 @@ public final class NativeBootstrap {
     }
 
     private void tick(net.neoforged.neoforge.event.tick.ServerTickEvent.Post event) {
+        if (event.getServer() == biomeAuditServer && --biomeAuditSaveTicks == 0) {
+            biomeAuditServer.tickRateManager().setFrozen(false);
+            biomeAuditServer.halt(false);
+            biomeAuditServer = null;
+            return;
+        }
         if (recipeServer != null && System.nanoTime() >= nextRecipeBatch) {
             finishRecipeBatch();
             return;
@@ -179,8 +185,10 @@ public final class NativeBootstrap {
                         net.minecraft.CrashReport.forThrowable(failure, "BOP client verification failed"));
             }
         } finally {
-            if (!client && success && Boolean.getBoolean("skysbuildingpieces.bopBiomeOnly")) {
-                // Bulk biome reads queue chunk work. Let normal server ticks drain it before saving at shutdown.
+            if (!client && success && (Boolean.getBoolean("skysbuildingpieces.bopBiomeOnly")
+                    || new java.io.File("forward-biomes.json").isFile())) {
+                // Let pending chunk work finish without advancing the fixture's plant or fluid ticks.
+                server.tickRateManager().setFrozen(true);
                 biomeAuditServer = server;
                 biomeAuditSaveTicks = 40;
             } else if ((!client || !success) && recipeServer == null) {
