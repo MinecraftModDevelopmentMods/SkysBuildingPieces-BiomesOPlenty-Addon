@@ -53,7 +53,7 @@ final class SourceFluidChecks {
                                 .digest(bytes)).equals(chunk.get("sha256").getAsString()), "Saved water chunk changed");
                         CompoundTag source = NbtIo.readCompressed(new ByteArrayInputStream(bytes), net.minecraft.nbt.NbtAccounter.unlimitedHeap());
                         CompoundTag before = source.copy();
-                        CompoundTag fixed = storage.upgradeChunkTag(source.copy(), 0, BopProbeItems.overworldUpgradeContext());
+                        CompoundTag fixed = BopProbeItems.upgradeChunk(storage, source);
                         require(source.equals(before), "The independent source water tag changed");
                         for (JsonElement positionEntry : chunk.getAsJsonArray("positions")) {
                             JsonObject row = positionEntry.getAsJsonObject();

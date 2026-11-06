@@ -1,5 +1,12 @@
 # Existing worlds
 
+## Moving to Minecraft 26.1.2
+
+Back up the entire world before upgrading. Update the core mod and this add-on
+together. Use Biomes O' Plenty 26.1.2.0.22, TerraBlender 26.1.2.0.3 and
+GlitchCore 26.1.2.0.2. Keep the older save and its data folders until you've
+checked your builds, inventories and Flower Baskets in the upgraded copy.
+
 ## Moving to Minecraft 1.21.11
 
 Use Biomes O' Plenty 21.11.0.32, TerraBlender 21.11.0.0 and GlitchCore 21.11.0.4.

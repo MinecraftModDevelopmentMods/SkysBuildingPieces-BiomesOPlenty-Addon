@@ -47,7 +47,7 @@ final class NamedRecoveryChecks {
         try (net.minecraft.world.level.chunk.storage.SimpleRegionStorage storage =
                 new net.minecraft.world.level.chunk.storage.SimpleRegionStorage(new net.minecraft.world.level.chunk.storage.RegionStorageInfo("test", net.minecraft.world.level.Level.OVERWORLD, "chunk"), temporary, server.getFixerUpper(), false, net.minecraft.util.datafix.DataFixTypes.CHUNK)) {
             snapshots.set(null, saved);
-            CompoundTag fixed = storage.upgradeChunkTag(source.copy(), 0, BopProbeItems.overworldUpgradeContext());
+            CompoundTag fixed = BopProbeItems.upgradeChunk(storage, source);
             ListTag sections = fixed.getListOrEmpty("sections");
             require(sections.size() >= 16, "Native chunk conversion did not produce biome sections");
             int cells = 0;

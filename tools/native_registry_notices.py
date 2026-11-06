@@ -8,6 +8,8 @@ import zipfile
 
 
 def expected_mappings(profile):
+    if "forge64_mappings" in profile:
+        return profile["forge64_mappings"]
     if "forge61_mappings" in profile:
         return profile["forge61_mappings"]
     if "forge52_mappings" in profile:
@@ -117,11 +119,12 @@ def bound_empty_capabilities(root, directory, fixture_id):
         for name, expected in proof["original"].items():
             if hashlib.sha256(source.read(name)).hexdigest().upper() != expected:
                 raise ValueError("The empty capability source file changed: " + name)
-    for name, expected in proof["rewritten"].items():
+    # Forge 64 writes namespaced capability data and leaves these old files alone.
+    for name, expected in proof["original"].items():
         target = Path(directory) / "world" / name
         if hashlib.sha256(target.read_bytes()).hexdigest().upper() != expected:
-            raise ValueError("Forge did not rewrite the empty capability record: " + name)
-    return len(proof["original"])
+            raise ValueError("Forge changed the original capability record: " + name)
+    return True
 
 
 def forge61_registry_mappings(root, fixture_id):
@@ -153,7 +156,7 @@ def profile_for(directory):
     if profile is None:
         if not empty_capabilities and not forge61:
             return None
-        return {"mappings": {}, "empty_capabilities_count": empty_capabilities, **forge61}
+        return {"mappings": {}, "forge64_mappings": {}, "empty_capabilities_count": 0, **forge61}
     fixture = root / profile["fixture"]
     sources = {source.get("source_jar_sha256")}
     artifacts = source.get("source_artifacts")
@@ -187,7 +190,8 @@ def profile_for(directory):
         # Keep the historical proofs for data conversion. Only the exact set
         # of registry notices changes with this Forge version.
         profile = {**profile, "forge52_mappings": current["mappings"]}
-    return {**profile, "empty_capabilities_count": empty_capabilities, **forge61}
+    current_mappings = {"forge64_mappings": {}} if forge61 else {}
+    return {**profile, "empty_capabilities_count": 0, **forge61, **current_mappings}
 
 
 def audit_biome_proof(text, profile):

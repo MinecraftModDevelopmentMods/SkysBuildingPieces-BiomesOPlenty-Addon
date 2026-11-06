@@ -6,12 +6,14 @@ import net.minecraft.world.InteractionHand;
 import java.io.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.*;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.eventbus.api.listener.Priority;
 
 import zone.moddev.mc.skysbuildingpieces.probe.ClientStatus;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.*;
@@ -28,12 +30,30 @@ public final class BasketGuiClientChecks {
     private static volatile boolean serverChecked;
     private static volatile boolean depositConfirmed;
     private static volatile boolean deathTriggered;
+    private static ServerPlayer deathOwner;
+    private static int deathDrops = -1;
     private static int throwCheckAt;
     private static volatile boolean offhandMoved;
 
     static void register() {
         TickEvent.ClientTickEvent.Post.BUS.addListener(net.minecraftforge.eventbus.api.listener.Priority.HIGHEST,
                 BasketGuiClientChecks::tick);
+        LivingDropsEvent.BUS.addListener(Priority.LOWEST, (java.util.function.Predicate<LivingDropsEvent>) event -> {
+            if (event.getEntity() == deathOwner) {
+                deathDrops = 0;
+                for (var entity : event.getDrops()) {
+                    ItemStack stack = entity.getItem();
+                    if (stack.getItem() == Baskets.ITEM && BopProbeItems.hasCustom(stack)
+                            && BopProbeItems.custom(stack).getStringOr("TestBasket", "").equals(TEST_BASKET)) {
+                        deathDrops++;
+                        if (new BasketInventory(stack, deathOwner.registryAccess()).getItem(0).getCount() != 3) {
+                            throw new AssertionError("Death lost basket contents");
+                        }
+                    }
+                }
+            }
+            return false;
+        });
     }
 
     public static void tick(TickEvent.ClientTickEvent.Post event) {
@@ -108,14 +128,14 @@ public final class BasketGuiClientChecks {
             minecraft.gameMode.useItem(minecraft.player, InteractionHand.MAIN_HAND);
         } else if (stage == 2 && minecraft.screen instanceof BasketScreen) {
             stage = 3;
-            minecraft.gameMode.handleInventoryMouseClick(minecraft.player.containerMenu.containerId, 18, 0, ClickType.QUICK_MOVE,
+            minecraft.gameMode.handleContainerInput(minecraft.player.containerMenu.containerId, 18, 0, ContainerInput.QUICK_MOVE,
                     minecraft.player);
         } else if (stage == 3 && depositConfirmed && minecraft.player.containerMenu instanceof BasketContainer
                 && ((BasketContainer) minecraft.player.containerMenu).basket.getItem(0).getCount() == 5) {
             net.minecraft.client.Screenshot.grab(minecraft.gameDirectory, "flower-basket-gui.png",
                     minecraft.getMainRenderTarget(), 1, message -> {
                     });
-            minecraft.gameMode.handleInventoryMouseClick(minecraft.player.containerMenu.containerId, 45, 1, ClickType.THROW,
+            minecraft.gameMode.handleContainerInput(minecraft.player.containerMenu.containerId, 45, 1, ContainerInput.THROW,
                     minecraft.player);
             stage = 4;
             throwCheckAt = ticks + 10;
@@ -163,7 +183,7 @@ public final class BasketGuiClientChecks {
             }
         } else if (stage == 6 && minecraft.screen instanceof BasketScreen) {
             stage = 7;
-            minecraft.gameMode.handleInventoryMouseClick(minecraft.player.containerMenu.containerId, 0, 0, ClickType.QUICK_MOVE,
+            minecraft.gameMode.handleContainerInput(minecraft.player.containerMenu.containerId, 0, 0, ContainerInput.QUICK_MOVE,
                     minecraft.player);
         } else if (stage == 7 && !deathTriggered && ticks % 5 == 0
                 && minecraft.player.containerMenu instanceof BasketContainer menuOnClient && menuOnClient.basket.isEmpty()) {
@@ -192,6 +212,7 @@ public final class BasketGuiClientChecks {
                 menu.basket
                         .insert(new ItemStack(net.minecraft.world.level.block.Blocks.OAK_SAPLING, 3));
                 player.getAbilities().instabuild = false;
+                deathOwner = player;
                 player.setHealth(0);
                 player.die(player.damageSources().fellOutOfWorld());
                 deathTriggered = true;
@@ -204,28 +225,12 @@ public final class BasketGuiClientChecks {
             minecraft.getSingleplayerServer().execute(() -> {
                 ServerPlayer player = minecraft.getSingleplayerServer().getPlayerList()
                         .getPlayer(minecraft.player.getUUID());
-                int dropped = 0;
-
-                for (net.minecraft.world.entity.Entity entity : player.level()
-                        .getEntities(net.minecraft.world.entity.EntityType.ITEM, candidate -> true)) {
-                    if (entity instanceof net.minecraft.world.entity.item.ItemEntity) {
-                        ItemStack stack = ((net.minecraft.world.entity.item.ItemEntity) entity).getItem();
-
-                        if (stack.getItem() == Baskets.ITEM && BopProbeItems.hasCustom(stack)
-                                && BopProbeItems.custom(stack).getStringOr("TestBasket", "").equals(TEST_BASKET)) {
-                            dropped++;
-
-                            if (new BasketInventory(stack, BopProbeItems.registries()).getItem(0).getCount() != 3) {
-                                throw new AssertionError("Death lost basket contents");
-                            }
-                        }
-                    }
-                }
-                if (dropped != 1 || player.containerMenu instanceof BasketContainer) {
-                    throw new AssertionError("Death did not close and drop exactly one basket: drops=" + dropped
+                // A drop may leave the client's loaded chunks before the next check.
+                if (deathDrops != 1 || player.containerMenu instanceof BasketContainer) {
+                    throw new AssertionError("Death did not close and drop exactly one basket: drops=" + deathDrops
                             + " container=" + player.containerMenu.getClass().getName());
                 }
-
+                LOGGER.info("BOP_BASKET_DEATH_DROP_PASS identity=" + TEST_BASKET);
                 serverChecked = true;
             });
         } else if (stage == 8 && serverChecked) {

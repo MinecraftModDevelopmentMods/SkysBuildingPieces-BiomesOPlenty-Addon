@@ -23,6 +23,8 @@ public final class NativeBootstrap {
     private BopRecipeAudit recipes;
     private MinecraftServer recipeServer;
     private long nextRecipeBatch;
+    private MinecraftServer biomeAuditServer;
+    private int biomeAuditSaveTicks;
 
     public NativeBootstrap(net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext context) {
         zone.moddev.mc.skysbuildingpieces.probe.PersistenceRegistrationChecks.register(
@@ -31,12 +33,12 @@ public final class NativeBootstrap {
         net.minecraftforge.event.TickEvent.ServerTickEvent.Post.BUS.addListener(this::tick);
         net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent.getBus(context.getModBusGroup())
                 .addListener(BopPersistenceOrderChecks::ready);
-        net.minecraftforge.fml.DistExecutor.runWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> {
+        if (net.minecraftforge.fml.loading.FMLEnvironment.dist == net.minecraftforge.api.distmarker.Dist.CLIENT) {
             new zone.moddev.mc.skysbuildingpieces.probe.ClientProbe().init();
             BasketClientChecks.register();
             BasketGuiClientChecks.register();
             BasketDisconnectClientChecks.register();
-        });
+        }
     }
 
     private void started(ServerStartedEvent event) {
@@ -54,6 +56,11 @@ public final class NativeBootstrap {
     }
 
     private void tick(net.minecraftforge.event.TickEvent.ServerTickEvent.Post event) {
+        if (event.server() == biomeAuditServer && --biomeAuditSaveTicks == 0) {
+            biomeAuditServer.halt(false);
+            biomeAuditServer = null;
+            return;
+        }
         if (recipeServer != null && System.nanoTime() >= nextRecipeBatch) {
             finishRecipeBatch();
             return;
@@ -91,9 +98,9 @@ public final class NativeBootstrap {
             WallRecoveryChecks.run(server);
             NamedRecoveryChecks.run();
             NativeBopBiomeChecks.run(server);
-            require(ModList.get().isLoaded("skysbuildingpieces"), "The core is missing");
-            require(ModList.get().isLoaded("skysbuildingpiecesbop"), "The add-on is missing");
-            require(ModList.get().isLoaded("biomesoplenty"), "BOP is missing");
+            require(ModList.isLoaded("skysbuildingpieces"), "The core is missing");
+            require(ModList.isLoaded("skysbuildingpiecesbop"), "The add-on is missing");
+            require(ModList.isLoaded("biomesoplenty"), "BOP is missing");
 
             Catalogue.Module module = Catalogue.INSTANCE.modules.get("biomesoplenty");
 
@@ -159,13 +166,16 @@ public final class NativeBootstrap {
         } catch (Throwable failure) {
             LOGGER.error("Native BOP verification failed", failure);
             zone.moddev.mc.skysbuildingpieces.probe.ClientStatus.failure = failure;
-            if (client) {
-                net.minecraftforge.fml.DistExecutor.runWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT,
-                        () -> () -> net.minecraft.client.Minecraft.getInstance().delayCrash(
-                                net.minecraft.CrashReport.forThrowable(failure, "BOP client verification failed")));
+            if (client && net.minecraftforge.fml.loading.FMLEnvironment.dist == net.minecraftforge.api.distmarker.Dist.CLIENT) {
+                net.minecraft.client.Minecraft.getInstance().delayCrash(
+                        net.minecraft.CrashReport.forThrowable(failure, "BOP client verification failed"));
             }
         } finally {
-            if ((!client || !success) && recipeServer == null) {
+            if (!client && success && Boolean.getBoolean("skysbuildingpieces.bopBiomeOnly")) {
+                // Bulk biome reads queue chunk work. Let normal server ticks drain it before saving at shutdown.
+                biomeAuditServer = server;
+                biomeAuditSaveTicks = 40;
+            } else if ((!client || !success) && recipeServer == null) {
                 server.halt(false);
             }
         }

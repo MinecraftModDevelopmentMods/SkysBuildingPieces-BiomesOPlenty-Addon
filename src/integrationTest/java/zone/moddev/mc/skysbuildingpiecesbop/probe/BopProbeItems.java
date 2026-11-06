@@ -15,6 +15,12 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import zone.moddev.mc.skysbuildingpieces.probe.NativeProbeItems;
 
 public final class BopProbeItems {
+    static CompoundTag upgradeChunk(net.minecraft.world.level.chunk.storage.SimpleRegionStorage storage,
+            CompoundTag source) {
+        int targetVersion = net.minecraft.SharedConstants.getCurrentVersion().dataVersion().version();
+        return storage.upgradeChunkTag(source.copy(), 0, overworldUpgradeContext(), targetVersion);
+    }
+
     static CompoundTag overworldUpgradeContext() {
         CompoundTag context = new CompoundTag();
         context.putString("dimension", "minecraft:overworld");

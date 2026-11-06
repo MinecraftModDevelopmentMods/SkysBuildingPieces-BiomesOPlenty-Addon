@@ -34,7 +34,8 @@ public final class BasketClientChecks {
         }
 
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.getOverlay() != null) {
+        // The title screen can bake models before the item's components are bound.
+        if (minecraft.getOverlay() != null || minecraft.level == null || minecraft.player == null) {
             return;
         }
         checked = true;
@@ -76,7 +77,8 @@ public final class BasketClientChecks {
         var state = new ItemStackRenderState();
         minecraft.getItemModelResolver().updateForTopItem(state, stack, ItemDisplayContext.GUI,
                 minecraft.level, minecraft.player, 0);
-        TextureAtlasSprite sprite = state.isEmpty() ? null : state.pickParticleIcon(RandomSource.create(0));
+        var material = state.isEmpty() ? null : state.pickParticleMaterial(RandomSource.create(0));
+        TextureAtlasSprite sprite = material == null ? null : material.sprite();
         if (sprite == null || sprite.contents().name().toString().contains("missingno")) {
             throw new AssertionError("Missing basket or recovery item model: " + stack);
         }

@@ -41,28 +41,33 @@ public final class BasketPlayerUpgrade {
 
         ServerLevel world = ServerLifecycleHooks.getCurrentServer()
                 .getLevel(net.minecraft.world.level.Level.OVERWORLD);
-        File players = new File(world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(), "playerdata");
-        int loaded = 0;
-        File[] files = players.listFiles((directory, name) -> name.endsWith(".dat"));
-
-        if (files != null) {
-            for (File file : files) {
-                CompoundTag raw;
-
-                try (InputStream input = new FileInputStream(file)) {
-                    raw = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
+        var server = world.getServer();
+        File legacyPlayers = server.getWorldPath(LevelResource.ROOT).resolve("playerdata").toFile();
+        File currentPlayers = server.getWorldPath(LevelResource.PLAYER_DATA_DIR).toFile();
+        // Read a profile once when Minecraft has already copied it to the new directory.
+        var profiles = new java.util.TreeMap<String, File>();
+        for (File directory : new File[] {legacyPlayers, currentPlayers}) {
+            File[] files = directory.listFiles((parent, name) -> name.endsWith(".dat"));
+            if (files != null) {
+                for (File file : files) {
+                    profiles.put(file.getName(), file);
                 }
-                if (!hasBasket(raw)) {
-                    continue;
-                }
-
-                UUID uuid = UUID.fromString(file.getName().substring(0, file.getName().length() - 4));
-                ServerPlayer player = BopProbeItems.player(world, new GameProfile(uuid, "MigrationTest"));
-
-                BopProbeItems.loadPlayer(player);
-                savePlayer(player);
-                loaded++;
             }
+        }
+        int loaded = 0;
+        for (File file : profiles.values()) {
+            CompoundTag raw;
+            try (InputStream input = new FileInputStream(file)) {
+                raw = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
+            }
+            if (!hasBasket(raw)) {
+                continue;
+            }
+            UUID uuid = UUID.fromString(file.getName().substring(0, file.getName().length() - 4));
+            ServerPlayer player = BopProbeItems.player(world, new GameProfile(uuid, "MigrationTest"));
+            BopProbeItems.loadPlayer(player);
+            savePlayer(player);
+            loaded++;
         }
 
         LOGGER.info("BOP_BASKET_PLAYER_LOADER_PASS profiles=" + loaded);

@@ -53,7 +53,7 @@ final class NativeNamedForwardChecks {
         for (String list : new String[] { "states", "containers", "entities" }) {
             for (JsonElement value : fixture.getAsJsonArray(list)) {
                 JsonObject saved = value.getAsJsonObject();
-                ChunkPos chunk = new ChunkPos(position(saved));
+                ChunkPos chunk = ChunkPos.containing(position(saved));
                 if (deferred.contains(chunk)) {
                     require(list.equals("states"), "A deferred biome chunk contains a saved inventory or entity");
                     continue;
@@ -65,15 +65,15 @@ final class NativeNamedForwardChecks {
             }
         }
         for (ChunkPos chunk : CHUNKS) {
-            world.setChunkForced(chunk.x, chunk.z, true);
-            world.getChunk(chunk.x, chunk.z);
+            world.setChunkForced(chunk.x(), chunk.z(), true);
+            world.getChunk(chunk.x(), chunk.z());
         }
     }
 
     static boolean ready(ServerLevel world) {
         for (ChunkPos chunk : CHUNKS) {
-            if (!world.areEntitiesLoaded(chunk.toLong())
-                    || !world.getChunkSource().isPositionTicking(chunk.toLong())) {
+            if (!world.areEntitiesLoaded(chunk.pack())
+                    || !world.getChunkSource().isPositionTicking(chunk.pack())) {
                 return false;
             }
         }
@@ -87,7 +87,7 @@ final class NativeNamedForwardChecks {
         Set<ChunkPos> deferred = NativeSavedBiomeChecks.deferredChunks();
         for (JsonElement value : fixture.getAsJsonArray("states")) {
             JsonObject saved = value.getAsJsonObject();
-            if (deferred.contains(new ChunkPos(position(saved)))) {
+            if (deferred.contains(ChunkPos.containing(position(saved)))) {
                 require(world.getChunkSource().getChunkNow(position(saved).getX() >> 4,
                         position(saved).getZ() >> 4) == null, "A deferred source chunk was loaded early");
                 continue;
@@ -218,7 +218,7 @@ final class NativeNamedForwardChecks {
         require(PiecesWorldState.get(world).saveTag(new CompoundTag()).equals(
                 TagParser.parseCompoundFully(fixture.get("world_state").getAsString())), "Saved schema or migration counters changed");
         for (ChunkPos chunk : CHUNKS) {
-            world.setChunkForced(chunk.x, chunk.z, false);
+            world.setChunkForced(chunk.x(), chunk.z(), false);
         }
         ForwardUpgradeChecks.checkSavedRecoveryData(world);
         if (!deferred.isEmpty()) {

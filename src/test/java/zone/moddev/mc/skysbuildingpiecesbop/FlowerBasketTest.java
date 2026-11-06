@@ -17,7 +17,7 @@ class FlowerBasketTest {
                 StandardCharsets.UTF_8)).getAsJsonObject();
 
         assertEquals("minecraft:crafting_shaped", json.get("type").getAsString());
-        assertEquals("#forge:rods/wooden", json.getAsJsonObject("key").get("S").getAsString());
+        assertEquals("#c:rods/wooden", json.getAsJsonObject("key").get("S").getAsString());
         assertEquals("skysbuildingpiecesbop:flower_basket", json.getAsJsonObject("result").get("id").getAsString());
 
         StringBuilder pattern = new StringBuilder();

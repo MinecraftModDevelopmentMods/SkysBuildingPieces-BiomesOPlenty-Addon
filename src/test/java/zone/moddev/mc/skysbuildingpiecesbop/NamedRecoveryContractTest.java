@@ -26,9 +26,9 @@ class NamedRecoveryContractTest {
                     Paths.get("src/compatibilityTest/resources/pack.mcmeta")), new HashSet<>(packs));
             for (java.nio.file.Path pack : packs) {
                 JsonObject metadata = read(pack.toString()).getAsJsonObject("pack");
-                assertEquals(94, metadata.get("max_format").getAsInt(), pack.toString());
+                assertEquals(101, metadata.get("max_format").getAsInt(), pack.toString());
                 JsonArray minimum = metadata.getAsJsonArray("min_format");
-                assertEquals(94, minimum.get(0).getAsInt(), pack.toString());
+                assertEquals(101, minimum.get(0).getAsInt(), pack.toString());
                 assertEquals(1, minimum.get(1).getAsInt(), pack.toString());
             }
         }

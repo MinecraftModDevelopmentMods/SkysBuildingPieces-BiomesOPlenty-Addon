@@ -14,7 +14,7 @@ import net.minecraftforge.registries.MissingMappingsEvent;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
@@ -63,7 +63,7 @@ public final class SkysBuildingPiecesBop {
         registration.addListener(LegacyItemRecovery::register);
         registration.addListener(SkysBuildingPiecesBop::registerCatalogue);
 
-        var creative = BuildCreativeModeTabContentsEvent.getBus(modBus);
+        var creative = BuildCreativeModeTabContentsEvent.BUS;
         creative.addListener(Baskets::creativeContents);
         creative.addListener(RetiredRocks::creativeContents);
         creative.addListener(RetiredDecorations::creativeContents);
@@ -76,8 +76,9 @@ public final class SkysBuildingPiecesBop {
         ServerAboutToStartEvent.BUS.addListener(this::beforeServer);
         EntityItemPickupEvent.BUS.addListener(Priority.LOWEST,
                 (java.util.function.Predicate<EntityItemPickupEvent>) Baskets::pickup);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> zone.moddev.mc.skysbuildingpiecesbop.client.RetiredRockModels.register(modBus));
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            zone.moddev.mc.skysbuildingpiecesbop.client.RetiredRockModels.register(modBus);
+        }
     }
 
     private void beforeServer(ServerAboutToStartEvent event) {

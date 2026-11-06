@@ -173,9 +173,8 @@ final class ForwardUpgradeChecks {
 
                 // Connections and snow are derived from neighbours. The palette metadata and persisted orientation still
                 // have to match exactly.
-                for (Map.Entry<net.minecraft.world.level.block.state.properties.Property<?>, Comparable<?>> property : expected.getValues()
-                        .entrySet()) {
-                    String name = property.getKey().getName();
+                for (var property : expected.getValues().toList()) {
+                    String name = property.property().getName();
 
                     if (name.equals("north") || name.equals("south") || name.equals("east") || name.equals("west")
                             || name.equals("up") || name.equals("down") || name.equals("snowy") || name.equals("in_wall")
@@ -183,7 +182,7 @@ final class ForwardUpgradeChecks {
                         continue;
                     }
 
-                    require(property.getValue().equals(actual.getValues().get(property.getKey())),
+                    require(property.value().equals(actual.getValue(property.property())),
                             "Wrong " + name + " at " + position + ": " + actual + ", expected " + expected);
                 }
 
@@ -422,7 +421,7 @@ final class ForwardUpgradeChecks {
             BlockPos position = position(row);
 
             if ((number++ & 1) != 0 || TARGET_UPGRADES.getAsJsonObject("biomes").has(row.get("id").getAsString())) {
-                deferred.add(net.minecraft.world.level.ChunkPos.asLong(position.getX() >> 4, position.getZ() >> 4));
+                deferred.add(net.minecraft.world.level.ChunkPos.pack(position.getX() >> 4, position.getZ() >> 4));
             }
         }
 
@@ -432,7 +431,7 @@ final class ForwardUpgradeChecks {
             JsonObject row = element.getAsJsonObject();
             BlockPos position = position(row);
 
-            if (first && deferred.contains(net.minecraft.world.level.ChunkPos.asLong(
+            if (first && deferred.contains(net.minecraft.world.level.ChunkPos.pack(
                     position.getX() >> 4, position.getZ() >> 4))) {
                 require(world.getChunkSource().getChunkNow(position.getX() >> 4, position.getZ() >> 4)
                         == null, "A deferred biome chunk was loaded during the first pass");

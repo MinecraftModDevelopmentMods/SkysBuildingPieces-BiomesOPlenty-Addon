@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.4.2601021
+
+- Updated to Minecraft 26.1.2 and Forge 64.0.9.
+- Kept the Flower Basket and its two-row inventory on the updated Minecraft interface.
+
 ## 0.2.4.121011
 
 - Updated the add-on to Minecraft 1.21.1 and Forge 52.1.0.

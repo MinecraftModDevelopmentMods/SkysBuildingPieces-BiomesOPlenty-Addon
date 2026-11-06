@@ -14,7 +14,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.world.InteractionHand;
@@ -66,8 +66,8 @@ public final class BasketChecks {
                     .getRecipeManager().getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING, crafting.asCraftInput(), world)
                     .map(net.minecraft.world.item.crafting.RecipeHolder::value).orElse(null);
 
-            require(recipe != null && recipe.assemble(crafting.asCraftInput(), world.registryAccess()).getItem() == Baskets.ITEM
-                    && recipe.assemble(crafting.asCraftInput(), world.registryAccess()).getCount() == 1, "real six-stick crafting recipe");
+            require(recipe != null && recipe.assemble(crafting.asCraftInput()).getItem() == Baskets.ITEM
+                    && recipe.assemble(crafting.asCraftInput()).getCount() == 1, "real six-stick crafting recipe");
             require(new ItemStack(Baskets.ITEM).getMaxStackSize() == 1, "one basket per stack");
             if (net.minecraftforge.fml.loading.FMLEnvironment.dist == net.minecraftforge.api.distmarker.Dist.CLIENT) {
                 require(hidden(Baskets.HOLDER, world), "hidden recovery item");
@@ -138,14 +138,14 @@ public final class BasketChecks {
                         "hand-swap packet is reversed without copying");
 
                 if (index == 0) {
-                    for (ClickType type : ClickType.values()) {
+                    for (ContainerInput type : ContainerInput.values()) {
                         container.clicked(45, 0, type, player);
                         require(player.getInventory().getItem(0) == basket, "owner click locked " + type);
                     }
                 }
 
                 player.getInventory().setItem(9, new ItemStack(Blocks.OAK_SAPLING, 5));
-                container.clicked(18, index, ClickType.SWAP, player);
+                container.clicked(18, index, ContainerInput.SWAP, player);
                 require(player.getInventory().getItem(index) == basket, "swap owner locked");
                 player.getInventory().setItem(index, basket.copy());
                 require(!container.stillValid(player), "copied stack is not the owner");

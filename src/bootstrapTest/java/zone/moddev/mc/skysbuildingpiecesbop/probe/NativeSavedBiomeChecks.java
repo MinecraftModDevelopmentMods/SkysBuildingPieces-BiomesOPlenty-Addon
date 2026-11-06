@@ -67,8 +67,8 @@ public final class NativeSavedBiomeChecks {
             JsonObject row = value.getAsJsonObject();
             ChunkPos position = new ChunkPos(row.get("x").getAsInt(), row.get("z").getAsInt());
             if (!deferred.contains(position) && tracked.add(position)) {
-                world.setChunkForced(position.x, position.z, true);
-                world.getChunk(position.x, position.z);
+                world.setChunkForced(position.x(), position.z(), true);
+                world.getChunk(position.x(), position.z());
             }
         }
     }
@@ -178,13 +178,17 @@ public final class NativeSavedBiomeChecks {
 
     private static CompoundTag convertUnopened(ServerLevel world, SimpleRegionStorage storage, ChunkPos position)
             throws Exception {
-        require(world.getChunkSource().getChunkNow(position.x, position.z) == null,
+        require(world.getChunkSource().getChunkNow(position.x(), position.z()) == null,
                 "An unopened biome chunk was loaded before its conversion check: " + position);
-        Path region = world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT)
-                .resolve("region/r." + (position.x >> 5) + "." + (position.z >> 5) + ".mca");
+        Path root = world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT);
+        String relative = "region/r." + (position.x() >> 5) + "." + (position.z() >> 5) + ".mca";
+        Path region = root.resolve(relative);
+        if (!Files.isRegularFile(region)) {
+            region = root.resolve("dimensions/minecraft/overworld").resolve(relative);
+        }
         byte[] bytes = Files.readAllBytes(region);
         var header = java.nio.ByteBuffer.wrap(bytes);
-        int location = header.getInt(((position.x & 31) + (position.z & 31) * 32) * 4);
+        int location = header.getInt(((position.x() & 31) + (position.z() & 31) * 32) * 4);
         require(location != 0, "A deferred source chunk is missing");
         int offset = (location >>> 8) * 4096;
         int length = header.getInt(offset);
@@ -197,10 +201,10 @@ public final class NativeSavedBiomeChecks {
             source = net.minecraft.nbt.NbtIo.read(input);
         }
         CompoundTag chunk = (source.get("Level") instanceof net.minecraft.nbt.CompoundTag) ? source.getCompoundOrEmpty("Level") : source;
-        require(chunk.getIntOr("xPos", 0) == position.x && chunk.getIntOr("zPos", 0) == position.z,
+        require(chunk.getIntOr("xPos", 0) == position.x() && chunk.getIntOr("zPos", 0) == position.z(),
                 "Wrong deferred source coordinates");
-        CompoundTag fixed = storage.upgradeChunkTag(source.copy(), 0, BopProbeItems.overworldUpgradeContext());
-        require(world.getChunkSource().getChunkNow(position.x, position.z) == null,
+        CompoundTag fixed = BopProbeItems.upgradeChunk(storage, source);
+        require(world.getChunkSource().getChunkNow(position.x(), position.z()) == null,
                 "The datafix check loaded a deferred biome chunk");
         return fixed;
     }

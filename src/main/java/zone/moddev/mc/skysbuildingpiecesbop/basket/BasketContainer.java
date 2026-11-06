@@ -95,7 +95,7 @@ public final class BasketContainer extends AbstractContainerMenu {
     }
 
     @Override
-    public void clicked(int slot, int button, ClickType type, Player viewingPlayer) {
+    public void clicked(int slot, int button, ContainerInput input, Player viewingPlayer) {
         if (!stillValid(viewingPlayer)) {
             return;
         }
@@ -106,11 +106,11 @@ public final class BasketContainer extends AbstractContainerMenu {
                 return;
             }
         }
-        if (type == ClickType.SWAP && button == ownerSlot) {
+        if (input == ContainerInput.SWAP && button == ownerSlot) {
             return;
         }
 
-        super.clicked(slot, button, type, viewingPlayer);
+        super.clicked(slot, button, input, viewingPlayer);
     }
 
     @Override

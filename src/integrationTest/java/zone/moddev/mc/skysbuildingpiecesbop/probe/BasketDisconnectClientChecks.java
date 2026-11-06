@@ -109,9 +109,9 @@ public final class BasketDisconnectClientChecks {
             stage = 3;
             savedRegistries = minecraft.player.level().registryAccess();
             closingServerThread = minecraft.getSingleplayerServer().getRunningThread();
-            savedPlayer = new File(minecraft.getSingleplayerServer()
-                    .getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(),
-                    "playerdata/" + minecraft.player.getUUID() + ".dat");
+            savedPlayer = minecraft.getSingleplayerServer()
+                    .getWorldPath(net.minecraft.world.level.storage.LevelResource.PLAYER_DATA_DIR)
+                    .resolve(minecraft.player.getUUID() + ".dat").toFile();
             minecraft.getConnection().getConnection().disconnect(
                     net.minecraft.network.chat.Component.translatable("disconnect.quitting"));
             // Keep the client alive until the normal server thread has finished

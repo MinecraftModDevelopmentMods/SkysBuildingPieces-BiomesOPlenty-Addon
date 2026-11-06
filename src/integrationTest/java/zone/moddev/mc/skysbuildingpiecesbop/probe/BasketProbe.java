@@ -2,7 +2,7 @@ package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import zone.moddev.mc.skysbuildingpieces.probe.BopServerProbe;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
@@ -16,11 +16,11 @@ public final class BasketProbe {
                 this::started);
         net.minecraftforge.event.TickEvent.ServerTickEvent.Pre.BUS.addListener(
                 net.minecraftforge.eventbus.api.listener.Priority.HIGHEST, BasketPlayerUpgrade::tick);
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+        if (FMLEnvironment.dist == Dist.CLIENT) {
             BasketClientChecks.register();
             BasketGuiClientChecks.register();
             BasketDisconnectClientChecks.register();
-        });
+        }
     }
 
     private void started(ServerStartedEvent event) {
