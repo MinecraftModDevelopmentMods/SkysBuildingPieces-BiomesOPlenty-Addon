@@ -7,7 +7,7 @@ issueTrackerURL="https://github.com/MinecraftModDevelopmentMods/SkysBuildingPiec
 modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
-logoFile="logo.png"
+iconFile="logo.png"
 authors="${mod_authors}"
 description='''${mod_description}'''
 
@@ -29,12 +29,24 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="skysbuildingpieces"
 type="required"
-versionRange="[0.3.8.2602002,0.4)"
+versionRange="[0.3.8.2603002,0.4)"
 ordering="AFTER"
 side="BOTH"
 [[dependencies.${mod_id}]]
 modId="biomesoplenty"
 type="required"
-versionRange="[26.2.0.0.28,26.3)"
+versionRange="[26.3.0.0.16,26.4)"
+ordering="AFTER"
+side="BOTH"
+[[dependencies.${mod_id}]]
+modId="terrablender"
+type="required"
+versionRange="[26.3.0.0.9,26.4)"
+ordering="AFTER"
+side="BOTH"
+[[dependencies.${mod_id}]]
+modId="glitchcore"
+type="required"
+versionRange="[26.3.0.0.5,26.4)"
 ordering="AFTER"
 side="BOTH"

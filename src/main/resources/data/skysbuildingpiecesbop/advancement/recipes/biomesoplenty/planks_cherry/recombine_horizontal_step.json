@@ -13,7 +13,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/planks_cherry/recombine_horizontal_step"
+        "recipes": "skysbuildingpieces:biomesoplenty/planks_cherry/recombine_horizontal_step"
       }
     }
   },

@@ -70,7 +70,9 @@ final class RetiredContentForwardChecks {
             BlockPos position = position(row);
             var state = world.getBlockState(position);
             String actual = BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString();
-            check(actual.equals(row.get("target").getAsString()), "Incorrect recovered block at " + position + ": " + state);
+            String expected = ForwardUpgradeChecks.currentTarget("blocks", row.get("target").getAsString());
+            check(actual.equals(expected), "Incorrect recovered block at " + position + ": " + state
+                    + ", expected " + expected);
             JsonObject properties = row.getAsJsonObject("properties");
             Set<String> presentProperties = new LinkedHashSet<>();
             state.getValues().forEach(property -> {
@@ -93,7 +95,8 @@ final class RetiredContentForwardChecks {
         for (JsonElement entry : fixture.getAsJsonArray("items")) {
             JsonObject row = entry.getAsJsonObject();
             var stack = chest.getItem(row.get("slot").getAsInt());
-            check(BuiltInRegistries.ITEM.getKey(stack.getItem()).toString().equals(row.get("target").getAsString())
+            String expected = ForwardUpgradeChecks.currentItemTarget(row.get("target").getAsString());
+            check(BuiltInRegistries.ITEM.getKey(stack.getItem()).toString().equals(expected)
                             && stack.getCount() == row.get("count").getAsInt()
                             && BopProbeItems.custom(stack).getStringOr("PortSample", "").equals(row.get("custom").getAsString()),
                     "A retired BOP item lost its name, count or custom data: " + row + " -> " + stack);

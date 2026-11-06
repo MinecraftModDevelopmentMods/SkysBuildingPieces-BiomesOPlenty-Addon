@@ -53,8 +53,9 @@ class RecipeAdvancementContractTest {
 
         JsonObject criteria = advancement.getAsJsonObject("criteria");
 
-        assertEquals("minecraft:recipe_unlocked",
-                criteria.getAsJsonObject("has_the_recipe").get("trigger").getAsString());
+        JsonObject unlock = criteria.getAsJsonObject("has_the_recipe");
+        assertEquals("minecraft:recipe_unlocked", unlock.get("trigger").getAsString());
+        assertEquals(recipe, unlock.getAsJsonObject("conditions").get("recipes").getAsString());
 
         JsonArray requirements = advancement.getAsJsonArray("requirements");
 

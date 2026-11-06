@@ -47,6 +47,9 @@ final class PlantRecoveryChecks {
             CompoundTag converted = basket.getCompoundOrEmpty("tag").getListOrEmpty("Items").getCompoundOrEmpty(0);
             ItemStack decoded = BopProbeItems.read(converted);
 
+            var expectedPlant = source.equals("biomesoplenty:sapling_0")
+                    ? net.minecraft.world.item.Items.POPLAR_SAPLING : net.minecraft.world.item.Items.OAK_SAPLING;
+            require(decoded.is(expectedPlant), "Legacy sapling no longer has a live replacement");
             require(decoded.getHoverName().getString().equals("Saved tree"), "Legacy plant name is readable");
             require(decoded.getCount() == 23 && converted.getByteOr("Slot", (byte) 0) == 4, "Legacy slot and count");
             require(BopProbeItems.custom(decoded).getStringOr("unrelated", "").equals("Keep this data"), "Unrelated plant NBT");

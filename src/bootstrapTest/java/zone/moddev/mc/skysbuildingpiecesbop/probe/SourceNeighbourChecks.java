@@ -9,7 +9,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.DoorBlock;
@@ -102,7 +101,7 @@ final class SourceNeighbourChecks {
         var saved = TagParser.parseCompoundFully(text);
         String name = saved.getStringOr("Name", "");
         if (aliases.has(name)) saved.putString("Name", aliases.get(name).getAsString());
-        return NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, saved);
+        return BopProbeItems.readSavedBlockState(saved);
     }
 
     private static void require(boolean condition, String message) {

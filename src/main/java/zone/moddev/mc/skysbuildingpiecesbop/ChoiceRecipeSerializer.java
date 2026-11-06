@@ -12,7 +12,7 @@ import java.util.List;
 
 /** Picks the installed material's ordinary recipe without changing its saved recipe ID. */
 final class ChoiceRecipeSerializer {
-    private static final MapCodec<Recipe<?>> CODEC = ConditionalOps.decodeListWithElementConditions(Recipe.CODEC)
+    private static final MapCodec<Recipe<?>> CODEC = ConditionalOps.decodeListWithElementConditions(Recipe.DIRECT_CODEC)
             .<Recipe<?>>flatXmap(recipes -> recipes.size() == 1 ? DataResult.success(recipes.getFirst())
                     : DataResult.error(() -> "Expected one active building recipe, found " + recipes.size()),
                     recipe -> DataResult.success(List.of(recipe)))

@@ -13,7 +13,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/planks_palm/horizontal_step/step/biomesoplenty/wood_slab_0_7"
+        "recipes": "skysbuildingpieces:biomesoplenty/planks_palm/horizontal_step/step/biomesoplenty/wood_slab_0_7"
       }
     }
   },

@@ -13,7 +13,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/horizontal_step/step/skysbuildingpiecesbop/metal_slab_00_12"
+        "recipes": "skysbuildingpieces:biomesoplenty/tanzanite_block/horizontal_step/step/skysbuildingpiecesbop/metal_slab_00_12"
       }
     }
   },

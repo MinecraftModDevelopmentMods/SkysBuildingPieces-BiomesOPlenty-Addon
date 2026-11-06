@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.4.2603002
+
+- Updated the add-on for Minecraft 26.3 on NeoForge.
+- Saved maple leaves, saplings and leaf litter use their closest vanilla equivalents.
+- Upgraded signs keep their filtered text as well as their visible text.
+
 ## 0.2.4.2602002
 
 - Updated the add-on for Minecraft 26.2 on NeoForge.

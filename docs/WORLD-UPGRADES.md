@@ -1,5 +1,12 @@
 # Existing worlds
 
+## Moving to Minecraft 26.3
+
+BOP's maple leaves and saplings become Minecraft's poplar equivalents. The three
+leaf colours stay distinct. Maple leaf litter becomes vanilla leaf litter, and
+planted pots keep their saplings. Old potted-sapling items become poplar saplings
+because vanilla has no separate potted item.
+
 ## Moving to Minecraft 26.2
 
 Brimstone and its shapes carry forward as orpiment. Thermal calcite and its

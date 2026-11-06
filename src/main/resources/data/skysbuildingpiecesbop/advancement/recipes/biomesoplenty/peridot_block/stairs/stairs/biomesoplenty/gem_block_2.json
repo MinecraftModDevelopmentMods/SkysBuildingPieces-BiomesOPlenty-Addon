@@ -13,7 +13,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/stairs/stairs/biomesoplenty/gem_block_2"
+        "recipes": "skysbuildingpieces:biomesoplenty/peridot_block/stairs/stairs/biomesoplenty/gem_block_2"
       }
     }
   },

@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.nbt.NbtUtils;
 import zone.moddev.mc.skysbuildingpiecesbop.LegacyItemRecovery;
 
 /** Exercises the early callback with the real previous release's exported native states. */
@@ -112,8 +111,8 @@ final class NamedRecoveryChecks {
             new LegacyItemRecovery().fixTagCompound(root);
 
             CompoundTag result = state(root);
-            BlockState actual = NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, result);
-            String target = blocks.get(name).getAsString();
+            BlockState actual = BopProbeItems.readSavedBlockState(result);
+            String target = ForwardUpgradeChecks.currentTarget("blocks", name);
             if (doubleSlab) {
                 target = switch (name) {
                     case "biomesoplenty:mud_brick_slab" -> "minecraft:mud_bricks";
@@ -152,8 +151,7 @@ final class NamedRecoveryChecks {
                 continue;
             }
 
-            String target = mappings.getAsJsonObject("items").has(id)
-                    ? mappings.getAsJsonObject("items").get(id).getAsString() : blocks.get(id).getAsString();
+            String target = ForwardUpgradeChecks.currentItemTarget(id);
             CompoundTag stack = new CompoundTag();
             CompoundTag tag = new CompoundTag();
 

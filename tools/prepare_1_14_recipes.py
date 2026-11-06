@@ -179,7 +179,7 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
                     'has_ingredient': {'trigger': 'minecraft:inventory_changed',
                                        'conditions': {'items': [{'items': [ingredient]}]}},
                     'has_the_recipe': {'trigger': 'minecraft:recipe_unlocked',
-                                       'conditions': {'recipe': 'skysbuildingpieces:' + path}}},
+                                       'conditions': {'recipes': 'skysbuildingpieces:' + path}}},
                 'requirements': [['has_ingredient', 'has_the_recipe']],
                 'rewards': {'recipes': ['skysbuildingpieces:' + path]}}
             if conditions:
@@ -409,7 +409,7 @@ def main():
             'has_sticks': {'trigger': 'minecraft:inventory_changed',
                            'conditions': {'items': [{'tag': 'forge:rods/wooden'}]}},
             'has_the_recipe': {'trigger': 'minecraft:recipe_unlocked',
-                               'conditions': {'recipe': 'skysbuildingpiecesbop:flower_basket'}}},
+                               'conditions': {'recipes': 'skysbuildingpiecesbop:flower_basket'}}},
         'requirements': [['has_sticks', 'has_the_recipe']],
         'rewards': {'recipes': ['skysbuildingpiecesbop:flower_basket']}}
     for name in ('gabbro', 'limestone', 'limestone_smooth', 'shale', 'shale_smooth', 'siltstone', 'siltstone_smooth'):
@@ -424,7 +424,7 @@ def main():
             'criteria': {
                 'has_ingredient': {'trigger': 'minecraft:inventory_changed',
                                    'conditions': {'items': [{'items': [ingredient]}]}},
-                'has_the_recipe': {'trigger': 'minecraft:recipe_unlocked', 'conditions': {'recipe': identity}}},
+                'has_the_recipe': {'trigger': 'minecraft:recipe_unlocked', 'conditions': {'recipes': identity}}},
             'requirements': [['has_ingredient', 'has_the_recipe']], 'rewards': {'recipes': [identity]}}
     from neo_recipe_resources import convert
     outputs = convert({relative: (native_advancement(data) if '/advancement/' in relative else native_recipe(data))

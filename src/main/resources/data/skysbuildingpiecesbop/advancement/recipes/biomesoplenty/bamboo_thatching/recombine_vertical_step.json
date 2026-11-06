@@ -13,7 +13,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/bamboo_thatching/recombine_vertical_step"
+        "recipes": "skysbuildingpieces:biomesoplenty/bamboo_thatching/recombine_vertical_step"
       }
     }
   },

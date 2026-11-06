@@ -13,7 +13,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/limestone/horizontal_step/step/skysbuildingpiecesbop/rock_vertical_slab_00_4"
+        "recipes": "skysbuildingpieces:biomesoplenty/limestone/horizontal_step/step/skysbuildingpiecesbop/rock_vertical_slab_00_4"
       }
     }
   },
