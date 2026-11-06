@@ -1,5 +1,11 @@
 # Existing worlds
 
+## Moving to Minecraft 26.1.2
+
+Use the NeoForge builds of Biomes O' Plenty 26.1.2.0.22, TerraBlender
+26.1.2.0.3 and GlitchCore 26.1.2.0.2. Existing Sky pieces keep their
+IDs and shapes. Test a copy before opening an earlier world.
+
 ## Moving to Minecraft 1.21.11
 
 Old maple and autumn foliage and saplings move to the corresponding red,

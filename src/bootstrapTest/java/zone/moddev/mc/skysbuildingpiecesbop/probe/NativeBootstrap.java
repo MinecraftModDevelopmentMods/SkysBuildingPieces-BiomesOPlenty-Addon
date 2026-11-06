@@ -23,6 +23,8 @@ public final class NativeBootstrap {
     private BopRecipeAudit recipes;
     private MinecraftServer recipeServer;
     private long nextRecipeBatch;
+    private MinecraftServer biomeAuditServer;
+    private int biomeAuditSaveTicks;
 
     public NativeBootstrap(net.neoforged.bus.api.IEventBus modBus) {
         zone.moddev.mc.skysbuildingpieces.probe.PersistenceRegistrationChecks.register(modBus);
@@ -177,7 +179,11 @@ public final class NativeBootstrap {
                         net.minecraft.CrashReport.forThrowable(failure, "BOP client verification failed"));
             }
         } finally {
-            if ((!client || !success) && recipeServer == null) {
+            if (!client && success && Boolean.getBoolean("skysbuildingpieces.bopBiomeOnly")) {
+                // Bulk biome reads queue chunk work. Let normal server ticks drain it before saving at shutdown.
+                biomeAuditServer = server;
+                biomeAuditSaveTicks = 40;
+            } else if ((!client || !success) && recipeServer == null) {
                 server.halt(false);
             }
         }

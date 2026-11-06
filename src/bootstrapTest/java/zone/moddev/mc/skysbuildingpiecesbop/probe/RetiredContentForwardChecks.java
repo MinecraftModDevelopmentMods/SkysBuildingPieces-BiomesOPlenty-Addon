@@ -45,19 +45,19 @@ final class RetiredContentForwardChecks {
             for (JsonElement item : fixture.getAsJsonArray(group)) {
                 JsonObject row = item.getAsJsonObject();
                 if (shouldCheck(row)) {
-                    CHUNKS.add(new ChunkPos(position(row)));
+                    CHUNKS.add(ChunkPos.containing(position(row)));
                 }
             }
         }
-        CHUNKS.add(new ChunkPos(position(fixture.getAsJsonObject("chest"))));
+        CHUNKS.add(ChunkPos.containing(position(fixture.getAsJsonObject("chest"))));
         for (ChunkPos chunk : CHUNKS) {
-            world.setChunkForced(chunk.x, chunk.z, true);
-            world.getChunk(chunk.x, chunk.z);
+            world.setChunkForced(chunk.x(), chunk.z(), true);
+            world.getChunk(chunk.x(), chunk.z());
         }
     }
 
     static boolean ready(ServerLevel world) {
-        return CHUNKS.stream().allMatch(chunk -> world.getChunkSource().isPositionTicking(chunk.toLong()));
+        return CHUNKS.stream().allMatch(chunk -> world.getChunkSource().isPositionTicking(chunk.pack()));
     }
 
     static void verify(ServerLevel world) {
@@ -72,14 +72,16 @@ final class RetiredContentForwardChecks {
             String actual = BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString();
             check(actual.equals(row.get("target").getAsString()), "Incorrect recovered block at " + position + ": " + state);
             JsonObject properties = row.getAsJsonObject("properties");
-            state.getValues().forEach((property, value) -> {
-                if (properties.has(property.getName())) {
-                    check(properties.get(property.getName()).getAsString().equals(value.toString()),
-                            "A recovered block lost " + property.getName() + " at " + position);
+            Set<String> presentProperties = new LinkedHashSet<>();
+            state.getValues().forEach(property -> {
+                String name = property.property().getName();
+                presentProperties.add(name);
+                if (properties.has(name)) {
+                    check(properties.get(name).getAsString().equals(property.value().toString()),
+                            "A recovered block lost " + name + " at " + position);
                 }
             });
-            check(state.getValues().keySet().stream().map(net.minecraft.world.level.block.state.properties.Property::getName)
-                    .collect(java.util.stream.Collectors.toSet()).containsAll(properties.keySet()),
+            check(presentProperties.containsAll(properties.keySet()),
                     "A recovered block lost properties at " + position);
             blocks++;
         }
@@ -116,7 +118,7 @@ final class RetiredContentForwardChecks {
         check(blocks == (delayed ? 11 : 10) && items == 65 && biomes == (delayed ? 4 : 3),
                 "Incomplete retired-content coverage");
         for (ChunkPos chunk : CHUNKS) {
-            world.setChunkForced(chunk.x, chunk.z, false);
+            world.setChunkForced(chunk.x(), chunk.z(), false);
         }
         world.getServer().saveAllChunks(true, true, true);
         org.apache.logging.log4j.LogManager.getLogger().info(

@@ -95,7 +95,19 @@ final class BopPersistenceOrderChecks {
             require(sidecar.getCompoundOrEmpty("Blocks").equals(blocks), name + " lost its independent sidecar");
         }
         CompoundTag core = read(new File(directory, "data/skysbuildingpieces_legacy_registry.dat"));
-        require(core.getCompoundOrEmpty("FML").equals(expected), "Building Pieces lost its complete sidecar");
+        File originalSidecar = new File("source-pieces-legacy-registry.dat");
+        if (originalSidecar.isFile()) {
+            // Older chunks can use the original IDs while later chunks use the table from level.dat.
+            CompoundTag before = read(originalSidecar);
+            CompoundTag originalRegistry = before.getCompound("FML").orElse(before);
+            CompoundTag laterRegistry = before.getCompound("source_registry").orElse(expected);
+            require(core.getCompoundOrEmpty("FML").equals(originalRegistry),
+                    "Building Pieces changed the original sidecar registry");
+            require(core.getCompoundOrEmpty("source_registry").equals(laterRegistry),
+                    "Building Pieces lost the later registry alongside the original");
+        } else {
+            require(core.getCompoundOrEmpty("FML").equals(expected), "Building Pieces lost its complete sidecar");
+        }
         org.apache.logging.log4j.LogManager.getLogger().info("BOP_PERSISTENCE_ORDER_PASS "
                 + System.getProperty("skysbuildingpieces.persistenceOrder") + " actual_hooks=" + callbacks.size()
                 + " sidecars=" + (legacySidecars.size() + 1) + " ids="

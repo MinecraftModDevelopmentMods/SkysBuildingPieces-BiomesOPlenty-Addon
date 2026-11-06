@@ -94,7 +94,7 @@ public final class SkysBuildingPiecesBop {
             } else if (event.getRegistryKey().equals(net.minecraft.core.registries.Registries.RECIPE_SERIALIZER)) {
                 event.register(net.minecraft.core.registries.Registries.RECIPE_SERIALIZER,
                         net.minecraft.resources.Identifier.fromNamespaceAndPath(ID, "material_recipe"),
-                        ChoiceRecipeSerializer::new);
+                        ChoiceRecipeSerializer::create);
             }
         }
 

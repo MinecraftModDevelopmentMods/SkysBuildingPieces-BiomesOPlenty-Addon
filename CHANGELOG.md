@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.4.2601022
+
+- Updated the add-on for Minecraft 26.1.2 on NeoForge.
+- Kept existing building pieces, recipes and Flower Basket contents.
+
 ## 0.2.4.121112
 
 - Bring the add-on to Minecraft 1.21.11 on NeoForge.
