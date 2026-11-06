@@ -43,8 +43,8 @@ final class WallRecoveryChecks {
                 CompoundTag fixed = (CompoundTag) server.getFixerUpper().update(References.BLOCK_STATE,
                         new Dynamic<>(NbtOps.INSTANCE, prepared), 2230,
                         SharedConstants.getCurrentVersion().dataVersion().version()).getValue();
-                BlockState actual = NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, fixed);
-                CompoundTag result = NbtUtils.writeBlockState(actual).getCompoundOrEmpty("Properties");
+                BlockState actual = BopProbeItems.readSavedBlockState(fixed);
+                CompoundTag result = NbtUtils.writeBlockState(actual).getCompoundOrEmpty("properties");
                 CompoundTag original = state.getCompoundOrEmpty("Properties");
                 for (String direction : new String[] {"north", "south", "east", "west"}) {
                     String expected = original.getStringOr(direction, "").equals("true") ? "low" : "none";

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldInsnNode;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RetiredRockHardnessHookTest {
@@ -36,6 +37,20 @@ class RetiredRockHardnessHookTest {
     }
 
     @Test
+    void theSignCopyHookMatchesTheTwoVisibleTextReadsInMinecraft263() throws Exception {
+        String signText = "net/minecraft/world/level/block/entity/SignText";
+        var mutable = nativeClass(signText + "$Mutable");
+        var constructor = mutable.methods.stream()
+                .filter(method -> method.name.equals("<init>") && method.desc.equals("(L" + signText + ";)V"))
+                .findFirst().orElseThrow();
+        assertEquals(2, java.util.Arrays.stream(constructor.instructions.toArray())
+                .filter(instruction -> instruction instanceof FieldInsnNode field
+                        && field.getOpcode() == Opcodes.GETFIELD && field.owner.equals(signText)
+                        && field.name.equals("messages") && field.desc.equals("Ljava/util/List;"))
+                .count());
+    }
+
+    @Test
     void incompatibleMinecraftHooksFailAtStartup() throws Exception {
         Path resources = Path.of("src/main/resources");
         var config = JsonParser.parseString(Files.readString(resources.resolve("skysbuildingpiecesbop.mixins.json")))
@@ -43,7 +58,7 @@ class RetiredRockHardnessHookTest {
         assertTrue(config.get("required").getAsBoolean());
         assertEquals(1, config.getAsJsonObject("injectors").get("defaultRequire").getAsInt());
         assertEquals(java.util.Set.of("ItemPickupTarget",
-                        "RetiredBiomeRemapMixin", "RetiredRockHardnessMixin"),
+                        "RetiredBiomeRemapMixin", "RetiredRockHardnessMixin", "SignTextCopyMixin"),
                 config.getAsJsonArray("mixins").asList().stream().map(value -> value.getAsString())
                         .collect(java.util.stream.Collectors.toSet()));
         assertFalse(Files.exists(resources.resolve("META-INF/coremods.json")));

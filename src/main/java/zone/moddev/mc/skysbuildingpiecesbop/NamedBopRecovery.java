@@ -29,6 +29,7 @@ import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.resources.Identifier;
@@ -42,6 +43,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public final class NamedBopRecovery {
     private static final Map<String, String> RECENT_BLOCKS = mappings("renamed_1_21_11");
     private static final Map<String, String> NATIVE_RENAMES = mappings("renamed_26_2");
+    private static final Map<String, String> MAPLE_RENAMES = mappings("renamed_26_3");
     private static final Map<String, String> BLOCKS = blockMappings();
     private static final Map<String, String> ITEMS = itemMappings();
     private static final Map<String, String> BIOMES = mappings("biomes");
@@ -78,6 +80,9 @@ public final class NamedBopRecovery {
         // The wall sign only existed as a placed block. Its item is cherry_sign.
         result.remove("biomesoplenty:cherry_wall_sign");
         result.putAll(mappings("items"));
+        // The planted sapling has a block ID but no corresponding vanilla item.
+        result.replaceAll((source, target) -> target.equals("minecraft:potted_poplar_sapling")
+                ? "minecraft:poplar_sapling" : target);
         return Collections.unmodifiableMap(result);
     }
 
@@ -85,7 +90,18 @@ public final class NamedBopRecovery {
         Map<String, String> result = new LinkedHashMap<>(mappings("blocks"));
         result.putAll(RECENT_BLOCKS);
         result.putAll(NATIVE_RENAMES);
+        // Resolve older maple names straight to their current blocks.
+        result.replaceAll((source, target) -> MAPLE_RENAMES.getOrDefault(target, target));
+        result.putAll(MAPLE_RENAMES);
         return Collections.unmodifiableMap(result);
+    }
+
+    static String currentMapleBlock(String id) {
+        return MAPLE_RENAMES.getOrDefault(id, id);
+    }
+
+    static String currentMapleItem(String id) {
+        return MAPLE_RENAMES.containsKey(id) ? ITEMS.get(id) : id;
     }
 
     private static boolean namedItem(CompoundTag tag) {
@@ -99,7 +115,7 @@ public final class NamedBopRecovery {
         }
         // Modern stacks can omit a count of one. Limit that form to the names
         // known to have been items in the preceding BOP release.
-        return RECENT_BLOCKS.containsKey(name)
+        return (RECENT_BLOCKS.containsKey(name) || NATIVE_RENAMES.containsKey(name) || MAPLE_RENAMES.containsKey(name))
                 && IMPLICIT_ITEM_KEYS.containsAll(tag.keySet());
     }
 
@@ -262,12 +278,15 @@ public final class NamedBopRecovery {
 
     private static boolean relevant(Tag value, int depth, boolean blockState) {
         depth(depth);
+        if (blockState && BLOCKS.containsKey(savedBlockName(value))) {
+            return true;
+        }
         if (value instanceof CompoundTag) {
             CompoundTag tag = (CompoundTag) value;
 
-            if (blockState && (BLOCKS.containsKey(tag.getStringOr("Name", "")) || oldShortCattail(tag)
-                    || oldWall(tag.getStringOr("Name", ""), tag.getCompoundOrEmpty("Properties")))
-                    || namedItem(tag) || (tag.get("Count") instanceof net.minecraft.nbt.NumericTag)
+            if (blockState && (oldShortCattail(tag)
+                    || oldWall(savedBlockName(tag), tag.getCompoundOrEmpty(propertiesKey(tag))))
+                    || (!blockState && namedItem(tag)) || (tag.get("Count") instanceof net.minecraft.nbt.NumericTag)
                     && oldWall(tag.getStringOr("id", ""), tag.getCompoundOrEmpty("tag").getCompoundOrEmpty("BlockStateTag"))
                     || namedBoat(tag) || biomeTable(tag) != null || removedSectionBiomes(tag)
                     || retiredBlockTicks(tag, false)) {
@@ -292,11 +311,20 @@ public final class NamedBopRecovery {
         rewrite(root, 0, false);
     }
 
-    private static void rewrite(Tag value, int depth, boolean blockState) {
+    private static Tag rewrite(Tag value, int depth, boolean blockState) {
         depth(depth);
-        if (value instanceof CompoundTag) {
-            CompoundTag tag = (CompoundTag) value;
-            String name = tag.getStringOr("Name", "");
+        if (blockState && value instanceof StringTag compact) {
+            String replacement = BLOCKS.get(compact.value());
+            if (replacement != null) {
+                CompoundTag state = new CompoundTag();
+                state.putString("id", compact.value());
+                rewriteState(state, replacement);
+                return state;
+            }
+        }
+        if (value instanceof CompoundTag tag) {
+            String name = blockState ? savedBlockName(tag) : "";
+            String propertiesKey = propertiesKey(tag);
 
             ListTag sections = chunkSections(tag);
             retiredBlockTicks(tag, true);
@@ -317,16 +345,15 @@ public final class NamedBopRecovery {
             }
 
             if (blockState && name.equals("biomesoplenty:nether_crystal")) {
-                if (tag.contains("Properties") && !(tag.get("Properties") instanceof net.minecraft.nbt.CompoundTag)) {
+                if (tag.contains(propertiesKey) && !(tag.get(propertiesKey) instanceof net.minecraft.nbt.CompoundTag)) {
                     throw new IllegalStateException("Malformed saved nether crystal properties: " + tag);
                 }
                 CompoundTag candidate = tag.copy();
-                candidate.put("Properties", crystalProperties(tag.getCompoundOrEmpty("Properties")));
+                candidate.put(propertiesKey, crystalProperties(tag.getCompoundOrEmpty(propertiesKey)));
                 rewriteState(candidate, BLOCKS.get(name));
-                tag.putString("Name", candidate.getStringOr("Name", ""));
-                tag.put("Properties", candidate.getCompoundOrEmpty("Properties"));
-            } else if (blockState && oldWall(name, tag.getCompoundOrEmpty("Properties"))) {
-                rewriteWall(tag.getCompoundOrEmpty("Properties"));
+                return candidate;
+            } else if (blockState && oldWall(name, tag.getCompoundOrEmpty(propertiesKey))) {
+                rewriteWall(tag.getCompoundOrEmpty(propertiesKey));
                 rewriteState(tag, BLOCKS.getOrDefault(name, name));
             } else if (blockState && oldShortCattail(tag)) {
                 rewriteState(tag, "biomesoplenty:dead_grass");
@@ -336,7 +363,7 @@ public final class NamedBopRecovery {
             if (namedBoat(tag)) {
                 rewriteBoat(tag);
             }
-            if (namedItem(tag)) {
+            if (!blockState && namedItem(tag)) {
                 if (tag.getStringOr("id", "").equals("biomesoplenty:nether_crystal")) {
                     CompoundTag itemData = tag.getCompoundOrEmpty("tag");
                     if (itemData.contains("BlockStateTag")) {
@@ -392,13 +419,22 @@ public final class NamedBopRecovery {
                 level.putInt(BIOME_MARKER, SharedConstants.getCurrentVersion().dataVersion().version());
             }
             for (String key : new ArrayList<>(tag.keySet())) {
-                rewrite(tag.get(key), depth + 1, stateField(key));
+                Tag child = tag.get(key);
+                Tag replacement = rewrite(child, depth + 1, stateField(key));
+                if (child != replacement) {
+                    tag.put(key, replacement);
+                }
             }
-        } else if (value instanceof ListTag) {
-            for (Tag child : (ListTag) value) {
-                rewrite(child, depth + 1, blockState);
+        } else if (value instanceof ListTag list) {
+            for (int index = 0; index < list.size(); index++) {
+                Tag child = list.get(index);
+                Tag replacement = rewrite(child, depth + 1, blockState);
+                if (child != replacement) {
+                    list.set(index, replacement);
+                }
             }
         }
+        return value;
     }
 
     private static boolean oldWall(String name, CompoundTag properties) {
@@ -445,12 +481,12 @@ public final class NamedBopRecovery {
 
     private static String savedSignBlock(CompoundTag states, int x, int y, int z) {
         ListTag palette = states.getListOrEmpty("palette");
-        if (palette.stream().map(entry -> ((CompoundTag) entry).getStringOr("Name", ""))
+        if (palette.stream().map(NamedBopRecovery::savedBlockName)
                 .noneMatch(NamedBopRecovery::isCherrySign)) {
             return "";
         }
         if (palette.size() == 1) {
-            return palette.getCompoundOrEmpty(0).getStringOr("Name", "");
+            return savedBlockName(palette.get(0));
         }
         int bits = Math.max(4, Integer.SIZE - Integer.numberOfLeadingZeros(palette.size() - 1));
         int entriesPerWord = Long.SIZE / bits;
@@ -463,7 +499,7 @@ public final class NamedBopRecovery {
         if (paletteIndex >= palette.size()) {
             throw new IllegalStateException("Invalid saved block palette index for BOP sign at " + x + ", " + y + ", " + z);
         }
-        return palette.getCompoundOrEmpty(paletteIndex).getStringOr("Name", "");
+        return savedBlockName(palette.get(paletteIndex));
     }
 
     private static boolean isCherrySign(String block) {
@@ -518,6 +554,21 @@ public final class NamedBopRecovery {
         // BOP reused this ID for the tall plant. The old one-block state has no half property.
         return state.getStringOr("Name", "").equals("biomesoplenty:cattail")
                 && !state.getCompoundOrEmpty("Properties").contains("half");
+    }
+
+    private static String savedBlockName(Tag state) {
+        if (state instanceof StringTag name) {
+            return name.value();
+        }
+        if (state instanceof CompoundTag tag) {
+            // Default states can be stored as strings, wrapped when mixed with compounds.
+            return tag.getStringOr("Name", tag.getStringOr("id", tag.getStringOr("", "")));
+        }
+        return "";
+    }
+
+    private static String propertiesKey(CompoundTag state) {
+        return state.contains("Name") ? "Properties" : "properties";
     }
 
     private static boolean stateField(String key) {
@@ -607,12 +658,13 @@ public final class NamedBopRecovery {
         }
 
         BlockState state = block.defaultBlockState();
-        CompoundTag properties = saved.getCompoundOrEmpty("Properties");
+        String propertiesKey = propertiesKey(saved);
+        CompoundTag properties = saved.getCompoundOrEmpty(propertiesKey);
 
-        if (saved.contains("Properties") && !(saved.get("Properties") instanceof net.minecraft.nbt.CompoundTag)) {
+        if (saved.contains(propertiesKey) && !(saved.get(propertiesKey) instanceof CompoundTag)) {
             throw new IllegalStateException("Malformed saved BOP block properties: " + saved);
         }
-        String source = saved.getStringOr("Name", "");
+        String source = savedBlockName(saved);
         if (RECENT_BLOCKS.containsKey(source) && source.endsWith("_maple_leaf_pile")) {
             // The old pile covered the whole block. A single litter segment would leave most of it bare.
             Property<?> amount = block.getStateDefinition().getProperty("segment_amount");
@@ -660,11 +712,16 @@ public final class NamedBopRecovery {
 
         CompoundTag result = NbtUtils.writeBlockState(state);
 
-        saved.putString("Name", result.getStringOr("Name", ""));
-        if ((result.get("Properties") instanceof net.minecraft.nbt.CompoundTag)) {
-            saved.put("Properties", result.getCompoundOrEmpty("Properties"));
+        String nameKey = saved.contains("Name") ? "Name" : "id";
+        if (saved.size() == 1 && saved.contains("")) {
+            saved.remove("");
+        }
+        // Keep the input schema so vanilla's next data fix sees the format it expects.
+        saved.putString(nameKey, result.getString("id").orElseThrow());
+        if (result.get("properties") instanceof CompoundTag resultProperties) {
+            saved.put(propertiesKey, resultProperties);
         } else {
-            saved.remove("Properties");
+            saved.remove(propertiesKey);
         }
     }
 

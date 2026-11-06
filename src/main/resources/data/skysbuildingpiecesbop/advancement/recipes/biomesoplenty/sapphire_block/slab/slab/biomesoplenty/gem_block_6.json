@@ -13,7 +13,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/slab/slab/biomesoplenty/gem_block_6"
+        "recipes": "skysbuildingpieces:biomesoplenty/sapphire_block/slab/slab/biomesoplenty/gem_block_6"
       }
     }
   },

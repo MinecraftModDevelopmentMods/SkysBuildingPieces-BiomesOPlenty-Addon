@@ -13,7 +13,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/planks_umbran/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_03_12"
+        "recipes": "skysbuildingpieces:biomesoplenty/planks_umbran/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_03_12"
       }
     }
   },

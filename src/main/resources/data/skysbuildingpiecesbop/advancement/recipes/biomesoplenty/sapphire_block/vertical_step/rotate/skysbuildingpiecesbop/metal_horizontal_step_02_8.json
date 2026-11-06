@@ -13,7 +13,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/vertical_step/rotate/skysbuildingpiecesbop/metal_horizontal_step_02_8"
+        "recipes": "skysbuildingpieces:biomesoplenty/sapphire_block/vertical_step/rotate/skysbuildingpiecesbop/metal_horizontal_step_02_8"
       }
     }
   },

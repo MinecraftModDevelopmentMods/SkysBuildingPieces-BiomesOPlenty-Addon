@@ -15,6 +15,17 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import zone.moddev.mc.skysbuildingpieces.probe.NativeProbeItems;
 
 public final class BopProbeItems {
+    static net.minecraft.world.level.block.state.BlockState readSavedBlockState(net.minecraft.nbt.Tag saved) {
+        CompoundTag state;
+        if (saved instanceof net.minecraft.nbt.StringTag name) {
+            state = new CompoundTag();
+            state.putString("id", name.value());
+        } else {
+            state = zone.moddev.mc.skysbuildingpieces.probe.legacy.LegacyTestScope.nativeStateTag((CompoundTag) saved);
+        }
+        return net.minecraft.nbt.NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, state);
+    }
+
     static CompoundTag upgradeChunk(net.minecraft.world.level.chunk.storage.SimpleRegionStorage storage,
             CompoundTag source) {
         int targetVersion = net.minecraft.SharedConstants.getCurrentVersion().dataVersion().version();

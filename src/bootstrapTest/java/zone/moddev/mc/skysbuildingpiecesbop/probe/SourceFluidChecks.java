@@ -16,7 +16,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtIo;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -60,7 +59,7 @@ final class SourceFluidChecks {
                             BlockPos position = new BlockPos(row.get("x").getAsInt(), row.get("y").getAsInt(),
                                     row.get("z").getAsInt());
                             CompoundTag expected = TagParser.parseCompoundFully(row.get("state").getAsString());
-                            require(NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, expected) == NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, state(fixed, position)),
+                            require(BopProbeItems.readSavedBlockState(expected) == BopProbeItems.readSavedBlockState(state(fixed, position)),
                                     "Saved water was lost during native data fixing at " + position);
                             if (Integer.parseInt(expected.getCompoundOrEmpty("Properties").getStringOr("level", "")) > 0) {
                                 require(flowing.add(position), "Repeated source water position");
@@ -78,7 +77,7 @@ final class SourceFluidChecks {
         return flowing;
     }
 
-    private static CompoundTag state(CompoundTag chunk, BlockPos position) {
+    private static net.minecraft.nbt.Tag state(CompoundTag chunk, BlockPos position) {
         ListTag sections = chunk.getListOrEmpty("sections");
         for (int sectionIndex = 0; sectionIndex < sections.size(); sectionIndex++) {
             CompoundTag section = sections.getCompoundOrEmpty(sectionIndex);
@@ -86,12 +85,12 @@ final class SourceFluidChecks {
             CompoundTag states = section.getCompoundOrEmpty("block_states");
             ListTag palette = states.getListOrEmpty("palette");
             require(!palette.isEmpty(), "Missing upgraded water palette");
-            if (palette.size() == 1) return palette.getCompoundOrEmpty(0);
+            if (palette.size() == 1) return palette.get(0);
             int bits = Math.max(4, 32 - Integer.numberOfLeadingZeros(palette.size() - 1));
             int perLong = 64 / bits;
             int index = (position.getY() & 15) * 256 + (position.getZ() & 15) * 16 + (position.getX() & 15);
             long number = states.getLongArray("data").orElseThrow()[index / perLong] >>> (index % perLong * bits);
-            return palette.getCompound((int) (number & ((1L << bits) - 1))).orElseThrow();
+            return palette.get((int) (number & ((1L << bits) - 1)));
         }
         throw new AssertionError("Missing upgraded water section at " + position);
     }

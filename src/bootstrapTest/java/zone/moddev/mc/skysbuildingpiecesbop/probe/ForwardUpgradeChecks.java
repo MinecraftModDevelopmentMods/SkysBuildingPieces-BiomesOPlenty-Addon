@@ -395,7 +395,7 @@ final class ForwardUpgradeChecks {
                 // Installing Mineralogy later does not replace an already named fallback block.
                 // Its bridge recipe is the player's explicit conversion route.
                 if (saved.getStringOr("Name", "").equals("skysbuildingpiecesbop:retired_rocks")) {
-                    BlockState state = net.minecraft.nbt.NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, saved);
+                    BlockState state = BopProbeItems.readSavedBlockState(saved);
 
                     require(state.getBlock() == zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks.BLOCK,
                             "A named fallback rock no longer resolves");
@@ -507,7 +507,9 @@ final class ForwardUpgradeChecks {
     }
 
     static boolean isRecentBlockRename(String id) {
-        return TARGET_UPGRADES.getAsJsonObject("renamed_1_21_11").has(id);
+        return TARGET_UPGRADES.getAsJsonObject("renamed_1_21_11").has(id)
+                || TARGET_UPGRADES.getAsJsonObject("renamed_26_2").has(id)
+                || TARGET_UPGRADES.getAsJsonObject("renamed_26_3").has(id);
     }
 
     static String currentTarget(String group, String id) {
@@ -524,9 +526,11 @@ final class ForwardUpgradeChecks {
         String target = mappings.has(id) ? mappings.get(id).getAsString() : id;
 
         if (group.equals("blocks") || group.equals("items")) {
-            var recent = TARGET_UPGRADES.getAsJsonObject("renamed_1_21_11");
-            if (recent.has(target)) {
-                target = recent.get(target).getAsString();
+            for (String release : new String[] {"renamed_1_21_11", "renamed_26_2", "renamed_26_3"}) {
+                JsonObject aliases = TARGET_UPGRADES.getAsJsonObject(release);
+                if (aliases.has(target)) {
+                    target = aliases.get(target).getAsString();
+                }
             }
         }
 
@@ -538,8 +542,9 @@ final class ForwardUpgradeChecks {
         return target;
     }
 
-    private static String currentItemTarget(String id) {
-        return currentTarget("blocks", currentTarget("items", id));
+    static String currentItemTarget(String id) {
+        String target = currentTarget("blocks", currentTarget("items", id));
+        return target.equals("minecraft:potted_poplar_sapling") ? "minecraft:poplar_sapling" : target;
     }
 
     private static <T extends Comparable<T>> BlockState sourceProperty(BlockState state,

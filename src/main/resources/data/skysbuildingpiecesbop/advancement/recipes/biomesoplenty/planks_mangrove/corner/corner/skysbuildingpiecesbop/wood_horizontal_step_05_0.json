@@ -13,7 +13,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/planks_mangrove/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_05_0"
+        "recipes": "skysbuildingpieces:biomesoplenty/planks_mangrove/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_05_0"
       }
     }
   },

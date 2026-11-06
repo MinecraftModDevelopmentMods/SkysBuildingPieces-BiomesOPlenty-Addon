@@ -1,19 +1,17 @@
 package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 
 import java.io.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.ContainerInput;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.*;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.eventbus.api.listener.Priority;
 
 import zone.moddev.mc.skysbuildingpieces.probe.ClientStatus;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.*;
@@ -30,7 +28,6 @@ public final class BasketGuiClientChecks {
     private static volatile boolean serverChecked;
     private static volatile boolean depositConfirmed;
     private static volatile boolean deathTriggered;
-    private static ServerPlayer deathOwner;
     private static int deathDrops = -1;
     private static int throwCheckAt;
     private static volatile boolean offhandMoved;
@@ -38,22 +35,6 @@ public final class BasketGuiClientChecks {
     static void register() {
         TickEvent.ClientTickEvent.Post.BUS.addListener(net.minecraftforge.eventbus.api.listener.Priority.HIGHEST,
                 BasketGuiClientChecks::tick);
-        LivingDropsEvent.BUS.addListener(Priority.LOWEST, (java.util.function.Predicate<LivingDropsEvent>) event -> {
-            if (event.getEntity() == deathOwner) {
-                deathDrops = 0;
-                for (var entity : event.getDrops()) {
-                    ItemStack stack = entity.getItem();
-                    if (stack.getItem() == Baskets.ITEM && BopProbeItems.hasCustom(stack)
-                            && BopProbeItems.custom(stack).getStringOr("TestBasket", "").equals(TEST_BASKET)) {
-                        deathDrops++;
-                        if (new BasketInventory(stack, deathOwner.registryAccess()).getItem(0).getCount() != 3) {
-                            throw new AssertionError("Death lost basket contents");
-                        }
-                    }
-                }
-            }
-            return false;
-        });
     }
 
     public static void tick(TickEvent.ClientTickEvent.Post event) {
@@ -212,9 +193,19 @@ public final class BasketGuiClientChecks {
                 menu.basket
                         .insert(new ItemStack(net.minecraft.world.level.block.Blocks.OAK_SAPLING, 3));
                 player.getAbilities().instabuild = false;
-                deathOwner = player;
                 player.setHealth(0);
                 player.die(player.damageSources().fellOutOfWorld());
+
+                // The inventory now spawns its drops directly. Check the actual item entity.
+                var drops = player.level().getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(2),
+                        drop -> drop.getItem().is(Baskets.ITEM) && BopProbeItems.hasCustom(drop.getItem())
+                                && BopProbeItems.custom(drop.getItem()).getStringOr("TestBasket", "").equals(TEST_BASKET));
+                deathDrops = drops.size();
+                for (ItemEntity drop : drops) {
+                    if (new BasketInventory(drop.getItem(), player.registryAccess()).getItem(0).getCount() != 3) {
+                        throw new AssertionError("Death lost basket contents");
+                    }
+                }
                 deathTriggered = true;
             });
         } else if (stage == 7 && deathTriggered) {

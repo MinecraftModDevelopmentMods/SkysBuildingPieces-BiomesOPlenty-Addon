@@ -74,7 +74,7 @@ final class LegacyPlantItems {
                                 "No safe saved plant target for " + identifier + "/" + metadata);
                     }
 
-                    nativeTarget = variants.get(metadata).getAsString();
+                    nativeTarget = NamedBopRecovery.currentMapleItem(variants.get(metadata).getAsString());
                     if (nativeTarget.equals("minecraft:grass")) {
                         nativeTarget = "minecraft:short_grass";
                     }

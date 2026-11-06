@@ -13,7 +13,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpiecesbop:flower_basket"
+        "recipes": "skysbuildingpiecesbop:flower_basket"
       }
     }
   },

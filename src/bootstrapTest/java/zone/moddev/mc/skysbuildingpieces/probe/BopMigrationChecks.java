@@ -103,7 +103,8 @@ public final class BopMigrationChecks {
             ListTag palette = sections.getCompoundOrEmpty(index).getListOrEmpty("Palette");
 
             for (int entry = 0; entry < palette.size(); entry++) {
-                if (encoded.equals(palette.getCompoundOrEmpty(entry))) {
+                if (encoded.equals(zone.moddev.mc.skysbuildingpieces.probe.legacy.LegacyTestScope
+                        .nativeStateTag(palette.getCompoundOrEmpty(entry)))) {
                     return true;
                 }
             }

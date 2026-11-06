@@ -27,15 +27,18 @@ class RecipeAdvancementContractTest {
             Path path = Paths.get("src/main/resources", relative);
             JsonObject advancement = new JsonParser().parse(read(path)).getAsJsonObject();
 
-            if (advancement.has("forge:conditional")) {
-                for (JsonElement alternative : advancement.getAsJsonArray("forge:conditional")) {
-                    JsonObject conditional = alternative.getAsJsonObject();
-
-                    assertTrue(conditional.has("forge:condition"));
-                    check(conditional);
+            check(advancement);
+            if (advancement.has("forge:children")) {
+                JsonArray alternatives = advancement.getAsJsonArray("forge:children");
+                assertTrue(advancement.has("forge:condition"));
+                assertFalse(alternatives.get(0).getAsJsonObject().has("child"));
+                for (int alternative = 0; alternative < alternatives.size(); alternative++) {
+                    JsonObject choice = alternatives.get(alternative).getAsJsonObject();
+                    assertTrue(choice.has("forge:condition"));
+                    if (alternative != 0) {
+                        check(choice.getAsJsonObject("child"));
+                    }
                 }
-            } else {
-                check(advancement);
             }
 
             count++;
@@ -62,8 +65,9 @@ class RecipeAdvancementContractTest {
 
         JsonObject criteria = advancement.getAsJsonObject("criteria");
 
-        assertEquals("minecraft:recipe_unlocked",
-                criteria.getAsJsonObject("has_the_recipe").get("trigger").getAsString());
+        JsonObject unlock = criteria.getAsJsonObject("has_the_recipe");
+        assertEquals("minecraft:recipe_unlocked", unlock.get("trigger").getAsString());
+        assertEquals(recipe, unlock.getAsJsonObject("conditions").get("recipes").getAsString());
 
         JsonArray requirements = advancement.getAsJsonArray("requirements");
 

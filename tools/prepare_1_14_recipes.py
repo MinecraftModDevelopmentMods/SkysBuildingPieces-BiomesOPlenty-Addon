@@ -179,7 +179,7 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
                     'has_ingredient': {'trigger': 'minecraft:inventory_changed',
                                        'conditions': {'items': [{'items': [ingredient]}]}},
                     'has_the_recipe': {'trigger': 'minecraft:recipe_unlocked',
-                                       'conditions': {'recipe': 'skysbuildingpieces:' + path}}},
+                                       'conditions': {'recipes': 'skysbuildingpieces:' + path}}},
                 'requirements': [['has_ingredient', 'has_the_recipe']],
                 'rewards': {'recipes': ['skysbuildingpieces:' + path]}}
             if conditions:
@@ -327,12 +327,23 @@ def native_ingredient(value):
     return value
 
 
+def conditional_advancement(choices):
+    root = dict(choices[0][1])
+    conditions = [condition for condition, _ in choices]
+    root['forge:condition'] = {'type': 'forge:or', 'values': conditions}
+    children = [{'forge:condition': conditions[0]}]
+    for condition, advancement in choices[1:]:
+        children.append({'forge:condition': condition, 'child': advancement})
+    root['forge:children'] = children
+    return root
+
+
 def native_advancement(advancement):
     if 'advancements' in advancement:
-        return {'forge:conditional': [
-            {'forge:condition': all_conditions(choice['conditions']), **native_advancement(choice['advancement'])}
+        return conditional_advancement([
+            (all_conditions(choice['conditions']), native_advancement(choice['advancement']))
             for choice in advancement['advancements']
-        ]}
+        ])
     if 'conditions' in advancement:
         advancement['forge:condition'] = all_conditions(advancement.pop('conditions'))
     for criterion in advancement['criteria'].values():
@@ -412,7 +423,7 @@ def main():
             'has_sticks': {'trigger': 'minecraft:inventory_changed',
                            'conditions': {'items': [{'tag': 'forge:rods/wooden'}]}},
             'has_the_recipe': {'trigger': 'minecraft:recipe_unlocked',
-                               'conditions': {'recipe': 'skysbuildingpiecesbop:flower_basket'}}},
+                               'conditions': {'recipes': 'skysbuildingpiecesbop:flower_basket'}}},
         'requirements': [['has_sticks', 'has_the_recipe']],
         'rewards': {'recipes': ['skysbuildingpiecesbop:flower_basket']}}
     for name in ('gabbro', 'limestone', 'limestone_smooth', 'shale', 'shale_smooth', 'siltstone', 'siltstone_smooth'):
@@ -427,7 +438,7 @@ def main():
             'criteria': {
                 'has_ingredient': {'trigger': 'minecraft:inventory_changed',
                                    'conditions': {'items': [{'items': [ingredient]}]}},
-                'has_the_recipe': {'trigger': 'minecraft:recipe_unlocked', 'conditions': {'recipe': identity}}},
+                'has_the_recipe': {'trigger': 'minecraft:recipe_unlocked', 'conditions': {'recipes': identity}}},
             'requirements': [['has_ingredient', 'has_the_recipe']], 'rewards': {'recipes': [identity]}}
     manifest = args.resources.parent / 'recipe-book/native-1.14-generated.json'
     previous = json.loads(manifest.read_text(encoding='utf-8')) if manifest.is_file() else []

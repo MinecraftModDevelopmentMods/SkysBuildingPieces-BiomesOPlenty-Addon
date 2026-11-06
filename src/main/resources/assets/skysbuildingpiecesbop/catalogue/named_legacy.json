@@ -179,6 +179,20 @@
     "biomesoplenty:grassland": "biomesoplenty:field",
     "biomesoplenty:jacaranda_glade": "biomesoplenty:lavender_field"
   },
+  "renamed_26_3": {
+    "biomesoplenty:orange_maple_leaf_litter": "minecraft:leaf_litter",
+    "biomesoplenty:orange_maple_leaves": "minecraft:orange_poplar_leaves",
+    "biomesoplenty:orange_maple_sapling": "minecraft:poplar_sapling",
+    "biomesoplenty:potted_orange_maple_sapling": "minecraft:potted_poplar_sapling",
+    "biomesoplenty:potted_red_maple_sapling": "minecraft:potted_poplar_sapling",
+    "biomesoplenty:potted_yellow_maple_sapling": "minecraft:potted_poplar_sapling",
+    "biomesoplenty:red_maple_leaf_litter": "minecraft:leaf_litter",
+    "biomesoplenty:red_maple_leaves": "minecraft:red_poplar_leaves",
+    "biomesoplenty:red_maple_sapling": "minecraft:poplar_sapling",
+    "biomesoplenty:yellow_maple_leaf_litter": "minecraft:leaf_litter",
+    "biomesoplenty:yellow_maple_leaves": "minecraft:yellow_poplar_leaves",
+    "biomesoplenty:yellow_maple_sapling": "minecraft:poplar_sapling"
+  },
   "renamed_26_2": {
     "biomesoplenty:brimstone": "biomesoplenty:orpiment",
     "biomesoplenty:brimstone_brick_slab": "biomesoplenty:orpiment_brick_slab",

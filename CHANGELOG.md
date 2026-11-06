@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.4.2603001
+
+- Updated the add-on for Minecraft 26.3 on Forge.
+- Saved maple leaves, saplings and litter that Biomes O' Plenty removed now
+  use the closest vanilla equivalents. Planted flowerpots stay planted.
+  Potted sapling items become poplar saplings.
+- Signs keep both their visible text and filtered text through an upgrade.
+
 ## 0.2.4.2602001
 
 - Updated the add-on for Minecraft 26.2 on Forge.

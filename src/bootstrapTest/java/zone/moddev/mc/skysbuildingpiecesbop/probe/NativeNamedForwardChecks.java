@@ -142,7 +142,7 @@ final class NativeNamedForwardChecks {
                     expected.putString("Name", replacement);
                 }
             }
-            net.minecraft.world.level.block.state.BlockState decoded = NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, expected);
+            net.minecraft.world.level.block.state.BlockState decoded = BopProbeItems.readSavedBlockState(expected);
             if (source.endsWith("_maple_leaf_pile")) {
                 var segmentAmount = decoded.getBlock().getStateDefinition().getProperty("segment_amount");
                 require(segmentAmount != null, "A maple leaf pile must become leaf litter");
@@ -159,7 +159,7 @@ final class NativeNamedForwardChecks {
                         zone.moddev.mc.skysbuildingpieces.content.Pieces.canonicalState(decoded));
             }
             CompoundTag actual = NbtUtils.writeBlockState(world.getBlockState(position(saved)));
-            require(expected.equals(actual), "Saved block changed at " + position(saved) + ": " + actual
+            require(zone.moddev.mc.skysbuildingpieces.probe.legacy.LegacyTestScope.nativeStateTag(expected).equals(actual), "Saved block changed at " + position(saved) + ": " + actual
                     + ", expected " + expected);
             states++;
         }
@@ -281,8 +281,7 @@ final class NativeNamedForwardChecks {
                         properties.putString("waterlogged", "false");
                     }
                 } else {
-                    String itemTarget = ForwardUpgradeChecks.currentTarget("items", id);
-                    saved.putString("id", ForwardUpgradeChecks.currentTarget("blocks", itemTarget));
+                    saved.putString("id", ForwardUpgradeChecks.currentItemTarget(id));
                 }
             }
             for (String key : saved.keySet()) {
@@ -312,16 +311,16 @@ final class NativeNamedForwardChecks {
             var sign = (net.minecraft.world.level.block.entity.SignBlockEntity) world.getBlockEntity(position);
             require(sign.getType() == net.minecraft.world.level.block.entity.BlockEntityTypes.SIGN,
                     "Saved cherry sign still uses an incompatible block entity type at " + position);
-            var front = sign.getFrontText();
+            var front = sign.getText(net.minecraft.world.level.block.entity.SignTextSlot.FRONT);
             if ((original.get("front_text") instanceof net.minecraft.nbt.CompoundTag)) {
                 checkSignFace(world, front, original.getCompoundOrEmpty("front_text"), position);
-                checkSignFace(world, sign.getBackText(), original.getCompoundOrEmpty("back_text"), position);
+                checkSignFace(world, sign.getText(net.minecraft.world.level.block.entity.SignTextSlot.BACK), original.getCompoundOrEmpty("back_text"), position);
                 require(sign.isWaxed() == original.getBooleanOr("is_waxed", false), "Saved sign wax changed at " + position);
                 continue;
             }
             for (int line = 0; line < 4; line++) {
-                require(front.getMessage(line, false).equals(BopProbeItems.readSavedText(original.getStringOr("Text" + (line + 1), ""), world)), "Saved sign text changed at " + position);
-                require(front.getMessage(line, true).equals(BopProbeItems.readSavedText(original.getStringOr("FilteredText" + (line + 1), ""), world)), "Saved filtered sign text changed at " + position);
+                require(front.getMessages(false).get(line).equals(BopProbeItems.readSavedText(original.getStringOr("Text" + (line + 1), ""), world)), "Saved sign text changed at " + position);
+                require(front.getMessages(true).get(line).equals(BopProbeItems.readSavedText(original.getStringOr("FilteredText" + (line + 1), ""), world)), "Saved filtered sign text changed at " + position);
             }
             require(front.getColor().getName().equals(original.getStringOr("Color", ""))
                     && front.hasGlowingText() == original.getBooleanOr("GlowingText", false),
@@ -380,7 +379,7 @@ final class NativeNamedForwardChecks {
                             upstream.get(2).getAsInt());
                     var stateData = NbtUtils.writeBlockState(state);
                     matchesFluid = world.getBlockState(sourcePos).is(net.minecraft.world.level.block.Blocks.LAVA)
-                            && stateData.getCompoundOrEmpty("Properties").getStringOr("level", "")
+                            && stateData.getCompoundOrEmpty("properties").getStringOr("level", "")
                                     .equals(fluid.get("level").getAsString());
                 }
                 require(matchesFluid || oldHeight && (state.is(net.minecraft.world.level.block.Blocks.WATER)
@@ -421,7 +420,7 @@ final class NativeNamedForwardChecks {
         for (int line = 0; line < 4; line++) {
             var visible = BopProbeItems.readSavedText(lines.getStringOr(line, ""), world);
             var filteredText = filtered.isEmpty() ? visible : BopProbeItems.readSavedText(filtered.getStringOr(line, ""), world);
-            require(actual.getMessage(line, false).equals(visible) && actual.getMessage(line, true).equals(filteredText),
+            require(actual.getMessages(false).get(line).equals(visible) && actual.getMessages(true).get(line).equals(filteredText),
                     "Saved sign text changed at " + position);
         }
         require(actual.getColor().getName().equals(saved.getStringOr("color", ""))

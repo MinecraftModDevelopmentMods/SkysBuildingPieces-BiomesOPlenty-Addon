@@ -51,7 +51,7 @@ public final class BopWorldMappings {
 
         String savedTarget = target.get("id").getAsString();
         Identifier identity = Identifier.parse(savedTarget.equals("minecraft:grass")
-                ? "minecraft:short_grass" : savedTarget);
+                ? "minecraft:short_grass" : NamedBopRecovery.currentMapleBlock(savedTarget));
         Block block = ForgeRegistries.BLOCKS.getValue(identity);
 
         if (block == null || block == Blocks.AIR) {

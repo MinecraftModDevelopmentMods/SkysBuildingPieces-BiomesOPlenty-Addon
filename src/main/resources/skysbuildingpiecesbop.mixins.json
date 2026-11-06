@@ -3,6 +3,6 @@
   "minVersion": "0.8",
   "package": "zone.moddev.mc.skysbuildingpiecesbop.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": ["ItemPickupTarget", "RetiredBiomeRemapMixin", "RetiredRockHardnessMixin"],
+  "mixins": ["ItemPickupTarget", "RetiredBiomeRemapMixin", "RetiredRockHardnessMixin", "SignTextCopyMixin"],
   "injectors": {"defaultRequire": 1}
 }

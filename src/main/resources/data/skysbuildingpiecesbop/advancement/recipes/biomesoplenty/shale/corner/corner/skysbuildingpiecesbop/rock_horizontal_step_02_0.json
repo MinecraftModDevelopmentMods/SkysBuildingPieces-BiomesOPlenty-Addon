@@ -13,7 +13,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/shale/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_02_0"
+        "recipes": "skysbuildingpieces:biomesoplenty/shale/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_02_0"
       }
     }
   },
