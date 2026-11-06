@@ -26,9 +26,9 @@ class NamedRecoveryContractTest {
                     Paths.get("src/compatibilityTest/resources/pack.mcmeta")), new HashSet<>(packs));
             for (java.nio.file.Path pack : packs) {
                 JsonObject metadata = read(pack.toString()).getAsJsonObject("pack");
-                assertEquals(101, metadata.get("max_format").getAsInt(), pack.toString());
+                assertEquals(107, metadata.get("max_format").getAsInt(), pack.toString());
                 JsonArray minimum = metadata.getAsJsonArray("min_format");
-                assertEquals(101, minimum.get(0).getAsInt(), pack.toString());
+                assertEquals(107, minimum.get(0).getAsInt(), pack.toString());
                 assertEquals(1, minimum.get(1).getAsInt(), pack.toString());
             }
         }
@@ -99,6 +99,20 @@ class NamedRecoveryContractTest {
             var replacements = recovery.getAsJsonObject(format);
             assertTrue(keys(replacements).containsAll(removedBiomes));
             requirePresentTargets(replacements, target, "biomes");
+        }
+    }
+
+    @Test
+    void theRetiredRocksAndPiecesUseCurrentBopBlocksAndItems() throws Exception {
+        var delta = read("src/testFixtures/bop-26.2-resource-delta.json");
+        var aliases = read("src/main/resources/assets/skysbuildingpiecesbop/catalogue/named_legacy.json")
+                .getAsJsonObject("renamed_26_2");
+        assertEquals(11, aliases.size());
+        for (String kind : new String[] {"blocks", "items"}) {
+            assertEquals(identities(delta.getAsJsonArray("retired_" + kind), null), keys(aliases));
+            var added = identities(delta.getAsJsonArray("added_" + kind), null);
+            aliases.entrySet().forEach(alias ->
+                    assertTrue(added.contains(alias.getValue().getAsString()), alias.toString()));
         }
     }
 

@@ -258,7 +258,7 @@ public final class BopCompatibilityChecks {
         private final LazyOptional<ItemStackHandler> optional = LazyOptional.of(() -> handler);
 
         HandlerTile(BlockPos position) {
-            super(BlockEntityType.CHEST, position, Blocks.CHEST.defaultBlockState());
+            super(net.minecraft.world.level.block.entity.BlockEntityTypes.CHEST, position, Blocks.CHEST.defaultBlockState());
         }
 
         @Override

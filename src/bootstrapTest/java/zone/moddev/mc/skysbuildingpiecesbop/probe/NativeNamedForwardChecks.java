@@ -310,7 +310,7 @@ final class NativeNamedForwardChecks {
             require(world.getBlockEntity(position) instanceof net.minecraft.world.level.block.entity.SignBlockEntity,
                     "Saved cherry sign lost its block entity at " + position);
             var sign = (net.minecraft.world.level.block.entity.SignBlockEntity) world.getBlockEntity(position);
-            require(sign.getType() == net.minecraft.world.level.block.entity.BlockEntityType.SIGN,
+            require(sign.getType() == net.minecraft.world.level.block.entity.BlockEntityTypes.SIGN,
                     "Saved cherry sign still uses an incompatible block entity type at " + position);
             var front = sign.getFrontText();
             if ((original.get("front_text") instanceof net.minecraft.nbt.CompoundTag)) {

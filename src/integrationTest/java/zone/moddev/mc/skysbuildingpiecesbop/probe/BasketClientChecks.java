@@ -35,7 +35,7 @@ public final class BasketClientChecks {
 
         Minecraft minecraft = Minecraft.getInstance();
         // The title screen can bake models before the item's components are bound.
-        if (minecraft.getOverlay() != null || minecraft.level == null || minecraft.player == null) {
+        if (minecraft.gui.overlay() != null || minecraft.level == null || minecraft.player == null) {
             return;
         }
         checked = true;

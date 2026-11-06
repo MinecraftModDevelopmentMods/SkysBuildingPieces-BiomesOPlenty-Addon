@@ -98,7 +98,7 @@ public final class BasketDisconnectClientChecks {
         } else if (stage == 1 && minecraft.player.getMainHandItem().getItem() == Baskets.ITEM) {
             stage = 2;
             minecraft.gameMode.useItem(minecraft.player, InteractionHand.MAIN_HAND);
-        } else if (stage == 2 && minecraft.screen instanceof BasketScreen) {
+        } else if (stage == 2 && minecraft.gui.screen() instanceof BasketScreen) {
             if (windowReadyAt == 0) {
                 windowReadyAt = ticks;
             }

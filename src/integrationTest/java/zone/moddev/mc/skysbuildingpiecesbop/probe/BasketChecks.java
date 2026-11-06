@@ -74,7 +74,11 @@ public final class BasketChecks {
             }
             require(BasketInventory.accepts(new ItemStack(Blocks.OAK_SAPLING)), "saplings accepted");
             require(BasketInventory.accepts(new ItemStack(Blocks.OAK_LEAVES)), "leaves accepted");
+            require(BasketInventory.accepts(new ItemStack(Blocks.VINE)), "vines accepted");
+            require(BasketInventory.accepts(new ItemStack(Blocks.SHORT_DRY_GRASS)), "dry grass accepted");
+            require(BasketInventory.accepts(new ItemStack(Blocks.COBWEB)), "cobwebs accepted");
             require(!BasketInventory.accepts(new ItemStack(Items.DIAMOND)), "non-plants rejected");
+            require(!BasketInventory.accepts(new ItemStack(Blocks.WOOL.white())), "wool rejected");
             require(BasketInventory.accepts(new ItemStack(Items.WHEAT_SEEDS)),
                     "native crop seed block-items retain plant eligibility");
             require(!BasketInventory.accepts(new ItemStack(Baskets.ITEM)), "no nested baskets");

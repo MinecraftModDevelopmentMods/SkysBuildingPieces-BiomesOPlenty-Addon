@@ -2,16 +2,18 @@ package zone.moddev.mc.skysbuildingpiecesbop.basket;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
-
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.DryVegetationBlock;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.VineBlock;
+import net.minecraft.world.level.block.WebBlock;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.IForgeShearable;
 
 /** A basket keeps its inventory on the owning stack, including when it is dropped. */
 public final class BasketInventory extends SimpleContainer {
@@ -50,7 +52,11 @@ public final class BasketInventory extends SimpleContainer {
 
         Block block = Block.byItem(stack.getItem());
 
-        return block instanceof IPlantable || block instanceof BonemealableBlock || block instanceof IForgeShearable;
+        // Forge no longer marks blocks as shearable. Keep the same block families
+        // eligible; tall grass and seagrass already qualify through bonemeal.
+        return block instanceof IPlantable || block instanceof BonemealableBlock
+                || block instanceof LeavesBlock || block instanceof VineBlock
+                || block instanceof DryVegetationBlock || block instanceof WebBlock;
     }
 
     @Override

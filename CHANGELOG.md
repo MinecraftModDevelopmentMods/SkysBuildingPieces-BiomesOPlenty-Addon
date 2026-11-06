@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.4.2602001
+
+- Updated the add-on for Minecraft 26.2 on Forge.
+
 ## 0.2.4.2601021
 
 - Updated to Minecraft 26.1.2 and Forge 64.0.9.

@@ -2,12 +2,12 @@
 
 Use Temurin 25.0.3+9 to build and run the mod. Set `SBP_JAVA25_HOME` to that
 installation to select the exact toolchain. The wrapper uses Gradle 9.6.1 and
-ForgeGradle 7.0.34 for Minecraft 26.1.2 and Forge 64.0.9.
+ForgeGradle 7.0.34 for Minecraft 26.2 and Forge 65.1.0.
 
 The runtime log checks use Python 3.11 or later. If `python` is not on your
 path, pass `-PpythonExecutable=<python executable>` to Gradle.
 
-Check out Building Pieces 0.3.8.2601021 at the exact source commit in
+Check out Building Pieces 0.3.8.2602001 at the exact source commit in
 `gradle/core-dependency.properties`, then run its `gradlew assemble` task.
 Build this add-on with:
 
@@ -45,7 +45,7 @@ advancements use matching Forge conditions.
 material, basket, decoration and migration checks, then reloads the saved world.
 The accepted 1.12, 1.14, 1.15, 1.16, 1.17 and 1.18 jars produced the sealed worlds in
 `src/testFixtures`; the forward tests copy those worlds before starting the
-native Forge 26.1.2 server.
+native Forge 26.2 server.
 Older synthetic fixture writers are no longer used to create pre-flattening saves.
 
 `nativeClientTest` checks the baked models and basket GUI through real client

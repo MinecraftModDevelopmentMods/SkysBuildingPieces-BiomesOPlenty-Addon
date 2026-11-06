@@ -1,5 +1,15 @@
 # Existing worlds
 
+## Moving to Minecraft 26.2
+
+Brimstone becomes orpiment, and thermal calcite becomes sphalerite. The
+matching brick slabs, stairs and walls keep their shapes and orientations.
+Stored items keep their counts, custom names and other data. Sphalerite no
+longer uses the old colour changes based on distance from a vent.
+
+Back up your world before updating the core and add-on together. Use Biomes
+O' Plenty 26.2.0.0.28, TerraBlender 26.2.0.0.2 and GlitchCore 26.2.0.0.0.
+
 ## Moving to Minecraft 26.1.2
 
 Back up the entire world before upgrading. Update the core mod and this add-on

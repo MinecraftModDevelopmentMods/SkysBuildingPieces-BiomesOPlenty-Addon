@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.MethodInsnNode;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RetiredRockHardnessHookTest {
@@ -42,10 +43,28 @@ class RetiredRockHardnessHookTest {
                 .getAsJsonObject();
         assertTrue(config.get("required").getAsBoolean());
         assertEquals(1, config.getAsJsonObject("injectors").get("defaultRequire").getAsInt());
-        assertEquals(java.util.Set.of("ItemPickupTarget", "RetiredBiomeRemapMixin", "RetiredRockHardnessMixin"),
+        assertEquals(java.util.Set.of("ItemPickupTarget", "LevelFileUpgradeMixin",
+                        "RetiredBiomeRemapMixin", "RetiredRockHardnessMixin"),
                 config.getAsJsonArray("mixins").asList().stream().map(value -> value.getAsString())
                         .collect(java.util.stream.Collectors.toSet()));
         assertFalse(Files.exists(resources.resolve("META-INF/coremods.json")));
+    }
+
+    @Test
+    void theFileUpgradeHasOneLocalLevelDataRead() throws Exception {
+        var fixer = nativeClass("net/minecraft/util/filefix/FileFixerUpper");
+        var writes = fixer.methods.stream()
+                .filter(method -> method.name.equals("writeUpdatedLevelData")
+                        && method.desc.equals("(Ljava/nio/file/Path;I)V"))
+                .toList();
+        assertEquals(1, writes.size());
+        assertEquals(1, java.util.Arrays.stream(writes.getFirst().instructions.toArray())
+                .filter(instruction -> instruction instanceof MethodInsnNode call
+                        && call.owner.equals("net/minecraft/nbt/NbtIo")
+                        && call.name.equals("readCompressed")
+                        && call.desc.equals("(Ljava/nio/file/Path;Lnet/minecraft/nbt/NbtAccounter;)"
+                                + "Lnet/minecraft/nbt/CompoundTag;"))
+                .count());
     }
 
     private static ClassNode nativeClass(String name) throws Exception {

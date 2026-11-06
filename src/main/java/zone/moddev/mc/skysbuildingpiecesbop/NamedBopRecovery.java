@@ -41,6 +41,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 /** Recovers named BOP content removed after flattening, before native loaders read it. */
 public final class NamedBopRecovery {
     private static final Map<String, String> RECENT_BLOCKS = mappings("renamed_1_21_11");
+    private static final Map<String, String> NATIVE_RENAMES = mappings("renamed_26_2");
     private static final Map<String, String> BLOCKS = blockMappings();
     private static final Map<String, String> ITEMS = itemMappings();
     private static final Map<String, String> BIOMES = mappings("biomes");
@@ -83,6 +84,7 @@ public final class NamedBopRecovery {
     private static Map<String, String> blockMappings() {
         Map<String, String> result = new LinkedHashMap<>(mappings("blocks"));
         result.putAll(RECENT_BLOCKS);
+        result.putAll(NATIVE_RENAMES);
         return Collections.unmodifiableMap(result);
     }
 
@@ -620,6 +622,16 @@ public final class NamedBopRecovery {
             state = withProperty(state, amount, "4");
         }
         for (String name : properties.keySet()) {
+            if (name.equals("distance")
+                    && (source.equals("biomesoplenty:thermal_calcite")
+                    || source.equals("biomesoplenty:thermal_calcite_vent"))) {
+                // Sphalerite no longer colours its surface by distance from a vent.
+                String distance = properties.getStringOr(name, "");
+                if (!distance.matches("[1-5]")) {
+                    throw new IllegalStateException("Invalid thermal calcite distance: " + saved);
+                }
+                continue;
+            }
             Property<?> property = block.getStateDefinition().getProperty(name);
 
             if (property == null || !(properties.get(name) instanceof net.minecraft.nbt.StringTag)) {
@@ -627,7 +639,9 @@ public final class NamedBopRecovery {
             }
             state = withProperty(state, property, properties.getString(name).orElseThrow());
         }
-        if (state.hasProperty(net.minecraft.world.level.block.SlabBlock.TYPE)
+        // BOP still has native double slabs for its renamed rocks. Keep their saved shape.
+        if (!NATIVE_RENAMES.containsKey(source)
+                && state.hasProperty(net.minecraft.world.level.block.SlabBlock.TYPE)
                 && state.getValue(net.minecraft.world.level.block.SlabBlock.TYPE) == net.minecraft.world.level.block.state.properties.SlabType.DOUBLE) {
             if (state.getValue(net.minecraft.world.level.block.SlabBlock.WATERLOGGED)) {
                 throw new IllegalStateException("Cannot safely normalize a waterlogged double slab: " + target + ". "
