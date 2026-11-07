@@ -84,7 +84,11 @@ class PublicationContractTest {
 
         assertTrue(workflow.contains("2) loader_suffix=-neo"));
         assertTrue(ci.contains("steps.target.outputs.java_setup_version"));
-        assertTrue(ci.contains("steps.target.outputs.gradle_java_version"));
+        var metadata = new java.util.Properties();
+        metadata.load(new java.io.StringReader(text("gradle.properties")));
+        assertEquals(metadata.getProperty("java_toolchain_version"),
+                metadata.getProperty("gradle_java_toolchain_version"));
+        assertFalse(ci.contains("Install Java for Gradle"));
         assertTrue(ci.contains("artifact_prefix=SkysBuildingPieces-BiomesOPlenty-Addon-$(value mod_version)"));
         assertTrue(ci.contains("- 'master-*'"));
         assertTrue(tags.contains("s/^minecraft_version=//p"));
