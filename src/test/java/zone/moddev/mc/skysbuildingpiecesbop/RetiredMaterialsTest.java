@@ -34,9 +34,8 @@ class RetiredMaterialsTest {
 
                     JsonObject fallback = full.getAsJsonObject("fallback");
 
-                    assertEquals("skysbuildingpiecesbop:retired_rocks", fallback.get("id").getAsString());
-                    assertEquals(Integer.toString(meta),
-                            fallback.getAsJsonObject("properties").get("variant").getAsString());
+                    assertEquals("skysbuildingpiecesbop:retired_" + rocks[meta], fallback.get("id").getAsString());
+                    assertFalse(fallback.has("properties"));
                     assertTrue(slots.add(meta));
                     assertEquals("skysbuildingpiecesbop:block/retired_" + rocks[meta],
                             material.get("textures").getAsString());

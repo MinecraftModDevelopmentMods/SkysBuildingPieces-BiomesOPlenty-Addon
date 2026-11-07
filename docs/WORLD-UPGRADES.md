@@ -2,6 +2,10 @@
 
 ## Moving to Minecraft 1.21.1
 
+Placed pieces and fallback rocks now have individual block IDs. When an
+older chunk loads, its pieces keep their materials and shapes, and its
+fallback rocks keep the same rock type. The change is automatic.
+
 Old maple and autumn foliage and saplings move to the corresponding red,
 orange or yellow maple forms. Pots keep their plants where an equivalent
 exists; potted wildflowers become potted lavender. Existing Clover Patch,

@@ -97,10 +97,7 @@
       "full": {
         "id": "mineralogy:gabbro",
         "fallback": {
-          "id": "skysbuildingpiecesbop:retired_rocks",
-          "properties": {
-            "variant": "0"
-          }
+          "id": "skysbuildingpiecesbop:retired_gabbro"
         }
       }
     },
@@ -130,10 +127,7 @@
       "full": {
         "id": "mineralogy:limestone",
         "fallback": {
-          "id": "skysbuildingpiecesbop:retired_rocks",
-          "properties": {
-            "variant": "1"
-          }
+          "id": "skysbuildingpiecesbop:retired_limestone"
         }
       }
     },
@@ -164,10 +158,7 @@
       "full": {
         "id": "mineralogy:limestone_smooth",
         "fallback": {
-          "id": "skysbuildingpiecesbop:retired_rocks",
-          "properties": {
-            "variant": "2"
-          }
+          "id": "skysbuildingpiecesbop:retired_limestone_smooth"
         }
       }
     },
@@ -1156,10 +1147,7 @@
       "full": {
         "id": "mineralogy:shale",
         "fallback": {
-          "id": "skysbuildingpiecesbop:retired_rocks",
-          "properties": {
-            "variant": "3"
-          }
+          "id": "skysbuildingpiecesbop:retired_shale"
         }
       }
     },
@@ -1190,10 +1178,7 @@
       "full": {
         "id": "mineralogy:shale_smooth",
         "fallback": {
-          "id": "skysbuildingpiecesbop:retired_rocks",
-          "properties": {
-            "variant": "4"
-          }
+          "id": "skysbuildingpiecesbop:retired_shale_smooth"
         }
       }
     },
@@ -1224,10 +1209,7 @@
       "full": {
         "id": "mineralogy:siltstone",
         "fallback": {
-          "id": "skysbuildingpiecesbop:retired_rocks",
-          "properties": {
-            "variant": "5"
-          }
+          "id": "skysbuildingpiecesbop:retired_siltstone"
         }
       }
     },
@@ -1258,10 +1240,7 @@
       "full": {
         "id": "mineralogy:siltstone_smooth",
         "fallback": {
-          "id": "skysbuildingpiecesbop:retired_rocks",
-          "properties": {
-            "variant": "6"
-          }
+          "id": "skysbuildingpiecesbop:retired_siltstone_smooth"
         }
       }
     },

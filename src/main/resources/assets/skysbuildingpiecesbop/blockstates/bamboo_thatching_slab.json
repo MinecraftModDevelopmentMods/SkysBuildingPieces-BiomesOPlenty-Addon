@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "orientation=top,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/bamboo_thatching_slab_0"
+    },
+    "orientation=top,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/bamboo_thatching_slab_0"
+    },
+    "orientation=bottom,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/bamboo_thatching_slab_1"
+    },
+    "orientation=bottom,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/bamboo_thatching_slab_1"
+    }
+  }
+}

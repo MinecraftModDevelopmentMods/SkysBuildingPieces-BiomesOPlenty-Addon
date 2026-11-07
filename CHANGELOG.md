@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.5.121012
+
+- Give each building piece and fallback rock its own block ID.
+- Convert pieces and rocks from existing worlds when their chunks load.
+
 ## 0.2.4.121012
 
 - Updated the add-on to Minecraft 1.21.1 and NeoForge 21.1.247.
