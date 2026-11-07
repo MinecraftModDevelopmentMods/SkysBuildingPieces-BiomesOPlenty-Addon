@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/crag_rock",
+  "pattern": ["X", "X"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:crag_rock_corner"
+    }
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:crag_rock_horizontal_step",
+    "count": 1
+  },
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:crag_rock_corner"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:crag_rock_horizontal_step"
+        }
+      ]
+    }
+  ]
+}

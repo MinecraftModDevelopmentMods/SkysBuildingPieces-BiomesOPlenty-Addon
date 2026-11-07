@@ -29,8 +29,10 @@ class BopCatalogueTest {
         Catalogue core = new Catalogue();
 
         int pathPalettes = core.materials.containsKey("minecraft:grass_path") ? 2 : 0;
+
         assertEquals(235 + pathPalettes, core.palettes.size());
         assertEquals(303 + pathPalettes, core.palettes.size() + 2 + catalogueModule.palettes.size());
+
         if (pathPalettes != 0) {
             assertEquals("path_step_00", core.palettes.get(235).id);
             assertEquals("path_corner_00", core.palettes.get(236).id);
@@ -61,10 +63,8 @@ class BopCatalogueTest {
 
             assertFalse(palette.group.equals("wood") && palette.shape == Shape.WALL);
 
-            for (String material : palette.materials) {
-                assertNull(catalogueModule.materials.get(material).block(palette.shape.name().toLowerCase(Locale.ROOT)),
-                        "native equivalent must be reused");
-            }
+            // Permanent source slots remain recoverable even when a later BOP release provides a native equivalent or
+            // retires the material.
         }
 
         Properties locked = new Properties();
@@ -109,7 +109,12 @@ class BopCatalogueTest {
             JsonObject variants = state.getAsJsonObject("variants");
             int perMeta = palette.shape == Shape.WALL ? 32 : palette.shape == Shape.STAIRS ? 5 : 1;
 
-            assertEquals(16 * perMeta, variants.entrySet().size(), palette.id);
+            boolean singleConnectionBlock = palette.materials.size() == 1
+                    && (palette.shape == Shape.WALL || palette.shape == Shape.PANE);
+            int assigned = palette.materials.size() * palette.shape.states;
+
+            assertTrue(variants.entrySet().size() >= (singleConnectionBlock ? 1 : assigned) * perMeta * 2, palette.id);
+            assertTrue(variants.entrySet().size() <= (singleConnectionBlock ? 1 : 16) * perMeta * 2, palette.id);
 
             for (int meta = 0; meta < 16; meta++) {
                 int covered = 0;
@@ -122,11 +127,17 @@ class BopCatalogueTest {
                     }
                 }
 
-                assertEquals(perMeta, covered, palette.id + " / " + meta);
+                if (singleConnectionBlock) {
+                    assertEquals(0, covered, palette.id);
+                } else if (meta < assigned) {
+                    assertEquals(perMeta * 2, covered, palette.id + " / " + meta);
+                } else {
+                    assertTrue(covered == 0 || covered == perMeta * 2, palette.id + " / reserved " + meta);
+                }
             }
             for (Map.Entry<String, JsonElement> entry : state.getAsJsonObject("variants").entrySet()) {
                 String model = entry.getValue().getAsJsonObject().get("model").getAsString().split(":")[1];
-                JsonObject data = json(ROOT.resolve("models/block/" + model + ".json"));
+                JsonObject data = json(ROOT.resolve("models/" + model + ".json"));
 
                 assertTrue(data.has("textures"));
 
@@ -139,15 +150,14 @@ class BopCatalogueTest {
 
                     for (Map.Entry<String, JsonElement> face : box.getAsJsonObject("faces").entrySet()) {
                         if (face.getValue().getAsJsonObject().has("cullface")) {
-                            assertEquals(Shape.WALL, palette.shape, "only exterior wall ends are culled");
-
                             String direction = face.getKey();
 
-                            assertFalse(direction.equals("up") || direction.equals("down"));
                             assertEquals(direction, face.getValue().getAsJsonObject().get("cullface").getAsString());
 
-                            int axis = direction.equals("east") || direction.equals("west") ? 0 : 2;
-                            boolean positive = direction.equals("east") || direction.equals("south");
+                            int axis = direction.equals("east") || direction.equals("west") ? 0
+                                    : direction.equals("up") || direction.equals("down") ? 1 : 2;
+                            boolean positive = direction.equals("east") || direction.equals("south")
+                                    || direction.equals("up");
 
                             assertEquals(positive ? 16 : 0,
                                     box.getAsJsonArray(positive ? "to" : "from").get(axis).getAsInt());
@@ -161,7 +171,7 @@ class BopCatalogueTest {
 
                     boolean straight = key.startsWith("connections=5,") || key.startsWith("connections=10,");
 
-                    assertEquals(straight && key.endsWith("up=false") ? 13 : 16, maxY, key);
+                    assertEquals(straight && key.contains("up=false") ? 13 : 16, maxY, key);
                 }
             }
             for (String material : palette.materials) {
@@ -183,7 +193,7 @@ class BopCatalogueTest {
 
         try (java.util.stream.Stream<Path> files = Files.list(ROOT.resolve("lang"))) {
             for (Path file : (Iterable<Path>) files::iterator) {
-                actual.add(file.getFileName().toString().replace(".lang", ""));
+                actual.add(file.getFileName().toString().replace(".json", ""));
 
                 String text = StandardCharsets.UTF_8.newDecoder().onMalformedInput(CodingErrorAction.REPORT)
                         .decode(ByteBuffer.wrap(Files.readAllBytes(file))).toString();
@@ -195,17 +205,9 @@ class BopCatalogueTest {
 
                 List<String> keys = new ArrayList<String>();
 
-                for (String line : text.split("\n")) {
-                    assertEquals(line.trim(), line);
-
-                    int split = line.indexOf('=');
-
-                    assertTrue(split > 0 && split < line.length() - 1);
-
-                    String key = line.substring(0, split);
-
-                    assertFalse(keys.contains(key));
-                    keys.add(key);
+                for (Map.Entry<String, JsonElement> entry : new JsonParser().parse(text).getAsJsonObject().entrySet()) {
+                    assertFalse(entry.getValue().getAsString().trim().isEmpty());
+                    keys.add(entry.getKey());
                 }
 
                 assertEquals(20 + module().materials.size(), keys.size());

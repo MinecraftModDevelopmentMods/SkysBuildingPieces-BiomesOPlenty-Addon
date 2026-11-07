@@ -1,0 +1,31 @@
+{
+  "type": "skysbuildingpieces:cutting",
+  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "pattern": ["X"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:planks_jacaranda_vertical_step"
+    }
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:planks_jacaranda_horizontal_step",
+    "count": 1
+  },
+  "preserve_tag": true,
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_jacaranda_horizontal_step"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_jacaranda_vertical_step"
+        }
+      ]
+    }
+  ]
+}

@@ -17,9 +17,9 @@ class RetiredDecorationsTest {
 
         for (java.util.Map.Entry<String, JsonElement> variant : variants.entrySet()) {
             String model = variant.getValue().getAsJsonObject().get("model").getAsString().split(":")[1];
-            JsonObject data = json("models/block/" + model + ".json");
+            JsonObject data = json("models/" + model + ".json");
 
-            assertEquals("minecraft:blocks/stone", data.getAsJsonObject("textures").get("stone").getAsString());
+            assertEquals("minecraft:block/stone", data.getAsJsonObject("textures").get("stone").getAsString());
             assertTrue(data.getAsJsonArray("elements").size() > 0);
 
             for (JsonElement element : data.getAsJsonArray("elements")) {
@@ -30,7 +30,7 @@ class RetiredDecorationsTest {
             }
         }
 
-        assertEquals("minecraft:blocks/glass_lime",
+        assertEquals("minecraft:block/lime_stained_glass",
                 json("models/block/jelled_poison.json").getAsJsonObject("textures").get("all").getAsString());
     }
 

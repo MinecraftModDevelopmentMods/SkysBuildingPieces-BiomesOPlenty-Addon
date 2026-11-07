@@ -1,72 +1,81 @@
 package zone.moddev.mc.skysbuildingpiecesbop.basket;
 
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.*;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.datafix.FixTypes;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.fml.common.*;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.common.util.ModFixs;
+import net.minecraft.nbt.CompoundTag;
+
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.*;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.registries.RegisterEvent;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
+import net.neoforged.neoforge.common.util.TriState;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.minecraft.world.inventory.MenuType;
+import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import zone.moddev.mc.skysbuildingpiecesbop.SkysBuildingPiecesBop;
 
-@Mod.EventBusSubscriber(
-        modid = SkysBuildingPiecesBop.ID)
 public final class Baskets {
-    public static final BasketItem ITEM = new BasketItem(false), HOLDER = new BasketItem(true);
+    // Forge opens these registries after mod construction.
+    public static BasketItem ITEM;
+    public static BasketItem HOLDER;
+    public static MenuType<BasketContainer> TYPE;
 
     private Baskets() {
     }
 
     public static void registerRecovery() {
-        ModFixs fixes = FMLCommonHandler.instance().getDataFixer().init(SkysBuildingPiecesBop.ID, 2);
         zone.moddev.mc.skysbuildingpiecesbop.LegacyItemRecovery fix = new zone.moddev.mc.skysbuildingpiecesbop.LegacyItemRecovery();
 
-        for (FixTypes type : new FixTypes[] { FixTypes.CHUNK, FixTypes.PLAYER, FixTypes.ENTITY, FixTypes.BLOCK_ENTITY,
-                FixTypes.ITEM_INSTANCE }) {
-            fixes.registerFix(type, type == FixTypes.ITEM_INSTANCE ? fix.itemInstanceFix() : fix);
+        zone.moddev.mc.skysbuildingpieces.legacy.HistoricalItems.register(SkysBuildingPiecesBop.ID, fix::isRelevant,
+                fix::fixTagCompound);
+    }
+
+    @SubscribeEvent
+    public static void items(RegisterEvent event) {
+        ITEM = new BasketItem(false);
+        HOLDER = new BasketItem(true);
+        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, ResourceLocation.parse(BasketData.ID), ITEM);
+        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, ResourceLocation.parse(BasketData.HOLDER), HOLDER);
+    }
+
+    public static void containers(RegisterEvent event) {
+        TYPE = IMenuTypeExtension.create(BasketContainer::new);
+        net.minecraft.core.Registry.register(BuiltInRegistries.MENU, ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "flower_basket"), TYPE);
+    }
+
+    public static void creativeContents(BuildCreativeModeTabContentsEvent event) {
+        if (CreativeModeTabs.TOOLS_AND_UTILITIES.equals(event.getTabKey())) {
+            event.accept(ITEM);
         }
     }
 
     @SubscribeEvent
-    public static void items(RegistryEvent.Register<Item> event) {
-        event.getRegistry().registerAll(ITEM, HOLDER);
-    }
+    public static void pickup(ItemEntityPickupEvent.Pre event) {
+        Player player = event.getPlayer();
 
-    @SubscribeEvent
-    public static void missing(RegistryEvent.MissingMappings<Item> event) {
-        for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getAllMappings()) {
-            if (mapping.key.equals(new ResourceLocation(BasketData.OLD))) {
-                mapping.remap(HOLDER);
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void pickup(EntityItemPickupEvent event) {
-        EntityPlayer player = event.getEntityPlayer();
-
-        if (player.world.isRemote || event.isCanceled()) {
+        if (player.level().isClientSide || event.canPickup() == TriState.FALSE) {
             return;
         }
 
-        EntityItem entity = event.getItem();
+        ItemEntity entity = event.getItemEntity();
         ItemStack incoming = entity.getItem();
 
         if (!BasketInventory.accepts(incoming)) {
             return;
         }
-        // getAge is client-only in 1.12; the saved age is also available on a server.
-        if (entity.getOwner() != null && !entity.getOwner().equals(player.getName())
-                && entity.lifespan - entity.writeToNBT(new net.minecraft.nbt.NBTTagCompound()).getShort("Age") > 200) {
+        // In 1.19 getOwner identifies the thrower, while the saved Owner UUID is
+        // the exclusive pickup target. Follow the same target check as vanilla.
+        CompoundTag pickupData = entity.saveWithoutId(new CompoundTag());
+        if (entity.hasPickUpDelay()
+                || pickupData.hasUUID("Owner") && !pickupData.getUUID("Owner").equals(player.getUUID())) {
             return;
         }
 
         ItemStack first = ItemStack.EMPTY;
 
-        for (ItemStack stack : player.inventory.mainInventory) {
+        for (ItemStack stack : player.getInventory().items) {
             if (stack.getItem() instanceof BasketItem) {
                 first = stack;
                 break;
@@ -76,10 +85,10 @@ public final class Baskets {
             return;
         }
 
-        BasketInventory inventory = player.openContainer instanceof BasketContainer
-                && ((BasketContainer) player.openContainer).basket.owner() == first
-                        ? ((BasketContainer) player.openContainer).basket
-                        : new BasketInventory(first);
+        BasketInventory inventory = player.containerMenu instanceof BasketContainer
+                && ((BasketContainer) player.containerMenu).basket.owner() == first
+                        ? ((BasketContainer) player.containerMenu).basket
+                        : new BasketInventory(first, player.level().registryAccess());
         ItemStack remainder = inventory.insert(incoming);
         int accepted = incoming.getCount() - remainder.getCount();
 
@@ -87,24 +96,16 @@ public final class Baskets {
             return;
         }
 
-        // Vanilla keeps the original stack reference across this event. Finish this pickup here and let a later
-        // collision collect any remainder.
-        event.setCanceled(true);
-
-        ItemStack pickedUp = incoming.copy();
-
-        pickedUp.setCount(accepted);
-        player.addStat(net.minecraft.stats.StatList.getObjectsPickedUpStats(incoming.getItem()), accepted);
-
-        if (remainder.isEmpty()) {
-            player.onItemPickup(entity, accepted);
-            entity.setDead();
-        } else {
-            entity.setItem(remainder);
+        // The pickup event shares the live stack with vanilla. Leave any remainder
+        // there so ordinary pickup can continue without reading a second stack.
+        player.awardStat(net.minecraft.stats.Stats.ITEM_PICKED_UP.get(incoming.getItem()), accepted);
+        player.take(entity, accepted);
+        incoming.shrink(accepted);
+        if (incoming.isEmpty()) {
+            event.setCanPickup(TriState.FALSE);
+            entity.discard();
         }
-
-        FMLCommonHandler.instance().firePlayerItemPickupEvent(player, entity, pickedUp);
-        player.inventory.markDirty();
-        player.openContainer.detectAndSendChanges();
+        player.getInventory().setChanged();
+        player.containerMenu.broadcastChanges();
     }
 }

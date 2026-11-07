@@ -5,8 +5,8 @@ its contents when closed, dropped or stored in a chest. Right-click with the
 basket in either hand to open it.
 
 The basket accepts plant block items, including saplings, flowers, leaves,
-mushrooms, vines and cactus. It is not a general-purpose bag: seeds and unrelated
-items are not accepted. Baskets cannot be put inside other baskets.
+mushrooms, vines and cactus. Crop seeds that place plant blocks also fit. It is
+not a general-purpose bag, and baskets cannot be put inside other baskets.
 
 Suitable plants picked up from the ground go into the first basket in your main
 inventory, working from the first hotbar slot onwards. Existing stacks are filled
@@ -27,7 +27,7 @@ S S
 SSS
 ```
 
-Sticks registered as `stickWood` are accepted. The basket has no durability.
+Sticks in the wooden-rods tag are accepted. The basket has no durability.
 
 ## Older worlds
 

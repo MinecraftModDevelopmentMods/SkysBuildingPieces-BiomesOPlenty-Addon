@@ -4,7 +4,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.Iterator;
 import java.util.zip.*;
-import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.MinecraftServer;
 
 /** Validate saved baskets before a chunk loader can catch an error and generate a replacement chunk. */
@@ -12,9 +12,19 @@ public final class BasketPreflight {
     private BasketPreflight() {
     }
 
+    static boolean hasRegionHeader(long size, String name) throws IOException {
+        // Native RegionFile may create an empty file before saving its first chunk.
+        if (size == 0) {
+            return false;
+        }
+        if (size < 8192) {
+            throw new IOException("Invalid region header: " + name);
+        }
+        return true;
+    }
+
     public static void check(MinecraftServer server) throws IOException {
-        File world = server.isDedicatedServer() ? server.getFile(server.getFolderName())
-                : new File(server.getDataDirectory(), "saves/" + server.getFolderName());
+        File world = server.getWorldPath(net.minecraft.world.level.storage.LevelResource.LEVEL_DATA_FILE).toFile().getParentFile();
 
         if (!world.isDirectory()) {
             return;
@@ -33,8 +43,8 @@ public final class BasketPreflight {
                 if (name.matches("r\\.-?\\d+\\.-?\\d+\\.mca")
                         && path.getParent().getFileName().toString().equals("region")) {
                     try (RandomAccessFile region = new RandomAccessFile(path.toFile(), "r")) {
-                        if (region.length() < 8192) {
-                            throw new IOException("Invalid region header: " + name);
+                        if (!hasRegionHeader(region.length(), name)) {
+                            continue;
                         }
 
                         int[] locations = new int[1024];
@@ -71,7 +81,7 @@ public final class BasketPreflight {
                                     throw new IOException("Unsupported chunk compression: " + compression);
                                 }
                                 try (DataInputStream data = new DataInputStream(input)) {
-                                    validator.fixTagCompound(CompressedStreamTools.read(data));
+                                    validator.fixTagCompound(NbtIo.read(data));
                                 } catch (IllegalStateException failure) {
                                     throw new IllegalStateException(
                                             name + " / chunk slot " + slot + ": " + failure.getMessage(), failure);
@@ -93,9 +103,9 @@ public final class BasketPreflight {
                             input.unread(first);
                         }
                         if (first == 31 && second == 139) {
-                            validator.fixTagCompound(CompressedStreamTools.readCompressed(input));
+                            validator.fixTagCompound(NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap()));
                         } else {
-                            validator.fixTagCompound(CompressedStreamTools.read(new DataInputStream(input)));
+                            validator.fixTagCompound(NbtIo.read(new DataInputStream(input)));
                         }
                     } catch (IllegalStateException failure) {
                         throw new IllegalStateException(name + ": " + failure.getMessage(), failure);

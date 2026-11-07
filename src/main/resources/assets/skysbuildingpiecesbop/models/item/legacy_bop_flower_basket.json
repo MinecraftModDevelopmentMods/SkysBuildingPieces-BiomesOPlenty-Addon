@@ -1,0 +1,11 @@
+{
+  "parent": "skysbuildingpiecesbop:item/flower_basket",
+  "overrides": [
+    {
+      "predicate": {
+        "filled": 1
+      },
+      "model": "skysbuildingpiecesbop:item/flower_basket_full"
+    }
+  ]
+}

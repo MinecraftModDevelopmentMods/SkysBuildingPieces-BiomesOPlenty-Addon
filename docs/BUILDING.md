@@ -1,36 +1,43 @@
 # Building from source
 
-Use Java 17 for Gradle and Temurin 8.0.502+7 for production. Set
-`SBP_JAVA8_HOME` to the Java 8 installation. The wrapper uses Gradle 9.6.1
-and ForgeGradle 7.0.34 for Minecraft 1.12.2.
+Use Temurin 21.0.7+6. The wrapper runs Gradle 9.2.1 and NeoGradle 7.1.38
+for Minecraft 1.21.1 and NeoForge 21.1.247.
 
-Check out Building Pieces 0.3.8.112021 at the exact release commit in
-`gradle/core-dependency.properties`, then run its `gradlew jar` task.
-Build this add-on with:
+Check out the Building Pieces commit in `gradle/core-dependency.properties`
+and run `gradlew assemble` there. Put the core checkout alongside this
+one in the usual version folders, or pass
+`-PbuildingPiecesCoreDir=<core checkout>`. The add-on uses the core's
+ordinary main jar and does not bundle its classes. The build checks the
+core version, source commit and jar hash, and verifies the BOP,
+TerraBlender and GlitchCore jars fetched from Modrinth Maven.
+
+Build and audit the add-on with:
 
 ```text
-gradlew check build javadoc verifyReleaseArtifacts writeReleaseChecksums verifyEclipseProductionClasspath -PbuildingPiecesCoreDir=<core checkout>
+gradlew check build javadoc verifyReleaseArtifacts writeReleaseChecksums
 ```
 
-The development dependency is the core's `build/libs-dev` jar, not a shaded
-copy or a published Maven dependency. Packaged games use both normal main
-jars. BOP is fetched as a checksum-verified dependency and is not bundled.
+Use `gradlew eclipse verifyEclipseConfiguration` to prepare the IDE. Run it
+with `-Declipse.application=org.eclipse.ui.ide.workbench` from a terminal
+to export the native launch files. Use one Gradle home for this checkout's
+command line and Eclipse launches. The regular client and server use the
+merged production output, without test classes or test mods.
 
-CI builds the pinned core commit before building the add-on. A local-only
-`buildingPiecesCoreVersion` override is available for testing another core
-candidate; it requires an explicit core directory and is rejected in CI.
+## Runtime checks
 
-Use `genEclipseRuns eclipse` with the same core-directory property to prepare
-the IDE. Ordinary client and server launches exclude unit tests and the
-build-only runtime probe. Release preparation is covered in [the release guide](RELEASING.md).
+The test harnesses use Python 3.11 or later. Build the separate runtime
+probe with `gradlew preparePackagedNativeProbe`. Run
+`python tools/run_packaged_checks.py --help` for native server and client
+checks, or `python tools/run_development_checks.py --help` for development
+runs. Start with a fresh folder under `build` and use the same verified
+jars on reload. The regular game runs do not include the probe.
 
-## Recipe-book resources
+The packaged checks cover the Flower Basket, placed pieces, recipes and
+world recovery. The client can also test basket packets and closing an open
+basket during a disconnect. Upgrades always use copies of the sealed saves.
 
-The build generates unlock advancements from `src/main/recipe-book/recipes.json`.
-The runtime checks compare those entries with the registered recipes and exercise
-inventory discovery, crafting-table discovery and recipe-book persistence.
-Optional catalogue entries load only when their recipe exists.
+Recipe and advancement files under `src/main/resources/data` use
+NeoForge conditions for optional materials. Retired rock recipes keep the
+same IDs whether they use a Mineralogy block or the add-on's fallback.
 
-Recipe unlocks have no shared advancement parent. Minecraft 1.12 walks that
-visibility tree recursively when loading completed progress, which can overflow
-with a large catalogue. The inventory and crafting unlock criteria are unchanged.
+See [the release guide](RELEASING.md) for the artifact checks.

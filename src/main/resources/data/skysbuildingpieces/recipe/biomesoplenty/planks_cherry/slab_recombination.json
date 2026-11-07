@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/planks_cherry",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "minecraft:cherry_slab"
+    }
+  },
+  "result": {
+    "id": "minecraft:cherry_planks",
+    "count": 1
+  },
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "minecraft:cherry_planks"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "minecraft:cherry_slab"
+        }
+      ]
+    }
+  ]
+}

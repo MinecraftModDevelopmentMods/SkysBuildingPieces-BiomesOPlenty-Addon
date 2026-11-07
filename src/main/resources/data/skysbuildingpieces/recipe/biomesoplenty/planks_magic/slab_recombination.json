@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/planks_magic",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "biomesoplenty:magic_slab"
+    }
+  },
+  "result": {
+    "id": "biomesoplenty:magic_planks",
+    "count": 1
+  },
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "biomesoplenty:magic_planks"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "biomesoplenty:magic_slab"
+        }
+      ]
+    }
+  ]
+}

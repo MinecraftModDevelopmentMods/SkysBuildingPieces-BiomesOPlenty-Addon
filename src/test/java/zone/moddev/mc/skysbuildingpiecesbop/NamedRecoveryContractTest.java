@@ -1,0 +1,174 @@
+package zone.moddev.mc.skysbuildingpiecesbop;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.Set;
+import net.minecraft.nbt.CompoundTag;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class NamedRecoveryContractTest {
+    @Test
+    void productionAndBuildOnlyResourcesUseTheTargetPackFormat() throws Exception {
+        try (java.util.stream.Stream<java.nio.file.Path> files = Files.walk(Paths.get("src"))) {
+            java.util.List<java.nio.file.Path> packs = files
+                    .filter(path -> path.getFileName().toString().equals("pack.mcmeta"))
+                    .filter(path -> !path.toString().contains("testFixtures"))
+                    .collect(java.util.stream.Collectors.toList());
+
+            assertEquals(Set.of(Paths.get("src/main/resources/pack.mcmeta"),
+                    Paths.get("src/bootstrapTest/resources/pack.mcmeta"),
+                    Paths.get("src/compatibilityTest/resources/pack.mcmeta")), new HashSet<>(packs));
+            for (java.nio.file.Path pack : packs) {
+                JsonObject metadata = read(pack.toString()).getAsJsonObject("pack");
+                assertEquals(34, metadata.get("pack_format").getAsInt(), pack.toString());
+                JsonObject formats = metadata.getAsJsonObject("supported_formats");
+                assertEquals(34, formats.get("min_inclusive").getAsInt(), pack.toString());
+                assertEquals(48, formats.get("max_inclusive").getAsInt(), pack.toString());
+            }
+        }
+    }
+
+    @Test
+    void everyRemovedNativeBlockAndItemHasAnExplicitTarget() throws Exception {
+        JsonObject earlier = read("src/testFixtures/bop-1.14.4-native-catalogue.json");
+        JsonObject previous = read("src/testFixtures/bop-1.15.2-native-catalogue.json");
+        JsonObject intervening = read("src/testFixtures/bop-1.16.5-native-catalogue.json");
+        JsonObject last = read("src/testFixtures/bop-1.17.1-native-catalogue.json");
+        JsonObject source18 = read("src/testFixtures/bop-1.18.2-native-catalogue.json");
+        JsonObject source19 = read("src/testFixtures/bop-1.19.4-native-catalogue.json");
+        JsonObject target = read("src/testFixtures/bop-1.20.1-native-catalogue.json");
+        JsonObject mapping = read("src/main/resources/assets/skysbuildingpiecesbop/catalogue/named_legacy.json");
+        Set<String> removedBlocks = identities(earlier.getAsJsonArray("states"), "id");
+        removedBlocks.addAll(identities(previous.getAsJsonArray("blocks"), "id"));
+        removedBlocks.addAll(identities(intervening.getAsJsonArray("blocks"), "id"));
+        removedBlocks.addAll(identities(last.getAsJsonArray("blocks"), "id"));
+        removedBlocks.addAll(identities(source18.getAsJsonArray("blocks"), "id"));
+        removedBlocks.addAll(identities(source19.getAsJsonArray("blocks"), "id"));
+        removedBlocks.removeAll(identities(target.getAsJsonArray("blocks"), "id"));
+        assertEquals(55, removedBlocks.size());
+        removedBlocks.addAll(removedAtThisHop("blocks", 10));
+        assertEquals(removedBlocks, keys(mapping.getAsJsonObject("blocks")));
+
+        Set<String> removedItems = identities(earlier.getAsJsonArray("items"), null);
+        removedItems.addAll(identities(previous.getAsJsonArray("items"), null));
+        removedItems.addAll(identities(intervening.getAsJsonArray("items"), null));
+        removedItems.addAll(identities(last.getAsJsonArray("items"), null));
+        removedItems.addAll(identities(source18.getAsJsonArray("items"), null));
+        removedItems.addAll(identities(source19.getAsJsonArray("items"), null));
+        removedItems.removeAll(identities(target.getAsJsonArray("items"), null));
+        Set<String> itemMappings = new HashSet<>(keys(mapping.getAsJsonObject("blocks")));
+        assertTrue(itemMappings.remove("biomesoplenty:cherry_wall_sign"));
+        itemMappings.addAll(keys(mapping.getAsJsonObject("items")));
+        assertEquals(60, removedItems.size());
+        removedItems.addAll(removedAtThisHop("items", 10));
+        assertEquals(removedItems, itemMappings);
+    }
+
+    @Test
+    void retiredBiomesKeepTheirEndOrNetherEnvironment() throws Exception {
+        JsonObject earlier = read("src/testFixtures/bop-1.14.4-native-catalogue.json");
+        JsonObject previous = read("src/testFixtures/bop-1.15.2-native-catalogue.json");
+        JsonObject intervening = read("src/testFixtures/bop-1.16.5-native-catalogue.json");
+        JsonObject last = read("src/testFixtures/bop-1.17.1-native-catalogue.json");
+        JsonObject source18 = read("src/testFixtures/bop-1.18.2-native-catalogue.json");
+        JsonObject source19 = read("src/testFixtures/bop-1.19.4-native-catalogue.json");
+        JsonObject target = read("src/testFixtures/bop-1.20.1-native-catalogue.json");
+        JsonObject mapping = read("src/main/resources/assets/skysbuildingpiecesbop/catalogue/named_legacy.json")
+                .getAsJsonObject("biomes");
+        Set<String> removed = identities(earlier.getAsJsonArray("biomes"), "id");
+        removed.addAll(identities(previous.getAsJsonArray("biomes"), null));
+        removed.addAll(identities(intervening.getAsJsonArray("biomes"), null));
+        removed.addAll(identities(last.getAsJsonArray("biomes"), null));
+        removed.addAll(identities(source18.getAsJsonArray("biomes"), null));
+        removed.addAll(identities(source19.getAsJsonArray("biomes"), null));
+        removed.removeAll(identities(target.getAsJsonArray("biomes"), null));
+        assertTrue(removed.size() > 60);
+        assertTrue(keys(mapping).containsAll(removed), "Every removed biome needs an explicit replacement");
+        assertTrue(keys(mapping).containsAll(removedAtThisHop("biomes", 3)));
+        Set<String> current = liveTargets("biomes");
+        mapping.entrySet().forEach(entry -> {
+            if (entry.getValue().getAsString().startsWith("biomesoplenty:")) {
+                assertTrue(current.contains(entry.getValue().getAsString()), entry.toString());
+            }
+        });
+        assertEquals("minecraft:end_midlands", mapping.get("biomesoplenty:dead_reef").getAsString());
+        assertEquals("minecraft:end_highlands", mapping.get("biomesoplenty:ethereal_forest").getAsString());
+        assertEquals("biomesoplenty:undergrowth", mapping.get("biomesoplenty:fungi_forest").getAsString());
+        assertEquals("biomesoplenty:undergrowth", mapping.get("biomesoplenty:undergarden").getAsString());
+        assertEquals("minecraft:nether_wastes", mapping.get("biomesoplenty:glowstone_grotto").getAsString());
+        assertEquals("minecraft:basalt_deltas", mapping.get("biomesoplenty:ashen_inferno").getAsString());
+    }
+
+    @Test
+    void everyPreFlatteningBopBiomeResolvesInTheCurrentCatalogue() throws Exception {
+        JsonObject fixture = read("src/testFixtures/worlds/building-pieces-bop-biomes-1.12.2.json")
+                .getAsJsonObject("manifest");
+        JsonObject aliases = read("src/main/resources/assets/skysbuildingpiecesbop/catalogue/legacy_biomes.json");
+        Set<String> current = liveTargets("biomes");
+
+        assertEquals(73, fixture.getAsJsonArray("biomes").size());
+        for (com.google.gson.JsonElement element : fixture.getAsJsonArray("biomes")) {
+            String source = element.getAsJsonObject().get("id").getAsString();
+            String target = aliases.has(source) ? aliases.get(source).getAsString() : source;
+
+            if (target.startsWith("biomesoplenty:")) {
+                assertTrue(current.contains(target), "Missing pre-flattening biome target: " + source + " -> " + target);
+            }
+        }
+    }
+
+    @Test
+    void registryLookingCustomNamesAndOrdinaryEntityTagsStayUntouched() {
+        CompoundTag root = new CompoundTag();
+        CompoundTag display = new CompoundTag();
+
+        display.putString("Name", "biomesoplenty:ethereal_planks");
+        root.put("display", display);
+        root.putString("id", "biomesoplenty:ethereal_boat");
+        root.putString("unrelated", "biomesoplenty:barley");
+
+        CompoundTag before = root.copy();
+
+        assertFalse(NamedBopRecovery.relevant(root));
+        NamedBopRecovery.rewrite(root);
+        assertEquals(before, root);
+    }
+
+    private Set<String> liveTargets(String registry) throws Exception {
+        return identities(read("src/testFixtures/bop-1.20.6-neo-native-catalogue.json")
+                .getAsJsonObject(registry).getAsJsonArray("target"), null);
+    }
+
+    private Set<String> removedAtThisHop(String registry, int expected) throws Exception {
+        JsonObject catalogue = read("src/testFixtures/bop-1.20.6-neo-native-catalogue.json").getAsJsonObject(registry);
+        Set<String> removed = identities(catalogue.getAsJsonArray("source"), null);
+        removed.removeAll(identities(catalogue.getAsJsonArray("target"), null));
+        assertEquals(expected, removed.size(), registry);
+        return removed;
+    }
+
+    private Set<String> keys(JsonObject value) {
+        return value.entrySet().stream().map(java.util.Map.Entry::getKey)
+                .collect(java.util.stream.Collectors.toSet());
+    }
+
+    private JsonObject read(String path) throws Exception {
+        return new JsonParser().parse(new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8))
+                .getAsJsonObject();
+    }
+
+    private Set<String> identities(JsonArray values, String key) {
+        Set<String> result = new HashSet<>();
+
+        values.forEach(value -> result.add(key == null ? value.getAsString()
+                : value.getAsJsonObject().get(key).getAsString()));
+        return result;
+    }
+}
+

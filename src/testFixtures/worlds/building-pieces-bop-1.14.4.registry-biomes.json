@@ -1,0 +1,12 @@
+{
+  "source_world_sha256": "6392A69CC973CF6CEB8E23DB261EA06C4009FE15C807A2F6525FA5A3BDE26CCD",
+  "native_biome_contract_sha256": "1D8655E87348A1088767A613E0574690EAE5A6DC13FE1E40D7565804EB721732",
+  "live_biome_contract_sha256": "15F95359F79B6313263A8A6CEEF82230F74317CD1506E50999F699C535D9817C",
+  "checked_cells": 615424,
+  "native_renamed_cells": 0,
+  "dynamic_biome_saved_uses": 0,
+  "bop_renamed_cells": 0,
+  "unnoticed_biome_cells": 615424,
+  "snapshot_entries": {},
+  "scope": "Static notices are bound to the complete native biome conversion, not treated as unused terrain."
+}

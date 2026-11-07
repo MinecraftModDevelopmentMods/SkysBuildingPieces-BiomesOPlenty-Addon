@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/planks_palm",
+  "pattern": ["X", "X"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:planks_palm_corner"
+    }
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:planks_palm_horizontal_step",
+    "count": 1
+  },
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_palm_corner"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:planks_palm_horizontal_step"
+        }
+      ]
+    }
+  ]
+}

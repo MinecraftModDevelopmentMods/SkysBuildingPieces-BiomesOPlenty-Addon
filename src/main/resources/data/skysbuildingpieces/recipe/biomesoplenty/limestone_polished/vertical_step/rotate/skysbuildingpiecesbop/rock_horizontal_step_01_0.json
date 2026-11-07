@@ -1,0 +1,31 @@
+{
+  "type": "skysbuildingpieces:cutting",
+  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "pattern": ["X"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:limestone_polished_horizontal_step"
+    }
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:limestone_polished_vertical_step",
+    "count": 1
+  },
+  "preserve_tag": true,
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:limestone_polished_horizontal_step"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:limestone_polished_vertical_step"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "pattern": ["X ", " X"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpieces:planks_oak_vertical_slab"
+    }
+  },
+  "result": {
+    "id": "skysbuildingpieces:planks_oak_horizontal_step",
+    "count": 4
+  },
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpieces:planks_oak_horizontal_step"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpieces:planks_oak_vertical_slab"
+        }
+      ]
+    }
+  ]
+}

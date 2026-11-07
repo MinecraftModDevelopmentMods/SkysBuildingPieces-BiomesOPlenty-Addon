@@ -1,6 +1,6 @@
 # Crafting
 
-Use core 0.3.8.112021 for ordinary crafting recipes. No template or cutting tool
+Use core 0.3.9.121012 for ordinary crafting recipes. No template or cutting tool
 is required. All ingredients must be the same material, including wood type.
 
 - Three full blocks in a row make six horizontal slabs.
@@ -19,7 +19,7 @@ Steps can also be rotated one for one; horizontal and vertical step items
 both work in corner recipes. Use two of the same item type rather than mixing
 horizontal and vertical items in one recipe.
 
-The core registers the recipes for every installed catalogue. This add-on
+Recipes use the installed material catalogue. This add-on
 does not add templates, wooden walls, fences, gates or terrain generation.
 Use BOP's native fences and gates. BOP materials in this catalogue do not
 have pane recipes.

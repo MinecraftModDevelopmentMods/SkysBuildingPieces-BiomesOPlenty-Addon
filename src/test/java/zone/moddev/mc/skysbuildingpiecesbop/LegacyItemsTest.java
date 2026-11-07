@@ -11,7 +11,7 @@ class LegacyItemsTest {
         String code = text("src/main/java/zone/moddev/mc/skysbuildingpiecesbop/LegacyItemRecovery.java");
 
         for (String registryId : new String[] { "turnip_seeds", "pinecone", "dull_flower_band",
-                "harvestcraft:turnipseeditem", "biomesoplenty:brown_dye", "biomesoplenty:flower_0" }) {
+                "minecraft:beetroot_seeds", "minecraft:brown_dye", "minecraft:oxeye_daisy" }) {
             assertTrue(code.contains(registryId));
         }
 
@@ -22,7 +22,8 @@ class LegacyItemsTest {
 
         String registration = text("src/main/java/zone/moddev/mc/skysbuildingpiecesbop/basket/Baskets.java");
 
-        assertTrue(registration.contains("init(SkysBuildingPiecesBop.ID,2)"));
+        assertTrue(registration
+                .contains("HistoricalItems.register(SkysBuildingPiecesBop.ID,fix::isRelevant,fix::fixTagCompound)"));
     }
 
     private String text(String file) throws Exception {

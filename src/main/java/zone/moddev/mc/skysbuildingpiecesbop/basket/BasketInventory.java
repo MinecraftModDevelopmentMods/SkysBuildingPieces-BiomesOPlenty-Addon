@@ -1,41 +1,41 @@
 package zone.moddev.mc.skysbuildingpiecesbop.basket;
 
-import net.minecraft.block.*;
-import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.*;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.IShearable;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.CactusBlock;
+import net.minecraft.world.level.block.SugarCaneBlock;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.CustomData;
+import net.neoforged.neoforge.common.IShearable;
 
 /** A basket keeps its inventory on the owning stack, including when it is dropped. */
-public final class BasketInventory extends InventoryBasic {
+public final class BasketInventory extends SimpleContainer {
     private final ItemStack owner;
+    private final HolderLookup.Provider registries;
     private boolean loading = true;
 
-    public BasketInventory(ItemStack owner) {
-        super("container.skysbuildingpiecesbop.flower_basket", false, BasketData.SIZE);
+    public BasketInventory(ItemStack owner, HolderLookup.Provider registries) {
+        super(BasketData.SIZE);
         this.owner = owner;
+        this.registries = registries;
 
-        NBTTagCompound tag = owner.hasTagCompound() ? owner.getTagCompound() : new NBTTagCompound();
+        CompoundTag tag = BasketData.customData(owner);
 
         // Old contents remain recoverable even when the current insertion rules would reject them.
         BasketData.validate(tag);
 
-        NBTTagList entries = tag.getTagList("Items", 10);
+        ListTag entries = tag.getList("Items", 10);
 
-        for (int entryIndex = 0; entryIndex < entries.tagCount(); entryIndex++) {
-            NBTTagCompound entry = entries.getCompoundTagAt(entryIndex).copy();
-
-            if (BasketData.isBasket(entry.getString("id"))) {
-                entry.setString("id", BasketData.ID);
-            }
-
-            setInventorySlotContents(entry.getInteger("Slot"), new ItemStack(entry));
-        }
-        if (owner.hasDisplayName()) {
-            setCustomName(owner.getDisplayName());
-        } else if (tag.hasKey("CustomName", 8)) {
-            setCustomName(tag.getString("CustomName"));
+        for (int entryIndex = 0; entryIndex < entries.size(); entryIndex++) {
+            CompoundTag entry = entries.getCompound(entryIndex);
+            setItem(entry.getInt("Slot"), BasketData.readStack(entry, registries));
         }
 
         loading = false;
@@ -46,44 +46,44 @@ public final class BasketInventory extends InventoryBasic {
     }
 
     public static boolean accepts(ItemStack stack) {
-        if (stack.isEmpty() || stack.getItem() instanceof BasketItem) {
+        if (stack.isEmpty() || !(stack.getItem() instanceof BlockItem item)) {
             return false;
         }
 
-        Block block = Block.getBlockFromItem(stack.getItem());
-
-        return block instanceof IPlantable || block instanceof IGrowable || block instanceof IShearable;
+        Block block = item.getBlock();
+        // Cactus and sugar cane grow without bonemeal, but still belong in the basket.
+        return block instanceof BushBlock || block instanceof BonemealableBlock
+                || block instanceof CactusBlock || block instanceof SugarCaneBlock
+                || block instanceof IShearable;
     }
 
     @Override
-    public boolean isItemValidForSlot(int slot, ItemStack stack) {
+    public boolean canPlaceItem(int slot, ItemStack stack) {
         return accepts(stack);
     }
 
     @Override
-    public void markDirty() {
-        super.markDirty();
+    public void setChanged() {
+        super.setChanged();
 
         if (loading || owner == null) {
             return;
         }
 
-        NBTTagCompound tag = owner.hasTagCompound() ? owner.getTagCompound() : new NBTTagCompound();
-        NBTTagList entries = new NBTTagList();
+        ListTag entries = new ListTag();
 
-        for (int slot = 0; slot < getSizeInventory(); slot++) {
-            ItemStack stack = getStackInSlot(slot);
+        for (int slot = 0; slot < getContainerSize(); slot++) {
+            ItemStack stack = getItem(slot);
 
             if (!stack.isEmpty()) {
-                NBTTagCompound entry = stack.writeToNBT(new NBTTagCompound());
+                CompoundTag entry = (CompoundTag) stack.save(registries);
 
-                entry.setByte("Slot", (byte) slot);
-                entries.appendTag(entry);
+                entry.putByte("Slot", (byte) slot);
+                entries.add(entry);
             }
         }
 
-        tag.setTag("Items", entries);
-        owner.setTagCompound(tag);
+        CustomData.update(DataComponents.CUSTOM_DATA, owner, tag -> tag.put("Items", entries));
     }
 
     /** Returns what did not fit; the caller's stack is never mutated. */
@@ -95,30 +95,29 @@ public final class BasketInventory extends InventoryBasic {
         }
         // Fill matching stacks first, then use empty slots without changing the caller's stack.
         for (int pass = 0; pass < 2 && !remainder.isEmpty(); pass++) {
-            for (int slot = 0; slot < getSizeInventory() && !remainder.isEmpty(); slot++) {
-                ItemStack stored = getStackInSlot(slot);
+            for (int slot = 0; slot < getContainerSize() && !remainder.isEmpty(); slot++) {
+                ItemStack stored = getItem(slot);
 
                 if (pass == 0) {
-                    if (stored.isEmpty() || !stored.isItemEqual(remainder)
-                            || !ItemStack.areItemStackTagsEqual(stored, remainder)) {
+                    if (stored.isEmpty() || !ItemStack.isSameItemSameComponents(stored, remainder)) {
                         continue;
                     }
 
                     int count = Math.min(remainder.getCount(),
-                            Math.min(getInventoryStackLimit(), stored.getMaxStackSize()) - stored.getCount());
+                            Math.min(getMaxStackSize(), stored.getMaxStackSize()) - stored.getCount());
 
                     if (count > 0) {
                         stored.grow(count);
                         remainder.shrink(count);
-                        markDirty();
+                        setChanged();
                     }
                 } else if (stored.isEmpty()) {
                     int count = Math.min(remainder.getCount(),
-                            Math.min(getInventoryStackLimit(), remainder.getMaxStackSize()));
+                            Math.min(getMaxStackSize(), remainder.getMaxStackSize()));
                     ItemStack placed = remainder.copy();
 
                     placed.setCount(count);
-                    setInventorySlotContents(slot, placed);
+                    setItem(slot, placed);
                     remainder.shrink(count);
                 }
             }

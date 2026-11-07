@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "mineralogy:gabbro",
+      "required": false
+    },
+    {
+      "id": "skysbuildingpiecesbop:retired_gabbro",
+      "required": false
+    }
+  ]
+}

@@ -1,81 +1,71 @@
 package zone.moddev.mc.skysbuildingpiecesbop;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.decoration.ItemFrame;
+import net.minecraft.world.entity.player.Inventory;
+
 import java.util.*;
-import net.minecraft.item.*;
+import net.minecraft.world.item.*;
 import net.minecraft.nbt.*;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.datafix.IFixableData;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.minecraft.core.registries.BuiltInRegistries;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketData;
 
 /** Recover retired BOP items without aliasing existing registry objects or losing multiplied output. */
-@Mod.EventBusSubscriber(
-        modid = SkysBuildingPiecesBop.ID)
-public final class LegacyItemRecovery implements IFixableData {
+@EventBusSubscriber(
+        modid = SkysBuildingPiecesBop.ID,
+        bus = EventBusSubscriber.Bus.MOD)
+public final class LegacyItemRecovery {
     private static final String[] OLD = { "biomesoplenty:turnip_seeds", "biomesoplenty:pinecone",
             "biomesoplenty:dull_flower_band" };
-    private static final String[] TARGET = { "harvestcraft:turnipseeditem", "biomesoplenty:brown_dye",
-            "biomesoplenty:flower_0" };
+    private static final String[] TARGET = { "minecraft:beetroot_seeds", "minecraft:brown_dye",
+            "minecraft:oxeye_daisy" };
     private static final int[] MULTIPLIER = { 1, 2, 8 };
     public static final Item[] HOLDERS = new Item[3];
-    static {
+    private static void createHolders() {
         for (int holderIndex = 0; holderIndex < HOLDERS.length; holderIndex++) {
             final int targetIndex = holderIndex;
 
-            HOLDERS[holderIndex] = new Item() {
+            HOLDERS[holderIndex] = new Item(new Item.Properties()) {
                 @Override
-                public String getItemStackDisplayName(ItemStack stack) {
-                    Item target = ForgeRegistries.ITEMS.getValue(new ResourceLocation(TARGET[targetIndex]));
+                public net.minecraft.network.chat.Component getName(ItemStack stack) {
+                    Item target = BuiltInRegistries.ITEM.getOptional(ResourceLocation.parse(TARGET[targetIndex])).orElse(null);
 
-                    return target == null || target == net.minecraft.init.Items.AIR ? "Retired BOP Item"
-                            : new ItemStack(target, 1, 0).getDisplayName();
+                    return target == null || target == net.minecraft.world.item.Items.AIR
+                            ? net.minecraft.network.chat.Component.translatable(
+                                    "item.skysbuildingpiecesbop.retired_item")
+                            : new ItemStack(target).getHoverName();
                 }
-            }.setRegistryName(SkysBuildingPiecesBop.ID, "legacy_" + OLD[holderIndex].substring(14));
+            };
         }
     }
 
-    @Override
-    public int getFixVersion() {
-        return 2;
-    }
-
-    public IFixableData itemInstanceFix() {
-        return new IFixableData() {
-            @Override
-            public int getFixVersion() {
-                return 2;
-            }
-
-            @Override
-            public NBTTagCompound fixTagCompound(NBTTagCompound stack) {
-                // Vanilla may visit a child stack before our enclosing-inventory fix. Leave larger output intact until
-                // that parent can allocate slots.
-                if (index(stack.getString("id")) >= 0 && convert(stack).size() > 1) {
-                    return stack;
-                }
-
-                return LegacyItemRecovery.this.fixTagCompound(stack);
-            }
-        };
-    }
-
-    @Override
-    public NBTTagCompound fixTagCompound(NBTTagCompound root) {
-        if (!related(root, 0)) {
+    public CompoundTag fixTagCompound(CompoundTag root) {
+        // The core wraps saved staging states alone before vanilla can run a data fix.
+        if (isOldStagingGrass(root)) {
+            root.getCompound("BlockState").putString("Name", "minecraft:short_grass");
+            return root;
+        }
+        if (!isRelevant(root)) {
             return root;
         }
 
-        NBTTagCompound copy = root.copy();
+        CompoundTag copy = root.copy();
 
+        NamedBopRecovery.rewrite(copy);
+        LegacyPlantItems.rewrite(copy, false, 0);
         rewrite(copy, 0, 0);
         // Substitutions run before basket validation, including plants kept in old baskets.
         new BasketData().fixTagCompound(copy);
 
-        for (String key : copy.getKeySet()) {
-            root.setTag(key, copy.getTag(key));
+        for (String key : copy.getAllKeys()) {
+            root.put(key, copy.get(key));
         }
 
         return root;
@@ -88,7 +78,7 @@ public final class LegacyItemRecovery implements IFixableData {
     private static int index(String legacyItemId) {
         for (int legacyItemIndex = 0; legacyItemIndex < OLD.length; legacyItemIndex++) {
             if (OLD[legacyItemIndex].equals(legacyItemId)
-                    || HOLDERS[legacyItemIndex].getRegistryName().toString().equals(legacyItemId)) {
+                    || BuiltInRegistries.ITEM.getKey(HOLDERS[legacyItemIndex]).toString().equals(legacyItemId)) {
                 return legacyItemIndex;
             }
         }
@@ -96,23 +86,32 @@ public final class LegacyItemRecovery implements IFixableData {
         return -1;
     }
 
-    private static boolean related(NBTBase value, int depth) {
+    public boolean isRelevant(CompoundTag root) {
+        return isOldStagingGrass(root) || related(root, 0) || NamedBopRecovery.relevant(root);
+    }
+
+    private static boolean isOldStagingGrass(CompoundTag root) {
+        return root.size() == 1 && root.getCompound("BlockState").getString("Name").equals("minecraft:grass");
+    }
+
+    private static boolean related(Tag value, int depth) {
         depth(depth);
 
-        if (value instanceof NBTTagCompound) {
-            NBTTagCompound compoundTag = (NBTTagCompound) value;
+        if (value instanceof CompoundTag) {
+            CompoundTag compoundTag = (CompoundTag) value;
 
-            if (compoundTag.hasKey("id", 8)
-                    && (index(compoundTag.getString("id")) >= 0 || BasketData.isBasket(compoundTag.getString("id")))) {
+            if (compoundTag.contains("id", 8)
+                    && (index(compoundTag.getString("id")) >= 0 || BasketData.isBasket(compoundTag.getString("id"))
+                            || LegacyPlantItems.matches(compoundTag.getString("id")))) {
                 return true;
             }
-            for (String key : compoundTag.getKeySet()) {
-                if (related(compoundTag.getTag(key), depth + 1)) {
+            for (String key : compoundTag.getAllKeys()) {
+                if (related(compoundTag.get(key), depth + 1)) {
                     return true;
                 }
             }
-        } else if (value instanceof NBTTagList) {
-            for (NBTBase child : (NBTTagList) value) {
+        } else if (value instanceof ListTag) {
+            for (Tag child : (ListTag) value) {
                 if (related(child, depth + 1)) {
                     return true;
                 }
@@ -122,14 +121,14 @@ public final class LegacyItemRecovery implements IFixableData {
         return false;
     }
 
-    private static void rewrite(NBTBase value, int basketSlots, int depth) {
+    private static void rewrite(Tag value, int basketSlots, int depth) {
         depth(depth);
 
-        if (value instanceof NBTTagCompound) {
-            NBTTagCompound compoundTag = (NBTTagCompound) value;
+        if (value instanceof CompoundTag) {
+            CompoundTag compoundTag = (CompoundTag) value;
 
             if (index(compoundTag.getString("id")) >= 0) {
-                List<NBTTagCompound> parts = convert(compoundTag);
+                List<CompoundTag> parts = convert(compoundTag);
 
                 if (parts.size() != 1) {
                     throw invalid(
@@ -142,42 +141,45 @@ public final class LegacyItemRecovery implements IFixableData {
             String registryId = compoundTag.getString("id");
 
             if ((registryId.equals("ItemFrame") || registryId.equals("minecraft:item_frame"))
-                    && compoundTag.hasKey("Item", 10)
-                    && index(compoundTag.getCompoundTag("Item").getString("id")) >= 0) {
-                int legacyItemIndex = index(compoundTag.getCompoundTag("Item").getString("id"));
+                    && compoundTag.contains("Item", 10)
+                    && index(compoundTag.getCompound("Item").getString("id")) >= 0) {
+                int legacyItemIndex = index(compoundTag.getCompound("Item").getString("id"));
 
-                if (compoundTag.getCompoundTag("Item").getInteger("Count") * MULTIPLIER[legacyItemIndex] > 1) {
+                if (BasketData.count(compoundTag.getCompound("Item")) * MULTIPLIER[legacyItemIndex] > 1) {
                     throw invalid(
                             "remove the retired item from its item frame in the original world first; a frame cannot retain multiple replacement items");
                 }
             }
-            for (String key : compoundTag.getKeySet()) {
-                NBTBase child = compoundTag.getTag(key);
+            if (BasketData.isBasket(registryId) && compoundTag.contains("components", 10)) {
+                rewrite(BasketData.savedCustomData(compoundTag), BasketData.SIZE, depth + 1);
+            }
+            for (String key : compoundTag.getAllKeys()) {
+                Tag child = compoundTag.get(key);
 
-                if (child instanceof NBTTagList) {
-                    rewriteList((NBTTagList) child, capacity(compoundTag, key, basketSlots), depth + 1);
+                if (child instanceof ListTag) {
+                    rewriteList((ListTag) child, capacity(compoundTag, key, basketSlots), depth + 1);
                 } else {
                     rewrite(child, key.equals("tag") && BasketData.isBasket(registryId) ? BasketData.SIZE : 0,
                             depth + 1);
                 }
             }
-        } else if (value instanceof NBTTagList) {
-            rewriteList((NBTTagList) value, 0, depth + 1);
+        } else if (value instanceof ListTag) {
+            rewriteList((ListTag) value, 0, depth + 1);
         }
     }
 
-    private static void rewriteList(NBTTagList list, int capacity, int depth) {
+    private static void rewriteList(ListTag list, int capacity, int depth) {
         depth(depth);
 
         BitSet occupied = new BitSet();
 
         if (capacity > 0) {
-            for (NBTBase value : list) {
-                if (value instanceof NBTTagCompound) {
-                    NBTTagCompound compoundTag = (NBTTagCompound) value;
+            for (Tag value : list) {
+                if (value instanceof CompoundTag) {
+                    CompoundTag compoundTag = (CompoundTag) value;
 
-                    if (compoundTag.hasKey("Slot", 99)) {
-                        int slot = compoundTag.getInteger("Slot");
+                    if (compoundTag.contains("Slot", 99)) {
+                        int slot = compoundTag.getInt("Slot");
 
                         if (slot >= 0 && slot < capacity && !occupied.get(slot)) {
                             occupied.set(slot);
@@ -189,14 +191,14 @@ public final class LegacyItemRecovery implements IFixableData {
             }
         }
 
-        List<NBTTagCompound> extras = new ArrayList<NBTTagCompound>();
+        List<CompoundTag> extras = new ArrayList<CompoundTag>();
 
-        for (NBTBase value : list) {
-            if (value instanceof NBTTagCompound && index(((NBTTagCompound) value).getString("id")) >= 0) {
-                NBTTagCompound compoundTag = (NBTTagCompound) value;
-                List<NBTTagCompound> parts = convert(compoundTag);
+        for (Tag value : list) {
+            if (value instanceof CompoundTag && index(((CompoundTag) value).getString("id")) >= 0) {
+                CompoundTag compoundTag = (CompoundTag) value;
+                List<CompoundTag> parts = convert(compoundTag);
 
-                if (parts.size() > 1 && (capacity == 0 || !compoundTag.hasKey("Slot", 99))) {
+                if (parts.size() > 1 && (capacity == 0 || !compoundTag.contains("Slot", 99))) {
                     throw invalid(
                             "a stack needs extra slots in an unknown inventory; split it in the original world first");
                 }
@@ -213,25 +215,25 @@ public final class LegacyItemRecovery implements IFixableData {
 
                     occupied.set(free);
 
-                    NBTTagCompound extra = parts.get(stackPartIndex);
+                    CompoundTag extra = parts.get(stackPartIndex);
 
-                    extra.setByte("Slot", (byte) free);
+                    extra.putByte("Slot", (byte) free);
                     extras.add(extra);
                 }
             }
 
             rewrite(value, 0, depth + 1);
         }
-        for (NBTTagCompound extra : extras) {
-            list.appendTag(extra);
+        for (CompoundTag extra : extras) {
+            list.add(extra);
         }
     }
 
-    private static int capacity(NBTTagCompound owner, String key, int basketSlots) {
+    private static int capacity(CompoundTag owner, String key, int basketSlots) {
         if (key.equals("EnderItems")) {
             return 27;
         }
-        if (key.equals("Inventory") && (owner.hasKey("abilities", 10) || owner.hasKey("EnderItems", 9))) {
+        if (key.equals("Inventory") && (owner.contains("abilities", 10) || owner.contains("EnderItems", 9))) {
             return 36;
         }
         if (!key.equals("Items")) {
@@ -251,60 +253,69 @@ public final class LegacyItemRecovery implements IFixableData {
         return 0;
     }
 
-    private static List<NBTTagCompound> convert(NBTTagCompound old) {
+    private static List<CompoundTag> convert(CompoundTag old) {
         int legacyItemIndex = index(old.getString("id"));
 
-        if (!integer(old, "Count") || old.getInteger("Count") <= 0 || old.getInteger("Count") > 64
-                || old.hasKey("Damage") && !integer(old, "Damage")) {
+        int savedCount = BasketData.count(old);
+        if (savedCount <= 0 || savedCount > 99
+                || old.contains("Damage") && !integer(old, "Damage")) {
             throw invalid("invalid saved stack for " + old.getString("id"));
         }
-        if (old.hasKey("tag") && !old.hasKey("tag", 10) || old.hasKey("ForgeCaps") && !old.hasKey("ForgeCaps", 10)) {
+        if (old.contains("tag") && !old.contains("tag", 10)
+                || old.contains("ForgeCaps") && !old.contains("ForgeCaps", 10)) {
             throw invalid("malformed saved item data for " + old.getString("id"));
         }
 
-        Item target = ForgeRegistries.ITEMS.getValue(new ResourceLocation(TARGET[legacyItemIndex]));
+        Item target = BuiltInRegistries.ITEM.getOptional(ResourceLocation.parse(TARGET[legacyItemIndex])).orElse(null);
 
-        if (target == null || target == net.minecraft.init.Items.AIR) {
+        if (target == null || target == net.minecraft.world.item.Items.AIR) {
             throw invalid("replacement " + TARGET[legacyItemIndex] + " is unavailable for " + OLD[legacyItemIndex]
                     + "; install its original supported mod before upgrading");
         }
 
-        int remaining = old.getInteger("Count") * MULTIPLIER[legacyItemIndex];
-        List<NBTTagCompound> output = new ArrayList<NBTTagCompound>();
+        boolean legacy = old.contains("Count");
+        int remaining = savedCount * MULTIPLIER[legacyItemIndex];
+        List<CompoundTag> output = new ArrayList<CompoundTag>();
 
         while (remaining > 0) {
-            NBTTagCompound part = old.copy();
+            CompoundTag part = old.copy();
 
-            part.setString("id", TARGET[legacyItemIndex]);
-            part.setShort("Damage", (short) 0);
+            part.putString("id", TARGET[legacyItemIndex]);
+            if (legacy) {
+                part.remove("Damage");
+            }
 
             // A different item may not implement the old capabilities. Keep an exact archive rather than rely on its
             // serializer retaining them.
-            if (old.hasKey("ForgeCaps", 10)) {
-                NBTTagCompound tag = part.getCompoundTag("tag");
+            if (old.contains("ForgeCaps", 10)) {
+                CompoundTag tag = BasketData.savedCustomData(part);
                 String archive = SkysBuildingPiecesBop.ID + ":legacy_capabilities";
 
-                if (tag.hasKey(archive)) {
+                if (tag.contains(archive)) {
                     throw invalid("existing legacy capability archive would be overwritten");
                 }
 
-                tag.setTag(archive, old.getCompoundTag("ForgeCaps").copy());
-                part.setTag("tag", tag);
+                tag.put(archive, old.getCompound("ForgeCaps").copy());
+                if (legacy) {
+                    part.put("tag", tag);
+                } else {
+                    CompoundTag components = part.getCompound("components");
+                    components.put("minecraft:custom_data", tag);
+                    part.put("components", components);
+                }
             }
 
-            ItemStack decoded = new ItemStack(target, 1, 0);
-
-            if (part.hasKey("tag", 10)) {
-                decoded.setTagCompound(part.getCompoundTag("tag").copy());
-            }
-
-            int count = Math.min(remaining, Math.min(64, decoded.getMaxStackSize()));
+            int count = Math.min(remaining, BasketData.stackLimit(part, target));
 
             if (count <= 0) {
                 throw invalid("replacement has no usable stack capacity: " + TARGET[legacyItemIndex]);
             }
 
-            part.setByte("Count", (byte) count);
+            if (legacy) {
+                part.putByte("Count", (byte) count);
+            } else {
+                part.putInt("count", count);
+            }
             output.add(part);
             remaining -= count;
         }
@@ -312,14 +323,14 @@ public final class LegacyItemRecovery implements IFixableData {
         return output;
     }
 
-    private static void replace(NBTTagCompound targetData, NBTTagCompound from) {
-        for (String key : from.getKeySet()) {
-            targetData.setTag(key, from.getTag(key));
+    private static void replace(CompoundTag targetData, CompoundTag from) {
+        for (String key : from.getAllKeys()) {
+            targetData.put(key, from.get(key));
         }
     }
 
-    private static boolean integer(NBTTagCompound compoundTag, String key) {
-        return compoundTag.hasKey(key, 99) && compoundTag.getTagId(key) >= 1 && compoundTag.getTagId(key) <= 3;
+    private static boolean integer(CompoundTag compoundTag, String key) {
+        return compoundTag.contains(key, 99) && compoundTag.get(key).getId() >= 1 && compoundTag.get(key).getId() <= 3;
     }
 
     private static void depth(int value) {
@@ -334,18 +345,18 @@ public final class LegacyItemRecovery implements IFixableData {
     }
 
     @SubscribeEvent
-    public static void register(RegistryEvent.Register<Item> event) {
-        event.getRegistry().registerAll(HOLDERS);
+    public static void register(RegisterEvent event) {
+        if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.ITEM)) return;
+        createHolders();
+        for (int index = 0; index < HOLDERS.length; index++) {
+            net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID,
+                    "legacy_" + OLD[index].substring(14)), HOLDERS[index]);
+        }
     }
 
-    @SubscribeEvent
-    public static void missing(RegistryEvent.MissingMappings<Item> event) {
-        for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getAllMappings()) {
-            int legacyItemIndex = index(mapping.key.toString());
-
-            if (legacyItemIndex >= 0) {
-                mapping.remap(HOLDERS[legacyItemIndex]);
-            }
+    static void registerAliases() {
+        for (int index = 0; index < HOLDERS.length; index++) {
+            BopRegistryAliases.item(OLD[index], BuiltInRegistries.ITEM.getKey(HOLDERS[index]));
         }
     }
 }

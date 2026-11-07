@@ -1,4 +1,8 @@
 * text=auto
+
+# Keep the generated Forge defaults unchanged for the startup log controls.
+src/bootstrapTest/defaultconfigs/config/forge-client.toml whitespace=-blank-at-eof
+src/bootstrapTest/defaultconfigs/defaultconfigs/forge-server.toml whitespace=-blank-at-eof
 *.java text eol=lf
 *.json text eol=lf
 *.lang text eol=lf
@@ -10,3 +14,12 @@ gradlew text eol=lf
 *.bat text eol=crlf
 *.png binary
 *.jar binary
+
+# Preserve the exact sealed build fixture and native scripts on Windows.
+.gitattributes text eol=lf
+*.js text eol=lf
+*.yml text eol=lf
+ci-fixtures/tools/** -text
+*.mcmeta text eol=lf
+*.toml text eol=lf
+*.py text eol=lf

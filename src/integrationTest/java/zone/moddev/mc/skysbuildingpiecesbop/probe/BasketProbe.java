@@ -1,36 +1,41 @@
 package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.*;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.bus.api.EventPriority;
+import zone.moddev.mc.skysbuildingpieces.probe.BopServerProbe;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 
-/** Register after both jars are available to the packaged LaunchWrapper. */
-@Mod(
-        modid = "basketsprobe",
-        name = "Flower Basket Runtime Probe",
-        version = "1",
-        dependencies = "required-after:skysbuildingpiecesbop;after:buildingpiecesprobe")
+/** Build-only listeners for real basket windows and copied-world audits. */
+@Mod("basketsprobe")
 public final class BasketProbe {
-    @Mod.EventHandler
-    public void ready(FMLPostInitializationEvent event) throws Exception {
+    public BasketProbe() {
+        NeoForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::started);
+        NeoForge.EVENT_BUS.register(BasketPlayerUpgrade.class);
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            NeoForge.EVENT_BUS.register(BasketClientChecks.class);
+            NeoForge.EVENT_BUS.register(BasketGuiClientChecks.class);
+            NeoForge.EVENT_BUS.register(BasketDisconnectClientChecks.class);
+        }
+    }
+
+    private void started(ServerStartedEvent event) {
         String phase = System.getProperty("skysbuildingpieces.integrationPhase", "");
 
-        if (phase.startsWith("sylvester-baskets-") || phase.startsWith("sylvester-items-")) {
-            MinecraftForge.EVENT_BUS
-                    .unregister(Loader.instance().getIndexedModList().get("buildingpiecesprobe").getMod());
-            MinecraftForge.EVENT_BUS.register(
+        if (phase.equals("fresh") || phase.equals("reload")) {
+            // The core has prepared its fixtures. Use a tick-based driver for the larger BOP recipe catalogue.
+            Object coreProbe = ModList.get().getModContainerById("buildingpiecesprobe").orElseThrow().getMod();
+            NeoForge.EVENT_BUS.unregister(coreProbe);
+            BopServerProbe.register(event.getServer(), phase);
+        } else if (phase.startsWith("sylvester-baskets-") || phase.startsWith("sylvester-items-")) {
+            Object coreProbe = ModList.get().getModContainerById("buildingpiecesprobe").get().getMod();
+
+            NeoForge.EVENT_BUS.unregister(coreProbe);
+            NeoForge.EVENT_BUS.register(
                     phase.startsWith("sylvester-items-") ? new RetiredItemWorldChecks() : new BasketWorldChecks());
-        }
-
-        MinecraftForge.EVENT_BUS.register(BasketPlayerUpgrade.class);
-
-        if (FMLCommonHandler.instance().getSide().isClient()) {
-            MinecraftForge.EVENT_BUS
-                    .register(Class.forName("zone.moddev.mc.skysbuildingpiecesbop.probe.BasketClientChecks"));
-            MinecraftForge.EVENT_BUS
-                    .register(Class.forName("zone.moddev.mc.skysbuildingpiecesbop.probe.BasketGuiClientChecks"));
-            MinecraftForge.EVENT_BUS
-                    .register(Class.forName("zone.moddev.mc.skysbuildingpiecesbop.probe.BasketDisconnectClientChecks"));
         }
     }
 }

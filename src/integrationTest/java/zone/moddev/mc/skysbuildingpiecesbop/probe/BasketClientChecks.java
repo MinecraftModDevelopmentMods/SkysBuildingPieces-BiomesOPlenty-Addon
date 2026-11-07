@@ -1,68 +1,77 @@
 package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.*;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.*;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.bus.api.*;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+
 import zone.moddev.mc.skysbuildingpiecesbop.basket.*;
 
 /** Verify both basket variants against the real client atlas before the client probe exits. */
 public final class BasketClientChecks {
+    private static final org.apache.logging.log4j.Logger LOGGER =
+            org.apache.logging.log4j.LogManager.getLogger();
+
     private static boolean checked;
 
     @SubscribeEvent(
             priority = EventPriority.HIGHEST)
-    public static void tick(TickEvent.ClientTickEvent event) {
-        if (checked || event.phase != TickEvent.Phase.END
-                || !System.getProperty("skysbuildingpieces.integrationPhase", "").startsWith("client")) {
+    public static void tick(ClientTickEvent.Post event) {
+        if (checked || !System.getProperty("skysbuildingpieces.integrationPhase", "").startsWith("client")) {
             return;
         }
 
         checked = true;
 
-        Minecraft minecraft = Minecraft.getMinecraft();
-        IBakedModel previous = null;
+        Minecraft minecraft = Minecraft.getInstance();
+        BakedModel previous = null;
 
-        for (boolean filled : new boolean[] { false, true }) {
-            ItemStack stack = new ItemStack(Baskets.ITEM);
+        for (net.minecraft.world.item.Item basket : new net.minecraft.world.item.Item[] {Baskets.ITEM, Baskets.HOLDER}) {
+            previous = null;
+            for (boolean filled : new boolean[] { false, true }) {
+                ItemStack stack = new ItemStack(basket);
 
-            if (filled) {
-                NBTTagCompound tag = new NBTTagCompound();
-                NBTTagList entries = new NBTTagList();
-                NBTTagCompound child = new ItemStack(net.minecraft.init.Blocks.SAPLING)
-                        .writeToNBT(new NBTTagCompound());
+                if (filled) {
+                    CompoundTag tag = new CompoundTag();
+                    ListTag entries = new ListTag();
+                    CompoundTag child = BopProbeItems.legacy(new ItemStack(net.minecraft.world.level.block.Blocks.OAK_SAPLING));
 
-                child.setByte("Slot", (byte) 0);
-                entries.appendTag(child);
-                tag.setTag("Items", entries);
-                stack.setTagCompound(tag);
+                    child.putByte("Slot", (byte) 0);
+                    entries.add(child);
+                    tag.put("Items", entries);
+                    BopProbeItems.setCustom(stack, tag);
+                }
+
+                BakedModel model = minecraft.getItemRenderer().getModel(stack, null, null, 0);
+
+                if (model == minecraft.getItemRenderer().getItemModelShaper().getModelManager().getMissingModel()
+                        || model.getParticleIcon().contents().name().toString().contains("missingno")) {
+                    throw new AssertionError("Missing basket model");
+                }
+                if (filled && model == previous) {
+                    throw new AssertionError("Filled basket override did not change the model: "
+                            + net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(basket));
+                }
+
+                previous = model;
             }
-
-            IBakedModel model = minecraft.getRenderItem().getItemModelWithOverrides(stack, null, null);
-
-            if (model == minecraft.getRenderItem().getItemModelMesher().getModelManager().getMissingModel()
-                    || model.getParticleTexture().getIconName().contains("missingno")) {
-                throw new AssertionError("Missing basket model");
-            }
-            if (filled && model == previous) {
-                throw new AssertionError("Filled basket override did not change the model");
-            }
-
-            previous = model;
         }
-        for (net.minecraft.item.Item holder : zone.moddev.mc.skysbuildingpiecesbop.LegacyItemRecovery.HOLDERS) {
-            IBakedModel model = minecraft.getRenderItem().getItemModelWithOverrides(new ItemStack(holder), null, null);
+        for (net.minecraft.world.item.Item holder : zone.moddev.mc.skysbuildingpiecesbop.LegacyItemRecovery.HOLDERS) {
+            BakedModel model = minecraft.getItemRenderer().getModel(new ItemStack(holder), null,
+                    null, 0);
 
-            if (model == minecraft.getRenderItem().getItemModelMesher().getModelManager().getMissingModel()
-                    || model.getParticleTexture().getIconName().contains("missingno")) {
+            if (model == minecraft.getItemRenderer().getItemModelShaper().getModelManager().getMissingModel()
+                    || model.getParticleIcon().contents().name().toString().contains("missingno")) {
                 throw new AssertionError("Missing retired-item holder model");
             }
         }
 
-        System.out.println("BOP_BASKET_CLIENT_PASS empty=true filled=true atlas=true retired_item_models=3");
+        LOGGER.info("BOP_BASKET_CLIENT_PASS empty=true filled=true atlas=true retired_item_models=3");
     }
 }

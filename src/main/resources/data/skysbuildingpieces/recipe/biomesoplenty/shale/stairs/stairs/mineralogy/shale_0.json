@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/mineralogy",
+  "pattern": ["X  ", "XX ", "XXX"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:shale_slab"
+    }
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:shale_stairs",
+    "count": 4
+  },
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:shale_slab"
+        },
+        {
+          "type": "neoforge:item_exists",
+          "item": "skysbuildingpiecesbop:shale_stairs"
+        }
+      ]
+    }
+  ]
+}
