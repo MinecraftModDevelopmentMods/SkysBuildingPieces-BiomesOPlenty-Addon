@@ -1,6 +1,6 @@
 # Trying the beta
 
-Install the Minecraft 26.1.2 main jars for Building Pieces 0.3.8.2601022,
+Install the Minecraft 26.1.2 main jars for Building Pieces 0.3.9.2601022,
 this add-on, BOP 26.1.2.0.22, TerraBlender 26.1.2.0.3 and GlitchCore 26.1.2.0.2
 on the client and server. Use a new world or a backup copy.
 
