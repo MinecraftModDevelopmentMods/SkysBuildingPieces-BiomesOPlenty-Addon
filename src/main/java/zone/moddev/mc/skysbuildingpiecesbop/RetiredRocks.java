@@ -10,7 +10,6 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -39,7 +38,9 @@ public final class RetiredRocks extends Block {
             "siltstone", "siltstone_smooth" };
     private static final float[] HARDNESS = { 5, 1.5f, 1.5f, 1.5f, 1.5f, 1, 1 };
     public static final IntegerProperty VARIANT = IntegerProperty.create("variant", 0, 6);
+    static final String LEGACY_ID = SkysBuildingPiecesBop.ID + ":retired_rocks";
     public static RetiredRocks BLOCK;
+    private static final Block[] ROCKS = new Block[NAMES.length];
     public static final Item[] ITEMS = new Item[NAMES.length];
 
     private RetiredRocks() {
@@ -109,11 +110,38 @@ public final class RetiredRocks extends Block {
         return new ItemStack(item(state));
     }
 
+    public static BlockState state(int variant) {
+        return ROCKS[variant].defaultBlockState();
+    }
+
+    static Identifier id(int variant) {
+        return Identifier.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]);
+    }
+
+    private static final class FlatRock extends Block {
+        private final int variant;
+
+        FlatRock(int variant) {
+            super(SkysBuildingPiecesBop.blockProperties("retired_" + NAMES[variant]).mapColor(MapColor.STONE)
+                    .strength(HARDNESS[variant], variant == 0 ? 60 : 6).requiresCorrectToolForDrops());
+            this.variant = variant;
+        }
+
+        @Override
+        public List<ItemStack> getDrops(BlockState state, LootParams.Builder context) {
+            return List.of(new ItemStack(ITEMS[variant]));
+        }
+    }
+
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void blocks(RegisterEvent event) {
         if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.BLOCK)) return;
         BLOCK = new RetiredRocks();
-        net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "retired_rocks"), BLOCK);
+        net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, Identifier.parse(LEGACY_ID), BLOCK);
+        for (int variant = 0; variant < NAMES.length; variant++) {
+            ROCKS[variant] = new FlatRock(variant);
+            net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, id(variant), ROCKS[variant]);
+        }
     }
 
     @SubscribeEvent
@@ -122,10 +150,10 @@ public final class RetiredRocks extends Block {
         // The old palette identity remains a hidden recovery carrier. Normal inventory stacks have a distinct item
         // identity for each rock.
         Identifier blockId = BuiltInRegistries.BLOCK.getKey(BLOCK);
-        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, blockId, new BlockItem(BLOCK, SkysBuildingPiecesBop.itemProperties(blockId)));
+        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, blockId, new Item(SkysBuildingPiecesBop.itemProperties(blockId)));
 
         for (int variant = 0; variant < NAMES.length; variant++) {
-            Identifier id = Identifier.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]);
+            Identifier id = id(variant);
             VariantItem item = new VariantItem(variant, id);
 
             ITEMS[variant] = item;
@@ -149,14 +177,9 @@ public final class RetiredRocks extends Block {
         private final int variant;
 
         VariantItem(int variant, Identifier id) {
-            super(BLOCK, SkysBuildingPiecesBop.itemProperties(id)
+            super(ROCKS[variant], SkysBuildingPiecesBop.itemProperties(id)
                     .overrideDescription("block.skysbuildingpiecesbop.retired_" + NAMES[variant]));
             this.variant = variant;
-        }
-
-        @Override
-        protected BlockState getPlacementState(BlockPlaceContext context) {
-            return BLOCK.getStateFromMeta(variant);
         }
 
         boolean visibleInCreativeTab() {
