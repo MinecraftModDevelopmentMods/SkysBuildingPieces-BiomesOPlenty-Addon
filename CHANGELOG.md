@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.5.2601021
+
+- BOP building pieces and recovered rocks now have individual block IDs. Existing builds and rock variants carry forward.
+
 ## 0.2.4.2601021
 
 - Updated to Minecraft 26.1.2 and Forge 64.0.9.
