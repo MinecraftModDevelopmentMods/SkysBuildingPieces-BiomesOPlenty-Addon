@@ -30,7 +30,7 @@ def compileBootstrap = tasks.register('compileNativeBootstrap', JavaCompile) {
         source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/' + name + '.java'))
     }
     source fileTree(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/legacy'))
-    ['ClientProbe', 'ClientStatus', 'ProbeProxy', 'RecipePreviewModels', 'PresentationChecks', 'GlassModelProbe'].each { name ->
+    ['ClientProbe', 'ClientStatus', 'ConfigScreenChecks', 'ProbeProxy', 'RecipePreviewModels', 'PresentationChecks', 'GlassModelProbe'].each { name ->
         source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/' + name + '.java'))
     }
     ['BasketGuiClientChecks', 'BasketDisconnectClientChecks', 'BasketClientChecks', 'BopProbeItems'].each { name ->

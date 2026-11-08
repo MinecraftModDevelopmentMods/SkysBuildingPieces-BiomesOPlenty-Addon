@@ -278,7 +278,8 @@ public final class NamedBopRecovery {
 
     private static boolean relevant(Tag value, int depth, boolean blockState) {
         depth(depth);
-        if (blockState && BLOCKS.containsKey(savedBlockName(value))) {
+        if (blockState && (BLOCKS.containsKey(savedBlockName(value))
+                || RetiredRocks.LEGACY_ID.equals(savedBlockName(value)))) {
             return true;
         }
         if (value instanceof CompoundTag) {
@@ -314,6 +315,9 @@ public final class NamedBopRecovery {
     private static Tag rewrite(Tag value, int depth, boolean blockState) {
         depth(depth);
         if (blockState && value instanceof StringTag compact) {
+            if (RetiredRocks.LEGACY_ID.equals(compact.value())) {
+                return StringTag.valueOf(RetiredRocks.id(0).toString());
+            }
             String replacement = BLOCKS.get(compact.value());
             if (replacement != null) {
                 CompoundTag state = new CompoundTag();
@@ -344,7 +348,20 @@ public final class NamedBopRecovery {
                 }
             }
 
-            if (blockState && name.equals("biomesoplenty:nether_crystal")) {
+            if (RetiredRocks.LEGACY_ID.equals(name)) {
+                if (tag.contains(propertiesKey) && !(tag.get(propertiesKey) instanceof CompoundTag)) {
+                    throw new IllegalStateException("Malformed saved retired rock properties: " + tag);
+                }
+                CompoundTag properties = tag.getCompoundOrEmpty(propertiesKey);
+                int slot = properties.contains("variant") ? Integer.parseInt(properties.getStringOr("variant", "")) : 0;
+                if (slot < 0 || slot >= RetiredRocks.NAMES.length) {
+                    throw new IllegalStateException("Unassigned saved retired rock: " + tag);
+                }
+
+                String nameKey = tag.contains("Name") ? "Name" : tag.contains("id") ? "id" : "";
+                tag.putString(nameKey, RetiredRocks.id(slot).toString());
+                tag.remove(propertiesKey);
+            } else if (blockState && name.equals("biomesoplenty:nether_crystal")) {
                 if (tag.contains(propertiesKey) && !(tag.get(propertiesKey) instanceof net.minecraft.nbt.CompoundTag)) {
                     throw new IllegalStateException("Malformed saved nether crystal properties: " + tag);
                 }
@@ -573,8 +590,8 @@ public final class NamedBopRecovery {
 
     private static boolean stateField(String key) {
         // A custom display name can also be a registry-looking string. Only native state fields identify blocks.
-        return key.equals("Palette") || key.equals("palette") || key.equals("BlockState")
-                || key.equals("blockState") || key.equals("carriedBlockState") || key.equals("DisplayState");
+        return key.equals("Palette") || key.equals("palette") || key.equals("palettes") || key.equals("BlockState")
+                || key.equals("blockState") || key.equals("block_state") || key.equals("carriedBlockState") || key.equals("DisplayState");
     }
 
     private static ListTag chunkSections(CompoundTag chunk) {

@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "orientation=top,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/crag_rock_slab_0"
+    },
+    "orientation=top,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/crag_rock_slab_0"
+    },
+    "orientation=bottom,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/crag_rock_slab_1"
+    },
+    "orientation=bottom,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/crag_rock_slab_1"
+    }
+  }
+}
