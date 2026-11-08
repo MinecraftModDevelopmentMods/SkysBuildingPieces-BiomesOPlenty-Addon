@@ -9,7 +9,6 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -40,7 +39,9 @@ public final class RetiredRocks extends Block {
             "siltstone", "siltstone_smooth" };
     private static final float[] HARDNESS = { 5, 1.5f, 1.5f, 1.5f, 1.5f, 1, 1 };
     public static final IntegerProperty VARIANT = IntegerProperty.create("variant", 0, 6);
+    static final String LEGACY_ID = SkysBuildingPiecesBop.ID + ":retired_rocks";
     public static RetiredRocks BLOCK;
+    private static final Block[] ROCKS = new Block[NAMES.length];
     public static final Item[] ITEMS = new Item[NAMES.length];
 
     private RetiredRocks() {
@@ -98,6 +99,10 @@ public final class RetiredRocks extends Block {
         return ITEMS[state.getValue(VARIANT)];
     }
 
+    public static BlockState state(int variant) {
+        return ROCKS[variant].defaultBlockState();
+    }
+
     @Override
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder context) {
         return Collections.singletonList(new ItemStack(item(state)));
@@ -114,7 +119,11 @@ public final class RetiredRocks extends Block {
     public static void blocks(RegisterEvent event) {
         if (!event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
         BLOCK = new RetiredRocks();
-        ForgeRegistries.BLOCKS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "retired_rocks"), BLOCK);
+        ForgeRegistries.BLOCKS.register(new ResourceLocation(LEGACY_ID), BLOCK);
+        for (int variant = 0; variant < NAMES.length; variant++) {
+            ROCKS[variant] = new FlatRock(variant);
+            ForgeRegistries.BLOCKS.register(id(variant), ROCKS[variant]);
+        }
     }
 
     @SubscribeEvent
@@ -122,16 +131,36 @@ public final class RetiredRocks extends Block {
         if (!event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) return;
         // The old palette identity remains a hidden recovery carrier. Normal inventory stacks have a distinct item
         // identity for each rock.
-        ForgeRegistries.ITEMS.register(ForgeRegistries.BLOCKS.getKey(BLOCK), new BlockItem(BLOCK, new Item.Properties()));
+        ForgeRegistries.ITEMS.register(ForgeRegistries.BLOCKS.getKey(BLOCK),
+                new Item(new Item.Properties()));
 
         for (int variant = 0; variant < NAMES.length; variant++) {
             VariantItem item = new VariantItem(variant);
 
             ITEMS[variant] = item;
-            ForgeRegistries.ITEMS.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]), item);
+            ForgeRegistries.ITEMS.register(id(variant), item);
         }
 
         zone.moddev.mc.skysbuildingpieces.api.BuildingPiecesApi.registerStateItems(BLOCK, RetiredRocks::item);
+    }
+
+    static ResourceLocation id(int variant) {
+        return new ResourceLocation(SkysBuildingPiecesBop.ID, "retired_" + NAMES[variant]);
+    }
+
+    private static final class FlatRock extends Block {
+        private final int variant;
+
+        FlatRock(int variant) {
+            super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
+                    .strength(HARDNESS[variant], variant == 0 ? 60 : 6).requiresCorrectToolForDrops());
+            this.variant = variant;
+        }
+
+        @Override
+        public List<ItemStack> getDrops(BlockState state, LootParams.Builder context) {
+            return List.of(new ItemStack(ITEMS[variant]));
+        }
     }
 
     @SubscribeEvent
@@ -148,13 +177,8 @@ public final class RetiredRocks extends Block {
         private final int variant;
 
         VariantItem(int variant) {
-            super(BLOCK, new Item.Properties());
+            super(ROCKS[variant], new Item.Properties());
             this.variant = variant;
-        }
-
-        @Override
-        protected BlockState getPlacementState(BlockPlaceContext context) {
-            return BLOCK.getStateFromMeta(variant);
         }
 
         @Override
