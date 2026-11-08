@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.5.2602002
+
+- BOP building pieces and recovered rocks now have individual block IDs. Existing builds and rock variants carry forward.
+
 ## 0.2.4.2602002
 
 - Updated the add-on for Minecraft 26.2 on NeoForge.
