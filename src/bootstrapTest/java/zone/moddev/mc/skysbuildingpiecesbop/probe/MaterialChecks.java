@@ -118,7 +118,7 @@ final class MaterialChecks {
             long registered = ForgeRegistries.BLOCKS.getValues().stream()
                     .filter(block -> net.minecraftforge.registries.ForgeRegistries.BLOCKS.getKey(block).getNamespace().equals(SkysBuildingPiecesBop.ID)).count();
 
-            require(registered == 74 && registered <= 80, "Complete add-on block budget: " + registered);
+            require(registered == 74 + 180 + 7, "Complete add-on block catalogue: " + registered);
             LOGGER.info("BOP_NATIVE_MATERIALS_PASS states=" + checked + " blocks=" + registered);
         } finally {
             world.setBlock(position, previous, 2);
@@ -137,7 +137,7 @@ final class MaterialChecks {
         float[] hardness = { 5, 1.5f, 1.5f, 1.5f, 1.5f, 1, 1 };
         int checked = 0;
         for (int variant = 0; variant < hardness.length; variant++) {
-            BlockState state = zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks.BLOCK.getStateFromMeta(variant);
+            BlockState state = zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks.state(variant);
             world.setBlock(position, state, 2);
             require(state.getDestroySpeed(world, position) == hardness[variant], "Retired-rock hardness " + variant);
             for (int tool = -1; tool < tools.length; tool++) {
