@@ -265,7 +265,8 @@ public final class NamedBopRecovery {
         if (value instanceof CompoundTag) {
             CompoundTag tag = (CompoundTag) value;
 
-            if (blockState && (BLOCKS.containsKey(tag.getStringOr("Name", "")) || oldShortCattail(tag)
+            if (blockState && (BLOCKS.containsKey(tag.getStringOr("Name", ""))
+                    || RetiredRocks.LEGACY_ID.equals(tag.getStringOr("Name", "")) || oldShortCattail(tag)
                     || oldWall(tag.getStringOr("Name", ""), tag.getCompoundOrEmpty("Properties")))
                     || namedItem(tag) || (tag.get("Count") instanceof net.minecraft.nbt.NumericTag)
                     && oldWall(tag.getStringOr("id", ""), tag.getCompoundOrEmpty("tag").getCompoundOrEmpty("BlockStateTag"))
@@ -316,7 +317,18 @@ public final class NamedBopRecovery {
                 }
             }
 
-            if (blockState && name.equals("biomesoplenty:nether_crystal")) {
+            if (blockState && name.equals(RetiredRocks.LEGACY_ID)) {
+                CompoundTag properties = tag.getCompoundOrEmpty("Properties");
+                if (tag.contains("Properties") && !(tag.get("Properties") instanceof CompoundTag)) {
+                    throw new IllegalStateException("Malformed saved retired rock properties: " + tag);
+                }
+                int variant = properties.contains("variant") ? Integer.parseInt(properties.getStringOr("variant", "")) : 0;
+                if (variant < 0 || variant >= RetiredRocks.NAMES.length) {
+                    throw new IllegalStateException("Unassigned saved retired rock: " + tag);
+                }
+                tag.putString("Name", RetiredRocks.id(variant).toString());
+                tag.remove("Properties");
+            } else if (blockState && name.equals("biomesoplenty:nether_crystal")) {
                 if (tag.contains("Properties") && !(tag.get("Properties") instanceof net.minecraft.nbt.CompoundTag)) {
                     throw new IllegalStateException("Malformed saved nether crystal properties: " + tag);
                 }
@@ -522,7 +534,7 @@ public final class NamedBopRecovery {
 
     private static boolean stateField(String key) {
         // A custom display name can also be a registry-looking string. Only native state fields identify blocks.
-        return key.equals("Palette") || key.equals("palette") || key.equals("BlockState")
+        return key.equals("Palette") || key.equals("palette") || key.equals("palettes") || key.equals("BlockState")
                 || key.equals("blockState") || key.equals("carriedBlockState") || key.equals("DisplayState");
     }
 

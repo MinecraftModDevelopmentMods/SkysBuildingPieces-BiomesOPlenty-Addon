@@ -111,7 +111,7 @@ public final class NativeBootstrap {
                 require(Pieces.nativeState(material, "full") != null, "No full material for " + material.id);
             }
             for (int variant = 0; variant < RetiredRocks.NAMES.length; variant++) {
-                ItemStack result = Pieces.stack(RetiredRocks.BLOCK.getStateFromMeta(variant), 3);
+                ItemStack result = Pieces.stack(RetiredRocks.state(variant), 3);
 
                 require(result != null && result.getItem() == RetiredRocks.ITEMS[variant] && result.getCount() == 3,
                         "Retired full-block inventory identity changed: " + variant);
