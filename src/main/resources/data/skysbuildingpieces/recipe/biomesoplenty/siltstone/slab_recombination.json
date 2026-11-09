@@ -1,0 +1,68 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "group": "skysbuildingpieces/siltstone",
+        "pattern": ["XX"],
+        "key": {
+          "X": "skysbuildingpiecesbop:siltstone_slab"
+        },
+        "result": {
+          "id": "mineralogy:siltstone",
+          "count": 1
+        },
+        "category": "building"
+      },
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:item_exists",
+            "item": "mineralogy:siltstone"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:siltstone_slab"
+          }
+        ]
+      }
+    },
+    {
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "group": "skysbuildingpieces/siltstone",
+        "pattern": ["XX"],
+        "key": {
+          "X": "skysbuildingpiecesbop:siltstone_slab"
+        },
+        "result": {
+          "id": "skysbuildingpiecesbop:retired_siltstone",
+          "count": 1
+        },
+        "category": "building"
+      },
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:not",
+            "value": {
+              "type": "forge:item_exists",
+              "item": "mineralogy:siltstone"
+            }
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:retired_siltstone"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:siltstone_slab"
+          }
+        ]
+      }
+    }
+  ]
+}

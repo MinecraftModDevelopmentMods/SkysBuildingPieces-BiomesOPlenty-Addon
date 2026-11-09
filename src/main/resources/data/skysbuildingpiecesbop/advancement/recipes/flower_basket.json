@@ -1,0 +1,26 @@
+{
+  "criteria": {
+    "has_sticks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:rods/wooden"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipes": "skysbuildingpiecesbop:flower_basket"
+      }
+    }
+  },
+  "requirements": [
+    ["has_sticks", "has_the_recipe"]
+  ],
+  "rewards": {
+    "recipes": ["skysbuildingpiecesbop:flower_basket"]
+  }
+}

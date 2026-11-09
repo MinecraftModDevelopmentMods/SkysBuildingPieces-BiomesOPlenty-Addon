@@ -1,0 +1,39 @@
+{
+  "criteria": {
+    "has_ingredient": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["biomesoplenty:hellbark_slab"]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipes": "skysbuildingpieces:biomesoplenty/planks_hellbark/slab_recombination"
+      }
+    }
+  },
+  "requirements": [
+    ["has_ingredient", "has_the_recipe"]
+  ],
+  "rewards": {
+    "recipes": ["skysbuildingpieces:biomesoplenty/planks_hellbark/slab_recombination"]
+  },
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:hellbark_planks"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:hellbark_slab"
+      }
+    ]
+  }
+}

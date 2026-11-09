@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": ["skysbuildingpiecesbop:retired_gabbro"],
+  "result": {
+    "id": "mineralogy:gabbro"
+  },
+  "forge:condition": {
+    "type": "forge:item_exists",
+    "item": "mineralogy:gabbro"
+  }
+}

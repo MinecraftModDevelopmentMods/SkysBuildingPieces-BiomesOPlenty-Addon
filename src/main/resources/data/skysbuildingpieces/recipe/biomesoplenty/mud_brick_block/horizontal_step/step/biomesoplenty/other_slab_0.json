@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/biomesoplenty",
+  "pattern": ["X ", " X"],
+  "key": {
+    "X": "minecraft:mud_brick_slab"
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:mud_brick_block_horizontal_step",
+    "count": 4
+  },
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:item_exists",
+    "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/shale_polished",
+  "pattern": ["X", "X"],
+  "key": {
+    "X": "skysbuildingpiecesbop:shale_polished_horizontal_step"
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:shale_polished_slab",
+    "count": 1
+  },
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:shale_polished_horizontal_step"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:shale_polished_slab"
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "criteria": {
+    "has_ingredient": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["skysbuildingpiecesbop:planks_cherry_vertical_slab"]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipes": "skysbuildingpieces:biomesoplenty/planks_cherry/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_00_4"
+      }
+    }
+  },
+  "requirements": [
+    ["has_ingredient", "has_the_recipe"]
+  ],
+  "rewards": {
+    "recipes": ["skysbuildingpieces:biomesoplenty/planks_cherry/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_00_4"]
+  },
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "minecraft:cherry_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_cherry_vertical_slab"
+      }
+    ]
+  }
+}

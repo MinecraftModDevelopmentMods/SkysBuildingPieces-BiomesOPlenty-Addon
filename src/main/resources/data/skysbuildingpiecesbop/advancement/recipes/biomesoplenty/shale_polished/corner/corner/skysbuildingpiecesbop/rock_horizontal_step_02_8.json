@@ -1,0 +1,39 @@
+{
+  "criteria": {
+    "has_ingredient": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["skysbuildingpiecesbop:shale_polished_horizontal_step"]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipes": "skysbuildingpieces:biomesoplenty/shale_polished/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_02_8"
+      }
+    }
+  },
+  "requirements": [
+    ["has_ingredient", "has_the_recipe"]
+  ],
+  "rewards": {
+    "recipes": ["skysbuildingpieces:biomesoplenty/shale_polished/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_02_8"]
+  },
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:shale_polished_corner"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:shale_polished_horizontal_step"
+      }
+    ]
+  }
+}

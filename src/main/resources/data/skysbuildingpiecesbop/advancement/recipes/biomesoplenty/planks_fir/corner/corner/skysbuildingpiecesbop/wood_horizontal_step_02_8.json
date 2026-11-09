@@ -1,0 +1,39 @@
+{
+  "criteria": {
+    "has_ingredient": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["skysbuildingpiecesbop:planks_fir_horizontal_step"]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipes": "skysbuildingpieces:biomesoplenty/planks_fir/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_02_8"
+      }
+    }
+  },
+  "requirements": [
+    ["has_ingredient", "has_the_recipe"]
+  ],
+  "rewards": {
+    "recipes": ["skysbuildingpieces:biomesoplenty/planks_fir/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_02_8"]
+  },
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_fir_corner"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_fir_horizontal_step"
+      }
+    ]
+  }
+}

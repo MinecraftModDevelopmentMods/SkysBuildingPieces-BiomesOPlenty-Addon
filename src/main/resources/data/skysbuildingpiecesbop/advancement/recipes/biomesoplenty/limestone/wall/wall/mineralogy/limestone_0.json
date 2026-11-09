@@ -1,0 +1,143 @@
+{
+  "criteria": {
+    "has_ingredient": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "mineralogy:limestone"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipes": "skysbuildingpieces:biomesoplenty/limestone/wall/wall/mineralogy/limestone_0"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/limestone/wall/wall/mineralogy/limestone_0"
+    ]
+  },
+  "forge:condition": {
+    "type": "forge:or",
+    "values": [
+      {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:item_exists",
+            "item": "mineralogy:limestone"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:limestone_wall"
+          }
+        ]
+      },
+      {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:not",
+            "value": {
+              "type": "forge:item_exists",
+              "item": "mineralogy:limestone"
+            }
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:limestone_wall"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:retired_limestone"
+          }
+        ]
+      }
+    ]
+  },
+  "forge:children": [
+    {
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:item_exists",
+            "item": "mineralogy:limestone"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:limestone_wall"
+          }
+        ]
+      }
+    },
+    {
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:not",
+            "value": {
+              "type": "forge:item_exists",
+              "item": "mineralogy:limestone"
+            }
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:limestone_wall"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:retired_limestone"
+          }
+        ]
+      },
+      "child": {
+        "criteria": {
+          "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+              "items": [
+                {
+                  "items": [
+                    "skysbuildingpiecesbop:retired_limestone"
+                  ]
+                }
+              ]
+            }
+          },
+          "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+              "recipes": "skysbuildingpieces:biomesoplenty/limestone/wall/wall/mineralogy/limestone_0"
+            }
+          }
+        },
+        "requirements": [
+          [
+            "has_ingredient",
+            "has_the_recipe"
+          ]
+        ],
+        "rewards": {
+          "recipes": [
+            "skysbuildingpieces:biomesoplenty/limestone/wall/wall/mineralogy/limestone_0"
+          ]
+        }
+      }
+    }
+  ]
+}

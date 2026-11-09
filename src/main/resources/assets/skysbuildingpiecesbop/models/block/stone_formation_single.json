@@ -1,169 +1,70 @@
 {
   "parent": "block/block",
   "textures": {
-    "stone": "minecraft:blocks/stone",
-    "particle": "minecraft:blocks/stone"
+    "stone": "minecraft:block/stone",
+    "particle": "minecraft:block/stone"
   },
   "elements": [
     {
-      "from": [
-        2,
-        0,
-        2
-      ],
-      "to": [
-        14,
-        3,
-        14
-      ],
+      "from": [2, 0, 2],
+      "to": [14, 3, 14],
       "faces": {
-        "down": {
-          "texture": "#stone"
-        },
-        "up": {
-          "texture": "#stone"
-        },
-        "north": {
-          "texture": "#stone"
-        },
-        "south": {
-          "texture": "#stone"
-        },
-        "west": {
-          "texture": "#stone"
-        },
-        "east": {
-          "texture": "#stone"
-        }
+        "down": {"texture": "#stone"},
+        "up": {"texture": "#stone"},
+        "north": {"texture": "#stone"},
+        "south": {"texture": "#stone"},
+        "west": {"texture": "#stone"},
+        "east": {"texture": "#stone"}
       }
     },
     {
-      "from": [
-        4,
-        3,
-        4
-      ],
-      "to": [
-        12,
-        6,
-        12
-      ],
+      "from": [4, 3, 4],
+      "to": [12, 6, 12],
       "faces": {
-        "down": {
-          "texture": "#stone"
-        },
-        "up": {
-          "texture": "#stone"
-        },
-        "north": {
-          "texture": "#stone"
-        },
-        "south": {
-          "texture": "#stone"
-        },
-        "west": {
-          "texture": "#stone"
-        },
-        "east": {
-          "texture": "#stone"
-        }
+        "down": {"texture": "#stone"},
+        "up": {"texture": "#stone"},
+        "north": {"texture": "#stone"},
+        "south": {"texture": "#stone"},
+        "west": {"texture": "#stone"},
+        "east": {"texture": "#stone"}
       }
     },
     {
-      "from": [
-        6,
-        6,
-        6
-      ],
-      "to": [
-        10,
-        10,
-        10
-      ],
+      "from": [6, 6, 6],
+      "to": [10, 10, 10],
       "faces": {
-        "down": {
-          "texture": "#stone"
-        },
-        "up": {
-          "texture": "#stone"
-        },
-        "north": {
-          "texture": "#stone"
-        },
-        "south": {
-          "texture": "#stone"
-        },
-        "west": {
-          "texture": "#stone"
-        },
-        "east": {
-          "texture": "#stone"
-        }
+        "down": {"texture": "#stone"},
+        "up": {"texture": "#stone"},
+        "north": {"texture": "#stone"},
+        "south": {"texture": "#stone"},
+        "west": {"texture": "#stone"},
+        "east": {"texture": "#stone"}
       }
     },
     {
-      "from": [
-        4,
-        10,
-        4
-      ],
-      "to": [
-        12,
-        13,
-        12
-      ],
+      "from": [4, 10, 4],
+      "to": [12, 13, 12],
       "faces": {
-        "down": {
-          "texture": "#stone"
-        },
-        "up": {
-          "texture": "#stone"
-        },
-        "north": {
-          "texture": "#stone"
-        },
-        "south": {
-          "texture": "#stone"
-        },
-        "west": {
-          "texture": "#stone"
-        },
-        "east": {
-          "texture": "#stone"
-        }
+        "down": {"texture": "#stone"},
+        "up": {"texture": "#stone"},
+        "north": {"texture": "#stone"},
+        "south": {"texture": "#stone"},
+        "west": {"texture": "#stone"},
+        "east": {"texture": "#stone"}
       }
     },
     {
-      "from": [
-        2,
-        13,
-        2
-      ],
-      "to": [
-        14,
-        16,
-        14
-      ],
+      "from": [2, 13, 2],
+      "to": [14, 16, 14],
       "faces": {
-        "down": {
-          "texture": "#stone"
-        },
-        "up": {
-          "texture": "#stone"
-        },
-        "north": {
-          "texture": "#stone"
-        },
-        "south": {
-          "texture": "#stone"
-        },
-        "west": {
-          "texture": "#stone"
-        },
-        "east": {
-          "texture": "#stone"
-        }
+        "down": {"texture": "#stone"},
+        "up": {"texture": "#stone"},
+        "north": {"texture": "#stone"},
+        "south": {"texture": "#stone"},
+        "west": {"texture": "#stone"},
+        "east": {"texture": "#stone"}
       }
     }
-  ]
+  ],
+  "render_type": "minecraft:cutout"
 }

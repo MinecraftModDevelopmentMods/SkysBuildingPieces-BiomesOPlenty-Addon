@@ -1,0 +1,723 @@
+{
+  "source_mod": "Mineralogy-6.0.1.115021",
+  "source_sha256": "ADACF365CCAFF7091980AA92ED1FCC14892AA6CD4B10E82336C8512525341DFA",
+  "recipes": {
+    "data/mineralogy/recipes/gabbro_brick.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:gabbro_brick"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xx",
+        "xx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/gabbro"
+        }
+      },
+      "result": {
+        "item": "mineralogy:gabbro_brick",
+        "count": 4
+      }
+    },
+    "data/mineralogy/recipes/gabbro_slab.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:gabbro_slab"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "item": "mineralogy:gabbro"
+        }
+      },
+      "result": {
+        "item": "mineralogy:gabbro_slab",
+        "count": 6
+      }
+    },
+    "data/mineralogy/recipes/gabbro_stairs.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:gabbro_stairs"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "x  ",
+        "xx ",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/gabbro"
+        }
+      },
+      "result": {
+        "item": "mineralogy:gabbro_stairs",
+        "count": 4
+      }
+    },
+    "data/mineralogy/recipes/gabbro_wall.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:gabbro_wall"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/gabbro"
+        }
+      },
+      "result": {
+        "item": "mineralogy:gabbro_wall",
+        "count": 6
+      }
+    },
+    "data/mineralogy/recipes/limestone_brick.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:limestone_brick"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xx",
+        "xx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/limestone"
+        }
+      },
+      "result": {
+        "item": "mineralogy:limestone_brick",
+        "count": 4
+      }
+    },
+    "data/mineralogy/recipes/limestone_relief_blank.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:limestone_relief_blank"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx",
+        "xxx",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "item": "mineralogy:limestone_smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:limestone_relief_blank",
+        "count": 16
+      }
+    },
+    "data/mineralogy/recipes/limestone_slab.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:limestone_slab"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "item": "mineralogy:limestone"
+        }
+      },
+      "result": {
+        "item": "mineralogy:limestone_slab",
+        "count": 6
+      }
+    },
+    "data/mineralogy/recipes/limestone_smooth_brick.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:limestone_smooth_brick"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xx",
+        "xx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/limestone/smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:limestone_smooth_brick",
+        "count": 4
+      }
+    },
+    "data/mineralogy/recipes/limestone_smooth_slab.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:limestone_smooth_slab"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "item": "mineralogy:limestone_smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:limestone_smooth_slab",
+        "count": 6
+      }
+    },
+    "data/mineralogy/recipes/limestone_smooth_stairs.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:limestone_smooth_stairs"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "x  ",
+        "xx ",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/limestone/smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:limestone_smooth_stairs",
+        "count": 4
+      }
+    },
+    "data/mineralogy/recipes/limestone_smooth_wall.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:limestone_smooth_wall"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/limestone/smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:limestone_smooth_wall",
+        "count": 6
+      }
+    },
+    "data/mineralogy/recipes/limestone_stairs.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:limestone_stairs"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "x  ",
+        "xx ",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/limestone"
+        }
+      },
+      "result": {
+        "item": "mineralogy:limestone_stairs",
+        "count": 4
+      }
+    },
+    "data/mineralogy/recipes/limestone_wall.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:limestone_wall"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/limestone"
+        }
+      },
+      "result": {
+        "item": "mineralogy:limestone_wall",
+        "count": 6
+      }
+    },
+    "data/mineralogy/recipes/shale_brick.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:shale_brick"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xx",
+        "xx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/shale"
+        }
+      },
+      "result": {
+        "item": "mineralogy:shale_brick",
+        "count": 4
+      }
+    },
+    "data/mineralogy/recipes/shale_relief_blank.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:shale_relief_blank"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx",
+        "xxx",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "item": "mineralogy:shale_smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:shale_relief_blank",
+        "count": 16
+      }
+    },
+    "data/mineralogy/recipes/shale_slab.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:shale_slab"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "item": "mineralogy:shale"
+        }
+      },
+      "result": {
+        "item": "mineralogy:shale_slab",
+        "count": 6
+      }
+    },
+    "data/mineralogy/recipes/shale_smooth_brick.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:shale_smooth_brick"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xx",
+        "xx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/shale/smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:shale_smooth_brick",
+        "count": 4
+      }
+    },
+    "data/mineralogy/recipes/shale_smooth_slab.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:shale_smooth_slab"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "item": "mineralogy:shale_smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:shale_smooth_slab",
+        "count": 6
+      }
+    },
+    "data/mineralogy/recipes/shale_smooth_stairs.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:shale_smooth_stairs"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "x  ",
+        "xx ",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/shale/smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:shale_smooth_stairs",
+        "count": 4
+      }
+    },
+    "data/mineralogy/recipes/shale_smooth_wall.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:shale_smooth_wall"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/shale/smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:shale_smooth_wall",
+        "count": 6
+      }
+    },
+    "data/mineralogy/recipes/shale_stairs.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:shale_stairs"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "x  ",
+        "xx ",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/shale"
+        }
+      },
+      "result": {
+        "item": "mineralogy:shale_stairs",
+        "count": 4
+      }
+    },
+    "data/mineralogy/recipes/shale_wall.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:shale_wall"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/shale"
+        }
+      },
+      "result": {
+        "item": "mineralogy:shale_wall",
+        "count": 6
+      }
+    },
+    "data/mineralogy/recipes/siltstone_brick.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:siltstone_brick"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xx",
+        "xx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/siltstone"
+        }
+      },
+      "result": {
+        "item": "mineralogy:siltstone_brick",
+        "count": 4
+      }
+    },
+    "data/mineralogy/recipes/siltstone_relief_blank.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:siltstone_relief_blank"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx",
+        "xxx",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "item": "mineralogy:siltstone_smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:siltstone_relief_blank",
+        "count": 16
+      }
+    },
+    "data/mineralogy/recipes/siltstone_slab.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:siltstone_slab"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "item": "mineralogy:siltstone"
+        }
+      },
+      "result": {
+        "item": "mineralogy:siltstone_slab",
+        "count": 6
+      }
+    },
+    "data/mineralogy/recipes/siltstone_smooth_brick.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:siltstone_smooth_brick"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xx",
+        "xx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/siltstone/smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:siltstone_smooth_brick",
+        "count": 4
+      }
+    },
+    "data/mineralogy/recipes/siltstone_smooth_slab.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:siltstone_smooth_slab"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "item": "mineralogy:siltstone_smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:siltstone_smooth_slab",
+        "count": 6
+      }
+    },
+    "data/mineralogy/recipes/siltstone_smooth_stairs.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:siltstone_smooth_stairs"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "x  ",
+        "xx ",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/siltstone/smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:siltstone_smooth_stairs",
+        "count": 4
+      }
+    },
+    "data/mineralogy/recipes/siltstone_smooth_wall.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:siltstone_smooth_wall"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/siltstone/smooth"
+        }
+      },
+      "result": {
+        "item": "mineralogy:siltstone_smooth_wall",
+        "count": 6
+      }
+    },
+    "data/mineralogy/recipes/siltstone_stairs.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:siltstone_stairs"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "x  ",
+        "xx ",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/siltstone"
+        }
+      },
+      "result": {
+        "item": "mineralogy:siltstone_stairs",
+        "count": 4
+      }
+    },
+    "data/mineralogy/recipes/siltstone_wall.json": {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:siltstone_wall"
+        }
+      ],
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "xxx",
+        "xxx"
+      ],
+      "key": {
+        "x": {
+          "tag": "mineralogy:stones/siltstone"
+        }
+      },
+      "result": {
+        "item": "mineralogy:siltstone_wall",
+        "count": 6
+      }
+    }
+  },
+  "tags": {
+    "mineralogy:stones/gabbro": [
+      "mineralogy:gabbro"
+    ],
+    "mineralogy:stones/limestone": [
+      "mineralogy:limestone"
+    ],
+    "mineralogy:stones/limestone/smooth": [
+      "mineralogy:limestone_smooth"
+    ],
+    "mineralogy:stones/shale": [
+      "mineralogy:shale"
+    ],
+    "mineralogy:stones/shale/smooth": [
+      "mineralogy:shale_smooth"
+    ],
+    "mineralogy:stones/siltstone": [
+      "mineralogy:siltstone"
+    ],
+    "mineralogy:stones/siltstone/smooth": [
+      "mineralogy:siltstone_smooth"
+    ]
+  },
+  "covered_full_items": [
+    "mineralogy:gabbro",
+    "mineralogy:limestone",
+    "mineralogy:limestone_smooth",
+    "mineralogy:shale",
+    "mineralogy:shale_smooth",
+    "mineralogy:siltstone",
+    "mineralogy:siltstone_smooth"
+  ]
+}

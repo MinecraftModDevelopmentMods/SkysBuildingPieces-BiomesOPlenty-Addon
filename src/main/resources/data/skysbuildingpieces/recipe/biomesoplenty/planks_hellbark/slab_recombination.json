@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/planks_hellbark",
+  "pattern": ["XX"],
+  "key": {
+    "X": "biomesoplenty:hellbark_slab"
+  },
+  "result": {
+    "id": "biomesoplenty:hellbark_planks",
+    "count": 1
+  },
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:hellbark_planks"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:hellbark_slab"
+      }
+    ]
+  }
+}

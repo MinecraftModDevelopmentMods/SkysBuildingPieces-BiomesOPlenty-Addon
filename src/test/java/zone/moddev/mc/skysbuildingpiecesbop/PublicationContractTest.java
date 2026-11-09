@@ -64,6 +64,7 @@ class PublicationContractTest {
     @Test
     void releaseTargetsTheAddonAndDeclaresItsRequiredMods() throws Exception {
         java.util.Properties metadata = new java.util.Properties();
+
         metadata.load(new java.io.StringReader(text("gradle.properties")));
 
         assertEquals("true", metadata.getProperty("release_enabled"));

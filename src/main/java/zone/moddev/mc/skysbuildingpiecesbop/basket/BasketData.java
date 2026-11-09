@@ -1,15 +1,26 @@
 package zone.moddev.mc.skysbuildingpiecesbop.basket;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+
 import java.util.HashSet;
 import java.util.Set;
-import net.minecraft.item.Item;
-import net.minecraft.nbt.*;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.datafix.IFixableData;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraft.world.item.Item;
+import com.mojang.serialization.Dynamic;
+import net.minecraft.SharedConstants;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.util.datafix.DataFixers;
+import net.minecraft.util.datafix.fixes.References;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.resources.Identifier;
+import net.minecraftforge.registries.ForgeRegistries;
 
 /** Reads the saved basket before an item serializer can discard its contents. */
-public final class BasketData implements IFixableData {
+public final class BasketData {
     public static final int SIZE = 18;
     public static final String ID = "skysbuildingpiecesbop:flower_basket";
     public static final String HOLDER = "skysbuildingpiecesbop:legacy_bop_flower_basket";
@@ -19,46 +30,40 @@ public final class BasketData implements IFixableData {
         return ID.equals(registryId) || HOLDER.equals(registryId) || OLD.equals(registryId);
     }
 
-    @Override
-    public int getFixVersion() {
-        return 1;
-    }
-
-    @Override
-    public NBTTagCompound fixTagCompound(NBTTagCompound root) {
+    public CompoundTag fixTagCompound(CompoundTag root) {
         if (!containsBasket(root, 0)) {
             return root;
         }
 
         // Validate a copy first: a bad nested entry must not leave half a conversion.
-        NBTTagCompound checked = root.copy();
+        CompoundTag checked = root.copy();
 
         rewrite(checked, 0);
 
-        for (String key : checked.getKeySet()) {
-            root.setTag(key, checked.getTag(key));
+        for (String key : checked.keySet()) {
+            root.put(key, checked.get(key));
         }
 
         return root;
     }
 
-    private static boolean containsBasket(NBTBase value, int depth) {
+    private static boolean containsBasket(Tag value, int depth) {
         if (depth > 64) {
             throw invalid("inventory nesting exceeds 64 levels");
         }
-        if (value instanceof NBTTagCompound) {
-            NBTTagCompound compoundTag = (NBTTagCompound) value;
+        if (value instanceof CompoundTag) {
+            CompoundTag compoundTag = (CompoundTag) value;
 
-            if (compoundTag.hasKey("id", 8) && isBasket(compoundTag.getString("id"))) {
+            if ((compoundTag.get("id") instanceof net.minecraft.nbt.StringTag) && isBasket(compoundTag.getStringOr("id", ""))) {
                 return true;
             }
-            for (String key : compoundTag.getKeySet()) {
-                if (containsBasket(compoundTag.getTag(key), depth + 1)) {
+            for (String key : compoundTag.keySet()) {
+                if (containsBasket(compoundTag.get(key), depth + 1)) {
                     return true;
                 }
             }
-        } else if (value instanceof NBTTagList) {
-            for (NBTBase child : (NBTTagList) value) {
+        } else if (value instanceof ListTag) {
+            for (Tag child : (ListTag) value) {
                 if (containsBasket(child, depth + 1)) {
                     return true;
                 }
@@ -68,69 +73,64 @@ public final class BasketData implements IFixableData {
         return false;
     }
 
-    private static void rewrite(NBTBase value, int depth) {
+    private static void rewrite(Tag value, int depth) {
         if (depth > 64) {
             throw invalid("inventory nesting exceeds 64 levels");
         }
-        if (value instanceof NBTTagCompound) {
-            NBTTagCompound compoundTag = (NBTTagCompound) value;
+        if (value instanceof CompoundTag) {
+            CompoundTag compoundTag = (CompoundTag) value;
 
-            if (compoundTag.hasKey("id", 8) && isBasket(compoundTag.getString("id"))) {
-                if (!integer(compoundTag, "Count") || compoundTag.getInteger("Count") != 1
-                        || compoundTag.hasKey("Damage")
-                                && (!integer(compoundTag, "Damage") || compoundTag.getInteger("Damage") != 0)) {
+            if ((compoundTag.get("id") instanceof net.minecraft.nbt.StringTag) && isBasket(compoundTag.getStringOr("id", ""))) {
+                if (count(compoundTag) != 1 || compoundTag.contains("Damage")
+                        && (!integer(compoundTag, "Damage") || compoundTag.getIntOr("Damage", 0) != 0)) {
                     throw invalid("a basket must have count 1 and damage 0");
                 }
-                if (compoundTag.hasKey("tag") && !compoundTag.hasKey("tag", 10)) {
-                    throw invalid("basket tag is not a compound");
-                }
-
-                NBTTagCompound tag = compoundTag.getCompoundTag("tag");
+                CompoundTag tag = savedCustomData(compoundTag);
 
                 validate(tag);
-                compoundTag.setString("id", ID);
+                compoundTag.putString("id", ID);
 
                 // This was a transient GUI flag, not part of the stored inventory.
-                if (tag.hasKey("BasketOpen")) {
-                    tag.setBoolean("BasketOpen", false);
+                if (tag.contains("BasketOpen")) {
+                    tag.putBoolean("BasketOpen", false);
                 }
             }
-            for (String key : compoundTag.getKeySet()) {
-                rewrite(compoundTag.getTag(key), depth + 1);
+            for (String key : compoundTag.keySet()) {
+                rewrite(compoundTag.get(key), depth + 1);
             }
-        } else if (value instanceof NBTTagList) {
-            for (NBTBase child : (NBTTagList) value) {
+        } else if (value instanceof ListTag) {
+            for (Tag child : (ListTag) value) {
                 rewrite(child, depth + 1);
             }
         }
     }
 
     /** Reject malformed entries and duplicate slots before an item loader can discard stored contents. */
-    public static void validate(NBTTagCompound tag) {
-        if (!tag.hasKey("Items")) {
+    public static void validate(CompoundTag tag) {
+        if (!tag.contains("Items")) {
             return;
         }
-        if (!tag.hasKey("Items", 9)) {
+        if (!(tag.get("Items") instanceof net.minecraft.nbt.ListTag)) {
             throw invalid("Items is not a list");
         }
 
-        NBTTagList list = tag.getTagList("Items", 10);
-        NBTTagList raw = (NBTTagList) tag.getTag("Items");
+        ListTag list = tag.getListOrEmpty("Items");
+        ListTag raw = (ListTag) tag.get("Items");
 
-        if (raw.tagCount() != list.tagCount()) {
+        if (raw.size() != list.size()) {
             throw invalid("Items contains non-compound entries");
         }
 
         Set<Integer> occupied = new HashSet<Integer>();
 
-        for (int entryIndex = 0; entryIndex < list.tagCount(); entryIndex++) {
-            NBTTagCompound entry = list.getCompoundTagAt(entryIndex);
+        for (int entryIndex = 0; entryIndex < list.size(); entryIndex++) {
+            CompoundTag entry = list.getCompoundOrEmpty(entryIndex);
 
             if (!integer(entry, "Slot")) {
                 throw invalid("an inventory entry has no integral slot");
             }
 
-            int slot = entry.getInteger("Slot");
+            int slot = entry.getIntOr("Slot", 0);
 
             if (slot < 0 || slot >= SIZE || !occupied.add(slot)) {
                 throw invalid("invalid or duplicate slot " + slot);
@@ -140,65 +140,143 @@ public final class BasketData implements IFixableData {
         }
     }
 
-    private static void validateStack(NBTTagCompound stack, String where, int depth) {
+    private static void validateStack(CompoundTag stack, String where, int depth) {
         if (depth > 64) {
             throw invalid("nested item data exceeds 64 levels");
         }
-        if (!stack.hasKey("id", 8) || !integer(stack, "Count") || stack.getInteger("Count") <= 0
-                || stack.hasKey("Damage") && !integer(stack, "Damage")) {
-            throw invalid(where + " has an invalid item stack");
+        if (!(stack.get("id") instanceof net.minecraft.nbt.StringTag) || count(stack) <= 0
+                || stack.contains("Damage") && !integer(stack, "Damage")) {
+            throw invalid(where + " has an invalid item stack (" + stack.keySet() + ")");
         }
-        if (stack.hasKey("tag") && !stack.hasKey("tag", 10)) {
-            throw invalid(where + " has malformed item data");
-        }
-        if (stack.hasKey("ForgeCaps") && !stack.hasKey("ForgeCaps", 10)) {
+        savedCustomData(stack);
+        if (stack.contains("ForgeCaps") && !(stack.get("ForgeCaps") instanceof net.minecraft.nbt.CompoundTag)) {
             throw invalid(where + " has malformed capability data");
         }
 
-        String registryId = stack.getString("id");
+        String registryId = stack.getStringOr("id", "");
         Item item;
 
         try {
-            item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(isBasket(registryId) ? ID : registryId));
+            item = ForgeRegistries.ITEMS.getValue(Identifier.parse(isBasket(registryId) ? ID : registryId));
         } catch (RuntimeException failure) {
             throw invalid(where + " has an invalid item ID: " + registryId);
         }
-        if (item == null || item == net.minecraft.init.Items.AIR) {
+        if (item == null || item == net.minecraft.world.item.Items.AIR) {
             throw invalid(where + " has an unavailable item: " + registryId);
         }
 
-        net.minecraft.item.ItemStack decoded = new net.minecraft.item.ItemStack(item, 1, stack.getInteger("Damage"));
-
-        if (stack.hasKey("tag", 10)) {
-            decoded.setTagCompound(stack.getCompoundTag("tag").copy());
-        }
-        if (stack.getInteger("Count") > decoded.getMaxStackSize()) {
+        if (count(stack) > stackLimit(stack, item)) {
             throw invalid(where + " exceeds the stack limit for " + registryId);
         }
 
-        validateChildren(stack.getTag("tag"), where, depth + 1);
-        validateChildren(stack.getTag("ForgeCaps"), where, depth + 1);
+        validateChildren(stack.get("tag"), where, depth + 1);
+        validateChildren(stack.get("ForgeCaps"), where, depth + 1);
+        validateChildren(stack.get("components"), where, depth + 1);
     }
 
-    private static void validateChildren(NBTBase value, String where, int depth) {
+    private static void validateChildren(Tag value, String where, int depth) {
         if (depth > 64) {
             throw invalid("nested item data exceeds 64 levels");
         }
-        if (value instanceof NBTTagCompound) {
-            NBTTagCompound compoundTag = (NBTTagCompound) value;
+        if (value instanceof CompoundTag) {
+            CompoundTag compoundTag = (CompoundTag) value;
 
-            if (compoundTag.hasKey("id", 8) && compoundTag.hasKey("Count", 99)) {
-                validateStack(compoundTag, where + " / " + compoundTag.getString("id"), depth + 1);
+            if ((compoundTag.get("id") instanceof net.minecraft.nbt.StringTag) && (compoundTag.contains("Count") || compoundTag.contains("count")
+                    || compoundTag.contains("components"))) {
+                validateStack(compoundTag, where + " / " + compoundTag.getStringOr("id", ""), depth + 1);
             } else {
-                for (String key : compoundTag.getKeySet()) {
-                    validateChildren(compoundTag.getTag(key), where, depth + 1);
+                for (String key : compoundTag.keySet()) {
+                    validateChildren(compoundTag.get(key), where, depth + 1);
                 }
             }
-        } else if (value instanceof NBTTagList) {
-            for (NBTBase child : (NBTTagList) value) {
+        } else if (value instanceof ListTag) {
+            for (Tag child : (ListTag) value) {
                 validateChildren(child, where, depth + 1);
             }
         }
+    }
+
+    public static CompoundTag customData(ItemStack stack) {
+        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+    }
+
+    public static CompoundTag savedCustomData(CompoundTag stack) {
+        if (stack.contains("tag") && !(stack.get("tag") instanceof net.minecraft.nbt.CompoundTag)
+                || stack.contains("components") && !(stack.get("components") instanceof net.minecraft.nbt.CompoundTag)) {
+            throw invalid("item data is not a compound");
+        }
+        CompoundTag components = stack.getCompoundOrEmpty("components");
+        if (components.contains("minecraft:custom_data")
+                && !(components.get("minecraft:custom_data") instanceof net.minecraft.nbt.CompoundTag)) {
+            throw invalid("custom data is not a compound");
+        }
+        return stack.contains("Count") ? stack.getCompoundOrEmpty("tag") : components.getCompoundOrEmpty("minecraft:custom_data");
+    }
+
+    public static int count(CompoundTag stack) {
+        if (stack.contains("Count")) {
+            return integer(stack, "Count") && !stack.contains("count") && !stack.contains("components")
+                    ? stack.getIntOr("Count", 0) : -1;
+        }
+        if (stack.contains("tag") || stack.contains("Damage")
+                && (!integer(stack, "Damage") || stack.getIntOr("Damage", 0) != 0)) {
+            return -1;
+        }
+        return stack.contains("count") ? (integer(stack, "count") ? stack.getIntOr("count", 0) : -1) : 1;
+    }
+
+    public static int stackLimit(CompoundTag stack, Item item) {
+        CompoundTag components = stack.getCompoundOrEmpty("components");
+        if (components.contains("minecraft:max_stack_size")) {
+            int limit = components.getIntOr("minecraft:max_stack_size", 0);
+            if (!integer(components, "minecraft:max_stack_size") || limit < 1 || limit > 99) {
+                throw invalid("invalid maximum stack size for " + stack.getStringOr("id", ""));
+            }
+            return limit;
+        }
+        return new ItemStack(item).getMaxStackSize();
+    }
+
+    static ItemStack readStack(CompoundTag entry, HolderLookup.Provider registries) {
+        CompoundTag item = entry.copy();
+        item.remove("Slot");
+        if (isBasket(item.getStringOr("id", ""))) {
+            item.putString("id", ID);
+        }
+        if (item.contains("Count")) {
+            // Vanilla upgrades the outer stack but cannot see an inventory stored in custom item data.
+            CompoundTag oldCapabilities = item.getCompoundOrEmpty("ForgeCaps");
+            CompoundTag display = item.getCompoundOrEmpty("tag").getCompoundOrEmpty("display");
+            if ((display.get("Name") instanceof net.minecraft.nbt.StringTag)) {
+                String name = display.getStringOr("Name", "");
+                String trimmed = name.stripLeading();
+                if (!trimmed.startsWith("{") && !trimmed.startsWith("[") && !trimmed.startsWith("\"")) {
+                    display.putString("Name", new com.google.gson.JsonPrimitive(name).toString());
+                }
+            }
+            item = (CompoundTag) DataFixers.getDataFixer()
+                    .update(References.ITEM_STACK, new Dynamic<>(NbtOps.INSTANCE, item), 3700,
+                            SharedConstants.getCurrentVersion().dataVersion().version())
+                    .getValue();
+            if (!oldCapabilities.isEmpty()) {
+                CompoundTag components = item.getCompoundOrEmpty("components");
+                CompoundTag custom = components.getCompoundOrEmpty("minecraft:custom_data");
+                String key = "skysbuildingpiecesbop:legacy_capabilities";
+                if (custom.contains(key) && !oldCapabilities.equals(custom.get(key))) {
+                    throw invalid("conflicting saved capability data for " + item.getStringOr("id", ""));
+                }
+                custom.put(key, oldCapabilities);
+                components.put("minecraft:custom_data", custom);
+                item.put("components", components);
+            }
+        }
+        ItemStack stack = ItemStack.CODEC.parse(registries.createSerializationContext(net.minecraft.nbt.NbtOps.INSTANCE), item)
+                .result()
+                .orElseThrow(() -> invalid("cannot read the item in slot " + entry.getIntOr("Slot", 0)));
+        if (stack.isEmpty() || stack.getCount() != count(entry) || stack.getCount() > stack.getMaxStackSize()) {
+            throw invalid("invalid stack in slot " + entry.getIntOr("Slot", 0));
+        }
+        return stack;
     }
 
     private static IllegalStateException invalid(String reason) {
@@ -206,7 +284,7 @@ public final class BasketData implements IFixableData {
                 + ". Restore the original world backup and required mods; no basket contents may be discarded.");
     }
 
-    private static boolean integer(NBTTagCompound compoundTag, String key) {
-        return compoundTag.hasKey(key, 99) && compoundTag.getTagId(key) >= 1 && compoundTag.getTagId(key) <= 3;
+    private static boolean integer(CompoundTag compoundTag, String key) {
+        return (compoundTag.get(key) instanceof net.minecraft.nbt.NumericTag) && compoundTag.get(key).getId() >= 1 && compoundTag.get(key).getId() <= 3;
     }
 }

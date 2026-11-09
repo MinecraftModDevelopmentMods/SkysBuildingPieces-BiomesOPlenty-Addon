@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/biomesoplenty",
+  "pattern": ["X ", " X"],
+  "key": {
+    "X": "biomesoplenty:palm_slab"
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:planks_palm_horizontal_step",
+    "count": 4
+  },
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:palm_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_palm_horizontal_step"
+      }
+    ]
+  }
+}

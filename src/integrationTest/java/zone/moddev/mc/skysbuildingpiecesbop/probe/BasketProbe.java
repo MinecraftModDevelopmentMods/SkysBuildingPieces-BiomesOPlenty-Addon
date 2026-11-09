@@ -1,36 +1,36 @@
 package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.*;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import zone.moddev.mc.skysbuildingpieces.probe.BopServerProbe;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.event.server.ServerStartedEvent;
 
-/** Register after both jars are available to the packaged LaunchWrapper. */
-@Mod(
-        modid = "basketsprobe",
-        name = "Flower Basket Runtime Probe",
-        version = "1",
-        dependencies = "required-after:skysbuildingpiecesbop;after:buildingpiecesprobe")
+/** Build-only listeners for real basket windows and copied-world audits. */
+@Mod("basketsprobe")
 public final class BasketProbe {
-    @Mod.EventHandler
-    public void ready(FMLPostInitializationEvent event) throws Exception {
-        String phase = System.getProperty("skysbuildingpieces.integrationPhase", "");
-
-        if (phase.startsWith("sylvester-baskets-") || phase.startsWith("sylvester-items-")) {
-            MinecraftForge.EVENT_BUS
-                    .unregister(Loader.instance().getIndexedModList().get("buildingpiecesprobe").getMod());
-            MinecraftForge.EVENT_BUS.register(
-                    phase.startsWith("sylvester-items-") ? new RetiredItemWorldChecks() : new BasketWorldChecks());
+    public BasketProbe() {
+        ServerStartedEvent.BUS.addListener(net.minecraftforge.eventbus.api.listener.Priority.LOWEST,
+                this::started);
+        net.minecraftforge.event.TickEvent.ServerTickEvent.Pre.BUS.addListener(
+                net.minecraftforge.eventbus.api.listener.Priority.HIGHEST, BasketPlayerUpgrade::tick);
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            BasketClientChecks.register();
+            BasketGuiClientChecks.register();
+            BasketDisconnectClientChecks.register();
         }
+    }
 
-        MinecraftForge.EVENT_BUS.register(BasketPlayerUpgrade.class);
-
-        if (FMLCommonHandler.instance().getSide().isClient()) {
-            MinecraftForge.EVENT_BUS
-                    .register(Class.forName("zone.moddev.mc.skysbuildingpiecesbop.probe.BasketClientChecks"));
-            MinecraftForge.EVENT_BUS
-                    .register(Class.forName("zone.moddev.mc.skysbuildingpiecesbop.probe.BasketGuiClientChecks"));
-            MinecraftForge.EVENT_BUS
-                    .register(Class.forName("zone.moddev.mc.skysbuildingpiecesbop.probe.BasketDisconnectClientChecks"));
+    private void started(ServerStartedEvent event) {
+        String phase = System.getProperty("skysbuildingpieces.integrationPhase", "");
+        if (phase.equals("fresh") || phase.equals("reload")) {
+            BopServerProbe.register(event.getServer(), phase);
+        } else if (phase.startsWith("sylvester-baskets-")) {
+            BasketWorldChecks.register();
+        } else if (phase.startsWith("sylvester-items-")) {
+            RetiredItemWorldChecks.register();
         }
     }
 }

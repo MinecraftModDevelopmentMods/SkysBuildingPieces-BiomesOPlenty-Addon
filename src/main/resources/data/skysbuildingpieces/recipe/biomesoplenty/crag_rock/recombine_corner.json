@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/crag_rock",
+  "pattern": ["X", "X"],
+  "key": {
+    "X": "skysbuildingpiecesbop:crag_rock_corner"
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:crag_rock_horizontal_step",
+    "count": 1
+  },
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:crag_rock_corner"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:crag_rock_horizontal_step"
+      }
+    ]
+  }
+}

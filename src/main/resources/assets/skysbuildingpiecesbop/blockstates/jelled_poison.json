@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "skysbuildingpiecesbop:jelled_poison"
+    "": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
     }
   }
 }

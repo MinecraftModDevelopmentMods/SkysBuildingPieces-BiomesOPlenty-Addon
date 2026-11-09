@@ -1,0 +1,39 @@
+{
+  "criteria": {
+    "has_ingredient": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["biomesoplenty:magic_slab"]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipes": "skysbuildingpieces:biomesoplenty/planks_magic/horizontal_step/step/biomesoplenty/wood_slab_0_5"
+      }
+    }
+  },
+  "requirements": [
+    ["has_ingredient", "has_the_recipe"]
+  ],
+  "rewards": {
+    "recipes": ["skysbuildingpieces:biomesoplenty/planks_magic/horizontal_step/step/biomesoplenty/wood_slab_0_5"]
+  },
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:magic_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_magic_horizontal_step"
+      }
+    ]
+  }
+}

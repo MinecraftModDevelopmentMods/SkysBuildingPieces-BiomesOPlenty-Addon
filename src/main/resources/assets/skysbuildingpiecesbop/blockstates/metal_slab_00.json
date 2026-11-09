@@ -1,1 +1,100 @@
-{"variants":{"meta=0":{"model":"skysbuildingpiecesbop:amber_block_slab_0"},"meta=1":{"model":"skysbuildingpiecesbop:amber_block_slab_1"},"meta=2":{"model":"skysbuildingpiecesbop:amethyst_block_slab_0"},"meta=3":{"model":"skysbuildingpiecesbop:amethyst_block_slab_1"},"meta=4":{"model":"skysbuildingpiecesbop:malachite_block_slab_0"},"meta=5":{"model":"skysbuildingpiecesbop:malachite_block_slab_1"},"meta=6":{"model":"skysbuildingpiecesbop:peridot_block_slab_0"},"meta=7":{"model":"skysbuildingpiecesbop:peridot_block_slab_1"},"meta=8":{"model":"skysbuildingpiecesbop:ruby_block_slab_0"},"meta=9":{"model":"skysbuildingpiecesbop:ruby_block_slab_1"},"meta=10":{"model":"skysbuildingpiecesbop:sapphire_block_slab_0"},"meta=11":{"model":"skysbuildingpiecesbop:sapphire_block_slab_1"},"meta=12":{"model":"skysbuildingpiecesbop:tanzanite_block_slab_0"},"meta=13":{"model":"skysbuildingpiecesbop:tanzanite_block_slab_1"},"meta=14":{"model":"skysbuildingpiecesbop:topaz_block_slab_0"},"meta=15":{"model":"skysbuildingpiecesbop:topaz_block_slab_1"}}}
+{
+  "variants": {
+    "meta=0,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/amber_block_slab_0"
+    },
+    "meta=0,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/amber_block_slab_0"
+    },
+    "meta=1,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/amber_block_slab_1"
+    },
+    "meta=1,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/amber_block_slab_1"
+    },
+    "meta=2,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/amethyst_block_slab_0"
+    },
+    "meta=2,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/amethyst_block_slab_0"
+    },
+    "meta=3,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/amethyst_block_slab_1"
+    },
+    "meta=3,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/amethyst_block_slab_1"
+    },
+    "meta=4,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/malachite_block_slab_0"
+    },
+    "meta=4,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/malachite_block_slab_0"
+    },
+    "meta=5,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/malachite_block_slab_1"
+    },
+    "meta=5,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/malachite_block_slab_1"
+    },
+    "meta=6,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/peridot_block_slab_0"
+    },
+    "meta=6,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/peridot_block_slab_0"
+    },
+    "meta=7,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/peridot_block_slab_1"
+    },
+    "meta=7,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/peridot_block_slab_1"
+    },
+    "meta=8,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/ruby_block_slab_0"
+    },
+    "meta=8,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/ruby_block_slab_0"
+    },
+    "meta=9,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/ruby_block_slab_1"
+    },
+    "meta=9,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/ruby_block_slab_1"
+    },
+    "meta=10,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/sapphire_block_slab_0"
+    },
+    "meta=10,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/sapphire_block_slab_0"
+    },
+    "meta=11,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/sapphire_block_slab_1"
+    },
+    "meta=11,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/sapphire_block_slab_1"
+    },
+    "meta=12,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/tanzanite_block_slab_0"
+    },
+    "meta=12,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/tanzanite_block_slab_0"
+    },
+    "meta=13,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/tanzanite_block_slab_1"
+    },
+    "meta=13,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/tanzanite_block_slab_1"
+    },
+    "meta=14,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/topaz_block_slab_0"
+    },
+    "meta=14,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/topaz_block_slab_0"
+    },
+    "meta=15,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/topaz_block_slab_1"
+    },
+    "meta=15,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/topaz_block_slab_1"
+    }
+  }
+}

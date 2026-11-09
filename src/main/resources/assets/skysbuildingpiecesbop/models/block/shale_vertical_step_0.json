@@ -1,1 +1,33 @@
-{"parent":"block/block","textures":{"top":"skysbuildingpiecesbop:blocks/retired_shale","side":"skysbuildingpiecesbop:blocks/retired_shale","bottom":"skysbuildingpiecesbop:blocks/retired_shale","particle":"skysbuildingpiecesbop:blocks/retired_shale"},"elements":[{"from":[0,0,0],"to":[8,8,8],"faces":{"down":{"uv":[0,0,8,8],"texture":"#bottom"},"north":{"uv":[0,8,8,16],"texture":"#side"},"south":{"uv":[0,8,8,16],"texture":"#side"},"west":{"uv":[0,8,8,16],"texture":"#side"},"east":{"uv":[0,8,8,16],"texture":"#side"}}},{"from":[0,8,0],"to":[8,16,8],"faces":{"up":{"uv":[0,0,8,8],"texture":"#top"},"north":{"uv":[0,0,8,8],"texture":"#side"},"south":{"uv":[0,0,8,8],"texture":"#side"},"west":{"uv":[0,0,8,8],"texture":"#side"},"east":{"uv":[0,0,8,8],"texture":"#side"}}}]}
+{
+  "parent": "block/block",
+  "textures": {
+    "top": "skysbuildingpiecesbop:block/retired_shale",
+    "side": "skysbuildingpiecesbop:block/retired_shale",
+    "bottom": "skysbuildingpiecesbop:block/retired_shale",
+    "particle": "skysbuildingpiecesbop:block/retired_shale"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [8, 8, 8],
+      "faces": {
+        "down": {"uv": [0, 0, 8, 8], "texture": "#bottom"},
+        "north": {"uv": [0, 8, 8, 16], "texture": "#side"},
+        "south": {"uv": [0, 8, 8, 16], "texture": "#side"},
+        "west": {"uv": [0, 8, 8, 16], "texture": "#side"},
+        "east": {"uv": [0, 8, 8, 16], "texture": "#side"}
+      }
+    },
+    {
+      "from": [0, 8, 0],
+      "to": [8, 16, 8],
+      "faces": {
+        "up": {"uv": [0, 0, 8, 8], "texture": "#top"},
+        "north": {"uv": [0, 0, 8, 8], "texture": "#side"},
+        "south": {"uv": [0, 0, 8, 8], "texture": "#side"},
+        "west": {"uv": [0, 0, 8, 8], "texture": "#side"},
+        "east": {"uv": [0, 0, 8, 8], "texture": "#side"}
+      }
+    }
+  ]
+}

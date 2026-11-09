@@ -30,17 +30,17 @@ class RetiredMaterialsTest {
                     JsonObject full = material.getAsJsonObject("blocks").getAsJsonObject("full");
 
                     assertEquals("mineralogy:" + rocks[meta], full.get("id").getAsString());
-                    assertEquals(0, full.get("meta").getAsInt());
+                    assertFalse(full.has("meta"));
 
                     JsonObject fallback = full.getAsJsonObject("fallback");
 
-                    assertEquals("skysbuildingpiecesbop:retired_rocks", fallback.get("id").getAsString());
-                    assertEquals(meta, fallback.get("meta").getAsInt());
+                    assertEquals("skysbuildingpiecesbop:retired_" + rocks[meta], fallback.get("id").getAsString());
+                    assertFalse(fallback.has("properties"));
                     assertTrue(slots.add(meta));
-                    assertEquals("skysbuildingpiecesbop:blocks/retired_" + rocks[meta],
+                    assertEquals("skysbuildingpiecesbop:block/retired_" + rocks[meta],
                             material.get("textures").getAsString());
                     assertTrue(Files.isRegularFile(
-                            Paths.get("src/main/resources/assets/skysbuildingpiecesbop/textures/blocks/retired_"
+                            Paths.get("src/main/resources/assets/skysbuildingpiecesbop/textures/block/retired_"
                                     + rocks[meta] + ".png")));
                     count++;
                 }

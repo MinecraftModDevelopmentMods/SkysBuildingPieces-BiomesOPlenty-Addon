@@ -1,0 +1,27 @@
+{
+  "type": "skysbuildingpieces:cutting",
+  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "pattern": ["X"],
+  "key": {
+    "X": "skysbuildingpiecesbop:planks_redwood_vertical_step"
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:planks_redwood_horizontal_step",
+    "count": 1
+  },
+  "preserve_tag": true,
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_redwood_horizontal_step"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_redwood_vertical_step"
+      }
+    ]
+  }
+}

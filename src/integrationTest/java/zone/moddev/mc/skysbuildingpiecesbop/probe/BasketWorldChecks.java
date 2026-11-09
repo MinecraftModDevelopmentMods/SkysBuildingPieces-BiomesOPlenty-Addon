@@ -1,31 +1,47 @@
 package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.LevelResource;
+
 import java.io.*;
 import java.nio.file.*;
 import net.minecraft.nbt.*;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraftforge.server.ServerLifecycleHooks;
+import net.minecraftforge.event.TickEvent;
 import zone.moddev.mc.skysbuildingpieces.legacy.*;
 
 /** Loads every original basket carrier in a fresh full-world copy, without visiting unrelated chunks. */
 public final class BasketWorldChecks {
+    private static final org.apache.logging.log4j.Logger LOGGER =
+            org.apache.logging.log4j.LogManager.getLogger();
+
     private int ticks;
 
-    @SubscribeEvent
-    public void tick(TickEvent.ServerTickEvent event) throws Exception {
-        if (event.phase != TickEvent.Phase.END) {
+    private net.minecraftforge.eventbus.api.listener.EventListener listener;
+
+    static void register() {
+        var check = new BasketWorldChecks();
+        check.listener = TickEvent.ServerTickEvent.Post.BUS.addListener(event -> {
+            try {
+                check.tick(event);
+            } catch (Exception failure) {
+                throw new IllegalStateException("Cannot audit the copied world", failure);
+            }
+        });
+    }
+
+    public void tick(TickEvent.ServerTickEvent.Post event) throws Exception {
+
+        net.minecraft.server.MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+
+        if (server == null || server.getLevel(net.minecraft.world.level.Level.OVERWORLD) == null) {
             return;
         }
 
-        net.minecraft.server.MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-
-        if (server == null || server.getWorld(0) == null) {
-            return;
-        }
-
-        WorldServer world = server.getWorld(0);
+        ServerLevel world = server.getLevel(net.minecraft.world.level.Level.OVERWORLD);
 
         if (ticks++ == 0) {
             for (String row : Files.readAllLines(Paths.get(System.getProperty("skysbuildingpieces.basketIndex")),
@@ -41,15 +57,15 @@ public final class BasketWorldChecks {
 
         LegacyBridge.report(world);
 
-        NBTTagCompound state = PiecesWorldState.get(world).writeToNBT(new NBTTagCompound());
-        File snapshot = new File(world.getSaveHandler().getWorldDirectory(), "basket-qualification-state.dat");
+        CompoundTag state = PiecesWorldState.get(world).saveTag(new CompoundTag());
+        File snapshot = new File(world.getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).toFile(), "basket-qualification-state.dat");
         boolean reload = System.getProperty("skysbuildingpieces.integrationPhase").endsWith("reload");
 
         if (reload) {
-            NBTTagCompound before;
+            CompoundTag before;
 
             try (InputStream input = new FileInputStream(snapshot)) {
-                before = CompressedStreamTools.readCompressed(input);
+                before = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
             }
             if (!state.equals(before)) {
                 throw new AssertionError(
@@ -57,13 +73,13 @@ public final class BasketWorldChecks {
             }
         } else {
             try (OutputStream output = new FileOutputStream(snapshot)) {
-                CompressedStreamTools.writeCompressed(state, output);
+                NbtIo.writeCompressed(state, output);
             }
         }
 
-        System.out.println("BOP_BASKET_SYLVESTER_PASS all_carriers_loaded=true schema="
-                + state.getInteger("schema_version") + " reload=" + reload);
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.unregister(this);
-        server.initiateShutdown();
+        LOGGER.info("BOP_BASKET_SYLVESTER_PASS all_carriers_loaded=true schema=" + state.getIntOr("schema_version", 0)
+                + " reload=" + reload);
+        TickEvent.ServerTickEvent.Post.BUS.removeListener(listener);
+        server.halt(false);
     }
 }

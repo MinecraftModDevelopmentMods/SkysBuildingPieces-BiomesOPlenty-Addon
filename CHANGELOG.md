@@ -1,5 +1,88 @@
 # Changelog
 
+## 0.2.5.2603001
+
+- BOP building pieces and recovered rocks now have individual block IDs. Existing builds and rock variants carry forward.
+
+## 0.2.4.2603001
+
+- Updated the add-on for Minecraft 26.3 on Forge.
+- Saved maple leaves, saplings and litter that Biomes O' Plenty removed now
+  use the closest vanilla equivalents. Planted flowerpots stay planted.
+  Potted sapling items become poplar saplings.
+- Signs keep both their visible text and filtered text through an upgrade.
+
+## 0.2.4.2602001
+
+- Updated the add-on for Minecraft 26.2 on Forge.
+
+## 0.2.4.2601021
+
+- Updated to Minecraft 26.1.2 and Forge 64.0.9.
+- Kept the Flower Basket and its two-row inventory on the updated Minecraft interface.
+
+## 0.2.4.121011
+
+- Updated the add-on to Minecraft 1.21.1 and Forge 52.1.0.
+- Updated crafting and recipe-book data for this version.
+
+## 0.2.4.120061
+
+- Ported to Minecraft 1.20.6 and Forge 50.2.0.
+- Kept existing building pieces and Flower Basket contents when upgrading.
+- Updated the crafting recipes and recipe book for this version.
+
+## 0.2.4.120011
+
+- Ported to Minecraft 1.20.1 and Forge 47.4.10.
+- Kept existing pieces and baskets. Added replacements for removed BOP wood,
+  plants and biomes when opening older worlds.
+
+## 0.2.4.119041
+
+- Added the Minecraft 1.19.4 version for Forge 45.4.0.
+- Kept the building catalogue, Flower Basket and saved pieces compatible with earlier versions.
+- Added replacements for BOP's removed mud pieces, rooted sand and four biomes.
+- Updated crafting-book categories and the vanilla mud-brick textures.
+
+## 0.2.4.118021 - Minecraft 1.18.2 (unreleased)
+
+- Bring the BOP pieces and Flower Basket to Minecraft 1.18.2.
+- Use BOP with TerraBlender and the matching core.
+- Replace removed roots with similar plants, keeping water and growth states.
+- Retain saved biome identities through the new chunk format.
+
+## 0.2.4.117011 - Minecraft 1.17.1 (unreleased)
+
+- Bring the existing BOP pieces, decorations and Flower Basket to Minecraft 1.17.1.
+- Keep saved material palettes, orientations, waterlogging and basket contents.
+- Replace removed nether crystals with rose quartz, keeping their attachment directions.
+- Keep recipe-book unlocks and translated material names working with the matching core.
+
+## 0.2.4.116051
+
+- Added the Minecraft 1.16.5 port for Forge 36.2.34 and BOP 13.1.0.488.
+- Kept existing piece IDs, material slots, Flower Baskets and saved contents.
+- Added replacements for BOP plants and biomes removed on this upgrade route.
+
+
+## 0.2.4.115021 - Minecraft 1.15.2 (unreleased)
+
+- Bring BOP building pieces, restored decorations and the Flower Basket to 1.15.2.
+- Use the matching core pieces and BOP 10 materials.
+- Recover retired ethereal wood as birch, with white cherry leaves and saplings.
+- Replace dried sand with dried salt and barley with tall wheat.
+- Preserve saved biome identities when upgrading, including chunks opened later.
+
+## 0.2.4.114041
+
+- Ported to Minecraft 1.14.4 and native waterlogging.
+- Reused BOP's current slabs, stairs and walls where equivalent pieces exist.
+- Added replacements for retired woods, gems and thatching when loading old pieces.
+- Kept Flower Basket inventories, with old plant names converted before loading.
+- Preserved existing migration totals and supported saved, unpopulated chunks.
+- Added recipe-book unlocks for converting fallback rocks to Mineralogy blocks.
+
 ## 0.2.4.112021
 
 - Updated for Building Pieces 0.3.8.112021.

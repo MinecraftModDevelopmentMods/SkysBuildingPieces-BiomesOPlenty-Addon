@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": ["skysbuildingpiecesbop:retired_shale_smooth"],
+  "result": {
+    "id": "mineralogy:shale_smooth"
+  },
+  "forge:condition": {
+    "type": "forge:item_exists",
+    "item": "mineralogy:shale_smooth"
+  }
+}

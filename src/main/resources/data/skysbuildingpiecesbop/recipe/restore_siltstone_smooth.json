@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": ["skysbuildingpiecesbop:retired_siltstone_smooth"],
+  "result": {
+    "id": "mineralogy:siltstone_smooth"
+  },
+  "forge:condition": {
+    "type": "forge:item_exists",
+    "item": "mineralogy:siltstone_smooth"
+  }
+}

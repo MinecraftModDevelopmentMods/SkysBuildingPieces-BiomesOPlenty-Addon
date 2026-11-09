@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/planks_willow",
+  "pattern": ["XX"],
+  "key": {
+    "X": "biomesoplenty:willow_slab"
+  },
+  "result": {
+    "id": "biomesoplenty:willow_planks",
+    "count": 1
+  },
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:willow_planks"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:willow_slab"
+      }
+    ]
+  }
+}

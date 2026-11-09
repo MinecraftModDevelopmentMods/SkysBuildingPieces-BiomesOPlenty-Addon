@@ -1,0 +1,27 @@
+{
+  "type": "skysbuildingpieces:cutting",
+  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "pattern": ["X"],
+  "key": {
+    "X": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:mud_brick_block_vertical_step",
+    "count": 1
+  },
+  "preserve_tag": true,
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:mud_brick_block_vertical_step"
+      }
+    ]
+  }
+}

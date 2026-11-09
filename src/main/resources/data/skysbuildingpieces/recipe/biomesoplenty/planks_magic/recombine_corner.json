@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/planks_magic",
+  "pattern": ["X", "X"],
+  "key": {
+    "X": "skysbuildingpiecesbop:planks_magic_corner"
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:planks_magic_horizontal_step",
+    "count": 1
+  },
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_magic_corner"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_magic_horizontal_step"
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "pack": {
+    "description": "Build-only BOP verification resources",
+    "max_format": 121,
+    "min_format": 121
+  }
+}

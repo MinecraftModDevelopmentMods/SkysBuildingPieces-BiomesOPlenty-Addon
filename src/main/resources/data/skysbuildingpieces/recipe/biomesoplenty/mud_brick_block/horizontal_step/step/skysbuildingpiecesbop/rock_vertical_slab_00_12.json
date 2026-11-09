@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "pattern": ["X ", " X"],
+  "key": {
+    "X": "skysbuildingpiecesbop:mud_brick_block_vertical_slab"
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:mud_brick_block_horizontal_step",
+    "count": 4
+  },
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:mud_brick_block_vertical_slab"
+      }
+    ]
+  }
+}

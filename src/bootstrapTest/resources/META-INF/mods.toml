@@ -1,0 +1,7 @@
+modLoader="javafml"
+loaderVersion="[31,)"
+license="LGPL-2.1-only"
+[[mods]]
+modId="buildingpiecesbopchecks"
+version="1.0"
+displayName="Building Pieces BOP Native Checks"

@@ -5,17 +5,24 @@
     "type": "metal",
     "hardness": 5,
     "resistance": 10,
-    "textures": "biomesoplenty:blocks/amber_block",
+    "textures": "minecraft:block/orange_terracotta",
     "blocks": {
       "full": {
-        "id": "biomesoplenty:gem_block",
-        "meta": 7
+        "id": "minecraft:orange_terracotta"
       }
     },
     "group": "metal",
     "nativeProperties": true,
     "flammability": 0,
-    "fireSpread": 0
+    "fireSpread": 0,
+    "legacy_blocks": {
+      "full": {
+        "id": "biomesoplenty:gem_block",
+        "meta": 7
+      }
+    },
+    "legacy_textures": "biomesoplenty:blocks/amber_block",
+    "replacement": "minecraft:stained_hardened_clay_orange"
   },
   {
     "name": "Block of Amethyst",
@@ -23,17 +30,24 @@
     "type": "metal",
     "hardness": 5,
     "resistance": 10,
-    "textures": "biomesoplenty:blocks/amethyst_block",
+    "textures": "minecraft:block/magenta_terracotta",
     "blocks": {
       "full": {
-        "id": "biomesoplenty:gem_block",
-        "meta": 0
+        "id": "minecraft:magenta_terracotta"
       }
     },
     "group": "metal",
     "nativeProperties": true,
     "flammability": 0,
-    "fireSpread": 0
+    "fireSpread": 0,
+    "legacy_blocks": {
+      "full": {
+        "id": "biomesoplenty:gem_block",
+        "meta": 0
+      }
+    },
+    "legacy_textures": "biomesoplenty:blocks/amethyst_block",
+    "replacement": "minecraft:stained_hardened_clay_magenta"
   },
   {
     "name": "Bamboo Thatching",
@@ -41,17 +55,36 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 3.3333333,
-    "textures": "biomesoplenty:blocks/bamboo_thatching",
+    "textures": "biomesoplenty:block/willow_planks",
     "blocks": {
       "full": {
-        "id": "biomesoplenty:bamboo_thatching",
-        "meta": 0
+        "id": "biomesoplenty:willow_planks"
+      },
+      "slab": {
+        "id": "biomesoplenty:willow_slab"
+      },
+      "stairs": {
+        "id": "biomesoplenty:willow_stairs"
+      },
+      "fence": {
+        "id": "biomesoplenty:willow_fence"
+      },
+      "fence_gate": {
+        "id": "biomesoplenty:willow_fence_gate"
       }
     },
     "group": "wood",
     "nativeProperties": true,
     "flammability": 0,
-    "fireSpread": 0
+    "fireSpread": 0,
+    "legacy_blocks": {
+      "full": {
+        "id": "biomesoplenty:bamboo_thatching",
+        "meta": 0
+      }
+    },
+    "legacy_textures": "biomesoplenty:blocks/bamboo_thatching",
+    "replacement": "biomesoplenty:planks_willow"
   },
   {
     "name": "Crag Rock",
@@ -59,8 +92,21 @@
     "type": "rock",
     "hardness": 1.0,
     "resistance": 1.6666666,
-    "textures": "skysbuildingpiecesbop:blocks/retired_gabbro",
+    "textures": "skysbuildingpiecesbop:block/retired_gabbro",
     "blocks": {
+      "full": {
+        "id": "mineralogy:gabbro",
+        "fallback": {
+          "id": "skysbuildingpiecesbop:retired_gabbro"
+        }
+      }
+    },
+    "group": "rock",
+    "nativeProperties": true,
+    "flammability": 0,
+    "fireSpread": 0,
+    "explosionResistance": 60,
+    "legacy_blocks": {
       "full": {
         "id": "mineralogy:gabbro",
         "meta": 0,
@@ -70,18 +116,28 @@
         }
       }
     },
-    "group": "rock",
-    "nativeProperties": true,
-    "flammability": 0,
-    "fireSpread": 0,
-    "explosionResistance": 60
+    "legacy_textures": "skysbuildingpiecesbop:blocks/retired_gabbro"
   },
   {
     "name": "Limestone",
     "id": "biomesoplenty:limestone",
     "type": "rock",
-    "textures": "skysbuildingpiecesbop:blocks/retired_limestone",
+    "textures": "skysbuildingpiecesbop:block/retired_limestone",
     "blocks": {
+      "full": {
+        "id": "mineralogy:limestone",
+        "fallback": {
+          "id": "skysbuildingpiecesbop:retired_limestone"
+        }
+      }
+    },
+    "group": "rock",
+    "nativeProperties": true,
+    "flammability": 0,
+    "fireSpread": 0,
+    "hardness": 3,
+    "explosionResistance": 6,
+    "legacy_blocks": {
       "full": {
         "id": "mineralogy:limestone",
         "meta": 0,
@@ -91,19 +147,28 @@
         }
       }
     },
-    "group": "rock",
-    "nativeProperties": true,
-    "flammability": 0,
-    "fireSpread": 0,
-    "hardness": 3,
-    "explosionResistance": 6
+    "legacy_textures": "skysbuildingpiecesbop:blocks/retired_limestone"
   },
   {
     "name": "Polished Limestone",
     "id": "biomesoplenty:limestone_polished",
     "type": "rock",
-    "textures": "skysbuildingpiecesbop:blocks/retired_limestone_smooth",
+    "textures": "skysbuildingpiecesbop:block/retired_limestone_smooth",
     "blocks": {
+      "full": {
+        "id": "mineralogy:limestone_smooth",
+        "fallback": {
+          "id": "skysbuildingpiecesbop:retired_limestone_smooth"
+        }
+      }
+    },
+    "group": "rock",
+    "nativeProperties": true,
+    "flammability": 0,
+    "fireSpread": 0,
+    "hardness": 1.5,
+    "explosionResistance": 6,
+    "legacy_blocks": {
       "full": {
         "id": "mineralogy:limestone_smooth",
         "meta": 0,
@@ -113,12 +178,7 @@
         }
       }
     },
-    "group": "rock",
-    "nativeProperties": true,
-    "flammability": 0,
-    "fireSpread": 0,
-    "hardness": 1.5,
-    "explosionResistance": 6
+    "legacy_textures": "skysbuildingpiecesbop:blocks/retired_limestone_smooth"
   },
   {
     "name": "Block of Malachite",
@@ -126,17 +186,24 @@
     "type": "metal",
     "hardness": 5,
     "resistance": 10,
-    "textures": "biomesoplenty:blocks/malachite_block",
+    "textures": "minecraft:block/cyan_terracotta",
     "blocks": {
       "full": {
-        "id": "biomesoplenty:gem_block",
-        "meta": 5
+        "id": "minecraft:cyan_terracotta"
       }
     },
     "group": "metal",
     "nativeProperties": true,
     "flammability": 0,
-    "fireSpread": 0
+    "fireSpread": 0,
+    "legacy_blocks": {
+      "full": {
+        "id": "biomesoplenty:gem_block",
+        "meta": 5
+      }
+    },
+    "legacy_textures": "biomesoplenty:blocks/malachite_block",
+    "replacement": "minecraft:stained_hardened_clay_cyan"
   },
   {
     "name": "Mud Bricks",
@@ -144,8 +211,26 @@
     "type": "rock",
     "hardness": 1.0,
     "resistance": 2.0,
-    "textures": "biomesoplenty:blocks/mud_brick_block",
+    "textures": "minecraft:block/mud_bricks",
     "blocks": {
+      "full": {
+        "id": "minecraft:mud_bricks"
+      },
+      "slab": {
+        "id": "minecraft:mud_brick_slab"
+      },
+      "stairs": {
+        "id": "minecraft:mud_brick_stairs"
+      },
+      "wall": {
+        "id": "minecraft:mud_brick_wall"
+      }
+    },
+    "group": "rock",
+    "nativeProperties": true,
+    "flammability": 0,
+    "fireSpread": 0,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:mud_brick_block",
         "meta": 0
@@ -156,10 +241,7 @@
         "meta": 0
       }
     },
-    "group": "rock",
-    "nativeProperties": true,
-    "flammability": 0,
-    "fireSpread": 0
+    "legacy_textures": "biomesoplenty:blocks/mud_brick_block"
   },
   {
     "name": "Block of Peridot",
@@ -167,17 +249,24 @@
     "type": "metal",
     "hardness": 5,
     "resistance": 10,
-    "textures": "biomesoplenty:blocks/peridot_block",
+    "textures": "minecraft:block/lime_terracotta",
     "blocks": {
       "full": {
-        "id": "biomesoplenty:gem_block",
-        "meta": 2
+        "id": "minecraft:lime_terracotta"
       }
     },
     "group": "metal",
     "nativeProperties": true,
     "flammability": 0,
-    "fireSpread": 0
+    "fireSpread": 0,
+    "legacy_blocks": {
+      "full": {
+        "id": "biomesoplenty:gem_block",
+        "meta": 2
+      }
+    },
+    "legacy_textures": "biomesoplenty:blocks/peridot_block",
+    "replacement": "minecraft:stained_hardened_clay_lime"
   },
   {
     "name": "Cherry Wood Planks",
@@ -185,8 +274,29 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:blocks/cherry_planks",
+    "textures": "minecraft:block/cherry_planks",
     "blocks": {
+      "full": {
+        "id": "minecraft:cherry_planks"
+      },
+      "slab": {
+        "id": "minecraft:cherry_slab"
+      },
+      "stairs": {
+        "id": "minecraft:cherry_stairs"
+      },
+      "fence": {
+        "id": "minecraft:cherry_fence"
+      },
+      "fence_gate": {
+        "id": "minecraft:cherry_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 1
@@ -208,10 +318,7 @@
         "meta": 0
       }
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/cherry_planks"
   },
   {
     "name": "Ebony Wood Planks",
@@ -219,8 +326,29 @@
     "type": "wood",
     "hardness": 2,
     "resistance": 5,
-    "textures": "biomesoplenty:blocks/ebony_planks",
+    "textures": "minecraft:block/dark_oak_planks",
     "blocks": {
+      "full": {
+        "id": "minecraft:dark_oak_planks"
+      },
+      "stairs": {
+        "id": "minecraft:dark_oak_stairs"
+      },
+      "slab": {
+        "id": "minecraft:dark_oak_slab"
+      },
+      "fence": {
+        "id": "minecraft:dark_oak_fence"
+      },
+      "fence_gate": {
+        "id": "minecraft:dark_oak_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 14
@@ -233,10 +361,8 @@
       "fence": "biomesoplenty:ebony_fence",
       "fence_gate": "biomesoplenty:ebony_fence_gate"
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/ebony_planks",
+    "replacement": "minecraft:planks_dark_oak"
   },
   {
     "name": "Ethereal Wood Planks",
@@ -244,8 +370,29 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:blocks/ethereal_planks",
+    "textures": "minecraft:block/birch_planks",
     "blocks": {
+      "full": {
+        "id": "minecraft:birch_planks"
+      },
+      "stairs": {
+        "id": "minecraft:birch_stairs"
+      },
+      "slab": {
+        "id": "minecraft:birch_slab"
+      },
+      "fence": {
+        "id": "minecraft:birch_fence"
+      },
+      "fence_gate": {
+        "id": "minecraft:birch_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 4
@@ -267,10 +414,8 @@
         "meta": 0
       }
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/ethereal_planks",
+    "replacement": "minecraft:planks_birch"
   },
   {
     "name": "Eucalyptus Wood Planks",
@@ -278,8 +423,29 @@
     "type": "wood",
     "hardness": 2,
     "resistance": 5,
-    "textures": "biomesoplenty:blocks/eucalyptus_planks",
+    "textures": "minecraft:block/oak_planks",
     "blocks": {
+      "full": {
+        "id": "minecraft:oak_planks"
+      },
+      "stairs": {
+        "id": "minecraft:oak_stairs"
+      },
+      "slab": {
+        "id": "minecraft:oak_slab"
+      },
+      "fence": {
+        "id": "minecraft:oak_fence"
+      },
+      "fence_gate": {
+        "id": "minecraft:oak_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 15
@@ -292,10 +458,8 @@
       "fence": "biomesoplenty:eucalyptus_fence",
       "fence_gate": "biomesoplenty:eucalyptus_fence_gate"
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/eucalyptus_planks",
+    "replacement": "minecraft:planks_oak"
   },
   {
     "name": "Fir Wood Planks",
@@ -303,8 +467,29 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:blocks/fir_planks",
+    "textures": "biomesoplenty:block/fir_planks",
     "blocks": {
+      "full": {
+        "id": "biomesoplenty:fir_planks"
+      },
+      "slab": {
+        "id": "biomesoplenty:fir_slab"
+      },
+      "stairs": {
+        "id": "biomesoplenty:fir_stairs"
+      },
+      "fence": {
+        "id": "biomesoplenty:fir_fence"
+      },
+      "fence_gate": {
+        "id": "biomesoplenty:fir_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 3
@@ -326,10 +511,7 @@
         "meta": 0
       }
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/fir_planks"
   },
   {
     "name": "Hellbark Wood Planks",
@@ -337,8 +519,29 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:blocks/hellbark_planks",
+    "textures": "biomesoplenty:block/hellbark_planks",
     "blocks": {
+      "full": {
+        "id": "biomesoplenty:hellbark_planks"
+      },
+      "slab": {
+        "id": "biomesoplenty:hellbark_slab"
+      },
+      "stairs": {
+        "id": "biomesoplenty:hellbark_stairs"
+      },
+      "fence": {
+        "id": "biomesoplenty:hellbark_fence"
+      },
+      "fence_gate": {
+        "id": "biomesoplenty:hellbark_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 0,
+    "fireSpread": 0,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 11
@@ -360,10 +563,7 @@
         "meta": 0
       }
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 0,
-    "fireSpread": 0
+    "legacy_textures": "biomesoplenty:blocks/hellbark_planks"
   },
   {
     "name": "Jacaranda Wood Planks",
@@ -371,8 +571,29 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:blocks/jacaranda_planks",
+    "textures": "biomesoplenty:block/jacaranda_planks",
     "blocks": {
+      "full": {
+        "id": "biomesoplenty:jacaranda_planks"
+      },
+      "slab": {
+        "id": "biomesoplenty:jacaranda_slab"
+      },
+      "stairs": {
+        "id": "biomesoplenty:jacaranda_stairs"
+      },
+      "fence": {
+        "id": "biomesoplenty:jacaranda_fence"
+      },
+      "fence_gate": {
+        "id": "biomesoplenty:jacaranda_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 12
@@ -394,10 +615,7 @@
         "meta": 0
       }
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/jacaranda_planks"
   },
   {
     "name": "Magic Wood Planks",
@@ -405,8 +623,29 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:blocks/magic_planks",
+    "textures": "biomesoplenty:block/magic_planks",
     "blocks": {
+      "full": {
+        "id": "biomesoplenty:magic_planks"
+      },
+      "slab": {
+        "id": "biomesoplenty:magic_slab"
+      },
+      "stairs": {
+        "id": "biomesoplenty:magic_stairs"
+      },
+      "fence": {
+        "id": "biomesoplenty:magic_fence"
+      },
+      "fence_gate": {
+        "id": "biomesoplenty:magic_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 5
@@ -428,10 +667,7 @@
         "meta": 0
       }
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/magic_planks"
   },
   {
     "name": "Mahogany Wood Planks",
@@ -439,8 +675,29 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:blocks/mahogany_planks",
+    "textures": "biomesoplenty:block/mahogany_planks",
     "blocks": {
+      "full": {
+        "id": "biomesoplenty:mahogany_planks"
+      },
+      "slab": {
+        "id": "biomesoplenty:mahogany_slab"
+      },
+      "stairs": {
+        "id": "biomesoplenty:mahogany_stairs"
+      },
+      "fence": {
+        "id": "biomesoplenty:mahogany_fence"
+      },
+      "fence_gate": {
+        "id": "biomesoplenty:mahogany_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 13
@@ -462,10 +719,7 @@
         "meta": 0
       }
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/mahogany_planks"
   },
   {
     "name": "Mangrove Wood Planks",
@@ -473,8 +727,29 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:blocks/mangrove_planks",
+    "textures": "minecraft:block/birch_planks",
     "blocks": {
+      "full": {
+        "id": "minecraft:birch_planks"
+      },
+      "stairs": {
+        "id": "minecraft:birch_stairs"
+      },
+      "slab": {
+        "id": "minecraft:birch_slab"
+      },
+      "fence": {
+        "id": "minecraft:birch_fence"
+      },
+      "fence_gate": {
+        "id": "minecraft:birch_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 6
@@ -496,10 +771,8 @@
         "meta": 0
       }
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/mangrove_planks",
+    "replacement": "minecraft:planks_birch"
   },
   {
     "name": "Palm Wood Planks",
@@ -507,8 +780,29 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:blocks/palm_planks",
+    "textures": "biomesoplenty:block/palm_planks",
     "blocks": {
+      "full": {
+        "id": "biomesoplenty:palm_planks"
+      },
+      "slab": {
+        "id": "biomesoplenty:palm_slab"
+      },
+      "stairs": {
+        "id": "biomesoplenty:palm_stairs"
+      },
+      "fence": {
+        "id": "biomesoplenty:palm_fence"
+      },
+      "fence_gate": {
+        "id": "biomesoplenty:palm_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 7
@@ -530,10 +824,7 @@
         "meta": 0
       }
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/palm_planks"
   },
   {
     "name": "Pine Wood Planks",
@@ -541,8 +832,29 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:blocks/pine_planks",
+    "textures": "minecraft:block/jungle_planks",
     "blocks": {
+      "full": {
+        "id": "minecraft:jungle_planks"
+      },
+      "stairs": {
+        "id": "minecraft:jungle_stairs"
+      },
+      "slab": {
+        "id": "minecraft:jungle_slab"
+      },
+      "fence": {
+        "id": "minecraft:jungle_fence"
+      },
+      "fence_gate": {
+        "id": "minecraft:jungle_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 10
@@ -564,10 +876,8 @@
         "meta": 0
       }
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/pine_planks",
+    "replacement": "minecraft:planks_jungle"
   },
   {
     "name": "Redwood Wood Planks",
@@ -575,8 +885,29 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:blocks/redwood_planks",
+    "textures": "biomesoplenty:block/redwood_planks",
     "blocks": {
+      "full": {
+        "id": "biomesoplenty:redwood_planks"
+      },
+      "slab": {
+        "id": "biomesoplenty:redwood_slab"
+      },
+      "stairs": {
+        "id": "biomesoplenty:redwood_stairs"
+      },
+      "fence": {
+        "id": "biomesoplenty:redwood_fence"
+      },
+      "fence_gate": {
+        "id": "biomesoplenty:redwood_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 8
@@ -598,10 +929,7 @@
         "meta": 0
       }
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/redwood_planks"
   },
   {
     "name": "Sacred Oak Wood Planks",
@@ -609,8 +937,29 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:blocks/sacred_oak_planks",
+    "textures": "minecraft:block/oak_planks",
     "blocks": {
+      "full": {
+        "id": "minecraft:oak_planks"
+      },
+      "stairs": {
+        "id": "minecraft:oak_stairs"
+      },
+      "slab": {
+        "id": "minecraft:oak_slab"
+      },
+      "fence": {
+        "id": "minecraft:oak_fence"
+      },
+      "fence_gate": {
+        "id": "minecraft:oak_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 0
@@ -632,10 +981,8 @@
         "meta": 0
       }
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/sacred_oak_planks",
+    "replacement": "minecraft:planks_oak"
   },
   {
     "name": "Umbran Wood Planks",
@@ -643,8 +990,29 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:blocks/umbran_planks",
+    "textures": "biomesoplenty:block/umbran_planks",
     "blocks": {
+      "full": {
+        "id": "biomesoplenty:umbran_planks"
+      },
+      "slab": {
+        "id": "biomesoplenty:umbran_slab"
+      },
+      "stairs": {
+        "id": "biomesoplenty:umbran_stairs"
+      },
+      "fence": {
+        "id": "biomesoplenty:umbran_fence"
+      },
+      "fence_gate": {
+        "id": "biomesoplenty:umbran_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 2
@@ -666,10 +1034,7 @@
         "meta": 0
       }
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/umbran_planks"
   },
   {
     "name": "Willow Wood Planks",
@@ -677,8 +1042,29 @@
     "type": "wood",
     "hardness": 2.0,
     "resistance": 5.0,
-    "textures": "biomesoplenty:blocks/willow_planks",
+    "textures": "biomesoplenty:block/willow_planks",
     "blocks": {
+      "full": {
+        "id": "biomesoplenty:willow_planks"
+      },
+      "slab": {
+        "id": "biomesoplenty:willow_slab"
+      },
+      "stairs": {
+        "id": "biomesoplenty:willow_stairs"
+      },
+      "fence": {
+        "id": "biomesoplenty:willow_fence"
+      },
+      "fence_gate": {
+        "id": "biomesoplenty:willow_fence_gate"
+      }
+    },
+    "group": "wood",
+    "nativeProperties": true,
+    "flammability": 20,
+    "fireSpread": 5,
+    "legacy_blocks": {
       "full": {
         "id": "biomesoplenty:planks_0",
         "meta": 9
@@ -700,10 +1086,7 @@
         "meta": 0
       }
     },
-    "group": "wood",
-    "nativeProperties": true,
-    "flammability": 20,
-    "fireSpread": 5
+    "legacy_textures": "biomesoplenty:blocks/willow_planks"
   },
   {
     "name": "Block of Ruby",
@@ -711,17 +1094,24 @@
     "type": "metal",
     "hardness": 5,
     "resistance": 10,
-    "textures": "biomesoplenty:blocks/ruby_block",
+    "textures": "minecraft:block/red_terracotta",
     "blocks": {
       "full": {
-        "id": "biomesoplenty:gem_block",
-        "meta": 1
+        "id": "minecraft:red_terracotta"
       }
     },
     "group": "metal",
     "nativeProperties": true,
     "flammability": 0,
-    "fireSpread": 0
+    "fireSpread": 0,
+    "legacy_blocks": {
+      "full": {
+        "id": "biomesoplenty:gem_block",
+        "meta": 1
+      }
+    },
+    "legacy_textures": "biomesoplenty:blocks/ruby_block",
+    "replacement": "minecraft:stained_hardened_clay_red"
   },
   {
     "name": "Block of Sapphire",
@@ -729,24 +1119,45 @@
     "type": "metal",
     "hardness": 5,
     "resistance": 10,
-    "textures": "biomesoplenty:blocks/sapphire_block",
+    "textures": "minecraft:block/light_blue_terracotta",
     "blocks": {
       "full": {
-        "id": "biomesoplenty:gem_block",
-        "meta": 6
+        "id": "minecraft:light_blue_terracotta"
       }
     },
     "group": "metal",
     "nativeProperties": true,
     "flammability": 0,
-    "fireSpread": 0
+    "fireSpread": 0,
+    "legacy_blocks": {
+      "full": {
+        "id": "biomesoplenty:gem_block",
+        "meta": 6
+      }
+    },
+    "legacy_textures": "biomesoplenty:blocks/sapphire_block",
+    "replacement": "minecraft:stained_hardened_clay_light_blue"
   },
   {
     "name": "Shale",
     "id": "biomesoplenty:shale",
     "type": "rock",
-    "textures": "skysbuildingpiecesbop:blocks/retired_shale",
+    "textures": "skysbuildingpiecesbop:block/retired_shale",
     "blocks": {
+      "full": {
+        "id": "mineralogy:shale",
+        "fallback": {
+          "id": "skysbuildingpiecesbop:retired_shale"
+        }
+      }
+    },
+    "group": "rock",
+    "nativeProperties": true,
+    "flammability": 0,
+    "fireSpread": 0,
+    "hardness": 3,
+    "explosionResistance": 6,
+    "legacy_blocks": {
       "full": {
         "id": "mineralogy:shale",
         "meta": 0,
@@ -756,19 +1167,28 @@
         }
       }
     },
-    "group": "rock",
-    "nativeProperties": true,
-    "flammability": 0,
-    "fireSpread": 0,
-    "hardness": 3,
-    "explosionResistance": 6
+    "legacy_textures": "skysbuildingpiecesbop:blocks/retired_shale"
   },
   {
     "name": "Polished Shale",
     "id": "biomesoplenty:shale_polished",
     "type": "rock",
-    "textures": "skysbuildingpiecesbop:blocks/retired_shale_smooth",
+    "textures": "skysbuildingpiecesbop:block/retired_shale_smooth",
     "blocks": {
+      "full": {
+        "id": "mineralogy:shale_smooth",
+        "fallback": {
+          "id": "skysbuildingpiecesbop:retired_shale_smooth"
+        }
+      }
+    },
+    "group": "rock",
+    "nativeProperties": true,
+    "flammability": 0,
+    "fireSpread": 0,
+    "hardness": 1.5,
+    "explosionResistance": 6,
+    "legacy_blocks": {
       "full": {
         "id": "mineralogy:shale_smooth",
         "meta": 0,
@@ -778,19 +1198,28 @@
         }
       }
     },
-    "group": "rock",
-    "nativeProperties": true,
-    "flammability": 0,
-    "fireSpread": 0,
-    "hardness": 1.5,
-    "explosionResistance": 6
+    "legacy_textures": "skysbuildingpiecesbop:blocks/retired_shale_smooth"
   },
   {
     "name": "Siltstone",
     "id": "biomesoplenty:siltstone",
     "type": "rock",
-    "textures": "skysbuildingpiecesbop:blocks/retired_siltstone",
+    "textures": "skysbuildingpiecesbop:block/retired_siltstone",
     "blocks": {
+      "full": {
+        "id": "mineralogy:siltstone",
+        "fallback": {
+          "id": "skysbuildingpiecesbop:retired_siltstone"
+        }
+      }
+    },
+    "group": "rock",
+    "nativeProperties": true,
+    "flammability": 0,
+    "fireSpread": 0,
+    "hardness": 3,
+    "explosionResistance": 6,
+    "legacy_blocks": {
       "full": {
         "id": "mineralogy:siltstone",
         "meta": 0,
@@ -800,19 +1229,28 @@
         }
       }
     },
-    "group": "rock",
-    "nativeProperties": true,
-    "flammability": 0,
-    "fireSpread": 0,
-    "hardness": 3,
-    "explosionResistance": 6
+    "legacy_textures": "skysbuildingpiecesbop:blocks/retired_siltstone"
   },
   {
     "name": "Polished Siltstone",
     "id": "biomesoplenty:siltstone_polished",
     "type": "rock",
-    "textures": "skysbuildingpiecesbop:blocks/retired_siltstone_smooth",
+    "textures": "skysbuildingpiecesbop:block/retired_siltstone_smooth",
     "blocks": {
+      "full": {
+        "id": "mineralogy:siltstone_smooth",
+        "fallback": {
+          "id": "skysbuildingpiecesbop:retired_siltstone_smooth"
+        }
+      }
+    },
+    "group": "rock",
+    "nativeProperties": true,
+    "flammability": 0,
+    "fireSpread": 0,
+    "hardness": 1.5,
+    "explosionResistance": 6,
+    "legacy_blocks": {
       "full": {
         "id": "mineralogy:siltstone_smooth",
         "meta": 0,
@@ -822,12 +1260,7 @@
         }
       }
     },
-    "group": "rock",
-    "nativeProperties": true,
-    "flammability": 0,
-    "fireSpread": 0,
-    "hardness": 1.5,
-    "explosionResistance": 6
+    "legacy_textures": "skysbuildingpiecesbop:blocks/retired_siltstone_smooth"
   },
   {
     "name": "Block of Tanzanite",
@@ -835,17 +1268,24 @@
     "type": "metal",
     "hardness": 5,
     "resistance": 10,
-    "textures": "biomesoplenty:blocks/tanzanite_block",
+    "textures": "minecraft:block/purple_terracotta",
     "blocks": {
       "full": {
-        "id": "biomesoplenty:gem_block",
-        "meta": 4
+        "id": "minecraft:purple_terracotta"
       }
     },
     "group": "metal",
     "nativeProperties": true,
     "flammability": 0,
-    "fireSpread": 0
+    "fireSpread": 0,
+    "legacy_blocks": {
+      "full": {
+        "id": "biomesoplenty:gem_block",
+        "meta": 4
+      }
+    },
+    "legacy_textures": "biomesoplenty:blocks/tanzanite_block",
+    "replacement": "minecraft:stained_hardened_clay_purple"
   },
   {
     "name": "Block of Topaz",
@@ -853,16 +1293,23 @@
     "type": "metal",
     "hardness": 5,
     "resistance": 10,
-    "textures": "biomesoplenty:blocks/topaz_block",
+    "textures": "minecraft:block/orange_terracotta",
     "blocks": {
       "full": {
-        "id": "biomesoplenty:gem_block",
-        "meta": 3
+        "id": "minecraft:orange_terracotta"
       }
     },
     "group": "metal",
     "nativeProperties": true,
     "flammability": 0,
-    "fireSpread": 0
+    "fireSpread": 0,
+    "legacy_blocks": {
+      "full": {
+        "id": "biomesoplenty:gem_block",
+        "meta": 3
+      }
+    },
+    "legacy_textures": "biomesoplenty:blocks/topaz_block",
+    "replacement": "minecraft:stained_hardened_clay_orange"
   }
 ]

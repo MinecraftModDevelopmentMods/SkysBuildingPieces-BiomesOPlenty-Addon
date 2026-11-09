@@ -29,7 +29,8 @@ class PieceNamesTest {
                 Properties names = new Properties();
 
                 try (Reader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
-                    names.load(reader);
+                    new com.google.gson.JsonParser().parse(reader).getAsJsonObject().entrySet()
+                            .forEach(entry -> names.setProperty(entry.getKey(), entry.getValue().getAsString()));
                 }
 
                 assertEquals(expected.get(file.getFileName().toString().substring(0, 2)),
@@ -46,11 +47,12 @@ class PieceNamesTest {
             }
         }
 
-        Path file = root.resolve(Files.exists(root.resolve("en_US.lang")) ? "en_US.lang" : "en_us.lang");
+        Path file = root.resolve("en_us.json");
         Properties english = new Properties();
 
         try (Reader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
-            english.load(reader);
+            new com.google.gson.JsonParser().parse(reader).getAsJsonObject().entrySet()
+                    .forEach(entry -> english.setProperty(entry.getKey(), entry.getValue().getAsString()));
         }
 
         assertEquals("Redwood", english.getProperty("material.skysbuildingpiecesbop.biomesoplenty.planks_redwood"));

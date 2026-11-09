@@ -16,7 +16,7 @@ class RepositoryTest {
 
         String pin = text("gradle/core-dependency.properties");
 
-        assertTrue(pin.contains("version=0.3.8.112021"));
+        assertTrue(pin.contains("version=0.3.9.2603001"));
         assertTrue(pin.contains("api=1"));
     }
 
@@ -54,7 +54,8 @@ class RepositoryTest {
         assertTrue(build.contains("bop_sha256"));
         assertFalse(build.contains("FMLCorePluginContainsFMLMod"));
         assertFalse(build.contains("'FMLCorePlugin':"));
-        assertTrue(build.contains("accessTransformers.from(bopDevelopmentAccessRules)"));
+        assertFalse(build.contains("bopDevelopmentAccessRules"));
+        assertTrue(build.contains("forgeRunModClassesDirectory"));
         assertTrue(build.contains("prepareDevelopmentDependencies"));
     }
 
@@ -65,7 +66,7 @@ class RepositoryTest {
 
             assertTrue(workflow.contains("core-dependency.properties"));
             assertTrue(workflow.contains("steps.content.outputs.pieces"));
-            assertTrue(workflow.contains("./gradlew jar"));
+            assertTrue(workflow.contains("./gradlew assemble"));
             assertFalse(workflow.contains("secrets."));
             assertFalse(workflow.contains("gh release"));
             assertFalse(workflow.contains("publishRelease"));
@@ -76,11 +77,14 @@ class RepositoryTest {
         assertTrue(ciWorkflow.contains("if-no-files-found: error"));
 
         for (String classifier : new String[] { "", "-sources", "-javadoc" }) {
-            assertTrue(
-                    ciWorkflow.contains("build/libs/${{ steps.target.outputs.artifact_prefix }}" + classifier + ".jar"));
+            assertTrue(ciWorkflow
+                    .contains("build/libs/${{ steps.target.outputs.artifact_prefix }}" + classifier + ".jar"));
         }
 
         assertTrue(ciWorkflow.contains("-PbuildingPiecesCoreDir=dependencies/pieces"));
+        assertTrue(ciWorkflow.contains("-x integrationTest -x integrationRecipeBookTest -x nativeInstalledBopPolicyTest"));
+        assertTrue(ciWorkflow.contains("dependencies/pieces/gradle/grass-slabs-release.properties"));
+        assertTrue(ciWorkflow.contains("Build the coordinated Grass Slabs dependency"));
 
         String tags = text(".github/workflows/release-on-tag.yml");
 

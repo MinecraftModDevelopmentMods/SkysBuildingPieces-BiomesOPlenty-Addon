@@ -1,0 +1,143 @@
+{
+  "criteria": {
+    "has_ingredient": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "mineralogy:shale"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipes": "skysbuildingpieces:biomesoplenty/shale/wall/wall/mineralogy/shale_0"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/shale/wall/wall/mineralogy/shale_0"
+    ]
+  },
+  "forge:condition": {
+    "type": "forge:or",
+    "values": [
+      {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:item_exists",
+            "item": "mineralogy:shale"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:shale_wall"
+          }
+        ]
+      },
+      {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:not",
+            "value": {
+              "type": "forge:item_exists",
+              "item": "mineralogy:shale"
+            }
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:retired_shale"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:shale_wall"
+          }
+        ]
+      }
+    ]
+  },
+  "forge:children": [
+    {
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:item_exists",
+            "item": "mineralogy:shale"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:shale_wall"
+          }
+        ]
+      }
+    },
+    {
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:not",
+            "value": {
+              "type": "forge:item_exists",
+              "item": "mineralogy:shale"
+            }
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:retired_shale"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:shale_wall"
+          }
+        ]
+      },
+      "child": {
+        "criteria": {
+          "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+              "items": [
+                {
+                  "items": [
+                    "skysbuildingpiecesbop:retired_shale"
+                  ]
+                }
+              ]
+            }
+          },
+          "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+              "recipes": "skysbuildingpieces:biomesoplenty/shale/wall/wall/mineralogy/shale_0"
+            }
+          }
+        },
+        "requirements": [
+          [
+            "has_ingredient",
+            "has_the_recipe"
+          ]
+        ],
+        "rewards": {
+          "recipes": [
+            "skysbuildingpieces:biomesoplenty/shale/wall/wall/mineralogy/shale_0"
+          ]
+        }
+      }
+    }
+  ]
+}

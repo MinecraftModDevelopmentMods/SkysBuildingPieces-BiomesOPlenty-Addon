@@ -1,41 +1,58 @@
 package zone.moddev.mc.skysbuildingpiecesbop.basket;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
-import net.minecraft.world.World;
-import zone.moddev.mc.skysbuildingpiecesbop.SkysBuildingPiecesBop;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 
+/** The container binds to the held stack, rather than a global open-basket flag. */
 public final class BasketItem extends Item {
     BasketItem(boolean hidden) {
-        setRegistryName(hidden ? BasketData.HOLDER : BasketData.ID);
-        setTranslationKey("skysbuildingpiecesbop.flower_basket");
-        setMaxStackSize(1);
-
-        if (!hidden) {
-            setCreativeTab(CreativeTabs.TOOLS);
-        }
-
-        addPropertyOverride(new ResourceLocation("filled"), (stack, world,
-                entity) -> stack.hasTagCompound() && !stack.getTagCompound().getTagList("Items", 10).isEmpty() ? 1 : 0);
+        super(new Item.Properties().stacksTo(1).setId(ResourceKey.create(Registries.ITEM,
+                Identifier.parse(hidden ? BasketData.HOLDER : BasketData.ID)))
+                .overrideDescription("item.skysbuildingpiecesbop.flower_basket"));
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-        ItemStack held = player.getHeldItem(hand);
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
+        ItemStack held = player.getItemInHand(hand);
 
-        if (!world.isRemote) {
-            player.openGui(SkysBuildingPiecesBop.INSTANCE, 0, world, hand.ordinal(), 0, 0);
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.openMenu(new MenuProvider() {
+                @Override
+                public Component getDisplayName() {
+                    var data = BasketData.customData(held);
+                    if (!held.has(DataComponents.CUSTOM_NAME) && data.getString("CustomName").isPresent()) {
+                        return Component.literal(data.getStringOr("CustomName", ""));
+                    }
+
+                    return held.getHoverName();
+                }
+
+                @Override
+                public AbstractContainerMenu createMenu(int windowId, Inventory inventory, Player owner) {
+                    return new BasketContainer(windowId, owner, hand);
+                }
+            }, data -> data.writeEnum(hand));
         }
 
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, held);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
-    public boolean onDroppedByPlayer(ItemStack stack, EntityPlayer player) {
-        return !(player.openContainer instanceof BasketContainer)
-                || ((BasketContainer) player.openContainer).basket.owner() != stack;
+    public boolean onDroppedByPlayer(ItemStack stack, Player player) {
+        return !(player.containerMenu instanceof BasketContainer)
+                || ((BasketContainer) player.containerMenu).basket.owner() != stack;
     }
 }

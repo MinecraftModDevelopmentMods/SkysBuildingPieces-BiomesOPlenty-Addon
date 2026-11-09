@@ -1,0 +1,27 @@
+{
+  "type": "skysbuildingpieces:cutting",
+  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "pattern": ["X"],
+  "key": {
+    "X": "skysbuildingpiecesbop:planks_redwood_vertical_slab"
+  },
+  "result": {
+    "id": "biomesoplenty:redwood_slab",
+    "count": 1
+  },
+  "preserve_tag": true,
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:redwood_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_redwood_vertical_slab"
+      }
+    ]
+  }
+}

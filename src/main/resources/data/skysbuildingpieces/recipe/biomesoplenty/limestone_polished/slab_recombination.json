@@ -1,0 +1,68 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "group": "skysbuildingpieces/limestone_polished",
+        "pattern": ["XX"],
+        "key": {
+          "X": "skysbuildingpiecesbop:limestone_polished_slab"
+        },
+        "result": {
+          "id": "mineralogy:limestone_smooth",
+          "count": 1
+        },
+        "category": "building"
+      },
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:item_exists",
+            "item": "mineralogy:limestone_smooth"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:limestone_polished_slab"
+          }
+        ]
+      }
+    },
+    {
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "group": "skysbuildingpieces/limestone_polished",
+        "pattern": ["XX"],
+        "key": {
+          "X": "skysbuildingpiecesbop:limestone_polished_slab"
+        },
+        "result": {
+          "id": "skysbuildingpiecesbop:retired_limestone_smooth",
+          "count": 1
+        },
+        "category": "building"
+      },
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:not",
+            "value": {
+              "type": "forge:item_exists",
+              "item": "mineralogy:limestone_smooth"
+            }
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:limestone_polished_slab"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:retired_limestone_smooth"
+          }
+        ]
+      }
+    }
+  ]
+}
