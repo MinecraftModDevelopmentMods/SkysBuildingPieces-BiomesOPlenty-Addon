@@ -50,6 +50,9 @@ public final class NativeBootstrap {
                 NativeNamedForwardChecks.prepare(pendingServer.getLevel(net.minecraft.world.level.Level.OVERWORLD));
                 return;
             }
+            if (!java.nio.file.Files.exists(java.nio.file.Path.of("forward-fixture.json"))) {
+                event.getServer().overworld().setChunkForced(-500 >> 4, -500 >> 4, true);
+            }
             audit(event.getServer());
         } catch (Exception failure) {
             LOGGER.error("Cannot prepare the native BOP fixture", failure);
@@ -191,6 +194,9 @@ public final class NativeBootstrap {
                 return;
             }
             // Resource reload can interrupt an integrated client's login.
+            zone.moddev.mc.skysbuildingpieces.probe.SurvivalDropChecks.run(server.overworld());
+            zone.moddev.mc.skysbuildingpieces.probe.FuelChecks.run();
+            server.overworld().setChunkForced(-500 >> 4, -500 >> 4, false);
             zone.moddev.mc.skysbuildingpieces.probe.RecipeBookChecks.run(server.getLevel(Level.OVERWORLD));
             BopPersistenceOrderChecks.verify(server.getLevel(Level.OVERWORLD));
             LOGGER.info("BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS materials=33 palettes=66 retired_items=7");
