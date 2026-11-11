@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/siltstone",
+  "group": "skys/result/skysbuildingpiecesbop/siltstone_slab",
   "pattern": ["X", "X"],
   "key": {
     "X": {

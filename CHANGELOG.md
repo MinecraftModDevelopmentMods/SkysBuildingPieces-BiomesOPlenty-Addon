@@ -2,6 +2,7 @@
 
 ## 0.2.6.121012
 
+- Keep different materials and shapes on separate recipe-book buttons.
 - Use the replacement material's existing recipes for retired BOP pieces, without repeating them in the book.
 - Use the core's corrected snow drops, grass lifecycle and wooden-piece fuel values.
 - Use the updated Building Pieces grass and snow behaviour.

@@ -160,7 +160,7 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
                 if not identity.startswith('minecraft:'):
                     conditions.append(exists(identity))
             body = {'type': 'skysbuildingpieces:cutting' if preserve else 'minecraft:crafting_shaped',
-                    'group': 'skysbuildingpieces/' + path.split('/')[-2],
+                    'group': 'skys/result/' + output.replace(':', '/'),
                     'pattern': rows, 'key': {'X': {'item': ingredient}},
                     'result': {'item': output, 'count': count}}
             if preserve:

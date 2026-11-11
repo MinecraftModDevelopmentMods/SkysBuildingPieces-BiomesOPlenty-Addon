@@ -1,6 +1,6 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "group": "skys/result/minecraft/cherry_slab",
   "pattern": ["X"],
   "key": {
     "X": {
