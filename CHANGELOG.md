@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.6.121012
+
+- Use the updated Building Pieces grass and snow behaviour.
+
 ## 0.2.5.121012
 
 - Give each building piece and fallback rock its own block ID.
