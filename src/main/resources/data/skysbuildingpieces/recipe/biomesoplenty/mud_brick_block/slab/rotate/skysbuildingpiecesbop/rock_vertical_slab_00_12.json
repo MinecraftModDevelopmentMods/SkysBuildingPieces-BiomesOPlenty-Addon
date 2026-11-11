@@ -1,6 +1,6 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "group": "skys/result/minecraft/mud_brick_slab",
   "pattern": ["X"],
   "key": {
     "X": "skysbuildingpiecesbop:mud_brick_block_vertical_slab"

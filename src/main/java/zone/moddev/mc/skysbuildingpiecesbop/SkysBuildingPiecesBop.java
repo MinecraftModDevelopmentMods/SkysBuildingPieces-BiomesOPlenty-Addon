@@ -28,7 +28,7 @@ import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketPreflight;
 @Mod(SkysBuildingPiecesBop.ID)
 public final class SkysBuildingPiecesBop {
     public static final String ID = "skysbuildingpiecesbop";
-    public static final String VERSION = "0.2.5.2603001";
+    public static final String VERSION = "0.2.6.2603001";
 
     @SuppressWarnings("removal") // The screen must stay off the dedicated server classpath.
     public SkysBuildingPiecesBop(FMLJavaModLoadingContext context) {

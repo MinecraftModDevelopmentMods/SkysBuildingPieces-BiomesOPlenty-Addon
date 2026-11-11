@@ -7,7 +7,7 @@ ForgeGradle 7.0.34 for Minecraft 26.3 and Forge 66.0.2.
 The runtime log checks use Python 3.11 or later. If `python` is not on your
 path, pass `-PpythonExecutable=<python executable>` to Gradle.
 
-Check out Building Pieces 0.3.9.2603001 at the exact source commit in
+Check out Building Pieces 0.3.10.2603001 at the exact source commit in
 `gradle/core-dependency.properties`, then run its `gradlew assemble` task.
 Build this add-on with:
 

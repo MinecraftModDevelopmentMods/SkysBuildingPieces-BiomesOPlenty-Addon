@@ -24,16 +24,7 @@
     "recipes": ["skysbuildingpieces:biomesoplenty/planks_cherry/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_00_4"]
   },
   "forge:condition": {
-    "type": "forge:and",
-    "values": [
-      {
-        "type": "forge:item_exists",
-        "item": "minecraft:cherry_slab"
-      },
-      {
-        "type": "forge:item_exists",
-        "item": "skysbuildingpiecesbop:planks_cherry_vertical_slab"
-      }
-    ]
+    "type": "forge:item_exists",
+    "item": "skysbuildingpiecesbop:planks_cherry_vertical_slab"
   }
 }

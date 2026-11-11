@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.6.2603001
+
+- Keep different crafting results on separate recipe-book buttons.
+
+
 ## 0.2.5.2603001
 
 - BOP building pieces and recovered rocks now have individual block IDs. Existing builds and rock variants carry forward.

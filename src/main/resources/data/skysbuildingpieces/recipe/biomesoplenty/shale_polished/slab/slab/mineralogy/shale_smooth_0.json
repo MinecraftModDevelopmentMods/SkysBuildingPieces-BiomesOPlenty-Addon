@@ -4,7 +4,7 @@
     {
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/mineralogy",
+        "group": "skys/result/skysbuildingpiecesbop/shale_polished_slab",
         "pattern": ["X ", " X"],
         "key": {
           "X": "mineralogy:shale_smooth"
@@ -32,7 +32,7 @@
     {
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/mineralogy",
+        "group": "skys/result/skysbuildingpiecesbop/shale_polished_slab",
         "pattern": ["X ", " X"],
         "key": {
           "X": "skysbuildingpiecesbop:retired_shale_smooth"

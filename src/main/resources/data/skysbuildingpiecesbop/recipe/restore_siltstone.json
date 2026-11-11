@@ -8,5 +8,6 @@
   "forge:condition": {
     "type": "forge:item_exists",
     "item": "mineralogy:siltstone"
-  }
+  },
+  "group": "skys/result/mineralogy/siltstone"
 }

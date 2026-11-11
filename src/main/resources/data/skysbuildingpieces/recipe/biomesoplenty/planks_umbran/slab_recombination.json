@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/planks_umbran",
+  "group": "skys/result/biomesoplenty/umbran_planks",
   "pattern": ["XX"],
   "key": {
     "X": "biomesoplenty:umbran_slab"

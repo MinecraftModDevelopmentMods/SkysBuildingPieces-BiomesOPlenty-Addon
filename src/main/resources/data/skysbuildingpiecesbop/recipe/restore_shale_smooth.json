@@ -8,5 +8,6 @@
   "forge:condition": {
     "type": "forge:item_exists",
     "item": "mineralogy:shale_smooth"
-  }
+  },
+  "group": "skys/result/mineralogy/shale_smooth"
 }

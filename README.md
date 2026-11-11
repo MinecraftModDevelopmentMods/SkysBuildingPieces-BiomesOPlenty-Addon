@@ -1,6 +1,6 @@
-# Sky's Building Pieces â€” Biomes O' Plenty
+# Sky's Building Pieces - Biomes O' Plenty
 
-<img src="artwork/skysbuildingpieces-bop-logo.png" alt="Sky's Building Pieces â€“ Biomes O' Plenty logo" width="256">
+<img src="artwork/skysbuildingpieces-bop-logo.png" alt="Sky's Building Pieces - Biomes O' Plenty logo" width="256">
 
 Bring Biomes O' Plenty materials into your builds with the same range of pieces
 as Sky's Building Pieces. This add-on supplies missing slabs, steps, corners,
@@ -39,7 +39,7 @@ It doesn't accept unrelated items.
 Use the versions for **Minecraft 26.3**, with **Forge 66.0.2** and
 **Java 25**. You'll need:
 
-- **Sky's Building Pieces 0.3.9.2603001** and this add-on.
+- **Sky's Building Pieces 0.3.10.2603001** and this add-on.
 - **Biomes O' Plenty 26.3.0.0.16**, **TerraBlender 26.3.0.0.2** and **GlitchCore 26.3.0.0.0**.
 
 Put all five main jars in `mods` on both the client and server.
