@@ -58,7 +58,7 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/siltstone_polished",
+      "group": "skys/result/mineralogy/siltstone_smooth",
       "pattern": ["XX"],
       "key": {
         "X": {
@@ -95,7 +95,7 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/siltstone_polished",
+      "group": "skys/result/skysbuildingpiecesbop/retired_siltstone_smooth",
       "pattern": ["XX"],
       "key": {
         "X": {

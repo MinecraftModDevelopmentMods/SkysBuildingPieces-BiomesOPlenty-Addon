@@ -14,6 +14,20 @@ FIXTURE_SHA256 = '62AC8B6CC818D17B22A8631CCF7A504B39387E5C8143BE4B6D342F114E0A03
 
 
 class MineralogyRecipeChecks(unittest.TestCase):
+    def test_book_groups_cover_the_checked_in_conditional_branches(self):
+        def check(data, path):
+            if isinstance(data, list):
+                for child in data:
+                    check(child, path)
+            elif isinstance(data, dict):
+                if data.get('type') in ('minecraft:crafting_shaped', 'minecraft:crafting_shapeless', 'skysbuildingpieces:cutting'):
+                    output = data['result']['id']
+                    self.assertEqual('skys/result/' + output.replace(':', '/'), data.get('group'), str(path))
+                for child in data.values():
+                    if isinstance(child, (dict, list)):
+                        check(child, path)
+        for path in (ROOT / 'src/main/resources/data').glob('*/recipe/**/*.json'):
+            check(json.loads(path.read_text(encoding='utf-8')), path)
     @classmethod
     def setUpClass(cls):
         data = FIXTURE.read_bytes()
