@@ -743,3 +743,5 @@ tasks.register('verifyNativeRecipeConflicts', Exec) {
     environment 'BUILDING_PIECES_CORE_RESOURCES', new File(coreDirectory, 'src/main/resources').path
 }
 tasks.named('check') { dependsOn tasks.named('verifyNativeRecipeConflicts') }
+
+apply from: 'gradle/recipe-resource-sync.gradle'

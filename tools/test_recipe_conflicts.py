@@ -49,6 +49,18 @@ class MineralogyRecipeChecks(unittest.TestCase):
         fallback, _ = prepare(resources, core, self.recipes, self.tags, True)
         self.assertEqual(normal.keys(), fallback.keys())
 
+    def test_retired_materials_use_the_replacement_materials_recipes(self):
+        resources = ROOT / 'src/main/resources'
+        default_core = ROOT.parent.parent / 'SkysBuildingPieces1211NEO/SkysBuildingPieces/src/main/resources'
+        core = Path(os.environ.get('BUILDING_PIECES_CORE_RESOURCES', str(default_core)))
+        recipes, advancements = prepare(resources, core, self.recipes, self.tags)
+        materials = json.loads((resources / 'assets/skysbuildingpiecesbop/catalogue/materials.json').read_text())
+        retired = [material['id'].replace(':', '/') + '/' for material in materials if material.get('replacement')]
+        self.assertTrue(retired)
+        for prefix in retired:
+            self.assertFalse(any(identity.startswith(prefix) for identity in recipes), prefix)
+            self.assertFalse(any(identity.startswith('recipes/' + prefix) for identity in advancements), prefix)
+
     def test_packaged_cuts_do_not_conflict_with_native_recipes(self):
         checked = 0
         for path in (ROOT / 'src/main/resources/data/skysbuildingpieces/recipe/biomesoplenty').rglob('*.json'):

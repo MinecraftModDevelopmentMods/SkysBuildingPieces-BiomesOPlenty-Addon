@@ -185,6 +185,9 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
             advancements['recipes/' + path] = advancement
 
         for material in materials:
+            # Retired materials use their replacement's existing recipes as well as its pieces.
+            if material.get('replacement'):
+                continue
             if material['type'] == 'path':
                 # Paths are made with a shovel, but existing pieces can still
                 # be rebuilt into their larger shapes without losing material.
