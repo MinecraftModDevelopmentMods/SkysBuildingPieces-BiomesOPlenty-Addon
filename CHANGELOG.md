@@ -2,6 +2,7 @@
 
 ## 0.2.6.121012
 
+- Use the core's corrected snow drops, grass lifecycle and wooden-piece fuel values.
 - Use the updated Building Pieces grass and snow behaviour.
 
 ## 0.2.5.121012

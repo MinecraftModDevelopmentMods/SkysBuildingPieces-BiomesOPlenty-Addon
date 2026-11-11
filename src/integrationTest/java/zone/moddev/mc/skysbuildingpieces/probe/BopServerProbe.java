@@ -53,6 +53,8 @@ public final class BopServerProbe {
                 if (recipes.advance(24)) {
                     recipes.finish();
                     NativeLegacyChecks.run(world);
+                    SurvivalDropChecks.run(world);
+                    FuelChecks.run();
                     GameplayChecks.run(world);
                     WaterloggingChecks.run(world);
                     PathChecks.run(world);
