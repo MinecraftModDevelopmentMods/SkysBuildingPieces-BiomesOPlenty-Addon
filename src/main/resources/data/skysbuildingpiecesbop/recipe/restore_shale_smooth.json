@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "group": "skys/result/mineralogy/shale_smooth",  "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
     {

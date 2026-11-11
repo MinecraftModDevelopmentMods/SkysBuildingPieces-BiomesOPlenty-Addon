@@ -26,11 +26,13 @@ def compileBootstrap = tasks.register('compileNativeBootstrap', JavaCompile) {
     source file(new File(project.ext.coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/RecipeBookChecks.java'))
     source file(new File(project.ext.coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/RecombinationChecks.java'))
     source file(new File(project.ext.coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/PersistenceRegistrationChecks.java'))
-    ['NativeLegacyChecks', 'DirtCoverageChecks', 'CoverageContributor', 'NativeProbeItems'].each { name ->
+    ['NativeLegacyChecks', 'DirtCoverageChecks', 'CoverageContributor', 'NativeProbeItems',
+     'SurvivalDropChecks', 'FuelChecks', 'RecipeUniquenessChecks'].each { name ->
         source file(new File(project.ext.coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/' + name + '.java'))
     }
     source fileTree(new File(project.ext.coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/legacy'))
-    ['ClientProbe', 'ClientStatus', 'ProbeProxy', 'RecipePreviewModels', 'PresentationChecks', 'ConfigScreenChecks'].each { name ->
+    ['ClientProbe', 'ClientStatus', 'ProbeProxy', 'RecipePreviewModels', 'PresentationChecks',
+     'ConfigScreenChecks', 'SnowCoverClientChecks', 'RecipeBookGroupChecks'].each { name ->
         source file(new File(project.ext.coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/' + name + '.java'))
     }
     ['BasketGuiClientChecks', 'BasketDisconnectClientChecks', 'BasketClientChecks', 'BopProbeItems'].each { name ->

@@ -14,6 +14,20 @@ FIXTURE_SHA256 = '62AC8B6CC818D17B22A8631CCF7A504B39387E5C8143BE4B6D342F114E0A03
 
 
 class MineralogyRecipeChecks(unittest.TestCase):
+    def test_book_groups_cover_the_checked_in_conditional_branches(self):
+        def check(data, path):
+            if isinstance(data, list):
+                for child in data:
+                    check(child, path)
+            elif isinstance(data, dict):
+                if data.get('type') in ('minecraft:crafting_shaped', 'minecraft:crafting_shapeless', 'skysbuildingpieces:cutting'):
+                    output = data['result']['id']
+                    self.assertEqual('skys/result/' + output.replace(':', '/'), data.get('group'), str(path))
+                for child in data.values():
+                    if isinstance(child, (dict, list)):
+                        check(child, path)
+        for path in (ROOT / 'src/main/resources/data').glob('*/recipe/**/*.json'):
+            check(json.loads(path.read_text(encoding='utf-8')), path)
     @classmethod
     def setUpClass(cls):
         data = FIXTURE.read_bytes()
@@ -48,6 +62,18 @@ class MineralogyRecipeChecks(unittest.TestCase):
         normal, _ = prepare(resources, core, self.recipes, self.tags)
         fallback, _ = prepare(resources, core, self.recipes, self.tags, True)
         self.assertEqual(normal.keys(), fallback.keys())
+
+    def test_retired_materials_use_the_replacement_materials_recipes(self):
+        resources = ROOT / 'src/main/resources'
+        default_core = ROOT.parent.parent / 'SkysBuildingPieces1211NEO/SkysBuildingPieces/src/main/resources'
+        core = Path(os.environ.get('BUILDING_PIECES_CORE_RESOURCES', str(default_core)))
+        recipes, advancements = prepare(resources, core, self.recipes, self.tags)
+        materials = json.loads((resources / 'assets/skysbuildingpiecesbop/catalogue/materials.json').read_text())
+        retired = [material['id'].replace(':', '/') + '/' for material in materials if material.get('replacement')]
+        self.assertTrue(retired)
+        for prefix in retired:
+            self.assertFalse(any(identity.startswith(prefix) for identity in recipes), prefix)
+            self.assertFalse(any(identity.startswith('recipes/' + prefix) for identity in advancements), prefix)
 
     def test_packaged_cuts_do_not_conflict_with_native_recipes(self):
         checked = 0

@@ -58,7 +58,7 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/limestone_polished",
+      "group": "skys/result/mineralogy/limestone_smooth",
       "pattern": ["XX"],
       "key": {
         "X": {
@@ -95,7 +95,7 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/limestone_polished",
+      "group": "skys/result/skysbuildingpiecesbop/retired_limestone_smooth",
       "pattern": ["XX"],
       "key": {
         "X": {

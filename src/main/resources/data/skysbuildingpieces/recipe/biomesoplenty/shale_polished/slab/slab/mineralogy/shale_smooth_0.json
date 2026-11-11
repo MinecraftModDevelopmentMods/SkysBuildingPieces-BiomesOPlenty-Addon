@@ -58,7 +58,7 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
+      "group": "skys/result/skysbuildingpiecesbop/shale_polished_slab",
       "pattern": ["X ", " X"],
       "key": {
         "X": {
@@ -95,7 +95,7 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
+      "group": "skys/result/skysbuildingpiecesbop/shale_polished_slab",
       "pattern": ["X ", " X"],
       "key": {
         "X": {

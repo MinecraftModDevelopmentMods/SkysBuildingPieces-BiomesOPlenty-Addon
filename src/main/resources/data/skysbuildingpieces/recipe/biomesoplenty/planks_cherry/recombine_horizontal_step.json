@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/planks_cherry",
+  "group": "skys/result/minecraft/cherry_slab",
   "pattern": ["X", "X"],
   "key": {
     "X": {

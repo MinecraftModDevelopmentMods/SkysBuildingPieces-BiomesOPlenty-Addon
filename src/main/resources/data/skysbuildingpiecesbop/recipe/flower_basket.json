@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "group": "skys/result/skysbuildingpiecesbop/flower_basket",  "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [" S ", "S S", "SSS"],
   "key": {

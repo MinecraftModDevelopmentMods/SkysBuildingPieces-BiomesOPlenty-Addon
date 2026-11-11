@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/planks_mahogany",
+  "group": "skys/result/biomesoplenty/mahogany_planks",
   "pattern": ["XX"],
   "key": {
     "X": {
