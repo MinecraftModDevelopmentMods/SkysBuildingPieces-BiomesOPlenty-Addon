@@ -1036,3 +1036,5 @@ ext.coreDirectory = coreDirectory
 ext.coreDevelopmentJar = coreDevelopmentJar
 apply from: 'gradle/native-runtime-log.gradle'
 apply from: 'gradle/native-bootstrap.gradle'
+
+apply from: 'gradle/recipe-resource-sync.gradle'

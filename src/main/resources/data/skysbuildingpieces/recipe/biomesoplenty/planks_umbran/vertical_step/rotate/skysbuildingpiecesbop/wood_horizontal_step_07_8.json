@@ -1,6 +1,6 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "group": "skys/result/skysbuildingpiecesbop/planks_umbran_vertical_step",
   "pattern": ["X"],
   "key": {
     "X": "skysbuildingpiecesbop:planks_umbran_horizontal_step"

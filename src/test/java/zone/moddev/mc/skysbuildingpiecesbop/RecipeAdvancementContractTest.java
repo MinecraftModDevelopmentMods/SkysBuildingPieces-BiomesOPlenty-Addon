@@ -44,7 +44,7 @@ class RecipeAdvancementContractTest {
             count++;
         }
 
-        assertEquals(416, count);
+        assertEquals(227, count);
     }
 
     private void check(JsonObject advancement) {

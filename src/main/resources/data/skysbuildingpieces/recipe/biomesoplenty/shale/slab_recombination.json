@@ -4,7 +4,7 @@
     {
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/shale",
+        "group": "skys/result/mineralogy/shale",
         "pattern": ["XX"],
         "key": {
           "X": "skysbuildingpiecesbop:shale_slab"
@@ -32,7 +32,7 @@
     {
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/shale",
+        "group": "skys/result/skysbuildingpiecesbop/retired_shale",
         "pattern": ["XX"],
         "key": {
           "X": "skysbuildingpiecesbop:shale_slab"

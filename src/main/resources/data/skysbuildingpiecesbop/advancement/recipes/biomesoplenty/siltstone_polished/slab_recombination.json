@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "skysbuildingpiecesbop:siltstone_polished_slab"
-            ]
+            "items": ["skysbuildingpiecesbop:siltstone_polished_slab"]
           }
         ]
       }
@@ -20,15 +18,10 @@
     }
   },
   "requirements": [
-    [
-      "has_ingredient",
-      "has_the_recipe"
-    ]
+    ["has_ingredient", "has_the_recipe"]
   ],
   "rewards": {
-    "recipes": [
-      "skysbuildingpieces:biomesoplenty/siltstone_polished/slab_recombination"
-    ]
+    "recipes": ["skysbuildingpieces:biomesoplenty/siltstone_polished/slab_recombination"]
   },
   "forge:condition": {
     "type": "forge:or",
@@ -112,9 +105,7 @@
             "conditions": {
               "items": [
                 {
-                  "items": [
-                    "skysbuildingpiecesbop:siltstone_polished_slab"
-                  ]
+                  "items": ["skysbuildingpiecesbop:siltstone_polished_slab"]
                 }
               ]
             }
@@ -127,15 +118,10 @@
           }
         },
         "requirements": [
-          [
-            "has_ingredient",
-            "has_the_recipe"
-          ]
+          ["has_ingredient", "has_the_recipe"]
         ],
         "rewards": {
-          "recipes": [
-            "skysbuildingpieces:biomesoplenty/siltstone_polished/slab_recombination"
-          ]
+          "recipes": ["skysbuildingpieces:biomesoplenty/siltstone_polished/slab_recombination"]
         }
       }
     }

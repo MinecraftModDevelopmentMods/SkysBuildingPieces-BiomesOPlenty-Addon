@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "group": "skys/result/skysbuildingpiecesbop/planks_magic_corner",
   "pattern": ["XX"],
   "key": {
     "X": "skysbuildingpiecesbop:planks_magic_vertical_step"

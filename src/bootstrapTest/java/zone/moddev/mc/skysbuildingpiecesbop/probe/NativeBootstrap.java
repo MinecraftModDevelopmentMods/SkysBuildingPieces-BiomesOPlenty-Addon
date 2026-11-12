@@ -87,6 +87,7 @@ public final class NativeBootstrap {
 
         try {
             RegistrySnapshot.write();
+            zone.moddev.mc.skysbuildingpieces.probe.FuelChecks.run(server.getLevel(Level.OVERWORLD));
             if (Boolean.getBoolean("skysbuildingpieces.bopBiomeFixerOnly")) {
                 NamedRecoveryChecks.nativeBiomeDatafix(server);
                 return;

@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "mineralogy:siltstone"
-            ]
+            "items": ["mineralogy:siltstone"]
           }
         ]
       }
@@ -20,15 +18,10 @@
     }
   },
   "requirements": [
-    [
-      "has_ingredient",
-      "has_the_recipe"
-    ]
+    ["has_ingredient", "has_the_recipe"]
   ],
   "rewards": {
-    "recipes": [
-      "skysbuildingpieces:biomesoplenty/siltstone/wall/wall/mineralogy/siltstone_0"
-    ]
+    "recipes": ["skysbuildingpieces:biomesoplenty/siltstone/wall/wall/mineralogy/siltstone_0"]
   },
   "forge:condition": {
     "type": "forge:or",
@@ -112,9 +105,7 @@
             "conditions": {
               "items": [
                 {
-                  "items": [
-                    "skysbuildingpiecesbop:retired_siltstone"
-                  ]
+                  "items": ["skysbuildingpiecesbop:retired_siltstone"]
                 }
               ]
             }
@@ -127,15 +118,10 @@
           }
         },
         "requirements": [
-          [
-            "has_ingredient",
-            "has_the_recipe"
-          ]
+          ["has_ingredient", "has_the_recipe"]
         ],
         "rewards": {
-          "recipes": [
-            "skysbuildingpieces:biomesoplenty/siltstone/wall/wall/mineralogy/siltstone_0"
-          ]
+          "recipes": ["skysbuildingpieces:biomesoplenty/siltstone/wall/wall/mineralogy/siltstone_0"]
         }
       }
     }

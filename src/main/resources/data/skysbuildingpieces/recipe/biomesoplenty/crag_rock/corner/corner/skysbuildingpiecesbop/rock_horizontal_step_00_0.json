@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "group": "skys/result/skysbuildingpiecesbop/crag_rock_corner",
   "pattern": ["XX"],
   "key": {
     "X": "skysbuildingpiecesbop:crag_rock_horizontal_step"

@@ -1,6 +1,6 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "group": "skys/result/skysbuildingpiecesbop/crag_rock_vertical_step",
   "pattern": ["X"],
   "key": {
     "X": "skysbuildingpiecesbop:crag_rock_horizontal_step"
