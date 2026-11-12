@@ -3,6 +3,7 @@
 ## 0.2.6.2603001
 
 - Keep different crafting results on separate recipe-book buttons.
+- Match BOP's wooden fuel rules, including hellbark pieces that cannot be used as fuel.
 
 
 ## 0.2.5.2603001

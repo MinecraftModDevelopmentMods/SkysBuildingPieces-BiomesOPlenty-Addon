@@ -517,6 +517,7 @@
     "name": "Hellbark Wood Planks",
     "id": "biomesoplenty:planks_hellbark",
     "type": "wood",
+    "cookingFuel": false,
     "hardness": 2.0,
     "resistance": 5.0,
     "textures": "biomesoplenty:block/hellbark_planks",
