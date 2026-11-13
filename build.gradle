@@ -252,11 +252,15 @@ tasks.register('verifyCoreDependency') {
         new File(coreDirectory, 'gradle.properties').withInputStream { actualCoreProperties.load(it) }
         if (actualCoreProperties.mod_version != effectiveCoreVersion)
             throw new GradleException('The selected core jar version does not match its source checkout.')
-        if (!providers.gradleProperty('buildingPiecesCoreDir').isPresent() || System.getenv('CI') == 'true') {
+        if (!localCoreVersion.isPresent()) {
             def git = new ProcessBuilder('git', '-C', coreDirectory.path, 'rev-parse', 'HEAD').start()
             String actual = git.inputStream.getText('UTF-8').trim()
             if (git.waitFor() != 0 || actual != coreLock.commit)
                 throw new GradleException('The core checkout does not match its pinned source commit.')
+            String developmentHash = MessageDigest.getInstance('SHA-256').digest(
+                    Files.readAllBytes(coreDevelopmentJar.toPath())).encodeHex().toString().toUpperCase()
+            if (developmentHash != coreLock.development_sha256)
+                throw new GradleException('The core development jar does not match its qualified checksum.')
         }
         File dependency = configurations.bopRelease.singleFile
         String hash = MessageDigest.getInstance('SHA-256').digest(Files.readAllBytes(dependency.toPath())).encodeHex().toString().toUpperCase()
