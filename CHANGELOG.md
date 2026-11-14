@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.6.112021
+
+- Leave other mods' `.dat` files alone during the saved-basket safety check.
+- Identify the file and chunk slot when saved data cannot be read.
+
 ## 0.2.5.112021
 
 - Updated for Building Pieces 0.3.10.112021 and its clearer recipe-book entries.

@@ -15,6 +15,11 @@ import zone.moddev.mc.skysbuildingpieces.legacy.*;
 /** Real BOP physics, early raw migration and independent coverage; build-only. */
 public final class BopChecks {
     public static void run(WorldServer world) {
+        try {
+            PreflightChecks.run();
+        } catch (java.io.IOException failure) {
+            throw new IllegalStateException("Saved-inventory preflight check failed", failure);
+        }
         BasketChecks.run(world);
         RetiredItemChecks.run(world);
         RetiredDecorationChecks.run(world);

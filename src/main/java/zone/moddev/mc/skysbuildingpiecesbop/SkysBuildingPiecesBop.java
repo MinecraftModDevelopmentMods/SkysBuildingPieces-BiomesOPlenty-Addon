@@ -13,7 +13,7 @@ import zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue;
         acceptedMinecraftVersions = "[1.12.2]",
         dependencies = "required-after:skysbuildingpieces@[0.3.10.112021,0.4);required-after:biomesoplenty@[7.0.1,8.0);before:buildingbricks")
 public final class SkysBuildingPiecesBop {
-    public static final String ID = "skysbuildingpiecesbop", VERSION = "0.2.5.112021";
+    public static final String ID = "skysbuildingpiecesbop", VERSION = "0.2.6.112021";
     @Mod.Instance(ID)
     public static SkysBuildingPiecesBop INSTANCE;
 
