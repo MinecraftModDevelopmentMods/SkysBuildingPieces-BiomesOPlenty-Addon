@@ -39,6 +39,10 @@ Back up the world first. If an item needed by a basket is missing, recovery stop
 with an explanation rather than discarding it. Restore the backup and install
 the required mod before trying again.
 
+The startup check reads Minecraft's level data, player inventories and chunk
+and entity regions. It leaves other mods' files alone. If one of those save
+files cannot be read, the error names the file so you can check or restore it.
+
 Basket recovery cannot restore a cabinet or entity that another mod discards.
 Those containers need their own upgrade path. Install this add-on on both client
 and server; a server-only migration mod cannot provide the basket or its screen.

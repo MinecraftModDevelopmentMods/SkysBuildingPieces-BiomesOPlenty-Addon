@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.7.121012
+
+- Leave other mods' `.dat` files alone during the saved-basket safety check.
+- Check dropped items and item frames in Minecraft's separate entity regions too.
+- Name the file and chunk slot when damaged saved data prevents the world from loading.
+
 ## 0.2.6.121012
 
 - Keep different materials and shapes on separate recipe-book buttons.
