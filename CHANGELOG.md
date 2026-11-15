@@ -2,8 +2,8 @@
 
 ## 0.2.6.112021
 
-- Leave other mods' `.dat` files alone during the saved-basket safety check.
-- Identify the file and chunk slot when saved data cannot be read.
+- Fix startup crashes caused by mistaking another mod's data files for saved basket inventories.
+- Show the affected file when a saved inventory cannot be read.
 
 ## 0.2.5.112021
 
