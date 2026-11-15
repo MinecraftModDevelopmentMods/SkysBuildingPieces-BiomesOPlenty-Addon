@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.6.112021
+
+- Fix startup crashes caused by mistaking another mod's data files for saved basket inventories.
+- Show the affected file when a saved inventory cannot be read.
+
+## 0.2.5.112021
+
+- Updated for Building Pieces 0.3.10.112021 and its clearer recipe-book entries.
+- Recipes for different building pieces have their own recipe-book entries.
+
 ## 0.2.4.112021
 
 - Updated for Building Pieces 0.3.8.112021.
