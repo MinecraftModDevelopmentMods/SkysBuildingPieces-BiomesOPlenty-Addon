@@ -1,7 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/planks_willow",
-  "pattern": ["XX"],
+  "group": "skys/result/biomesoplenty/willow_planks",
+  "pattern": [
+    "XX"
+  ],
   "key": {
     "X": "biomesoplenty:willow_slab"
   },

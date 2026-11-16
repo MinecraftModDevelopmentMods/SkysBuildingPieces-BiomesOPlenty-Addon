@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:siltstone_slab"]
+            "items": [
+              "skysbuildingpiecesbop:siltstone_slab"
+            ]
           }
         ]
       }
@@ -18,10 +20,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/siltstone/stairs/stairs/mineralogy/siltstone_0"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/siltstone/stairs/stairs/mineralogy/siltstone_0"
+    ]
   },
   "neoforge:conditions": [
     {

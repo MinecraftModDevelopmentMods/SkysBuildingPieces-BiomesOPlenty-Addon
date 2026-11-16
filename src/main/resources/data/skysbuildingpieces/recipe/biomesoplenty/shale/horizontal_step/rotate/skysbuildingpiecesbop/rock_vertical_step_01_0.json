@@ -1,7 +1,9 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
-  "pattern": ["X"],
+  "group": "skys/result/skysbuildingpiecesbop/shale_horizontal_step",
+  "pattern": [
+    "X"
+  ],
   "key": {
     "X": "skysbuildingpiecesbop:shale_vertical_step"
   },

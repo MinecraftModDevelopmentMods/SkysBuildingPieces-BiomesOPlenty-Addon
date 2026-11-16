@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:shale_polished_slab"]
+            "items": [
+              "skysbuildingpiecesbop:shale_polished_slab"
+            ]
           }
         ]
       }
@@ -18,11 +20,88 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/shale_polished/slab_recombination"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/shale_polished/slab_recombination"
+    ]
   },
+  "forge:children": [
+    {
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:item_exists",
+            "item": "mineralogy:shale_smooth"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:shale_polished_slab"
+          }
+        ]
+      }
+    },
+    {
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:not",
+            "value": {
+              "type": "forge:item_exists",
+              "item": "mineralogy:shale_smooth"
+            }
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:retired_shale_smooth"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "skysbuildingpiecesbop:shale_polished_slab"
+          }
+        ]
+      },
+      "child": {
+        "criteria": {
+          "has_ingredient": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+              "items": [
+                {
+                  "items": [
+                    "skysbuildingpiecesbop:shale_polished_slab"
+                  ]
+                }
+              ]
+            }
+          },
+          "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+              "recipes": "skysbuildingpieces:biomesoplenty/shale_polished/slab_recombination"
+            }
+          }
+        },
+        "requirements": [
+          [
+            "has_ingredient",
+            "has_the_recipe"
+          ]
+        ],
+        "rewards": {
+          "recipes": [
+            "skysbuildingpieces:biomesoplenty/shale_polished/slab_recombination"
+          ]
+        }
+      }
+    }
+  ],
   "neoforge:conditions": [
     {
       "type": "neoforge:or",

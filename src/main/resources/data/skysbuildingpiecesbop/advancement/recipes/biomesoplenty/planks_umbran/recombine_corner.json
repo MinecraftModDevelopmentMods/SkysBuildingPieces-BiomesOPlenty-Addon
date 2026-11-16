@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:planks_umbran_corner"]
+            "items": [
+              "skysbuildingpiecesbop:planks_umbran_corner"
+            ]
           }
         ]
       }
@@ -18,10 +20,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/planks_umbran/recombine_corner"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/planks_umbran/recombine_corner"
+    ]
   },
   "neoforge:conditions": [
     {

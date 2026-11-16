@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:retired_limestone_smooth"]
+            "items": [
+              "skysbuildingpiecesbop:retired_limestone_smooth"
+            ]
           }
         ]
       }
@@ -18,10 +20,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpiecesbop:restore_limestone_smooth"]
+    "recipes": [
+      "skysbuildingpiecesbop:restore_limestone_smooth"
+    ]
   },
   "neoforge:conditions": [
     {

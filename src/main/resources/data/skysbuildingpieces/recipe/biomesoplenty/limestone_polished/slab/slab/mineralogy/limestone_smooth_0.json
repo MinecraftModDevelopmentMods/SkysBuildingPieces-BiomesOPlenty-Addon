@@ -65,8 +65,11 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
-      "pattern": ["X ", " X"],
+      "group": "skys/result/skysbuildingpiecesbop/limestone_polished_slab",
+      "pattern": [
+        "X ",
+        " X"
+      ],
       "key": {
         "X": "mineralogy:limestone_smooth"
       },
@@ -103,8 +106,11 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
-      "pattern": ["X ", " X"],
+      "group": "skys/result/skysbuildingpiecesbop/limestone_polished_slab",
+      "pattern": [
+        "X ",
+        " X"
+      ],
       "key": {
         "X": "skysbuildingpiecesbop:retired_limestone_smooth"
       },

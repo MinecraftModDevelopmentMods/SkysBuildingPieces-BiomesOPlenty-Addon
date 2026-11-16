@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["biomesoplenty:mahogany_slab"]
+            "items": [
+              "biomesoplenty:mahogany_slab"
+            ]
           }
         ]
       }
@@ -18,10 +20,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/planks_mahogany/slab_recombination"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/planks_mahogany/slab_recombination"
+    ]
   },
   "neoforge:conditions": [
     {

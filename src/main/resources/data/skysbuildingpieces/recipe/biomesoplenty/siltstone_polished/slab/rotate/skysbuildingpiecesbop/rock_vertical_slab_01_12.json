@@ -1,7 +1,9 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
-  "pattern": ["X"],
+  "group": "skys/result/skysbuildingpiecesbop/siltstone_polished_slab",
+  "pattern": [
+    "X"
+  ],
   "key": {
     "X": "skysbuildingpiecesbop:siltstone_polished_vertical_slab"
   },

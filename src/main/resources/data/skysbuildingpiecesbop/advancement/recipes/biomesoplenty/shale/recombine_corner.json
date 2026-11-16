@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:shale_corner"]
+            "items": [
+              "skysbuildingpiecesbop:shale_corner"
+            ]
           }
         ]
       }
@@ -18,10 +20,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/shale/recombine_corner"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/shale/recombine_corner"
+    ]
   },
   "neoforge:conditions": [
     {

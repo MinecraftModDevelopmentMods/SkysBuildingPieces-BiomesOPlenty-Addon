@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:retired_gabbro"]
+            "items": [
+              "skysbuildingpiecesbop:retired_gabbro"
+            ]
           }
         ]
       }
@@ -18,10 +20,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpiecesbop:restore_gabbro"]
+    "recipes": [
+      "skysbuildingpiecesbop:restore_gabbro"
+    ]
   },
   "neoforge:conditions": [
     {

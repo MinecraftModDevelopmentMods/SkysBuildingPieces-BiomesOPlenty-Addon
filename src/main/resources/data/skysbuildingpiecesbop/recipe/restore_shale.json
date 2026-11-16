@@ -1,10 +1,13 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "building",
-  "ingredients": ["skysbuildingpiecesbop:retired_shale"],
+  "ingredients": [
+    "skysbuildingpiecesbop:retired_shale"
+  ],
   "result": {
     "id": "mineralogy:shale"
   },
+  "group": "skys/result/mineralogy/shale",
   "neoforge:conditions": [
     {
       "type": "neoforge:registered",

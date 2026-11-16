@@ -1,7 +1,10 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/limestone_polished",
-  "pattern": ["X", "X"],
+  "group": "skys/result/skysbuildingpiecesbop/limestone_polished_slab",
+  "pattern": [
+    "X",
+    "X"
+  ],
   "key": {
     "X": "skysbuildingpiecesbop:limestone_polished_vertical_step"
   },

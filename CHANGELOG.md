@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.7.2603002
+
+- Match the updated core fuel values and recipe-book entries.
+- Check saved baskets in modern and oversized chunks, leaving unrelated mod data files alone.
+
 ## 0.2.5.2603002
 
 - BOP building pieces and recovered rocks now have individual block IDs. Existing builds and rock variants carry forward.

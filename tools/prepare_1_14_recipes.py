@@ -162,7 +162,7 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
                 if not identity.startswith('minecraft:'):
                     conditions.append(exists(identity))
             body = {'type': 'skysbuildingpieces:cutting' if preserve else 'minecraft:crafting_shaped',
-                    'group': 'skysbuildingpieces/' + path.split('/')[-2],
+                    'group': 'skys/result/' + output.replace(':', '/'),
                     'pattern': rows, 'key': {'X': {'item': ingredient}},
                     'result': {'item': output, 'count': count}}
             if preserve:
@@ -187,6 +187,9 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
             advancements['recipes/' + path] = advancement
 
         for material in materials:
+            # Retired materials use the replacement's existing recipes as well as its pieces.
+            if material.get('replacement'):
+                continue
             if material['type'] == 'path':
                 # Paths are made with a shovel, but existing pieces can still
                 # be rebuilt into their larger shapes without losing material.
@@ -194,6 +197,8 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
                 add(base + '/recombine_corner', ['X', 'X'], piece(material, 'corner'),
                     piece(material, 'horizontal_step'), 1)
                 for shape in ('horizontal_step', 'vertical_step'):
+                    if shape == 'vertical_step' and piece(material, shape) == piece(material, 'horizontal_step'):
+                        continue
                     add(base + '/recombine_' + shape, ['X', 'X'], piece(material, shape),
                         piece(material, 'slab'), 1)
                 continue
@@ -279,6 +284,8 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
             if corner is not None and step is not None:
                 add(base + '/recombine_corner', ['X', 'X'], corner, step, 1)
             for shape, source in [('horizontal_step', step), ('vertical_step', upright_step)]:
+                if shape == 'vertical_step' and source == step:
+                    continue
                 output = slab if slab is not None else vertical
                 add(base + '/recombine_' + shape, ['X', 'X'], source, output, 1)
                 # Ordinary dirt still has its vertical slab when Grass Slabs is absent.
@@ -308,6 +315,8 @@ def native_recipe(recipe):
         recipe['forge:condition'] = all_conditions(recipe.pop('conditions'))
     if isinstance(recipe.get('result'), dict) and 'item' in recipe['result']:
         recipe['result'] = {'id' if key == 'item' else key: value for key, value in recipe['result'].items()}
+    if isinstance(recipe.get('result'), dict) and 'id' in recipe['result']:
+        recipe['group'] = 'skys/result/' + recipe['result']['id'].replace(':', '/')
     if 'key' in recipe:
         recipe['key'] = {key: native_ingredient(value) for key, value in recipe['key'].items()}
     if 'ingredient' in recipe:
@@ -327,12 +336,23 @@ def native_ingredient(value):
     return value
 
 
+def conditional_advancement(choices):
+    root = dict(choices[0][1])
+    conditions = [condition for condition, _ in choices]
+    root['forge:condition'] = {'type': 'forge:or', 'values': conditions}
+    children = [{'forge:condition': conditions[0]}]
+    for condition, advancement in choices[1:]:
+        children.append({'forge:condition': condition, 'child': advancement})
+    root['forge:children'] = children
+    return root
+
+
 def native_advancement(advancement):
     if 'advancements' in advancement:
-        return {'advancements': [
-            {'forge:condition': all_conditions(choice['conditions']), **native_advancement(choice['advancement'])}
+        return conditional_advancement([
+            (all_conditions(choice['conditions']), native_advancement(choice['advancement']))
             for choice in advancement['advancements']
-        ]}
+        ])
     if 'conditions' in advancement:
         advancement['forge:condition'] = all_conditions(advancement.pop('conditions'))
     for criterion in advancement['criteria'].values():
@@ -359,10 +379,13 @@ def main():
     for path in args.native_jar:
         with ZipFile(path) as archive:
             for name in archive.namelist():
-                if name.startswith('data/') and '/recipe/' in name and name.endswith('.json'):
+                if name.startswith('data/') and name.count('/') >= 3 and name.split('/')[2] in ('recipe', 'recipes') and name.endswith('.json'):
                     native.append(json.loads(archive.read(name)))
-                if name.startswith('data/') and '/tags/item/' in name and name.endswith('.json'):
-                    identifier = name.split('/')[1] + ':' + name.split('/tags/item/', 1)[1][:-5]
+                if name.startswith('data/') and name.endswith('.json') and name.count('/') >= 4:
+                    _, namespace, folder, kind, path = name.split('/', 4)
+                    if folder != 'tags' or kind not in ('item', 'items'):
+                        continue
+                    identifier = namespace + ':' + path[:-5]
                     data = json.loads(archive.read(name))
                     if data.get('replace', False):
                         tags[identifier] = data['values']
@@ -402,12 +425,12 @@ def main():
         outputs['data/skysbuildingpiecesbop/advancement/' + identity + '.json'] = advancement
     outputs['data/skysbuildingpiecesbop/recipe/flower_basket.json'] = {
         'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': [' S ', 'S S', 'SSS'],
-        'key': {'S': {'tag': 'forge:rods/wooden'}},
+        'key': {'S': {'tag': 'c:rods/wooden'}},
         'result': {'item': 'skysbuildingpiecesbop:flower_basket'}}
     outputs['data/skysbuildingpiecesbop/advancement/recipes/flower_basket.json'] = {
         'criteria': {
             'has_sticks': {'trigger': 'minecraft:inventory_changed',
-                           'conditions': {'items': [{'tag': 'forge:rods/wooden'}]}},
+                           'conditions': {'items': [{'tag': 'c:rods/wooden'}]}},
             'has_the_recipe': {'trigger': 'minecraft:recipe_unlocked',
                                'conditions': {'recipes': 'skysbuildingpiecesbop:flower_basket'}}},
         'requirements': [['has_sticks', 'has_the_recipe']],
@@ -442,7 +465,8 @@ def main():
                 target.unlink()
     for relative, data in outputs.items():
         target = args.resources / relative
-        text = format_json(data) + '\n'
+        native = native_advancement(data) if relative.split('/')[2] == 'advancement' else native_recipe(data)
+        text = format_json(native) + '\n'
         if not target.is_file() or target.read_text(encoding='utf-8') != text:
             changed += 1
             if args.write:

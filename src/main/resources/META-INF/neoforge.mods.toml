@@ -29,7 +29,7 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="skysbuildingpieces"
 type="required"
-versionRange="[0.3.9.2603002,0.4)"
+versionRange="[0.3.10.2603002,0.4)"
 ordering="AFTER"
 side="BOTH"
 [[dependencies.${mod_id}]]

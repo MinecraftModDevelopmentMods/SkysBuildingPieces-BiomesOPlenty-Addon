@@ -65,8 +65,12 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
-      "pattern": ["XX", "XX", "XX"],
+      "group": "skys/result/skysbuildingpiecesbop/crag_rock_wall",
+      "pattern": [
+        "XX",
+        "XX",
+        "XX"
+      ],
       "key": {
         "X": "mineralogy:gabbro"
       },
@@ -103,8 +107,12 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
-      "pattern": ["XX", "XX", "XX"],
+      "group": "skys/result/skysbuildingpiecesbop/crag_rock_wall",
+      "pattern": [
+        "XX",
+        "XX",
+        "XX"
+      ],
       "key": {
         "X": "skysbuildingpiecesbop:retired_gabbro"
       },
