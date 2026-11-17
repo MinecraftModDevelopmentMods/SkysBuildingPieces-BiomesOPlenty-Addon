@@ -39,7 +39,7 @@ It doesn't accept unrelated items.
 Use the versions for **Minecraft 26.2**, with **Forge 65.1.0** and
 **Java 25**. You'll need:
 
-- **Sky's Building Pieces 0.3.9.2602001** and this add-on.
+- **Sky's Building Pieces 0.3.10.2602001** and this add-on.
 - **Biomes O' Plenty 26.2.0.0.28**, **TerraBlender 26.2.0.0.2** and **GlitchCore 26.2.0.0.0**.
 
 Put all five main jars in `mods` on both the client and server.
@@ -67,6 +67,14 @@ textures. Old crag rock becomes gabbro.
 
 Back up your world and test a copy before upgrading.
 See the [changelog](CHANGELOG.md) for release history.
+
+## Fuel and saved items
+
+Wooden pieces burn for their share of the matching full block. Hellbark stays
+non-flammable and cannot be used as fuel. Stone and glass pieces remain non-fuel.
+
+The saved-item safety check reads Minecraft inventories and region files. Other
+mods can keep their own data files without those files being treated as inventories.
 
 ## Licence
 

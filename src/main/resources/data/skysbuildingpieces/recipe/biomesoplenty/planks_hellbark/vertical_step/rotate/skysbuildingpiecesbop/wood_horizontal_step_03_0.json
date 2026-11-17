@@ -1,6 +1,6 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "group": "skys/result/skysbuildingpiecesbop/planks_hellbark_vertical_step",
   "pattern": ["X"],
   "key": {
     "X": "skysbuildingpiecesbop:planks_hellbark_horizontal_step"

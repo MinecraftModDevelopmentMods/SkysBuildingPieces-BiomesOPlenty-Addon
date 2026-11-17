@@ -554,6 +554,7 @@ level-name=world
 level-seed=skys-building-pieces-integration
 level-type=minecraft:normal
 online-mode=false
+use-native-transport=false
 server-ip=127.0.0.1
 server-port=0
 generate-structures=false
@@ -1036,3 +1037,5 @@ ext.coreDirectory = coreDirectory
 ext.coreDevelopmentJar = coreDevelopmentJar
 apply from: 'gradle/native-runtime-log.gradle'
 apply from: 'gradle/native-bootstrap.gradle'
+
+apply from: 'gradle/recipe-resource-sync.gradle'

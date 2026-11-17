@@ -1,6 +1,6 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "group": "skys/result/biomesoplenty/mahogany_slab",
   "pattern": ["X"],
   "key": {
     "X": "skysbuildingpiecesbop:planks_mahogany_vertical_slab"

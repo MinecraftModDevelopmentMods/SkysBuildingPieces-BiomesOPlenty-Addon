@@ -99,7 +99,7 @@ public final class NamedBopRecovery {
         }
         // Modern stacks can omit a count of one. Limit that form to the names
         // known to have been items in the preceding BOP release.
-        return RECENT_BLOCKS.containsKey(name)
+        return (RECENT_BLOCKS.containsKey(name) || NATIVE_RENAMES.containsKey(name))
                 && IMPLICIT_ITEM_KEYS.containsAll(tag.keySet());
     }
 
@@ -268,7 +268,7 @@ public final class NamedBopRecovery {
             if (blockState && (BLOCKS.containsKey(tag.getStringOr("Name", ""))
                     || RetiredRocks.LEGACY_ID.equals(tag.getStringOr("Name", "")) || oldShortCattail(tag)
                     || oldWall(tag.getStringOr("Name", ""), tag.getCompoundOrEmpty("Properties")))
-                    || namedItem(tag) || (tag.get("Count") instanceof net.minecraft.nbt.NumericTag)
+                    || (!blockState && namedItem(tag)) || (tag.get("Count") instanceof net.minecraft.nbt.NumericTag)
                     && oldWall(tag.getStringOr("id", ""), tag.getCompoundOrEmpty("tag").getCompoundOrEmpty("BlockStateTag"))
                     || namedBoat(tag) || biomeTable(tag) != null || removedSectionBiomes(tag)
                     || retiredBlockTicks(tag, false)) {
@@ -348,7 +348,7 @@ public final class NamedBopRecovery {
             if (namedBoat(tag)) {
                 rewriteBoat(tag);
             }
-            if (namedItem(tag)) {
+            if (!blockState && namedItem(tag)) {
                 if (tag.getStringOr("id", "").equals("biomesoplenty:nether_crystal")) {
                     CompoundTag itemData = tag.getCompoundOrEmpty("tag");
                     if (itemData.contains("BlockStateTag")) {
@@ -535,7 +535,7 @@ public final class NamedBopRecovery {
     private static boolean stateField(String key) {
         // A custom display name can also be a registry-looking string. Only native state fields identify blocks.
         return key.equals("Palette") || key.equals("palette") || key.equals("palettes") || key.equals("BlockState")
-                || key.equals("blockState") || key.equals("carriedBlockState") || key.equals("DisplayState");
+                || key.equals("blockState") || key.equals("block_state") || key.equals("carriedBlockState") || key.equals("DisplayState");
     }
 
     private static ListTag chunkSections(CompoundTag chunk) {

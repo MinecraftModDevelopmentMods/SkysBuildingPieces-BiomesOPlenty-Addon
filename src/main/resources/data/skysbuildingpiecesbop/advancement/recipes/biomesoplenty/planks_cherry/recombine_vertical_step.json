@@ -24,16 +24,7 @@
     "recipes": ["skysbuildingpieces:biomesoplenty/planks_cherry/recombine_vertical_step"]
   },
   "forge:condition": {
-    "type": "forge:and",
-    "values": [
-      {
-        "type": "forge:item_exists",
-        "item": "minecraft:cherry_slab"
-      },
-      {
-        "type": "forge:item_exists",
-        "item": "skysbuildingpiecesbop:planks_cherry_vertical_step"
-      }
-    ]
+    "type": "forge:item_exists",
+    "item": "skysbuildingpiecesbop:planks_cherry_vertical_step"
   }
 }

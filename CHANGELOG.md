@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.7.2602001
+
+- Wooden pieces use the matching full block's fuel value; hellbark remains non-fuel.
+- Recipe-book entries group matching results, with duplicate step recipes removed.
+- Saved-item checks now leave unrelated mod storage files alone and validate external chunk data.
+
+
 ## 0.2.5.2602001
 
 - BOP building pieces and recovered rocks now have individual block IDs. Existing builds and rock variants carry forward.

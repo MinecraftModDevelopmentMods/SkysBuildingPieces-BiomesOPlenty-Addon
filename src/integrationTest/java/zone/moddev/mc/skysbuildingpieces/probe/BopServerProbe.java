@@ -54,6 +54,7 @@ public final class BopServerProbe {
                         || world.getGameRules().get(GameRules.FIRE_SPREAD_RADIUS_AROUND_PLAYER) != 0) {
                     throw new AssertionError("The disposable runtime rules were not applied");
                 }
+                FuelChecks.run(world);
                 recipes = new RecipeChecks.Audit(world);
             }
             if (combinations == null) {

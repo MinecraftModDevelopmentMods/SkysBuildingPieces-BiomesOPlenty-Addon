@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/siltstone_polished",
+  "group": "skys/result/skysbuildingpiecesbop/siltstone_polished_slab",
   "pattern": ["X", "X"],
   "key": {
     "X": "skysbuildingpiecesbop:siltstone_polished_vertical_step"

@@ -4,7 +4,7 @@
     {
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/mineralogy",
+        "group": "skys/result/skysbuildingpiecesbop/siltstone_polished_slab",
         "pattern": ["X ", " X"],
         "key": {
           "X": "mineralogy:siltstone_smooth"
@@ -32,7 +32,7 @@
     {
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/mineralogy",
+        "group": "skys/result/skysbuildingpiecesbop/siltstone_polished_slab",
         "pattern": ["X ", " X"],
         "key": {
           "X": "skysbuildingpiecesbop:retired_siltstone_smooth"

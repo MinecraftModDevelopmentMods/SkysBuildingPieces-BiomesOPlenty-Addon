@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/shale_polished",
+  "group": "skys/result/skysbuildingpiecesbop/shale_polished_slab",
   "pattern": ["X", "X"],
   "key": {
     "X": "skysbuildingpiecesbop:shale_polished_horizontal_step"
