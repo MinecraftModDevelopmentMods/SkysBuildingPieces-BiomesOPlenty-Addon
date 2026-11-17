@@ -68,7 +68,7 @@ public final class RetiredItemWorldChecks {
         }
 
         LOGGER.info("BOP_RETIRED_ITEM_SYLVESTER_PASS all_carriers_loaded=true schema="
-                + state.getInt("schema_version") + " reload=" + reload);
+                + state.getIntOr("schema_version", 0) + " reload=" + reload);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.unregister(this);
         server.halt(false);
     }

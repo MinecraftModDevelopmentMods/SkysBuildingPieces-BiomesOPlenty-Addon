@@ -1,11 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
-  "pattern": ["XX"],
+  "group": "skys/result/skysbuildingpiecesbop/planks_willow_corner",
+  "pattern": [
+    "XX"
+  ],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:planks_willow_vertical_step"
-    }
+    "X": "skysbuildingpiecesbop:planks_willow_vertical_step"
   },
   "result": {
     "id": "skysbuildingpiecesbop:planks_willow_corner",
@@ -17,12 +17,14 @@
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_willow_corner"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_willow_corner"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_willow_vertical_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_willow_vertical_step"
         }
       ]
     }

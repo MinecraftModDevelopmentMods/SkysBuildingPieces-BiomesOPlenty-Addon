@@ -1,11 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/planks_jacaranda",
-  "pattern": ["XX"],
+  "group": "skys/result/biomesoplenty/jacaranda_planks",
+  "pattern": [
+    "XX"
+  ],
   "key": {
-    "X": {
-      "item": "biomesoplenty:jacaranda_slab"
-    }
+    "X": "biomesoplenty:jacaranda_slab"
   },
   "result": {
     "id": "biomesoplenty:jacaranda_planks",
@@ -17,12 +17,14 @@
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "biomesoplenty:jacaranda_planks"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:jacaranda_planks"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "biomesoplenty:jacaranda_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:jacaranda_slab"
         }
       ]
     }

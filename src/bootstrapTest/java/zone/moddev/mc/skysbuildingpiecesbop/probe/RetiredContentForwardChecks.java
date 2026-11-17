@@ -45,19 +45,19 @@ final class RetiredContentForwardChecks {
             for (JsonElement item : fixture.getAsJsonArray(group)) {
                 JsonObject row = item.getAsJsonObject();
                 if (shouldCheck(row)) {
-                    CHUNKS.add(new ChunkPos(position(row)));
+                    CHUNKS.add(ChunkPos.containing(position(row)));
                 }
             }
         }
-        CHUNKS.add(new ChunkPos(position(fixture.getAsJsonObject("chest"))));
+        CHUNKS.add(ChunkPos.containing(position(fixture.getAsJsonObject("chest"))));
         for (ChunkPos chunk : CHUNKS) {
-            world.setChunkForced(chunk.x, chunk.z, true);
-            world.getChunk(chunk.x, chunk.z);
+            world.setChunkForced(chunk.x(), chunk.z(), true);
+            world.getChunk(chunk.x(), chunk.z());
         }
     }
 
     static boolean ready(ServerLevel world) {
-        return CHUNKS.stream().allMatch(chunk -> world.getChunkSource().isPositionTicking(chunk.toLong()));
+        return CHUNKS.stream().allMatch(chunk -> world.getChunkSource().isPositionTicking(chunk.pack()));
     }
 
     static void verify(ServerLevel world) {
@@ -70,16 +70,20 @@ final class RetiredContentForwardChecks {
             BlockPos position = position(row);
             var state = world.getBlockState(position);
             String actual = BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString();
-            check(actual.equals(row.get("target").getAsString()), "Incorrect recovered block at " + position + ": " + state);
+            String expected = ForwardUpgradeChecks.currentTarget("blocks", row.get("target").getAsString());
+            check(actual.equals(expected), "Incorrect recovered block at " + position + ": " + state
+                    + ", expected " + expected);
             JsonObject properties = row.getAsJsonObject("properties");
-            state.getValues().forEach((property, value) -> {
-                if (properties.has(property.getName())) {
-                    check(properties.get(property.getName()).getAsString().equals(value.toString()),
-                            "A recovered block lost " + property.getName() + " at " + position);
+            Set<String> presentProperties = new LinkedHashSet<>();
+            state.getValues().forEach(property -> {
+                String name = property.property().getName();
+                presentProperties.add(name);
+                if (properties.has(name)) {
+                    check(properties.get(name).getAsString().equals(property.value().toString()),
+                            "A recovered block lost " + name + " at " + position);
                 }
             });
-            check(state.getValues().keySet().stream().map(net.minecraft.world.level.block.state.properties.Property::getName)
-                    .collect(java.util.stream.Collectors.toSet()).containsAll(properties.keySet()),
+            check(presentProperties.containsAll(properties.keySet()),
                     "A recovered block lost properties at " + position);
             blocks++;
         }
@@ -91,9 +95,10 @@ final class RetiredContentForwardChecks {
         for (JsonElement entry : fixture.getAsJsonArray("items")) {
             JsonObject row = entry.getAsJsonObject();
             var stack = chest.getItem(row.get("slot").getAsInt());
-            check(BuiltInRegistries.ITEM.getKey(stack.getItem()).toString().equals(row.get("target").getAsString())
+            String expected = ForwardUpgradeChecks.currentItemTarget(row.get("target").getAsString());
+            check(BuiltInRegistries.ITEM.getKey(stack.getItem()).toString().equals(expected)
                             && stack.getCount() == row.get("count").getAsInt()
-                            && BopProbeItems.custom(stack).getString("PortSample").equals(row.get("custom").getAsString()),
+                            && BopProbeItems.custom(stack).getStringOr("PortSample", "").equals(row.get("custom").getAsString()),
                     "A retired BOP item lost its name, count or custom data: " + row + " -> " + stack);
             items += stack.getCount();
         }
@@ -105,15 +110,18 @@ final class RetiredContentForwardChecks {
                 continue;
             }
             BlockPos position = position(row);
-            String actual = world.getBiome(position).unwrapKey().orElseThrow().location().toString();
-            check(actual.equals(row.get("target").getAsString()), "Incorrect recovered biome at " + position + ": " + actual);
+            String actual = world.getBiome(position).unwrapKey().orElseThrow().identifier().toString();
+            // The fixture records the 1.21.1 target. Some of those biome names were retired again.
+            String expected = ForwardUpgradeChecks.currentTarget("section_biomes", row.get("target").getAsString());
+            check(actual.equals(expected), "Incorrect recovered biome at " + position + ": " + actual
+                    + ", expected " + expected);
             biomes++;
         }
         boolean delayed = !phase().equals("forward");
         check(blocks == (delayed ? 11 : 10) && items == 65 && biomes == (delayed ? 4 : 3),
                 "Incomplete retired-content coverage");
         for (ChunkPos chunk : CHUNKS) {
-            world.setChunkForced(chunk.x, chunk.z, false);
+            world.setChunkForced(chunk.x(), chunk.z(), false);
         }
         world.getServer().saveAllChunks(true, true, true);
         org.apache.logging.log4j.LogManager.getLogger().info(

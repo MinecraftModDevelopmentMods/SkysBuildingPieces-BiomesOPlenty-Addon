@@ -1,6 +1,9 @@
 package zone.moddev.mc.skysbuildingpiecesbop;
 
 import java.io.IOException;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.inventory.MenuType;
@@ -25,7 +28,7 @@ import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketPreflight;
 @Mod(SkysBuildingPiecesBop.ID)
 public final class SkysBuildingPiecesBop {
     public static final String ID = "skysbuildingpiecesbop";
-    public static final String VERSION = "0.2.4.121012";
+    public static final String VERSION = "0.2.7.2603002";
 
     public SkysBuildingPiecesBop(IEventBus modBus) {
         if (BuildingPiecesApi.VERSION != 1) {
@@ -50,7 +53,7 @@ public final class SkysBuildingPiecesBop {
         Baskets.registerRecovery();
         NeoForge.EVENT_BUS.addListener(this::beforeServer);
         NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.LOWEST, Baskets::pickup);
-        if (FMLEnvironment.dist == Dist.CLIENT) {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
             zone.moddev.mc.skysbuildingpiecesbop.client.RetiredRockModels.register(modBus);
         }
     }
@@ -64,9 +67,17 @@ public final class SkysBuildingPiecesBop {
         }
     }
 
+    static BlockBehaviour.Properties blockProperties(String name) {
+        return BlockBehaviour.Properties.of().setId(ResourceKey.create(net.minecraft.core.registries.Registries.BLOCK,
+                Identifier.fromNamespaceAndPath(ID, name)));
+    }
+
+    static Item.Properties itemProperties(Identifier id) {
+        return new Item.Properties().setId(ResourceKey.create(net.minecraft.core.registries.Registries.ITEM, id));
+    }
+
     @EventBusSubscriber(
-            modid = ID,
-            bus = EventBusSubscriber.Bus.MOD)
+            modid = ID)
     public static final class Registries {
         private Registries() {
         }
@@ -82,8 +93,8 @@ public final class SkysBuildingPiecesBop {
                 Baskets.containers(event);
             } else if (event.getRegistryKey().equals(net.minecraft.core.registries.Registries.RECIPE_SERIALIZER)) {
                 event.register(net.minecraft.core.registries.Registries.RECIPE_SERIALIZER,
-                        net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(ID, "material_recipe"),
-                        ChoiceRecipeSerializer::new);
+                        net.minecraft.resources.Identifier.fromNamespaceAndPath(ID, "material_recipe"),
+                        ChoiceRecipeSerializer::create);
             }
         }
 

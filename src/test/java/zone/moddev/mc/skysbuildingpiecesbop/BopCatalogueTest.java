@@ -98,6 +98,10 @@ class BopCatalogueTest {
         assertEquals(0, catalogueModule.materials.get("biomesoplenty:planks_hellbark").fireSpread());
         assertEquals(0, catalogueModule.materials.get("biomesoplenty:bamboo_thatching").flammability());
         assertEquals(20, catalogueModule.materials.get("biomesoplenty:planks_redwood").flammability());
+        assertFalse(catalogueModule.materials.get("biomesoplenty:planks_hellbark").cookingFuel());
+        assertTrue(catalogueModule.materials.get("biomesoplenty:planks_fir").cookingFuel());
+        assertTrue(catalogueModule.materials.get("biomesoplenty:bamboo_thatching").cookingFuel(),
+                "The retired thatching now uses willow; its old fire rules must not decide its fuel value");
         assertEquals(6, catalogueModule.materials.get("biomesoplenty:limestone").explosionResistance());
         assertEquals(6, catalogueModule.materials.get("biomesoplenty:limestone_polished").explosionResistance());
     }

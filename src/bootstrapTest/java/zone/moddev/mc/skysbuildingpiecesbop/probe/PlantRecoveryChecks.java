@@ -44,12 +44,15 @@ final class PlantRecoveryChecks {
 
             recovery.fixTagCompound(basket);
 
-            CompoundTag converted = basket.getCompound("tag").getList("Items", 10).getCompound(0);
+            CompoundTag converted = basket.getCompoundOrEmpty("tag").getListOrEmpty("Items").getCompoundOrEmpty(0);
             ItemStack decoded = BopProbeItems.read(converted);
 
+            var expectedPlant = source.equals("biomesoplenty:sapling_0")
+                    ? net.minecraft.world.item.Items.POPLAR_SAPLING : net.minecraft.world.item.Items.OAK_SAPLING;
+            require(decoded.is(expectedPlant), "Legacy sapling no longer has a live replacement");
             require(decoded.getHoverName().getString().equals("Saved tree"), "Legacy plant name is readable");
-            require(decoded.getCount() == 23 && converted.getByte("Slot") == 4, "Legacy slot and count");
-            require(BopProbeItems.custom(decoded).getString("unrelated").equals("Keep this data"), "Unrelated plant NBT");
+            require(decoded.getCount() == 23 && converted.getByteOr("Slot", (byte) 0) == 4, "Legacy slot and count");
+            require(BopProbeItems.custom(decoded).getStringOr("unrelated", "").equals("Keep this data"), "Unrelated plant NBT");
 
             CompoundTag once = basket.copy();
 
@@ -57,7 +60,7 @@ final class PlantRecoveryChecks {
             require(basket.equals(once), "Legacy plant reload is idempotent");
 
             CompoundTag invalid = once.copy();
-            CompoundTag child = invalid.getCompound("tag").getList("Items", 10).getCompound(0);
+            CompoundTag child = invalid.getCompoundOrEmpty("tag").getListOrEmpty("Items").getCompoundOrEmpty(0);
 
             child.putString("id", "biomesoplenty:sapling_0");
             child.remove("count");

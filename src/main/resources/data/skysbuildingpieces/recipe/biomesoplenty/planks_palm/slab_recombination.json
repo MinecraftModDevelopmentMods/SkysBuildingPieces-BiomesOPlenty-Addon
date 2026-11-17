@@ -1,11 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/planks_palm",
-  "pattern": ["XX"],
+  "group": "skys/result/biomesoplenty/palm_planks",
+  "pattern": [
+    "XX"
+  ],
   "key": {
-    "X": {
-      "item": "biomesoplenty:palm_slab"
-    }
+    "X": "biomesoplenty:palm_slab"
   },
   "result": {
     "id": "biomesoplenty:palm_planks",
@@ -17,12 +17,14 @@
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "biomesoplenty:palm_planks"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:palm_planks"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "biomesoplenty:palm_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:palm_slab"
         }
       ]
     }

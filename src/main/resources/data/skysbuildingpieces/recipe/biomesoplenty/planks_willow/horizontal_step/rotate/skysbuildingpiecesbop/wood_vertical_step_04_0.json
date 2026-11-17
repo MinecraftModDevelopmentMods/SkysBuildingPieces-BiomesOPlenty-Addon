@@ -1,11 +1,11 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
-  "pattern": ["X"],
+  "group": "skys/result/skysbuildingpiecesbop/planks_willow_horizontal_step",
+  "pattern": [
+    "X"
+  ],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:planks_willow_vertical_step"
-    }
+    "X": "skysbuildingpiecesbop:planks_willow_vertical_step"
   },
   "result": {
     "id": "skysbuildingpiecesbop:planks_willow_horizontal_step",
@@ -18,12 +18,14 @@
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_willow_horizontal_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_willow_horizontal_step"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_willow_vertical_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_willow_vertical_step"
         }
       ]
     }

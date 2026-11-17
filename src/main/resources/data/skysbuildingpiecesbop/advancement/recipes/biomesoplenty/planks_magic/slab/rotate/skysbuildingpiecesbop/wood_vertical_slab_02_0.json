@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:planks_magic_vertical_slab"]
+            "items": [
+              "skysbuildingpiecesbop:planks_magic_vertical_slab"
+            ]
           }
         ]
       }
@@ -13,27 +15,34 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/planks_magic/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_02_0"
+        "recipes": "skysbuildingpieces:biomesoplenty/planks_magic/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_02_0"
       }
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/planks_magic/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_02_0"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/planks_magic/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_02_0"
+    ]
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "biomesoplenty:magic_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:magic_slab"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_magic_vertical_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_magic_vertical_slab"
         }
       ]
     }

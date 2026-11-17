@@ -1,23 +1,22 @@
 package zone.moddev.mc.skysbuildingpiecesbop.basket;
 
-import net.minecraft.nbt.CompoundTag;
 
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
-import net.neoforged.neoforge.common.util.TriState;
+import net.minecraft.util.TriState;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.minecraft.world.inventory.MenuType;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import zone.moddev.mc.skysbuildingpiecesbop.SkysBuildingPiecesBop;
 
 public final class Baskets {
-    // Forge opens these registries after mod construction.
+    // NeoForge opens these registries after mod construction.
     public static BasketItem ITEM;
     public static BasketItem HOLDER;
     public static MenuType<BasketContainer> TYPE;
@@ -36,13 +35,13 @@ public final class Baskets {
     public static void items(RegisterEvent event) {
         ITEM = new BasketItem(false);
         HOLDER = new BasketItem(true);
-        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, ResourceLocation.parse(BasketData.ID), ITEM);
-        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, ResourceLocation.parse(BasketData.HOLDER), HOLDER);
+        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, Identifier.parse(BasketData.ID), ITEM);
+        net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, Identifier.parse(BasketData.HOLDER), HOLDER);
     }
 
     public static void containers(RegisterEvent event) {
         TYPE = IMenuTypeExtension.create(BasketContainer::new);
-        net.minecraft.core.Registry.register(BuiltInRegistries.MENU, ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "flower_basket"), TYPE);
+        net.minecraft.core.Registry.register(BuiltInRegistries.MENU, Identifier.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "flower_basket"), TYPE);
     }
 
     public static void creativeContents(BuildCreativeModeTabContentsEvent event) {
@@ -55,7 +54,7 @@ public final class Baskets {
     public static void pickup(ItemEntityPickupEvent.Pre event) {
         Player player = event.getPlayer();
 
-        if (player.level().isClientSide || event.canPickup() == TriState.FALSE) {
+        if (player.level().isClientSide() || event.canPickup() == TriState.FALSE) {
             return;
         }
 
@@ -65,17 +64,14 @@ public final class Baskets {
         if (!BasketInventory.accepts(incoming)) {
             return;
         }
-        // In 1.19 getOwner identifies the thrower, while the saved Owner UUID is
-        // the exclusive pickup target. Follow the same target check as vanilla.
-        CompoundTag pickupData = entity.saveWithoutId(new CompoundTag());
-        if (entity.hasPickUpDelay()
-                || pickupData.hasUUID("Owner") && !pickupData.getUUID("Owner").equals(player.getUUID())) {
+        var pickupTarget = entity.getTarget();
+        if (entity.hasPickUpDelay() || pickupTarget != null && !pickupTarget.equals(player.getUUID())) {
             return;
         }
 
         ItemStack first = ItemStack.EMPTY;
 
-        for (ItemStack stack : player.getInventory().items) {
+        for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
             if (stack.getItem() instanceof BasketItem) {
                 first = stack;
                 break;

@@ -1,5 +1,6 @@
 package zone.moddev.mc.skysbuildingpiecesbop;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.MapColor;
@@ -8,17 +9,15 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import net.minecraft.core.registries.BuiltInRegistries;
+
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.EventPriority;
 
 /** Separate hidden identities keep mixed old and current palette saves unambiguous. */
-@EventBusSubscriber(
-        modid = SkysBuildingPiecesBop.ID,
-        bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = SkysBuildingPiecesBop.ID)
 public final class RetiredMaterialHolders {
     public static Block STONE;
     public static Block CRAG;
@@ -31,8 +30,7 @@ public final class RetiredMaterialHolders {
     private RetiredMaterialHolders() {
     }
 
-    @SubscribeEvent(
-            priority = EventPriority.HIGHEST)
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void blocks(RegisterEvent event) {
         if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.BLOCK)) return;
         STONE = new Holder("legacy_bop_stone");
@@ -45,7 +43,7 @@ public final class RetiredMaterialHolders {
         for (int index = 0; index < BLOCKS.length; index++) {
             String id = new String[] { "legacy_bop_stone", "legacy_bop_crag_rock", "legacy_bop_stone_formations",
                     "legacy_bop_jelled_poison", "legacy_bop_tree_moss" }[index];
-            net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, id), BLOCKS[index]);
+            net.minecraft.core.Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, id), BLOCKS[index]);
         }
     }
 
@@ -53,7 +51,8 @@ public final class RetiredMaterialHolders {
     public static void items(RegisterEvent event) {
         if (!event.getRegistryKey().equals(net.minecraft.core.registries.Registries.ITEM)) return;
         for (Block block : BLOCKS) {
-            net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, BuiltInRegistries.BLOCK.getKey(block), new BlockItem(block, new Item.Properties()));
+            Identifier id = BuiltInRegistries.BLOCK.getKey(block);
+            net.minecraft.core.Registry.register(BuiltInRegistries.ITEM, id, new BlockItem(block, SkysBuildingPiecesBop.itemProperties(id)));
         }
     }
 
@@ -75,7 +74,7 @@ public final class RetiredMaterialHolders {
         private static final IntegerProperty META = IntegerProperty.create("metadata", 0, 15);
 
         Holder(String name) {
-            super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(-1, 3600000));
+            super(SkysBuildingPiecesBop.blockProperties(name).mapColor(MapColor.STONE).strength(-1, 3600000));
             registerDefaultState(stateDefinition.any().setValue(META, 0));
         }
 

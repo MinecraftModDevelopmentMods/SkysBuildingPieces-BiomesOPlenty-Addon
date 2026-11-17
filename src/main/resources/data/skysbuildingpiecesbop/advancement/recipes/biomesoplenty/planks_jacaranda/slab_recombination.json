@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["biomesoplenty:jacaranda_slab"]
+            "items": [
+              "biomesoplenty:jacaranda_slab"
+            ]
           }
         ]
       }
@@ -13,27 +15,34 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/planks_jacaranda/slab_recombination"
+        "recipes": "skysbuildingpieces:biomesoplenty/planks_jacaranda/slab_recombination"
       }
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/planks_jacaranda/slab_recombination"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/planks_jacaranda/slab_recombination"
+    ]
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "biomesoplenty:jacaranda_planks"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:jacaranda_planks"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "biomesoplenty:jacaranda_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:jacaranda_slab"
         }
       ]
     }

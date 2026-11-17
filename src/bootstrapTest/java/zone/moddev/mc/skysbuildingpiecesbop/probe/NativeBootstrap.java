@@ -23,6 +23,8 @@ public final class NativeBootstrap {
     private BopRecipeAudit recipes;
     private MinecraftServer recipeServer;
     private long nextRecipeBatch;
+    private MinecraftServer biomeAuditServer;
+    private int biomeAuditSaveTicks;
 
     public NativeBootstrap(net.neoforged.bus.api.IEventBus modBus) {
         zone.moddev.mc.skysbuildingpieces.probe.PersistenceRegistrationChecks.register(modBus);
@@ -30,11 +32,11 @@ public final class NativeBootstrap {
         NeoForge.EVENT_BUS.addListener(this::tick);
         modBus.addListener(BopPersistenceOrderChecks::ready);
         zone.moddev.mc.skysbuildingpieces.probe.BopCompatibilityChecks.registerHandler(modBus);
-        if (net.neoforged.fml.loading.FMLEnvironment.dist == net.neoforged.api.distmarker.Dist.CLIENT) {
+        if (net.neoforged.fml.loading.FMLEnvironment.getDist() == net.neoforged.api.distmarker.Dist.CLIENT) {
             new zone.moddev.mc.skysbuildingpieces.probe.ClientProbe().init();
-            NeoForge.EVENT_BUS.register(BasketGuiClientChecks.class);
+            BasketGuiClientChecks.register();
             NeoForge.EVENT_BUS.register(BasketDisconnectClientChecks.class);
-            NeoForge.EVENT_BUS.register(BasketClientChecks.class);
+            BasketClientChecks.register();
         }
     }
 
@@ -58,6 +60,12 @@ public final class NativeBootstrap {
     }
 
     private void tick(net.neoforged.neoforge.event.tick.ServerTickEvent.Post event) {
+        if (event.getServer() == biomeAuditServer && --biomeAuditSaveTicks == 0) {
+            biomeAuditServer.tickRateManager().setFrozen(false);
+            biomeAuditServer.halt(false);
+            biomeAuditServer = null;
+            return;
+        }
         if (recipeServer != null && System.nanoTime() >= nextRecipeBatch) {
             finishRecipeBatch();
             return;
@@ -172,12 +180,18 @@ public final class NativeBootstrap {
         } catch (Throwable failure) {
             LOGGER.error("Native BOP verification failed", failure);
             zone.moddev.mc.skysbuildingpieces.probe.ClientStatus.failure = failure;
-            if (client && net.neoforged.fml.loading.FMLEnvironment.dist == net.neoforged.api.distmarker.Dist.CLIENT) {
+            if (client && net.neoforged.fml.loading.FMLEnvironment.getDist() == net.neoforged.api.distmarker.Dist.CLIENT) {
                 net.minecraft.client.Minecraft.getInstance().delayCrash(
                         net.minecraft.CrashReport.forThrowable(failure, "BOP client verification failed"));
             }
         } finally {
-            if ((!client || !success) && recipeServer == null) {
+            if (!client && success && (Boolean.getBoolean("skysbuildingpieces.bopBiomeOnly")
+                    || new java.io.File("forward-biomes.json").isFile())) {
+                // Let pending chunk work finish without advancing the fixture's plant or fluid ticks.
+                server.tickRateManager().setFrozen(true);
+                biomeAuditServer = server;
+                biomeAuditSaveTicks = 40;
+            } else if ((!client || !success) && recipeServer == null) {
                 server.halt(false);
             }
         }

@@ -1,18 +1,19 @@
 package zone.moddev.mc.skysbuildingpiecesbop.probe;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 
 import java.io.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.*;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.bus.api.*;
+
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.common.NeoForge;
 
 import zone.moddev.mc.skysbuildingpieces.probe.ClientStatus;
 import zone.moddev.mc.skysbuildingpiecesbop.basket.*;
@@ -27,10 +28,17 @@ public final class BasketGuiClientChecks {
     private static int stage, ticks, lastStage = -1, deathCheckAt;
     private static boolean ready, controlled, respawnChecked;
     private static volatile boolean serverChecked;
+    private static volatile boolean depositConfirmed;
+    private static volatile boolean deathTriggered;
+    private static int deathDrops = -1;
+    private static int throwCheckAt;
     private static volatile boolean offhandMoved;
 
-    @SubscribeEvent(
-            priority = EventPriority.HIGHEST)
+    static void register() {
+        NeoForge.EVENT_BUS.addListener(EventPriority.HIGHEST,
+                BasketGuiClientChecks::tick);
+    }
+
     public static void tick(ClientTickEvent.Post event) {
         if (!System.getProperty("skysbuildingpieces.integrationPhase", "").equals("client-basket")) {
             return;
@@ -54,8 +62,18 @@ public final class BasketGuiClientChecks {
             LOGGER.info("BASKET_GUI_STAGE " + stage);
             lastStage = stage;
         }
-        if (!ready || minecraft.player == null || minecraft.getSingleplayerServer() == null) {
+        // The server ignores interaction packets until the client has loaded its level.
+        if (!ready || minecraft.player == null || minecraft.getSingleplayerServer() == null
+                || minecraft.getConnection() == null || !minecraft.getConnection().hasClientLoaded()) {
             return;
+        }
+        if (stage == 3 && !depositConfirmed && ticks % 5 == 0) {
+            minecraft.getSingleplayerServer().execute(() -> {
+                ServerPlayer player = minecraft.getSingleplayerServer().getPlayerList().getPlayer(minecraft.player.getUUID());
+                if (player.containerMenu instanceof BasketContainer menu && menu.basket.getItem(0).getCount() == 5) {
+                    depositConfirmed = true;
+                }
+            });
         }
         if (stage == 3 && ticks % 40 == 0) {
             LOGGER.info("BASKET_GUI_CLIENT_STATE container=" + minecraft.player.containerMenu.getClass().getName()
@@ -77,7 +95,7 @@ public final class BasketGuiClientChecks {
                         .getPlayer(minecraft.player.getUUID());
 
                 player.getInventory().clearContent();
-                player.getInventory().selected = 0;
+                player.getInventory().setSelectedSlot(0);
 
                 ItemStack basket = new ItemStack(Baskets.ITEM);
                 CompoundTag tag = new CompoundTag();
@@ -91,18 +109,20 @@ public final class BasketGuiClientChecks {
         } else if (stage == 1 && minecraft.player.getMainHandItem().getItem() == Baskets.ITEM) {
             stage = 2;
             minecraft.gameMode.useItem(minecraft.player, InteractionHand.MAIN_HAND);
-        } else if (stage == 2 && minecraft.screen instanceof BasketScreen) {
+        } else if (stage == 2 && minecraft.gui.screen() instanceof BasketScreen) {
             stage = 3;
-            minecraft.gameMode.handleInventoryMouseClick(minecraft.player.containerMenu.containerId, 18, 0, ClickType.QUICK_MOVE,
+            minecraft.gameMode.handleContainerInput(minecraft.player.containerMenu.containerId, 18, 0, ContainerInput.QUICK_MOVE,
                     minecraft.player);
-        } else if (stage == 3 && minecraft.player.containerMenu instanceof BasketContainer
+        } else if (stage == 3 && depositConfirmed && minecraft.player.containerMenu instanceof BasketContainer
                 && ((BasketContainer) minecraft.player.containerMenu).basket.getItem(0).getCount() == 5) {
             net.minecraft.client.Screenshot.grab(minecraft.gameDirectory, "flower-basket-gui.png",
-                    minecraft.getMainRenderTarget(), message -> {
+                    minecraft.gameRenderer.mainRenderTarget(), 1, message -> {
                     });
-            minecraft.gameMode.handleInventoryMouseClick(minecraft.player.containerMenu.containerId, 45, 1, ClickType.THROW,
+            minecraft.gameMode.handleContainerInput(minecraft.player.containerMenu.containerId, 45, 1, ContainerInput.THROW,
                     minecraft.player);
             stage = 4;
+            throwCheckAt = ticks + 10;
+        } else if (stage == 4 && ticks == throwCheckAt) {
             minecraft.getSingleplayerServer().execute(() -> {
                 ServerPlayer player = minecraft.getSingleplayerServer().getPlayerList()
                         .getPlayer(minecraft.player.getUUID());
@@ -130,7 +150,7 @@ public final class BasketGuiClientChecks {
                     // correctly makes the basket rescue itself into its locked slot.
                     ItemStack basket = player.getInventory().getItem(0);
                     if (basket.getItem() != Baskets.ITEM || !BopProbeItems.hasCustom(basket)
-                            || !BopProbeItems.custom(basket).getString("TestBasket").equals(TEST_BASKET)
+                            || !BopProbeItems.custom(basket).getStringOr("TestBasket", "").equals(TEST_BASKET)
                             || new BasketInventory(basket, BopProbeItems.registries()).getItem(0).getCount() != 5) {
                         throw new AssertionError("The closed basket keeps its owner and five saplings");
                     }
@@ -144,62 +164,66 @@ public final class BasketGuiClientChecks {
                 stage = 6;
                 minecraft.gameMode.useItem(minecraft.player, InteractionHand.OFF_HAND);
             }
-        } else if (stage == 6 && minecraft.screen instanceof BasketScreen) {
+        } else if (stage == 6 && minecraft.gui.screen() instanceof BasketScreen) {
             stage = 7;
-            minecraft.gameMode.handleInventoryMouseClick(minecraft.player.containerMenu.containerId, 0, 0, ClickType.QUICK_MOVE,
+            minecraft.gameMode.handleContainerInput(minecraft.player.containerMenu.containerId, 0, 0, ContainerInput.QUICK_MOVE,
                     minecraft.player);
-        } else if (stage == 7 && minecraft.player.containerMenu instanceof BasketContainer
-                && ((BasketContainer) minecraft.player.containerMenu).basket.isEmpty()) {
-            stage = 8;
+        } else if (stage == 7 && !deathTriggered && ticks % 5 == 0
+                && minecraft.player.containerMenu instanceof BasketContainer menuOnClient && menuOnClient.basket.isEmpty()) {
             minecraft.getSingleplayerServer().execute(() -> {
                 ServerPlayer player = minecraft.getSingleplayerServer().getPlayerList()
                         .getPlayer(minecraft.player.getUUID());
                 int plants = 0;
 
-                for (ItemStack stack : player.getInventory().items) {
+                for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
                     if (stack.getItem() == net.minecraft.world.item.Item
                             .byBlock(net.minecraft.world.level.block.Blocks.OAK_SAPLING)) {
                         plants += stack.getCount();
                     }
                 }
+                if (!(player.containerMenu instanceof BasketContainer menu) || !menu.basket.isEmpty()) {
+                    // The client predicts the slot change before the server handles the click.
+                    return;
+                }
                 if (plants != 5 || player.getOffhandItem().getItem() != Baskets.ITEM) {
                     throw new AssertionError("Offhand withdrawal lost or duplicated items");
                 }
 
-                ((BasketContainer) player.containerMenu).basket
+                if (deathTriggered) {
+                    return;
+                }
+                menu.basket
                         .insert(new ItemStack(net.minecraft.world.level.block.Blocks.OAK_SAPLING, 3));
                 player.getAbilities().instabuild = false;
                 player.setHealth(0);
                 player.die(player.damageSources().fellOutOfWorld());
+
+                // The inventory now spawns its drops directly. Check the actual item entity.
+                var drops = player.level().getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(2),
+                        drop -> drop.getItem().is(Baskets.ITEM) && BopProbeItems.hasCustom(drop.getItem())
+                                && BopProbeItems.custom(drop.getItem()).getStringOr("TestBasket", "").equals(TEST_BASKET));
+                deathDrops = drops.size();
+                for (ItemEntity drop : drops) {
+                    if (new BasketInventory(drop.getItem(), player.registryAccess()).getItem(0).getCount() != 3) {
+                        throw new AssertionError("Death lost basket contents");
+                    }
+                }
+                deathTriggered = true;
             });
+        } else if (stage == 7 && deathTriggered) {
+            stage = 8;
             deathCheckAt = ticks + 20;
         } else if (stage == 8 && ticks >= deathCheckAt && !serverChecked) {
             deathCheckAt = Integer.MAX_VALUE;
             minecraft.getSingleplayerServer().execute(() -> {
                 ServerPlayer player = minecraft.getSingleplayerServer().getPlayerList()
                         .getPlayer(minecraft.player.getUUID());
-                int dropped = 0;
-
-                for (net.minecraft.world.entity.Entity entity : player.serverLevel()
-                        .getEntities(net.minecraft.world.entity.EntityType.ITEM, candidate -> true)) {
-                    if (entity instanceof net.minecraft.world.entity.item.ItemEntity) {
-                        ItemStack stack = ((net.minecraft.world.entity.item.ItemEntity) entity).getItem();
-
-                        if (stack.getItem() == Baskets.ITEM && BopProbeItems.hasCustom(stack)
-                                && BopProbeItems.custom(stack).getString("TestBasket").equals(TEST_BASKET)) {
-                            dropped++;
-
-                            if (new BasketInventory(stack, BopProbeItems.registries()).getItem(0).getCount() != 3) {
-                                throw new AssertionError("Death lost basket contents");
-                            }
-                        }
-                    }
-                }
-                if (dropped != 1 || player.containerMenu instanceof BasketContainer) {
-                    throw new AssertionError("Death did not close and drop exactly one basket: drops=" + dropped
+                // A drop may leave the client's loaded chunks before the next check.
+                if (deathDrops != 1 || player.containerMenu instanceof BasketContainer) {
+                    throw new AssertionError("Death did not close and drop exactly one basket: drops=" + deathDrops
                             + " container=" + player.containerMenu.getClass().getName());
                 }
-
+                LOGGER.info("BOP_BASKET_DEATH_DROP_PASS identity=" + TEST_BASKET);
                 serverChecked = true;
             });
         } else if (stage == 8 && serverChecked) {
@@ -208,7 +232,7 @@ public final class BasketGuiClientChecks {
             serverChecked = false;
             stage = 9;
             minecraft.player.respawn();
-            minecraft.setScreen(null);
+            minecraft.gui.setScreen(null);
         } else if (stage == 9 && minecraft.player.isAlive() && !respawnChecked) {
             respawnChecked = true;
             minecraft.getSingleplayerServer().execute(() -> {

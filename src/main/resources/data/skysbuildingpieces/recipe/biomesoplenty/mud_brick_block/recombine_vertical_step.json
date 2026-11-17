@@ -1,11 +1,12 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/mud_brick_block",
-  "pattern": ["X", "X"],
+  "group": "skys/result/minecraft/mud_brick_slab",
+  "pattern": [
+    "X",
+    "X"
+  ],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:mud_brick_block_vertical_step"
-    }
+    "X": "skysbuildingpiecesbop:mud_brick_block_vertical_step"
   },
   "result": {
     "id": "minecraft:mud_brick_slab",
@@ -14,8 +15,9 @@
   "category": "building",
   "neoforge:conditions": [
     {
-      "type": "neoforge:item_exists",
-      "item": "skysbuildingpiecesbop:mud_brick_block_vertical_step"
+      "type": "neoforge:registered",
+      "registry": "minecraft:item",
+      "value": "skysbuildingpiecesbop:mud_brick_block_vertical_step"
     }
   ]
 }

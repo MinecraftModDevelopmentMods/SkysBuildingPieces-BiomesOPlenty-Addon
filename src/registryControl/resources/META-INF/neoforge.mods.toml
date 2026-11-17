@@ -10,6 +10,6 @@ displayName="BOP Registry Control"
 [[dependencies.bopregistrycontrol]]
 modId="biomesoplenty"
 type="required"
-versionRange="[21.1.0.14,22)"
+versionRange="[26.3.0.0.16,26.4)"
 ordering="AFTER"
 side="SERVER"

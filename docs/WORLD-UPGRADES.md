@@ -1,6 +1,25 @@
 # Existing worlds
 
-## Moving to Minecraft 1.21.1
+## Moving to Minecraft 26.3
+
+BOP's maple leaves and saplings become Minecraft's poplar equivalents. The three
+leaf colours stay distinct. Maple leaf litter becomes vanilla leaf litter, and
+planted pots keep their saplings. Old potted-sapling items become poplar saplings
+because vanilla has no separate potted item.
+
+## Moving to Minecraft 26.2
+
+Brimstone and its shapes carry forward as orpiment. Thermal calcite and its
+vent carry forward as sphalerite and potent sphalerite. Saved slab, stair and
+wall shapes keep their orientation.
+
+## Moving to Minecraft 26.1.2
+
+Use the NeoForge builds of Biomes O' Plenty 26.1.2.0.22, TerraBlender
+26.1.2.0.3 and GlitchCore 26.1.2.0.2. Existing Sky pieces keep their
+IDs and shapes. Test a copy before opening an earlier world.
+
+## Moving to Minecraft 1.21.11
 
 Old maple and autumn foliage and saplings move to the corresponding red,
 orange or yellow maple forms. Pots keep their plants where an equivalent
@@ -8,8 +27,8 @@ exists; potted wildflowers become potted lavender. Existing Clover Patch,
 Lavender Forest and Seasonal Orchard biome names become Grassland, Lavender
 Field and Orchard. Saved blocks and terrain are left in place.
 
-Use the NeoForge builds of Biomes O' Plenty 21.1.0.14, TerraBlender 4.1.0.8
-and GlitchCore 2.1.0.2. Test a backup before opening a world from an earlier
+Use the NeoForge builds of Biomes O' Plenty 21.11.0.32, TerraBlender 21.11.0.0
+and GlitchCore 21.11.0.4. Test a backup before opening a world from an earlier
 loader or game version.
 
 ## Moving to Minecraft 1.20.1

@@ -15,6 +15,44 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import zone.moddev.mc.skysbuildingpieces.probe.NativeProbeItems;
 
 public final class BopProbeItems {
+    static net.minecraft.world.level.block.state.BlockState readSavedBlockState(net.minecraft.nbt.Tag saved) {
+        CompoundTag state;
+        if (saved instanceof net.minecraft.nbt.StringTag name) {
+            state = new CompoundTag();
+            state.putString("id", name.value());
+        } else {
+            state = zone.moddev.mc.skysbuildingpieces.probe.legacy.LegacyTestScope.nativeStateTag((CompoundTag) saved);
+        }
+        return net.minecraft.nbt.NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK, state);
+    }
+
+    static CompoundTag upgradeChunk(net.minecraft.world.level.chunk.storage.SimpleRegionStorage storage,
+            CompoundTag source) {
+        int targetVersion = net.minecraft.SharedConstants.getCurrentVersion().dataVersion().version();
+        return storage.upgradeChunkTag(source.copy(), 0, overworldUpgradeContext(), targetVersion);
+    }
+
+    static CompoundTag overworldUpgradeContext() {
+        CompoundTag context = new CompoundTag();
+        context.putString("dimension", "minecraft:overworld");
+        context.putString("generator", "minecraft:noise");
+        return context;
+    }
+
+    static void loadPlayer(ServerPlayer player) {
+        var data = player.level().getServer().getPlayerList().getPlayerIo()
+                .load(new net.minecraft.server.players.NameAndId(player.getGameProfile()))
+                .orElseThrow(() -> new AssertionError("Saved player data is missing"));
+        player.load(net.minecraft.world.level.storage.TagValueInput.create(
+                net.minecraft.util.ProblemReporter.DISCARDING, player.registryAccess(), data));
+    }
+
+    static net.minecraft.network.chat.Component readSavedText(String json, ServerLevel world) {
+        return net.minecraft.network.chat.ComponentSerialization.CODEC.parse(
+                world.registryAccess().createSerializationContext(com.mojang.serialization.JsonOps.INSTANCE),
+                com.google.gson.JsonParser.parseString(json)).getOrThrow();
+    }
+
     private BopProbeItems() {
     }
 

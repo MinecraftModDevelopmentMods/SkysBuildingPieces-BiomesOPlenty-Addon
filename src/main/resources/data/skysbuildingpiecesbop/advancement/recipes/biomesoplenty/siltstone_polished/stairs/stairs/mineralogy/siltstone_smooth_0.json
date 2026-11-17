@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:siltstone_polished_slab"]
+            "items": [
+              "skysbuildingpiecesbop:siltstone_polished_slab"
+            ]
           }
         ]
       }
@@ -13,27 +15,34 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/stairs/stairs/mineralogy/siltstone_smooth_0"
+        "recipes": "skysbuildingpieces:biomesoplenty/siltstone_polished/stairs/stairs/mineralogy/siltstone_smooth_0"
       }
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/siltstone_polished/stairs/stairs/mineralogy/siltstone_smooth_0"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/siltstone_polished/stairs/stairs/mineralogy/siltstone_smooth_0"
+    ]
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:siltstone_polished_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:siltstone_polished_slab"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:siltstone_polished_stairs"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:siltstone_polished_stairs"
         }
       ]
     }

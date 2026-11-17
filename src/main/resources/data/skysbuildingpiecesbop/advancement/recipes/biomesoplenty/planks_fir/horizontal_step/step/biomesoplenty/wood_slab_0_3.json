@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["biomesoplenty:fir_slab"]
+            "items": [
+              "biomesoplenty:fir_slab"
+            ]
           }
         ]
       }
@@ -13,27 +15,34 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/planks_fir/horizontal_step/step/biomesoplenty/wood_slab_0_3"
+        "recipes": "skysbuildingpieces:biomesoplenty/planks_fir/horizontal_step/step/biomesoplenty/wood_slab_0_3"
       }
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/planks_fir/horizontal_step/step/biomesoplenty/wood_slab_0_3"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/planks_fir/horizontal_step/step/biomesoplenty/wood_slab_0_3"
+    ]
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "biomesoplenty:fir_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:fir_slab"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_fir_horizontal_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_fir_horizontal_step"
         }
       ]
     }

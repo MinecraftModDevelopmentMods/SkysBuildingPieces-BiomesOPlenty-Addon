@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:siltstone_slab"]
+            "items": [
+              "skysbuildingpiecesbop:siltstone_slab"
+            ]
           }
         ]
       }
@@ -13,15 +15,20 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/siltstone/slab_recombination"
+        "recipes": "skysbuildingpieces:biomesoplenty/siltstone/slab_recombination"
       }
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/siltstone/slab_recombination"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/siltstone/slab_recombination"
+    ]
   },
   "neoforge:conditions": [
     {
@@ -31,12 +38,14 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:siltstone"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:siltstone"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:siltstone_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:siltstone_slab"
             }
           ]
         },
@@ -46,17 +55,20 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:siltstone"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:siltstone"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_siltstone"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_siltstone"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:siltstone_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:siltstone_slab"
             }
           ]
         }

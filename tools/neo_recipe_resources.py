@@ -10,6 +10,8 @@ WOODEN_RODS = "c:rods/wooden"
 
 
 def condition(value):
+    if value["type"] in {"forge:item_exists", "neoforge:item_exists"}:
+        return {"type": "neoforge:registered", "registry": "minecraft:item", "value": value["item"]}
     result = dict(value)
     result["type"] = result["type"].replace("forge:", "neoforge:")
     if "value" in result:
@@ -52,9 +54,17 @@ def recipe(value):
 
 
 def advancement(value, extra):
-    if "advancements" not in value:
+    if "forge:children" in value:
+        # Forge's child branches inherit the parent unless they supply an unlock.
+        # Merge their optional ingredients so either installed material can unlock it.
+        parent = {key: row for key, row in value.items()
+                  if key not in {"forge:children", CONDITIONS}}
+        choices = [{**branch.get("child", parent), "forge:condition": branch["forge:condition"]}
+                   for branch in value["forge:children"]]
+        return advancement({"advancements": choices}, extra)
+    choices = value.get("advancements", value.get("forge:conditional"))
+    if choices is None:
         return native_data(value)
-    choices = value["advancements"]
     guards = [condition(choice["forge:condition"]) for choice in choices]
     originals = [{k: v for k, v in choice.items() if k != "forge:condition"} for choice in choices]
     result = copy.deepcopy(originals[0])

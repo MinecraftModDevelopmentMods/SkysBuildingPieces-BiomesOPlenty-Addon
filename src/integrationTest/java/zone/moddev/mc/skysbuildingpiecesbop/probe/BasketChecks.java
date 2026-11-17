@@ -14,7 +14,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.world.InteractionHand;
@@ -42,7 +42,7 @@ public final class BasketChecks {
         ServerPlayer player = BopProbeItems.player(world);
 
         player.getInventory().clearContent();
-        player.getInventory().selected = 0;
+        player.getInventory().setSelectedSlot(0);
 
         try {
             net.minecraft.world.inventory.CraftingContainer crafting = new net.minecraft.world.inventory.TransientCraftingContainer(
@@ -63,13 +63,13 @@ public final class BasketChecks {
             }
 
             net.minecraft.world.item.crafting.CraftingRecipe recipe = world
-                    .getRecipeManager().getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING, crafting.asCraftInput(), world)
+                    .getServer().getRecipeManager().getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING, crafting.asCraftInput(), world)
                     .map(net.minecraft.world.item.crafting.RecipeHolder::value).orElse(null);
 
-            require(recipe != null && recipe.assemble(crafting.asCraftInput(), world.registryAccess()).getItem() == Baskets.ITEM
-                    && recipe.assemble(crafting.asCraftInput(), world.registryAccess()).getCount() == 1, "real six-stick crafting recipe");
+            require(recipe != null && recipe.assemble(crafting.asCraftInput()).getItem() == Baskets.ITEM
+                    && recipe.assemble(crafting.asCraftInput()).getCount() == 1, "real six-stick crafting recipe");
             require(new ItemStack(Baskets.ITEM).getMaxStackSize() == 1, "one basket per stack");
-            if (net.neoforged.fml.loading.FMLEnvironment.dist == net.neoforged.api.distmarker.Dist.CLIENT) {
+            if (net.neoforged.fml.loading.FMLEnvironment.getDist() == net.neoforged.api.distmarker.Dist.CLIENT) {
                 require(hidden(Baskets.HOLDER, world), "hidden recovery item");
             }
             require(BasketInventory.accepts(new ItemStack(Blocks.OAK_SAPLING)), "saplings accepted");
@@ -96,7 +96,7 @@ public final class BasketChecks {
             require(inventory.insert(new ItemStack(Blocks.OAK_SAPLING, 12)).isEmpty(), "merge and spill to next slot");
             require(inventory.getItem(0).getCount() == 64 && inventory.getItem(1).getCount() == 8,
                     "merge before empty slots");
-            require(BopProbeItems.custom(basket).getInt("unrelated") == 19
+            require(BopProbeItems.custom(basket).getIntOr("unrelated", 0) == 19
                     && basket.getHoverName().getString().equals("Test plants"), "custom data retained");
             require(new BasketInventory(basket, BopProbeItems.registries()).getItem(1).getCount() == 8, "storage reload");
 
@@ -142,14 +142,14 @@ public final class BasketChecks {
                         "hand-swap packet is reversed without copying");
 
                 if (index == 0) {
-                    for (ClickType type : ClickType.values()) {
+                    for (ContainerInput type : ContainerInput.values()) {
                         container.clicked(45, 0, type, player);
                         require(player.getInventory().getItem(0) == basket, "owner click locked " + type);
                     }
                 }
 
                 player.getInventory().setItem(9, new ItemStack(Blocks.OAK_SAPLING, 5));
-                container.clicked(18, index, ClickType.SWAP, player);
+                container.clicked(18, index, ContainerInput.SWAP, player);
                 require(player.getInventory().getItem(index) == basket, "swap owner locked");
                 player.getInventory().setItem(index, basket.copy());
                 require(!container.stillValid(player), "copied stack is not the owner");
@@ -197,7 +197,7 @@ public final class BasketChecks {
             ItemEntityPickupEvent.Pre event = new ItemEntityPickupEvent.Pre(player, entity);
 
             Baskets.pickup(event);
-            require(event.canPickup() == net.neoforged.neoforge.common.util.TriState.FALSE && !entity.isAlive(), "complete pickup consumed once");
+            require(event.canPickup() == net.minecraft.util.TriState.FALSE && !entity.isAlive(), "complete pickup consumed once");
             require(new BasketInventory(collected, BopProbeItems.registries()).getItem(0).getCount() == 7, "first basket collects");
             require(!BopProbeItems.hasCustom(player.getInventory().getItem(1)), "later basket unchanged");
 
@@ -232,7 +232,7 @@ public final class BasketChecks {
 
             int loose = 0;
 
-            for (ItemStack stack : player.getInventory().items) {
+            for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
                 if (stack.getItem() == net.minecraft.world.item.Item.byBlock(Blocks.OAK_SAPLING)) {
                     loose += stack.getCount();
                 }
@@ -241,7 +241,7 @@ public final class BasketChecks {
             require(new BasketInventory(collected, BopProbeItems.registries()).getItem(0).getCount() == 64 && loose == 6
                     && !entity.isAlive(), "real partial pickup conserves all nine items");
 
-            for (int entryIndex = 1; entryIndex < player.getInventory().items.size(); entryIndex++) {
+            for (int entryIndex = 1; entryIndex < player.getInventory().getNonEquipmentItems().size(); entryIndex++) {
                 player.getInventory().setItem(entryIndex, new ItemStack(Blocks.STONE, 64));
             }
 
@@ -298,10 +298,10 @@ public final class BasketChecks {
             tag.put("Items", list);
             stack.put("tag", tag);
             fixer.fixTagCompound(stack);
-            require(stack.getString("id").equals(BasketData.ID), "canonical item ID");
-            require(!stack.getCompound("tag").getBoolean("BasketOpen")
-                    && stack.getCompound("tag").getInt("other") == 77, "clear only stale open state");
-            require(stack.getCompound("tag").getList("Items", 10).getCompound(0).equals(child),
+            require(stack.getStringOr("id", "").equals(BasketData.ID), "canonical item ID");
+            require(!stack.getCompoundOrEmpty("tag").getBooleanOr("BasketOpen", false)
+                    && stack.getCompoundOrEmpty("tag").getIntOr("other", 0) == 77, "clear only stale open state");
+            require(stack.getCompoundOrEmpty("tag").getListOrEmpty("Items").getCompoundOrEmpty(0).equals(child),
                     "raw child NBT unchanged");
 
             CompoundTag once = stack.copy();
@@ -320,19 +320,19 @@ public final class BasketChecks {
                 listCarrier.add(historical);
                 root.put(carrier, listCarrier);
                 fixer.fixTagCompound(root);
-                require(root.getList(carrier, 10).getCompound(0).getString("id").equals(BasketData.ID),
+                require(root.getListOrEmpty(carrier).getCompoundOrEmpty(0).getStringOr("id", "").equals(BasketData.ID),
                         "nested carrier " + carrier);
             }
             for (String error : new String[] { "unknown", "duplicate", "badslot", "badcount", "fractional", "wronglist",
                     "badtag", "badcaps" }) {
                 CompoundTag broken = once.copy();
-                CompoundTag entry = broken.getCompound("tag").getList("Items", 10).getCompound(0);
+                CompoundTag entry = broken.getCompoundOrEmpty("tag").getListOrEmpty("Items").getCompoundOrEmpty(0);
 
                 if (error.equals("unknown")) {
                     entry.putString("id", "missing_test:flower");
                 }
                 if (error.equals("duplicate")) {
-                    broken.getCompound("tag").getList("Items", 10).add(entry.copy());
+                    broken.getCompoundOrEmpty("tag").getListOrEmpty("Items").add(entry.copy());
                 }
                 if (error.equals("badslot")) {
                     entry.putByte("Slot", (byte) 18);
@@ -344,7 +344,7 @@ public final class BasketChecks {
                     entry.putFloat("Slot", .5f);
                 }
                 if (error.equals("wronglist")) {
-                    broken.getCompound("tag").putString("Items", "not an inventory");
+                    broken.getCompoundOrEmpty("tag").putString("Items", "not an inventory");
                 }
                 if (error.equals("badtag")) {
                     entry.putString("tag", "not item data");

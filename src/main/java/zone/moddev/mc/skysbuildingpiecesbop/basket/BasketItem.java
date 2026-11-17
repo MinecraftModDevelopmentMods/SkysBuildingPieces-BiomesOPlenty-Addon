@@ -7,36 +7,34 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 
 /** The container binds to the held stack, rather than a global open-basket flag. */
 public final class BasketItem extends Item {
     BasketItem(boolean hidden) {
-        super(new Item.Properties().stacksTo(1));
-
+        super(new Item.Properties().stacksTo(1).setId(ResourceKey.create(Registries.ITEM,
+                Identifier.parse(hidden ? BasketData.HOLDER : BasketData.ID)))
+                .overrideDescription("item.skysbuildingpiecesbop.flower_basket"));
     }
 
     @Override
-    public String getDescriptionId() {
-        return "item.skysbuildingpiecesbop.flower_basket";
-    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack held = player.getItemInHand(hand);
 
-        if (!world.isClientSide) {
-            ((ServerPlayer) player).openMenu( new MenuProvider() {
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.openMenu(new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
                     var data = BasketData.customData(held);
-                    if (!held.has(DataComponents.CUSTOM_NAME) && data.contains("CustomName", 8)) {
-                        return Component.literal(data.getString("CustomName"));
+                    if (!held.has(DataComponents.CUSTOM_NAME) && data.getString("CustomName").isPresent()) {
+                        return Component.literal(data.getStringOr("CustomName", ""));
                     }
 
                     return held.getHoverName();
@@ -49,7 +47,7 @@ public final class BasketItem extends Item {
             }, data -> data.writeEnum(hand));
         }
 
-        return new InteractionResultHolder<>(InteractionResult.SUCCESS, held);
+        return InteractionResult.SUCCESS;
     }
 
     @Override

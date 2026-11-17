@@ -8,12 +8,14 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:siltstone_smooth"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:siltstone_smooth"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:siltstone_polished_wall"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:siltstone_polished_wall"
             }
           ]
         },
@@ -23,17 +25,20 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:siltstone_smooth"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:siltstone_smooth"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_siltstone_smooth"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_siltstone_smooth"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:siltstone_polished_wall"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:siltstone_polished_wall"
             }
           ]
         }
@@ -47,23 +52,27 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:siltstone_smooth"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:siltstone_smooth"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:siltstone_polished_wall"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:siltstone_polished_wall"
             }
           ]
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
-      "pattern": ["XX", "XX", "XX"],
+      "group": "skys/result/skysbuildingpiecesbop/siltstone_polished_wall",
+      "pattern": [
+        "XX",
+        "XX",
+        "XX"
+      ],
       "key": {
-        "X": {
-          "item": "mineralogy:siltstone_smooth"
-        }
+        "X": "mineralogy:siltstone_smooth"
       },
       "result": {
         "id": "skysbuildingpiecesbop:siltstone_polished_wall",
@@ -79,28 +88,33 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:siltstone_smooth"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:siltstone_smooth"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_siltstone_smooth"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_siltstone_smooth"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:siltstone_polished_wall"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:siltstone_polished_wall"
             }
           ]
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
-      "pattern": ["XX", "XX", "XX"],
+      "group": "skys/result/skysbuildingpiecesbop/siltstone_polished_wall",
+      "pattern": [
+        "XX",
+        "XX",
+        "XX"
+      ],
       "key": {
-        "X": {
-          "item": "skysbuildingpiecesbop:retired_siltstone_smooth"
-        }
+        "X": "skysbuildingpiecesbop:retired_siltstone_smooth"
       },
       "result": {
         "id": "skysbuildingpiecesbop:siltstone_polished_wall",

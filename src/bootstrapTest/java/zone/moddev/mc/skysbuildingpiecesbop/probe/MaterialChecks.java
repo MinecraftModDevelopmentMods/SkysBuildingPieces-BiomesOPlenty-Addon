@@ -104,7 +104,7 @@ final class MaterialChecks {
                             world.setBlock(position, wet, 2);
                             require(world.getFluidState(position).getType() == net.minecraft.world.level.material.Fluids.WATER,
                                     "Waterlogged material lost its fluid: " + material.id + " / " + shape);
-                            require(net.minecraft.nbt.NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(),
+                            require(net.minecraft.nbt.NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK,
                                     net.minecraft.nbt.NbtUtils.writeBlockState(wet)).equals(wet),
                                     "Waterlogged orientation did not survive serialization: " + material.id);
                             world.setBlock(position, state, 2);
@@ -118,7 +118,7 @@ final class MaterialChecks {
             long registered = BuiltInRegistries.BLOCK.stream()
                     .filter(block -> net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(block).getNamespace().equals(SkysBuildingPiecesBop.ID)).count();
 
-            require(registered == 74 && registered <= 80, "Complete add-on block budget: " + registered);
+            require(registered == 74 + 180 + 7, "Complete add-on block catalogue: " + registered);
             LOGGER.info("BOP_NATIVE_MATERIALS_PASS states=" + checked + " blocks=" + registered);
         } finally {
             world.setBlock(position, previous, 2);
@@ -137,7 +137,7 @@ final class MaterialChecks {
         float[] hardness = { 5, 1.5f, 1.5f, 1.5f, 1.5f, 1, 1 };
         int checked = 0;
         for (int variant = 0; variant < hardness.length; variant++) {
-            BlockState state = zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks.BLOCK.getStateFromMeta(variant);
+            BlockState state = zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks.state(variant);
             world.setBlock(position, state, 2);
             require(state.getDestroySpeed(world, position) == hardness[variant], "Retired-rock hardness " + variant);
             for (int tool = -1; tool < tools.length; tool++) {

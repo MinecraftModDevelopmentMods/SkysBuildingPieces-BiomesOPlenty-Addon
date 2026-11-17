@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:crag_rock_slab"]
+            "items": [
+              "skysbuildingpiecesbop:crag_rock_slab"
+            ]
           }
         ]
       }
@@ -13,15 +15,20 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/slab_recombination"
+        "recipes": "skysbuildingpieces:biomesoplenty/crag_rock/slab_recombination"
       }
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/crag_rock/slab_recombination"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/crag_rock/slab_recombination"
+    ]
   },
   "neoforge:conditions": [
     {
@@ -31,12 +38,14 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:gabbro"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:gabbro"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:crag_rock_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:crag_rock_slab"
             }
           ]
         },
@@ -46,17 +55,20 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:gabbro"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:gabbro"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:crag_rock_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:crag_rock_slab"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_gabbro"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_gabbro"
             }
           ]
         }

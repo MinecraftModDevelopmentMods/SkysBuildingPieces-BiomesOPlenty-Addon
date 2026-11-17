@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:planks_willow_corner"]
+            "items": [
+              "skysbuildingpiecesbop:planks_willow_corner"
+            ]
           }
         ]
       }
@@ -13,27 +15,34 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/planks_willow/recombine_corner"
+        "recipes": "skysbuildingpieces:biomesoplenty/planks_willow/recombine_corner"
       }
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/planks_willow/recombine_corner"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/planks_willow/recombine_corner"
+    ]
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_willow_corner"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_willow_corner"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:planks_willow_horizontal_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:planks_willow_horizontal_step"
         }
       ]
     }

@@ -8,12 +8,14 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:limestone"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:limestone"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:limestone_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:limestone_slab"
             }
           ]
         },
@@ -23,17 +25,20 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:limestone"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:limestone"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:limestone_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:limestone_slab"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_limestone"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_limestone"
             }
           ]
         }
@@ -47,23 +52,26 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:limestone"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:limestone"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:limestone_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:limestone_slab"
             }
           ]
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
-      "pattern": ["X ", " X"],
+      "group": "skys/result/skysbuildingpiecesbop/limestone_slab",
+      "pattern": [
+        "X ",
+        " X"
+      ],
       "key": {
-        "X": {
-          "item": "mineralogy:limestone"
-        }
+        "X": "mineralogy:limestone"
       },
       "result": {
         "id": "skysbuildingpiecesbop:limestone_slab",
@@ -79,28 +87,32 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:limestone"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:limestone"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:limestone_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:limestone_slab"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_limestone"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_limestone"
             }
           ]
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
-      "pattern": ["X ", " X"],
+      "group": "skys/result/skysbuildingpiecesbop/limestone_slab",
+      "pattern": [
+        "X ",
+        " X"
+      ],
       "key": {
-        "X": {
-          "item": "skysbuildingpiecesbop:retired_limestone"
-        }
+        "X": "skysbuildingpiecesbop:retired_limestone"
       },
       "result": {
         "id": "skysbuildingpiecesbop:limestone_slab",

@@ -4,12 +4,16 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.*;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.bus.api.*;
+
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.bus.api.EventPriority;
 
 import zone.moddev.mc.skysbuildingpiecesbop.basket.*;
 
@@ -20,17 +24,24 @@ public final class BasketClientChecks {
 
     private static boolean checked;
 
-    @SubscribeEvent(
-            priority = EventPriority.HIGHEST)
+    static void register() {
+        NeoForge.EVENT_BUS.addListener(EventPriority.HIGHEST,
+                BasketClientChecks::tick);
+    }
+
     public static void tick(ClientTickEvent.Post event) {
-        if (checked || !System.getProperty("skysbuildingpieces.integrationPhase", "").startsWith("client")) {
+        if (checked
+                || !System.getProperty("skysbuildingpieces.integrationPhase", "").startsWith("client")) {
             return;
         }
 
-        checked = true;
-
         Minecraft minecraft = Minecraft.getInstance();
-        BakedModel previous = null;
+        // The title screen can bake models before the item's components are bound.
+        if (minecraft.gui.overlay() != null || minecraft.level == null || minecraft.player == null) {
+            return;
+        }
+        checked = true;
+        TextureAtlasSprite previous;
 
         for (net.minecraft.world.item.Item basket : new net.minecraft.world.item.Item[] {Baskets.ITEM, Baskets.HOLDER}) {
             previous = null;
@@ -48,12 +59,7 @@ public final class BasketClientChecks {
                     BopProbeItems.setCustom(stack, tag);
                 }
 
-                BakedModel model = minecraft.getItemRenderer().getModel(stack, null, null, 0);
-
-                if (model == minecraft.getItemRenderer().getItemModelShaper().getModelManager().getMissingModel()
-                        || model.getParticleIcon().contents().name().toString().contains("missingno")) {
-                    throw new AssertionError("Missing basket model");
-                }
+                TextureAtlasSprite model = checkModel(minecraft, stack);
                 if (filled && model == previous) {
                     throw new AssertionError("Filled basket override did not change the model: "
                             + net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(basket));
@@ -63,15 +69,21 @@ public final class BasketClientChecks {
             }
         }
         for (net.minecraft.world.item.Item holder : zone.moddev.mc.skysbuildingpiecesbop.LegacyItemRecovery.HOLDERS) {
-            BakedModel model = minecraft.getItemRenderer().getModel(new ItemStack(holder), null,
-                    null, 0);
-
-            if (model == minecraft.getItemRenderer().getItemModelShaper().getModelManager().getMissingModel()
-                    || model.getParticleIcon().contents().name().toString().contains("missingno")) {
-                throw new AssertionError("Missing retired-item holder model");
-            }
+            checkModel(minecraft, new ItemStack(holder));
         }
 
         LOGGER.info("BOP_BASKET_CLIENT_PASS empty=true filled=true atlas=true retired_item_models=3");
+    }
+
+    private static TextureAtlasSprite checkModel(Minecraft minecraft, ItemStack stack) {
+        var state = new ItemStackRenderState();
+        minecraft.getItemModelResolver().updateForTopItem(state, stack, ItemDisplayContext.GUI,
+                minecraft.level, minecraft.player, 0);
+        var material = state.isEmpty() ? null : state.pickParticleMaterial(RandomSource.create(0));
+        TextureAtlasSprite sprite = material == null ? null : material.sprite();
+        if (sprite == null || sprite.contents().name().toString().contains("missingno")) {
+            throw new AssertionError("Missing basket or recovery item model: " + stack);
+        }
+        return sprite;
     }
 }

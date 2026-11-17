@@ -8,12 +8,14 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:shale"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:shale"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:shale_wall"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:shale_wall"
             }
           ]
         },
@@ -23,17 +25,20 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:shale"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:shale"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_shale"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_shale"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:shale_wall"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:shale_wall"
             }
           ]
         }
@@ -47,23 +52,27 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:shale"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:shale"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:shale_wall"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:shale_wall"
             }
           ]
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
-      "pattern": ["XX", "XX", "XX"],
+      "group": "skys/result/skysbuildingpiecesbop/shale_wall",
+      "pattern": [
+        "XX",
+        "XX",
+        "XX"
+      ],
       "key": {
-        "X": {
-          "item": "mineralogy:shale"
-        }
+        "X": "mineralogy:shale"
       },
       "result": {
         "id": "skysbuildingpiecesbop:shale_wall",
@@ -79,28 +88,33 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:shale"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:shale"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_shale"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_shale"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:shale_wall"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:shale_wall"
             }
           ]
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
-      "pattern": ["XX", "XX", "XX"],
+      "group": "skys/result/skysbuildingpiecesbop/shale_wall",
+      "pattern": [
+        "XX",
+        "XX",
+        "XX"
+      ],
       "key": {
-        "X": {
-          "item": "skysbuildingpiecesbop:retired_shale"
-        }
+        "X": "skysbuildingpiecesbop:retired_shale"
       },
       "result": {
         "id": "skysbuildingpiecesbop:shale_wall",

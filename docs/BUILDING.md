@@ -1,7 +1,7 @@
 # Building from source
 
-Use Temurin 21.0.7+6. The wrapper runs Gradle 9.2.1 and NeoGradle 7.1.38
-for Minecraft 1.21.1 and NeoForge 21.1.247.
+Use Temurin 25.0.3+9. The wrapper runs Gradle 9.2.1 and NeoGradle 7.1.39
+for Minecraft 26.3 and NeoForge 26.3.0.99.
 
 Check out the Building Pieces commit in `gradle/core-dependency.properties`
 and run `gradlew assemble` there. Put the core checkout alongside this
@@ -41,3 +41,6 @@ NeoForge conditions for optional materials. Retired rock recipes keep the
 same IDs whether they use a Mineralogy block or the add-on's fallback.
 
 See [the release guide](RELEASING.md) for the artifact checks.
+
+Disposable servers use Java networking (`use-native-transport=false`). This
+avoids host-specific Netty availability probes during log auditing.

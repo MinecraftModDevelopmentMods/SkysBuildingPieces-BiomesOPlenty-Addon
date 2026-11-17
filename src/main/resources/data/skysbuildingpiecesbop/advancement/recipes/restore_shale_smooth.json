@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:retired_shale_smooth"]
+            "items": [
+              "skysbuildingpiecesbop:retired_shale_smooth"
+            ]
           }
         ]
       }
@@ -13,20 +15,26 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpiecesbop:restore_shale_smooth"
+        "recipes": "skysbuildingpiecesbop:restore_shale_smooth"
       }
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpiecesbop:restore_shale_smooth"]
+    "recipes": [
+      "skysbuildingpiecesbop:restore_shale_smooth"
+    ]
   },
   "neoforge:conditions": [
     {
-      "type": "neoforge:item_exists",
-      "item": "mineralogy:shale_smooth"
+      "type": "neoforge:registered",
+      "registry": "minecraft:item",
+      "value": "mineralogy:shale_smooth"
     }
   ]
 }

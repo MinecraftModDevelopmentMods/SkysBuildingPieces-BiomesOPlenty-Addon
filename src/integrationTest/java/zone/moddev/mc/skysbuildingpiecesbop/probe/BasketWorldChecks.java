@@ -66,7 +66,7 @@ public final class BasketWorldChecks {
             }
         }
 
-        LOGGER.info("BOP_BASKET_SYLVESTER_PASS all_carriers_loaded=true schema=" + state.getInt("schema_version")
+        LOGGER.info("BOP_BASKET_SYLVESTER_PASS all_carriers_loaded=true schema=" + state.getIntOr("schema_version", 0)
                 + " reload=" + reload);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.unregister(this);
         server.halt(false);

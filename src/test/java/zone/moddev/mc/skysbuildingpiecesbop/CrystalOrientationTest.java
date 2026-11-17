@@ -15,8 +15,8 @@ class CrystalOrientationTest {
                 CompoundTag before = original.copy();
                 CompoundTag converted = NamedBopRecovery.crystalProperties(original);
                 String expected = face.equals("floor") ? "up" : face.equals("ceiling") ? "down" : facing;
-                assertEquals(expected, converted.getString("facing"));
-                assertEquals("false", converted.getString("waterlogged"));
+                assertEquals(expected, converted.getStringOr("facing", ""));
+                assertEquals("false", converted.getStringOr("waterlogged", ""));
                 assertFalse(converted.contains("face"));
                 assertEquals(before, original);
             }
@@ -25,10 +25,10 @@ class CrystalOrientationTest {
 
     @Test
     void partialItemPropertiesUseTheOriginalDefaultState() {
-        assertEquals("up", NamedBopRecovery.crystalProperties(new CompoundTag()).getString("facing"));
+        assertEquals("up", NamedBopRecovery.crystalProperties(new CompoundTag()).getStringOr("facing", ""));
         CompoundTag wall = new CompoundTag();
         wall.putString("face", "wall");
-        assertEquals("north", NamedBopRecovery.crystalProperties(wall).getString("facing"));
+        assertEquals("north", NamedBopRecovery.crystalProperties(wall).getStringOr("facing", ""));
     }
 
     @Test

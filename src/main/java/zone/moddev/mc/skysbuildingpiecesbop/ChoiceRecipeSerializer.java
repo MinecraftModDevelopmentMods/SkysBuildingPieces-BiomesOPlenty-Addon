@@ -11,21 +11,24 @@ import net.neoforged.neoforge.common.conditions.ConditionalOps;
 import java.util.List;
 
 /** Picks the installed material's ordinary recipe without changing its saved recipe ID. */
-final class ChoiceRecipeSerializer implements RecipeSerializer<Recipe<?>> {
-    private static final MapCodec<Recipe<?>> CODEC = ConditionalOps.decodeListWithElementConditions(Recipe.CODEC)
+final class ChoiceRecipeSerializer {
+    private static final MapCodec<Recipe<?>> CODEC = ConditionalOps.decodeListWithElementConditions(Recipe.DIRECT_CODEC)
             .<Recipe<?>>flatXmap(recipes -> recipes.size() == 1 ? DataResult.success(recipes.getFirst())
                     : DataResult.error(() -> "Expected one active building recipe, found " + recipes.size()),
                     recipe -> DataResult.success(List.of(recipe)))
             .fieldOf("recipes");
 
-    @Override
-    public MapCodec<Recipe<?>> codec() {
-        return CODEC;
+    private ChoiceRecipeSerializer() {}
+
+    static RecipeSerializer<Recipe<?>> create() {
+        // The selected recipe uses its own serializer on the wire.
+        StreamCodec<RegistryFriendlyByteBuf, Recipe<?>> dataOnly = StreamCodec.of(
+                (buffer, recipe) -> { throw dataPackOnly(); },
+                buffer -> { throw dataPackOnly(); });
+        return new RecipeSerializer<>(CODEC, dataOnly);
     }
 
-    @Override
-    public StreamCodec<RegistryFriendlyByteBuf, Recipe<?>> streamCodec() {
-        // The selected recipe is already a native shaped or shapeless recipe. It uses its own codec on the wire.
-        throw new UnsupportedOperationException("Recipe choices are only read from data packs");
+    private static UnsupportedOperationException dataPackOnly() {
+        return new UnsupportedOperationException("Recipe choices are only read from data packs");
     }
 }

@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.2.7.2603002
+
+- Match the updated core fuel values and recipe-book entries.
+- Unlock retired-rock recipes with the available material, including the fallback rocks when Mineralogy is absent.
+- Check saved baskets in modern and oversized chunks, leaving unrelated mod data files alone.
+
+## 0.2.5.2603002
+
+- BOP building pieces and recovered rocks now have individual block IDs. Existing builds and rock variants carry forward.
+
+## 0.2.4.2603002
+
+- Updated the add-on for Minecraft 26.3 on NeoForge.
+- Saved maple leaves, saplings and leaf litter use their closest vanilla equivalents.
+- Upgraded signs keep their filtered text as well as their visible text.
+
+## 0.2.4.2602002
+
+- Updated the add-on for Minecraft 26.2 on NeoForge.
+- Saved brimstone and thermal calcite pieces use their closest current BOP blocks.
+
+## 0.2.4.2601022
+
+- Updated the add-on for Minecraft 26.1.2 on NeoForge.
+- Kept existing building pieces, recipes and Flower Basket contents.
+
+## 0.2.4.121112
+
+- Bring the add-on to Minecraft 1.21.11 on NeoForge.
+- Keep the same building pieces, flower baskets and supported world upgrades.
+
 ## 0.2.4.121012
 
 - Updated the add-on to Minecraft 1.21.1 and NeoForge 21.1.247.

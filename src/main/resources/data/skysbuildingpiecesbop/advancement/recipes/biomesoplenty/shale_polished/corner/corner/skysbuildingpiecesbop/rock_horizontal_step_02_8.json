@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:shale_polished_horizontal_step"]
+            "items": [
+              "skysbuildingpiecesbop:shale_polished_horizontal_step"
+            ]
           }
         ]
       }
@@ -13,27 +15,34 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_02_8"
+        "recipes": "skysbuildingpieces:biomesoplenty/shale_polished/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_02_8"
       }
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/shale_polished/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_02_8"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/shale_polished/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_02_8"
+    ]
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:shale_polished_corner"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:shale_polished_corner"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:shale_polished_horizontal_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:shale_polished_horizontal_step"
         }
       ]
     }

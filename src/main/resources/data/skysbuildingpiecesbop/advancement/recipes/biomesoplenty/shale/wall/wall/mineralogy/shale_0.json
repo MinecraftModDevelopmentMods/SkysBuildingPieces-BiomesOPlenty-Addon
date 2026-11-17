@@ -13,15 +13,20 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/shale/wall/wall/mineralogy/shale_0"
+        "recipes": "skysbuildingpieces:biomesoplenty/shale/wall/wall/mineralogy/shale_0"
       }
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/shale/wall/wall/mineralogy/shale_0"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/shale/wall/wall/mineralogy/shale_0"
+    ]
   },
   "neoforge:conditions": [
     {
@@ -31,12 +36,14 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:shale"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:shale"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:shale_wall"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:shale_wall"
             }
           ]
         },
@@ -46,17 +53,20 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:shale"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:shale"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_shale"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_shale"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:shale_wall"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:shale_wall"
             }
           ]
         }

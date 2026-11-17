@@ -13,7 +13,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/planks_cherry/slab_recombination"
+        "recipes": "skysbuildingpieces:biomesoplenty/planks_cherry/slab_recombination"
       }
     }
   },
@@ -22,20 +22,5 @@
   ],
   "rewards": {
     "recipes": ["skysbuildingpieces:biomesoplenty/planks_cherry/slab_recombination"]
-  },
-  "neoforge:conditions": [
-    {
-      "type": "neoforge:and",
-      "values": [
-        {
-          "type": "neoforge:item_exists",
-          "item": "minecraft:cherry_planks"
-        },
-        {
-          "type": "neoforge:item_exists",
-          "item": "minecraft:cherry_slab"
-        }
-      ]
-    }
-  ]
+  }
 }

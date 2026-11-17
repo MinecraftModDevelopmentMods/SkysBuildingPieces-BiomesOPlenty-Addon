@@ -8,12 +8,14 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:gabbro"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:gabbro"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:crag_rock_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:crag_rock_slab"
             }
           ]
         },
@@ -23,17 +25,20 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:gabbro"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:gabbro"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:crag_rock_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:crag_rock_slab"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_gabbro"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_gabbro"
             }
           ]
         }
@@ -47,23 +52,25 @@
           "type": "neoforge:and",
           "values": [
             {
-              "type": "neoforge:item_exists",
-              "item": "mineralogy:gabbro"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:gabbro"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:crag_rock_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:crag_rock_slab"
             }
           ]
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/crag_rock",
-      "pattern": ["XX"],
+      "group": "skys/result/mineralogy/gabbro",
+      "pattern": [
+        "XX"
+      ],
       "key": {
-        "X": {
-          "item": "skysbuildingpiecesbop:crag_rock_slab"
-        }
+        "X": "skysbuildingpiecesbop:crag_rock_slab"
       },
       "result": {
         "id": "mineralogy:gabbro",
@@ -79,28 +86,31 @@
             {
               "type": "neoforge:not",
               "value": {
-                "type": "neoforge:item_exists",
-                "item": "mineralogy:gabbro"
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:gabbro"
               }
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:crag_rock_slab"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:crag_rock_slab"
             },
             {
-              "type": "neoforge:item_exists",
-              "item": "skysbuildingpiecesbop:retired_gabbro"
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_gabbro"
             }
           ]
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/crag_rock",
-      "pattern": ["XX"],
+      "group": "skys/result/skysbuildingpiecesbop/retired_gabbro",
+      "pattern": [
+        "XX"
+      ],
       "key": {
-        "X": {
-          "item": "skysbuildingpiecesbop:crag_rock_slab"
-        }
+        "X": "skysbuildingpiecesbop:crag_rock_slab"
       },
       "result": {
         "id": "skysbuildingpiecesbop:retired_gabbro",

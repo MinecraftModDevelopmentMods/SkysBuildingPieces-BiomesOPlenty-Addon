@@ -1,11 +1,12 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/siltstone",
-  "pattern": ["X", "X"],
+  "group": "skys/result/skysbuildingpiecesbop/siltstone_horizontal_step",
+  "pattern": [
+    "X",
+    "X"
+  ],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:siltstone_corner"
-    }
+    "X": "skysbuildingpiecesbop:siltstone_corner"
   },
   "result": {
     "id": "skysbuildingpiecesbop:siltstone_horizontal_step",
@@ -17,12 +18,14 @@
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:siltstone_corner"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:siltstone_corner"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:siltstone_horizontal_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:siltstone_horizontal_step"
         }
       ]
     }

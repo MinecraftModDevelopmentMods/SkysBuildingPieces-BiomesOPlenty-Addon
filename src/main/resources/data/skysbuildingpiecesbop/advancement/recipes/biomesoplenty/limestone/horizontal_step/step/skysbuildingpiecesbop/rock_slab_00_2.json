@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:limestone_slab"]
+            "items": [
+              "skysbuildingpiecesbop:limestone_slab"
+            ]
           }
         ]
       }
@@ -13,27 +15,34 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "skysbuildingpieces:biomesoplenty/limestone/horizontal_step/step/skysbuildingpiecesbop/rock_slab_00_2"
+        "recipes": "skysbuildingpieces:biomesoplenty/limestone/horizontal_step/step/skysbuildingpiecesbop/rock_slab_00_2"
       }
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/limestone/horizontal_step/step/skysbuildingpiecesbop/rock_slab_00_2"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/limestone/horizontal_step/step/skysbuildingpiecesbop/rock_slab_00_2"
+    ]
   },
   "neoforge:conditions": [
     {
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:limestone_horizontal_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:limestone_horizontal_step"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:limestone_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:limestone_slab"
         }
       ]
     }

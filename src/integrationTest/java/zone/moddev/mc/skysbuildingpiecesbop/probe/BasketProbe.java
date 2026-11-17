@@ -15,7 +15,7 @@ public final class BasketProbe {
     public BasketProbe() {
         NeoForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::started);
         NeoForge.EVENT_BUS.register(BasketPlayerUpgrade.class);
-        if (FMLEnvironment.dist == Dist.CLIENT) {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
             NeoForge.EVENT_BUS.register(BasketClientChecks.class);
             NeoForge.EVENT_BUS.register(BasketGuiClientChecks.class);
             NeoForge.EVENT_BUS.register(BasketDisconnectClientChecks.class);

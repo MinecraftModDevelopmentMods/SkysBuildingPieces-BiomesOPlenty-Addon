@@ -1,11 +1,12 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/limestone_polished",
-  "pattern": ["X", "X"],
+  "group": "skys/result/skysbuildingpiecesbop/limestone_polished_slab",
+  "pattern": [
+    "X",
+    "X"
+  ],
   "key": {
-    "X": {
-      "item": "skysbuildingpiecesbop:limestone_polished_horizontal_step"
-    }
+    "X": "skysbuildingpiecesbop:limestone_polished_horizontal_step"
   },
   "result": {
     "id": "skysbuildingpiecesbop:limestone_polished_slab",
@@ -17,12 +18,14 @@
       "type": "neoforge:and",
       "values": [
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:limestone_polished_horizontal_step"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:limestone_polished_horizontal_step"
         },
         {
-          "type": "neoforge:item_exists",
-          "item": "skysbuildingpiecesbop:limestone_polished_slab"
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:limestone_polished_slab"
         }
       ]
     }
