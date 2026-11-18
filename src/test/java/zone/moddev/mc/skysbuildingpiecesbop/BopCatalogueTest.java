@@ -74,9 +74,12 @@ class BopCatalogueTest {
         }
         for (String name : new String[] { "materials", "palettes" }) {
             StringBuilder hash = new StringBuilder();
+            // Archives use UTF-8 with LF endings on every build machine.
+            byte[] catalogueBytes = Files.readString(ROOT.resolve("catalogue/" + name + ".json"),
+                    StandardCharsets.UTF_8).replace("\r\n", "\n").getBytes(StandardCharsets.UTF_8);
 
             for (byte b : MessageDigest.getInstance("SHA-256")
-                    .digest(Files.readAllBytes(ROOT.resolve("catalogue/" + name + ".json")))) {
+                    .digest(catalogueBytes)) {
                 hash.append(String.format("%02X", b));
             }
 
