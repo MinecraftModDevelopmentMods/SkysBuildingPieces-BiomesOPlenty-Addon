@@ -1,6 +1,6 @@
-# Sky's Building Pieces â€” Biomes O' Plenty
+# Sky's Building Pieces - Biomes O' Plenty
 
-<img src="artwork/skysbuildingpieces-bop-logo.png" alt="Sky's Building Pieces â€“ Biomes O' Plenty logo" width="256">
+<img src="artwork/skysbuildingpieces-bop-logo.png" alt="Sky's Building Pieces - Biomes O' Plenty logo" width="256">
 
 Bring Biomes O' Plenty materials into your builds with the same range of pieces
 as Sky's Building Pieces. This add-on supplies missing slabs, steps, corners,
