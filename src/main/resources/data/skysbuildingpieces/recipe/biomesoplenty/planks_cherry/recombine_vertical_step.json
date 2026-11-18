@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skys/result/minecraft/cherry_slab",
+  "pattern": ["X", "X"],
+  "key": {
+    "X": "skysbuildingpiecesbop:planks_cherry_vertical_step"
+  },
+  "result": {
+    "id": "minecraft:cherry_slab",
+    "count": 1
+  },
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:item_exists",
+    "item": "skysbuildingpiecesbop:planks_cherry_vertical_step"
+  }
+}

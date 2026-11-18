@@ -1,0 +1,15 @@
+{
+  "source_world_sha256": "69579CBED801CE9FE09559C7D21895EB31639F42ABA511EC3A3AF87EEF72E6DC",
+  "inspected_nbt_records": 931,
+  "inspected_nbt_values": 320768,
+  "saved_uses": {
+    "minecraft:nitwit": 0,
+    "minecraft:unemployed": 0
+  },
+  "snapshot_entries": {
+    "minecraft:point_of_interest_type": {
+      "minecraft:nitwit": 11,
+      "minecraft:unemployed": 0
+    }
+  }
+}

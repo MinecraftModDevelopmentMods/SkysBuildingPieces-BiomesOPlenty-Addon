@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "skysbuildingpiecesbop:retired_rocks",
+    "skysbuildingpiecesbop:retired_gabbro",
+    "skysbuildingpiecesbop:retired_limestone",
+    "skysbuildingpiecesbop:retired_limestone_smooth",
+    "skysbuildingpiecesbop:retired_shale",
+    "skysbuildingpiecesbop:retired_shale_smooth",
+    "skysbuildingpiecesbop:retired_siltstone",
+    "skysbuildingpiecesbop:retired_siltstone_smooth"
+  ]
+}
