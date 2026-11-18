@@ -17,9 +17,7 @@ OFFLINE_TRACES = {
     "Failed to fetch user properties": (
         r"(?:net\.minecraft\.client\.Minecraft/|minecraft/Minecraft)",
         {"46420CF918D068D5DA9A7D668BC9F81277183E11922AED6D1E0AD3B37424E7DB",
-         "64B6AD5D1469F8C7D33DA73A4F0AF1B2DDE1C14BEAF85BE224E8CAB2B895BE3C",
-         # GlitchCore adds its Minecraft mixin label to this same console trace.
-         "2BB3739028E3962F03345AC023191F23A8C716B2D17FEC04A72E4A9C4B0EE190"}),
+         "64B6AD5D1469F8C7D33DA73A4F0AF1B2DDE1C14BEAF85BE224E8CAB2B895BE3C"}),
     "Failed to fetch Realms feature flags": (
         r"(?:com\.mojang\.realmsclient\.client\.RealmsClient/|mojang/RealmsClient)",
         {"BDD75617F92748C2F3325FD97CCDB8034E32ACF210FA6B5E2F00BF81B760B5D1"}),

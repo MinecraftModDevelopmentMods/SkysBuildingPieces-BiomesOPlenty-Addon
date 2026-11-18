@@ -1,7 +1,9 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
-  "pattern": ["X"],
+  "group": "skys/result/skysbuildingpiecesbop/planks_willow_horizontal_step",
+  "pattern": [
+    "X"
+  ],
   "key": {
     "X": "skysbuildingpiecesbop:planks_willow_vertical_step"
   },

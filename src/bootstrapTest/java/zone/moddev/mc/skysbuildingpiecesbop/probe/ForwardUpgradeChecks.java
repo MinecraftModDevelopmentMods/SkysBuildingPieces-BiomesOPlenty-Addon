@@ -254,8 +254,7 @@ final class ForwardUpgradeChecks {
                 baskets++;
             } else if (row.has("native_item")) {
                 require(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(actual.getItem()).toString()
-                        .equals(currentLegacyItemTarget(original, row.get("target_item").getAsString(),
-                                manifest.has("source_saved_states"))),
+                        .equals(currentItemTarget(row.get("target_item").getAsString())),
                         "Saved native BOP item changed: " + row + ", actual " + actual);
                 require(original.getCompoundOrEmpty("tag").equals(BopProbeItems.custom(actual)), "Saved native item custom data changed");
             } else {
@@ -535,17 +534,6 @@ final class ForwardUpgradeChecks {
             return net.minecraft.util.datafix.fixes.CavesAndCliffsRenames.RENAMES.getOrDefault(target, target);
         }
         return target;
-    }
-
-    private static String currentLegacyItemTarget(CompoundTag original, String savedTarget, boolean namedSource) {
-        // The earlier fixture named the numeric root like the later two-block mangrove root.
-        // The numeric variant stays a single plant; the later named block keeps its own upgrade.
-        if (!namedSource && savedTarget.equals("biomesoplenty:mangrove_root")
-                && original.getStringOr("id", "").equals("biomesoplenty:plant_1")
-                && original.getShortOr("Damage", (short) 0) == 9) {
-            return "biomesoplenty:dead_grass";
-        }
-        return currentItemTarget(savedTarget);
     }
 
     private static String currentItemTarget(String id) {

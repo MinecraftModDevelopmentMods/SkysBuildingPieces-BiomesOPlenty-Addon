@@ -1,7 +1,9 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
-  "pattern": ["X"],
+  "group": "skys/result/skysbuildingpiecesbop/limestone_slab",
+  "pattern": [
+    "X"
+  ],
   "key": {
     "X": "skysbuildingpiecesbop:limestone_vertical_slab"
   },

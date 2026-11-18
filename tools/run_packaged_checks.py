@@ -158,6 +158,12 @@ def client_command(options, directory):
     arguments = ["-Xmx3g", "-Djava.net.preferIPv4Stack=true",
                  "-Djava.library.path=" + str(natives),
                  probe_property(options)]
+    # The loader profile inherits these Java 25 options from Mojang's profile.
+    inherited_options = ["--sun-misc-unsafe-memory-access=allow",
+                         "--enable-native-access=ALL-UNNAMED"]
+    if not all(option in base["arguments"]["jvm"] for option in inherited_options):
+        raise ValueError("The Minecraft Java 25 startup flags changed")
+    arguments.extend(inherited_options)
     for argument in forge["arguments"]["jvm"]:
         for key, value in substitutions.items():
             argument = argument.replace("${" + key + "}", value)
@@ -166,6 +172,8 @@ def client_command(options, directory):
         arguments.append(argument)
     arguments.extend(("-cp", os.pathsep.join(str(path) for path in classpath), forge["mainClass"]))
     arguments.extend(forge["arguments"]["game"])
+    # Use Minecraft's offline mode for the disposable local client.
+    arguments.append("--offlineDeveloperMode")
     arguments.extend(("--username", "PiecesChecks", "--version", forge["id"],
                       "--gameDir", str(directory), "--assetsDir", str(assets),
                       "--assetIndex", base["assetIndex"]["id"], "--uuid", "1" * 32,
@@ -217,7 +225,7 @@ def prepare(options, directory):
         (directory / name).write_text("[]\n", encoding="utf-8")
     (directory / "server.properties").write_text(
         "level-name=world\nlevel-seed=4815162342\nonline-mode=false\nserver-ip=127.0.0.1\n"
-        "server-port=0\ngenerate-structures=false\nspawn-animals=false\nspawn-monsters=false\n"
+        "server-port=0\nuse-native-transport=false\ngenerate-structures=false\nspawn-animals=false\nspawn-monsters=false\n"
         "max-tick-time=120000\n", encoding="utf-8")
     (directory / "options.txt").write_text("lang:en_us\nfullscreen:false\nrenderDistance:2\npauseOnLostFocus:false\n", encoding="utf-8")
     shutil.copytree("src/bootstrapTest/defaultconfigs", directory, dirs_exist_ok=True)
@@ -323,8 +331,12 @@ def audit(directory, phase, mode, biomes_only=False, packaged_offline=False, no_
     audit_server(directory, phase)
     required = ("Done (", "BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS")
     if (directory / 'forward-fixture.json').is_file():
-        required += ('BOP_NATIVE_BIOMES_PASS biomes=73 loaded_chunks=true',) if biomes_only else (
-            'BUILDING_PIECES_BOP_FORWARD_UPGRADE_PASS',)
+        manifest = json.loads((directory / 'forward-fixture.json').read_text(encoding='utf-8'))
+        if manifest.get('kind') == 'retired_bop':
+            required += ('BOP_RETIREMENT_FORWARD_PASS phase=' + phase,)
+        else:
+            required += ('BOP_NATIVE_BIOMES_PASS biomes=73 loaded_chunks=true',) if biomes_only else (
+                'BUILDING_PIECES_BOP_FORWARD_UPGRADE_PASS',)
     missing = [marker for marker in required if marker not in log]
     if missing:
         raise ValueError("Packaged runtime completion checks are missing: " + repr(missing))

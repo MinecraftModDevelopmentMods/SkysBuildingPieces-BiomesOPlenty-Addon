@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:planks_redwood_horizontal_step"]
+            "items": [
+              "skysbuildingpiecesbop:planks_redwood_horizontal_step"
+            ]
           }
         ]
       }
@@ -18,10 +20,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/planks_redwood/recombine_horizontal_step"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/planks_redwood/recombine_horizontal_step"
+    ]
   },
   "neoforge:conditions": [
     {

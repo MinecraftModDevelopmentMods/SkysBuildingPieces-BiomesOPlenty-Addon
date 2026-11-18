@@ -95,12 +95,6 @@ public final class NativeBootstrap {
 
         try {
             RegistrySnapshot.write();
-            if (RetiredContentForwardChecks.active()) {
-                RetiredContentForwardChecks.verify(server.overworld());
-                LOGGER.info("BUILDING_PIECES_BOP_FORWARD_UPGRADE_PASS retired_bop=true");
-                LOGGER.info("BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS materials=33 palettes=66");
-                return;
-            }
             if (Boolean.getBoolean("skysbuildingpieces.bopBiomeFixerOnly")) {
                 NamedRecoveryChecks.nativeBiomeDatafix(server);
                 return;
@@ -134,19 +128,23 @@ public final class NativeBootstrap {
             java.io.File manifest = new java.io.File("forward-fixture.json");
 
             if (manifest.isFile()) {
-                if (!NativeNamedForwardChecks.applies(manifest)) {
-                    NativeSavedBiomeChecks.prepare(server.getLevel(net.minecraft.world.level.Level.OVERWORLD),
-                            new java.util.LinkedHashSet<>());
-                    NativeSavedBiomeChecks.verify(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
-                }
-                if (NativeNamedForwardChecks.applies(manifest)) {
-                    NativeNamedForwardChecks.run(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
-                } else if (Boolean.getBoolean("skysbuildingpieces.bopBiomeOnly")) {
-                    ForwardUpgradeChecks.biomesOnly(server, manifest);
+                if (RetiredContentForwardChecks.active()) {
+                    RetiredContentForwardChecks.verify(server.overworld());
                 } else {
-                    ForwardUpgradeChecks.run(server, manifest);
+                    if (!NativeNamedForwardChecks.applies(manifest)) {
+                        NativeSavedBiomeChecks.prepare(server.getLevel(net.minecraft.world.level.Level.OVERWORLD),
+                                new java.util.LinkedHashSet<>());
+                        NativeSavedBiomeChecks.verify(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
+                    }
+                    if (NativeNamedForwardChecks.applies(manifest)) {
+                        NativeNamedForwardChecks.run(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
+                    } else if (Boolean.getBoolean("skysbuildingpieces.bopBiomeOnly")) {
+                        ForwardUpgradeChecks.biomesOnly(server, manifest);
+                    } else {
+                        ForwardUpgradeChecks.run(server, manifest);
+                    }
+                    NativeNamedForwardChecks.checkNativeBlockRename(server.getLevel(Level.OVERWORLD));
                 }
-                NativeNamedForwardChecks.checkNativeBlockRename(server.getLevel(Level.OVERWORLD));
             } else {
                 if (Boolean.getBoolean("skysbuildingpieces.bopInstalledPolicy")) {
                     zone.moddev.mc.skysbuildingpieces.probe.BopCompatibilityChecks

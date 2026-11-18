@@ -65,8 +65,11 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
-      "pattern": ["X ", " X"],
+      "group": "skys/result/skysbuildingpiecesbop/siltstone_polished_slab",
+      "pattern": [
+        "X ",
+        " X"
+      ],
       "key": {
         "X": "mineralogy:siltstone_smooth"
       },
@@ -103,8 +106,11 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
-      "pattern": ["X ", " X"],
+      "group": "skys/result/skysbuildingpiecesbop/siltstone_polished_slab",
+      "pattern": [
+        "X ",
+        " X"
+      ],
       "key": {
         "X": "skysbuildingpiecesbop:retired_siltstone_smooth"
       },

@@ -435,7 +435,7 @@ final class NativeNamedForwardChecks {
     }
 
     private static boolean isScheduledSandSample(String source, BlockPos position) {
-        // This fixture has a saved gravity tick for a single unsupported sand block.
+        // This fixture has a saved gravity tick for one suspended sand block.
         return source.equals("biomesoplenty:overgrown_black_sand")
                 && position.equals(new BlockPos(3396, 205, 3400))
                 && fixture.has("archive_sha256")

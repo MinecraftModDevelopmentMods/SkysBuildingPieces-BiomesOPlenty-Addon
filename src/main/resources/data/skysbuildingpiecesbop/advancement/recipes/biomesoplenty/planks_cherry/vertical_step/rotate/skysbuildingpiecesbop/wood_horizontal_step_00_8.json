@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:planks_cherry_horizontal_step"]
+            "items": [
+              "skysbuildingpiecesbop:planks_cherry_horizontal_step"
+            ]
           }
         ]
       }
@@ -18,10 +20,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/planks_cherry/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_00_8"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/planks_cherry/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_00_8"
+    ]
   },
   "neoforge:conditions": [
     {

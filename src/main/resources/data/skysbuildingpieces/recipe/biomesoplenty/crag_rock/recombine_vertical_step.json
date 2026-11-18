@@ -1,7 +1,10 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/crag_rock",
-  "pattern": ["X", "X"],
+  "group": "skys/result/skysbuildingpiecesbop/crag_rock_slab",
+  "pattern": [
+    "X",
+    "X"
+  ],
   "key": {
     "X": "skysbuildingpiecesbop:crag_rock_vertical_step"
   },

@@ -41,3 +41,6 @@ NeoForge conditions for optional materials. Retired rock recipes keep the
 same IDs whether they use a Mineralogy block or the add-on's fallback.
 
 See [the release guide](RELEASING.md) for the artifact checks.
+
+Disposable servers use Java networking (`use-native-transport=false`). This
+avoids host-specific Netty availability probes during log auditing.

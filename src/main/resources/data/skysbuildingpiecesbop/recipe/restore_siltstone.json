@@ -1,10 +1,13 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "building",
-  "ingredients": ["skysbuildingpiecesbop:retired_siltstone"],
+  "ingredients": [
+    "skysbuildingpiecesbop:retired_siltstone"
+  ],
   "result": {
     "id": "mineralogy:siltstone"
   },
+  "group": "skys/result/mineralogy/siltstone",
   "neoforge:conditions": [
     {
       "type": "neoforge:registered",

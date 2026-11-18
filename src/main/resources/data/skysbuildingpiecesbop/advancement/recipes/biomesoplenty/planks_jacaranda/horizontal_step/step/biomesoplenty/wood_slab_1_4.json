@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["biomesoplenty:jacaranda_slab"]
+            "items": [
+              "biomesoplenty:jacaranda_slab"
+            ]
           }
         ]
       }
@@ -18,10 +20,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/planks_jacaranda/horizontal_step/step/biomesoplenty/wood_slab_1_4"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/planks_jacaranda/horizontal_step/step/biomesoplenty/wood_slab_1_4"
+    ]
   },
   "neoforge:conditions": [
     {

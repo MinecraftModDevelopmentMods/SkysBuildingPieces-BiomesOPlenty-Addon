@@ -18,13 +18,18 @@ final class ChoiceRecipeSerializer {
                     recipe -> DataResult.success(List.of(recipe)))
             .fieldOf("recipes");
 
-    private ChoiceRecipeSerializer() {}
+    private ChoiceRecipeSerializer() {
+    }
 
     static RecipeSerializer<Recipe<?>> create() {
         // The selected recipe uses its own serializer on the wire.
         StreamCodec<RegistryFriendlyByteBuf, Recipe<?>> dataOnly = StreamCodec.of(
-                (buffer, recipe) -> { throw dataPackOnly(); },
-                buffer -> { throw dataPackOnly(); });
+                (buffer, recipe) -> {
+                    throw dataPackOnly();
+                },
+                buffer -> {
+                    throw dataPackOnly();
+                });
         return new RecipeSerializer<>(CODEC, dataOnly);
     }
 

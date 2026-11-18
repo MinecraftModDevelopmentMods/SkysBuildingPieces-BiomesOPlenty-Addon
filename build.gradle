@@ -749,4 +749,19 @@ tasks.register('verifyNativeRecipeConflicts', Exec) {
             'tools/test_recipe_conflicts.py'
     environment 'BUILDING_PIECES_CORE_RESOURCES', new File(coreDirectory, 'src/main/resources').path
 }
-tasks.named('check') { dependsOn tasks.named('verifyNativeRecipeConflicts') }
+tasks.register('verifyNativeRecipeConditions', Exec) {
+    group = 'verification'
+    description = 'Checks optional rock unlocks and native NeoForge conditions.'
+    commandLine providers.gradleProperty('pythonExecutable').getOrElse('python'),
+            '-m', 'unittest', 'discover', '-s', 'tools', '-p', 'test_neo_recipe_resources.py'
+}
+tasks.named('check') {
+    dependsOn tasks.named('verifyNativeRecipeConflicts'), tasks.named('verifyNativeRecipeConditions')
+}
+
+// Check the declared ranges against the exact companion jars used for qualification.
+tasks.withType(Test).configureEach {
+    systemProperty 'test.companion.biomesoplenty', bopJar.absolutePath
+    systemProperty 'test.companion.terrablender', terraBlenderJar.absolutePath
+    systemProperty 'test.companion.glitchcore', glitchCoreJar.absolutePath
+}

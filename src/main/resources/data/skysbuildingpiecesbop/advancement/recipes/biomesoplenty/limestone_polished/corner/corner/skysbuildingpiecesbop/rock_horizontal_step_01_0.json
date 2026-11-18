@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:limestone_polished_horizontal_step"]
+            "items": [
+              "skysbuildingpiecesbop:limestone_polished_horizontal_step"
+            ]
           }
         ]
       }
@@ -18,10 +20,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/limestone_polished/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_01_0"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/limestone_polished/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_01_0"
+    ]
   },
   "neoforge:conditions": [
     {

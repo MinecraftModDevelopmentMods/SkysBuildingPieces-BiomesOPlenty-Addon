@@ -65,8 +65,11 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
-      "pattern": ["X ", " X"],
+      "group": "skys/result/skysbuildingpiecesbop/shale_slab",
+      "pattern": [
+        "X ",
+        " X"
+      ],
       "key": {
         "X": "mineralogy:shale"
       },
@@ -103,8 +106,11 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/mineralogy",
-      "pattern": ["X ", " X"],
+      "group": "skys/result/skysbuildingpiecesbop/shale_slab",
+      "pattern": [
+        "X ",
+        " X"
+      ],
       "key": {
         "X": "skysbuildingpiecesbop:retired_shale"
       },

@@ -65,8 +65,10 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/limestone",
-      "pattern": ["XX"],
+      "group": "skys/result/mineralogy/limestone",
+      "pattern": [
+        "XX"
+      ],
       "key": {
         "X": "skysbuildingpiecesbop:limestone_slab"
       },
@@ -103,8 +105,10 @@
         }
       ],
       "type": "minecraft:crafting_shaped",
-      "group": "skysbuildingpieces/limestone",
-      "pattern": ["XX"],
+      "group": "skys/result/skysbuildingpiecesbop/retired_limestone",
+      "pattern": [
+        "XX"
+      ],
       "key": {
         "X": "skysbuildingpiecesbop:limestone_slab"
       },

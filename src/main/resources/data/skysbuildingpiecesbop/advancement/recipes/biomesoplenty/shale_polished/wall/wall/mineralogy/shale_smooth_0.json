@@ -18,10 +18,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/shale_polished/wall/wall/mineralogy/shale_smooth_0"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/shale_polished/wall/wall/mineralogy/shale_smooth_0"
+    ]
   },
   "neoforge:conditions": [
     {

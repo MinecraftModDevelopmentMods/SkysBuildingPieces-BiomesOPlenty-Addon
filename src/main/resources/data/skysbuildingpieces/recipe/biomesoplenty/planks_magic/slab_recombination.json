@@ -1,7 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/planks_magic",
-  "pattern": ["XX"],
+  "group": "skys/result/biomesoplenty/magic_planks",
+  "pattern": [
+    "XX"
+  ],
   "key": {
     "X": "biomesoplenty:magic_slab"
   },

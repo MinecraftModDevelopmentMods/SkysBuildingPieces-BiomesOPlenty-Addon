@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.7.2602002
+
+- Keep the intended one-block replacement for root items from old BOP inventories.
+
+- Match the updated core fuel values and recipe-book entries.
+- Unlock retired-rock recipes with the available material, including the fallback rocks when Mineralogy is absent.
+- Check saved baskets in modern and oversized chunks, leaving unrelated mod data files alone.
+
 ## 0.2.5.2602002
 
 - BOP building pieces and recovered rocks now have individual block IDs. Existing builds and rock variants carry forward.
