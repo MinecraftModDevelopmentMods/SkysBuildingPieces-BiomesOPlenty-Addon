@@ -40,7 +40,7 @@ Use the versions for **Minecraft 26.2**, with **NeoForge 26.2.0.45-beta** and
 **Java 25**. You'll need:
 
 - **Sky's Building Pieces 0.3.10.2602002** and this add-on.
-- **Biomes O' Plenty 26.2.0.0.16**, **TerraBlender 26.2.0.0.9** and **GlitchCore 26.2.0.0.5**.
+- **Biomes O' Plenty 26.2.0.0.28**, **TerraBlender 26.2.0.0.2** and **GlitchCore 26.2.0.0.0**.
 
 Put those jars in `mods` on both the client and server.
 Downloads are on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/skysbuildingpiecesbop).
