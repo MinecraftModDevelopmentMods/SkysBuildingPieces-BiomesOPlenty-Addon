@@ -18,9 +18,14 @@
     }
   },
   "requirements": [
-    ["has_sticks", "has_the_recipe"]
+    [
+      "has_sticks",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpiecesbop:flower_basket"]
+    "recipes": [
+      "skysbuildingpiecesbop:flower_basket"
+    ]
   }
 }

@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:crag_rock_corner"]
+            "items": [
+              "skysbuildingpiecesbop:crag_rock_corner"
+            ]
           }
         ]
       }
@@ -18,10 +20,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/crag_rock/recombine_corner"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/crag_rock/recombine_corner"
+    ]
   },
   "neoforge:conditions": [
     {

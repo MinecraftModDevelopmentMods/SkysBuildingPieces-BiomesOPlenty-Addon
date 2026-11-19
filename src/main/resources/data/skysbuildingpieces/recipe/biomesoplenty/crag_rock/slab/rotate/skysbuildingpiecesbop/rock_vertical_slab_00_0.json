@@ -1,7 +1,9 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
-  "pattern": ["X"],
+  "group": "skys/result/skysbuildingpiecesbop/crag_rock_slab",
+  "pattern": [
+    "X"
+  ],
   "key": {
     "X": "skysbuildingpiecesbop:crag_rock_vertical_slab"
   },

@@ -54,6 +54,14 @@ def recipe(value):
 
 
 def advancement(value, extra):
+    if "forge:children" in value:
+        # Forge's child branches inherit the parent unless they supply an unlock.
+        # Merge their optional ingredients so either installed material can unlock it.
+        parent = {key: row for key, row in value.items()
+                  if key not in {"forge:children", CONDITIONS}}
+        choices = [{**branch.get("child", parent), "forge:condition": branch["forge:condition"]}
+                   for branch in value["forge:children"]]
+        return advancement({"advancements": choices}, extra)
     choices = value.get("advancements", value.get("forge:conditional"))
     if choices is None:
         return native_data(value)

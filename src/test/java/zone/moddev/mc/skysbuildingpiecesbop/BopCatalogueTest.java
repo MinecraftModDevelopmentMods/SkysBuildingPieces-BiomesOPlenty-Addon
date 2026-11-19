@@ -74,9 +74,12 @@ class BopCatalogueTest {
         }
         for (String name : new String[] { "materials", "palettes" }) {
             StringBuilder hash = new StringBuilder();
+            // Archives use UTF-8 with LF endings on every build machine.
+            byte[] catalogueBytes = Files.readString(ROOT.resolve("catalogue/" + name + ".json"),
+                    StandardCharsets.UTF_8).replace("\r\n", "\n").getBytes(StandardCharsets.UTF_8);
 
             for (byte b : MessageDigest.getInstance("SHA-256")
-                    .digest(Files.readAllBytes(ROOT.resolve("catalogue/" + name + ".json")))) {
+                    .digest(catalogueBytes)) {
                 hash.append(String.format("%02X", b));
             }
 
@@ -98,6 +101,8 @@ class BopCatalogueTest {
         assertEquals(0, catalogueModule.materials.get("biomesoplenty:planks_hellbark").fireSpread());
         assertEquals(0, catalogueModule.materials.get("biomesoplenty:bamboo_thatching").flammability());
         assertEquals(20, catalogueModule.materials.get("biomesoplenty:planks_redwood").flammability());
+        assertFalse(catalogueModule.materials.get("biomesoplenty:planks_hellbark").cookingFuel());
+        assertTrue(catalogueModule.materials.get("biomesoplenty:planks_fir").cookingFuel());
         assertEquals(6, catalogueModule.materials.get("biomesoplenty:limestone").explosionResistance());
         assertEquals(6, catalogueModule.materials.get("biomesoplenty:limestone_polished").explosionResistance());
     }

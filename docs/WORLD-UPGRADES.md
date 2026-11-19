@@ -2,21 +2,31 @@
 
 ## Moving to Minecraft 26.1.2
 
-Use the NeoForge builds of Biomes O' Plenty 26.1.2.0.22, TerraBlender
-26.1.2.0.3 and GlitchCore 26.1.2.0.2. Existing Sky pieces keep their
-IDs and shapes. Test a copy before opening an earlier world.
+Back up the entire world before upgrading. Update the core mod and this add-on
+together. Use Biomes O' Plenty 26.1.2.0.22, TerraBlender 26.1.2.0.3 and
+GlitchCore 26.1.2.0.2. Keep the older save and its data folders until you've
+checked your builds, inventories and Flower Baskets in the upgraded copy.
 
 ## Moving to Minecraft 1.21.11
 
-Old maple and autumn foliage and saplings move to the corresponding red,
-orange or yellow maple forms. Pots keep their plants where an equivalent
-exists; potted wildflowers become potted lavender. Existing Clover Patch,
-Lavender Forest and Seasonal Orchard biome names become Grassland, Lavender
-Field and Orchard. Saved blocks and terrain are left in place.
+Use Biomes O' Plenty 21.11.0.32, TerraBlender 21.11.0.0 and GlitchCore 21.11.0.4.
+Keep a backup of the whole world before opening it. Saved origin oak and rose
+plants use the new BOP names. Maple leaf piles become full patches of matching
+leaf litter, and rainbow birches use vanilla birch. Old Wildflowers use BOP's
+purple Wildflowers. BOP boats keep their wood type and any chest contents.
 
-Use the NeoForge builds of Biomes O' Plenty 21.11.0.32, TerraBlender 21.11.0.0
-and GlitchCore 21.11.0.4. Test a backup before opening a world from an earlier
-loader or game version.
+Saved Aspen Glade, Grassland and Jacaranda Glade biome entries now use Forested
+Field, Field and Lavender Field. Existing terrain and builds stay in place.
+New chunks generate with the installed BOP version.
+
+## Moving to Minecraft 1.21.1
+
+Use Biomes O' Plenty 21.1.0.14, TerraBlender 4.1.0.8 and GlitchCore 2.1.0.2.
+The BOP blocks, items and biomes from the supported 1.20.6 build have the
+same IDs in this version.
+Keep a backup of the whole world, including its data folder. Flower Baskets
+can read their older inventory format and use Minecraft's new item data when
+you change what is inside. Existing pieces keep their material and shape.
 
 ## Moving to Minecraft 1.20.1
 
@@ -24,15 +34,15 @@ Old BOP cherry wood uses Minecraft's cherry blocks. Sky's cherry pieces keep
 their saved IDs and shapes and use the vanilla cherry texture. Standing and
 wall signs keep their orientation, text, dye and glow.
 
-White cherry plants become Snowblossom. The original autumn leaves, saplings
-and Lavender Forest are still available in BOP 18. Overgrown black sand becomes
-mossy black sand, and rose quartz shards become rose quartz chunks. Old single
-mangrove roots become dead grass, including roots stored in baskets. Removed
-biomes use nearby equivalents. Saved terrain stays in place.
+White cherry plants use Snowblossom, and the old autumn leaves and saplings
+use the matching maple colours. Overgrown black sand becomes mossy black sand.
+Rose quartz shards become rose quartz chunks. Retired biomes use nearby
+equivalents, such as Cherry Grove, Moor and Lavender Field. Saved terrain
+stays in place.
 
-Use Biomes O' Plenty 18.0.0.598 with TerraBlender 3.0.1.10. Keep worlds that
-already use BOP 19 on their Forge route. Keep the world's data folder with your
-backup, since older chunks may need its registry snapshots when you first visit.
+Use Biomes O' Plenty 19.0.0.96 with TerraBlender and GlitchCore. Keep the
+world's data folder with your backup, since older chunks may still need its
+registry snapshots when you first visit them.
 
 ## Moving to Minecraft 1.19.4
 
@@ -237,7 +247,7 @@ are automatic and have separate progress from retired rocks and building pieces,
 so chunks visited by an earlier beta are still eligible. Stack counts and custom
 item data are retained. No new world generation or decoration recipes are added.
 
-Only the replacements described here are covered. Read Forge's missing-content
+Only the replacements described here are covered. Read NeoForge's missing-content
 warning before confirming an upgrade; these replacements do not make every BOP
 1.10 world safe to load in 1.12 without further checks.
 
@@ -277,14 +287,12 @@ These item recoveries also apply to chunks not opened during the first upgrade.
 They do not rescue an inventory or entity discarded by another mod. Cabinet
 contents and old MCA villagers still need their separate upgrade paths.
 
-## Block-ID budget for modpacks
+## Older block palettes
 
-The add-on uses 74 block IDs: 66 piece palettes, one retired-rock palette,
-two replacement decorations and five hidden recovery holders. The holders
-are not creative entries or playable blocks.
+The 1.10.2 add-on used 74 block IDs: 66 piece palettes, one retired-rock
+palette, two replacement decorations and five hidden recovery holders.
+Those palette identities remain readable when upgrading old worlds.
 
-Together with the core's 238 registered blocks, that is 312 additional blocks.
-The optional Mineralogy catalogue adds another 35. Existing native
-BOP blocks are not counted again. New pieces use fixed metadata palettes
-rather than material tile entities; saved material and orientation assignments
-stay unchanged. The Flower Basket adds no block IDs.
+Current pieces have separate block IDs for each material and shape. The old
+palette budget describes the 1.10.2 save format, not the current registry
+count. The Flower Basket adds no block IDs.

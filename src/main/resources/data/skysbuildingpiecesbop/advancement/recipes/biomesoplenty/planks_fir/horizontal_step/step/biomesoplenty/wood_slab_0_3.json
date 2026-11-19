@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["biomesoplenty:fir_slab"]
+            "items": [
+              "biomesoplenty:fir_slab"
+            ]
           }
         ]
       }
@@ -18,10 +20,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/planks_fir/horizontal_step/step/biomesoplenty/wood_slab_0_3"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/planks_fir/horizontal_step/step/biomesoplenty/wood_slab_0_3"
+    ]
   },
   "neoforge:conditions": [
     {

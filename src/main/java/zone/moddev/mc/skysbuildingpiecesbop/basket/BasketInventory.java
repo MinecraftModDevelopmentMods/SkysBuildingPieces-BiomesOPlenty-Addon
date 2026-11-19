@@ -52,7 +52,9 @@ public final class BasketInventory extends SimpleContainer {
 
         Block block = item.getBlock();
         // Cactus and sugar cane grow without bonemeal, but still belong in the basket.
-        return block instanceof BushBlock || block instanceof BonemealableBlock
+        return block instanceof net.minecraft.world.level.block.DryVegetationBlock
+                || block instanceof net.minecraft.world.level.block.WebBlock
+                || block instanceof BushBlock || block instanceof BonemealableBlock
                 || block instanceof CactusBlock || block instanceof SugarCaneBlock
                 || block instanceof IShearable;
     }

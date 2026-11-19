@@ -18,10 +18,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/crag_rock/slab/slab/mineralogy/gabbro_0"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/crag_rock/slab/slab/mineralogy/gabbro_0"
+    ]
   },
   "neoforge:conditions": [
     {

@@ -1,0 +1,24 @@
+{
+  "scope": "BOP-only development control; no Sky production mods",
+  "mods": [
+    "biomesoplenty",
+    "bopregistrycontrol",
+    "glitchcore",
+    "minecraft",
+    "neoforge",
+    "terrablender"
+  ],
+  "message": "The following entities have not registered to the RegisterSpawnPlacementsEvent, but a spawn entry was found. This will mean that the entity doesn't have restrictions on its spawn location, please register a spawn placement for the entity, you can register with NO_RESTRICTIONS if you don't want any restrictions.",
+  "entity": "minecraft:allay",
+  "log_sha256": "AEA26C0E79CDD6271E704EF851A7611AFCF18193AAD9B78B563050349EA30FA6",
+  "control_probe_sha256": "78440D3EC3FEF28A145963254234508055D2E9FEEC91436AC99525D6A45B971D",
+  "vendor_hashes": {
+    "bop": "9F0853D3BA2BD9EAF25EEE5438D601F8222BB4BD3EF62E8D3AFE56011C761209",
+    "terrablender": "2B9A081FA64EDF137B3B059E71AA01568FCC2A330F3471078655EECD328CB587",
+    "glitchcore": "5EE72FD30A43F6C71B7EFDE17054B93686EBB95604709F912075EDBD56B1722B"
+  },
+  "normal_start_and_save": true,
+  "minecraft": "26.1.2",
+  "neoforge": "26.1.2.94",
+  "java": "25.0.3+9"
+}

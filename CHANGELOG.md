@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.7.2601022
+
+Updates BOP pieces with the current fuel, recipe-book and saved-item fixes.
+
+Existing terrain, saved content and configuration choices are retained.
+
 ## 0.2.5.2601022
 
 - BOP building pieces and recovered rocks now have individual block IDs. Existing builds and rock variants carry forward.

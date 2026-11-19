@@ -277,7 +277,7 @@ public final class NamedBopRecovery {
             if (blockState && (BLOCKS.containsKey(tag.getStringOr("Name", ""))
                     || RetiredRocks.LEGACY_ID.equals(tag.getStringOr("Name", "")) || oldShortCattail(tag)
                     || oldWall(tag.getStringOr("Name", ""), tag.getCompoundOrEmpty("Properties")))
-                    || namedItem(tag) || (tag.get("Count") instanceof net.minecraft.nbt.NumericTag)
+                    || (!blockState && namedItem(tag)) || (tag.get("Count") instanceof net.minecraft.nbt.NumericTag)
                     && oldWall(tag.getStringOr("id", ""), tag.getCompoundOrEmpty("tag").getCompoundOrEmpty("BlockStateTag"))
                     || namedBoat(tag) || biomeTable(tag) != null || removedSectionBiomes(tag)
                     || retiredBlockTicks(tag, false)) {
@@ -357,7 +357,7 @@ public final class NamedBopRecovery {
             if (namedBoat(tag)) {
                 rewriteBoat(tag);
             }
-            if (namedItem(tag)) {
+            if (!blockState && namedItem(tag)) {
                 if (tag.getStringOr("id", "").equals("biomesoplenty:nether_crystal")) {
                     boolean components = tag.get("components") instanceof CompoundTag;
                     CompoundTag itemData = tag.getCompoundOrEmpty(components ? "components" : "tag");
@@ -546,7 +546,7 @@ public final class NamedBopRecovery {
     private static boolean stateField(String key) {
         // A custom display name can also be a registry-looking string. Only native state fields identify blocks.
         return key.equals("Palette") || key.equals("palette") || key.equals("palettes") || key.equals("BlockState")
-                || key.equals("blockState") || key.equals("carriedBlockState") || key.equals("DisplayState");
+                || key.equals("blockState") || key.equals("block_state") || key.equals("carriedBlockState") || key.equals("DisplayState");
     }
 
     private static ListTag chunkSections(CompoundTag chunk) {
@@ -709,4 +709,6 @@ public final class NamedBopRecovery {
     static void registerItemAliases() {
         ITEMS.forEach((former, target) -> BopRegistryAliases.item(former, Identifier.parse(target)));
     }
+
+
 }

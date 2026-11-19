@@ -1,52 +1,52 @@
 {
   "variants": {
     "metadata=0": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=1": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=2": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=3": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=4": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=5": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=6": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=7": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=8": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=9": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=10": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=11": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=12": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=13": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=14": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     },
     "metadata=15": {
-      "model": "biomesoplenty:block/willow_vine_1"
+      "model": "biomesoplenty:block/willow_vine"
     }
   }
 }

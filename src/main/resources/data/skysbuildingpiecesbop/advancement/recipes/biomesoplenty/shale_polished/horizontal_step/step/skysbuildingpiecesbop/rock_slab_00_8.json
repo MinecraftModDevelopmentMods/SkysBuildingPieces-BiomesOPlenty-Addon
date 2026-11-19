@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": ["skysbuildingpiecesbop:shale_polished_slab"]
+            "items": [
+              "skysbuildingpiecesbop:shale_polished_slab"
+            ]
           }
         ]
       }
@@ -18,10 +20,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/shale_polished/horizontal_step/step/skysbuildingpiecesbop/rock_slab_00_8"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/shale_polished/horizontal_step/step/skysbuildingpiecesbop/rock_slab_00_8"
+    ]
   },
   "neoforge:conditions": [
     {

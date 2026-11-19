@@ -50,6 +50,22 @@ final class LegacyPlantItems {
         return PLANTS.has(identifier);
     }
 
+    static String target(String identifier, int metadata) {
+        JsonObject variants = PLANTS.getAsJsonObject(identifier);
+        String slot = Integer.toString(metadata);
+        if (variants == null || !variants.has(slot)) {
+            throw new IllegalStateException("No safe saved plant target for " + identifier + "/" + metadata);
+        }
+
+        // Before flattening, this was one root block. Later BOP reused the named
+        // root for a two-block plant, so its newer replacement does not fit here.
+        if (identifier.equals("biomesoplenty:plant_1") && metadata == 9) {
+            return "biomesoplenty:dead_grass";
+        }
+        String current = NamedBopRecovery.currentItemId(variants.get(slot).getAsString());
+        return current.equals("minecraft:grass") ? "minecraft:short_grass" : current;
+    }
+
     static void rewrite(Tag value, boolean basketContents, int depth) {
         if (depth > 64) {
             throw new IllegalStateException("Saved plant inventory nesting exceeds 64 levels");
@@ -66,18 +82,7 @@ final class LegacyPlantItems {
 
             if ((compound.get("Count") instanceof net.minecraft.nbt.NumericTag) && (compound.get("Damage") instanceof net.minecraft.nbt.NumericTag)) {
                 if (matches(identifier)) {
-                    JsonObject variants = PLANTS.getAsJsonObject(identifier);
-                    String metadata = Integer.toString(compound.getIntOr("Damage", 0));
-
-                    if (!variants.has(metadata)) {
-                        throw new IllegalStateException(
-                                "No safe saved plant target for " + identifier + "/" + metadata);
-                    }
-
-                    nativeTarget = NamedBopRecovery.currentItemId(variants.get(metadata).getAsString());
-                    if (nativeTarget.equals("minecraft:grass")) {
-                        nativeTarget = "minecraft:short_grass";
-                    }
+                    nativeTarget = target(identifier, compound.getIntOr("Damage", 0));
                     compound.putString("id", nativeTarget);
                     compound.remove("Damage");
 

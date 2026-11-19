@@ -41,3 +41,11 @@ NeoForge conditions for optional materials. Retired rock recipes keep the
 same IDs whether they use a Mineralogy block or the add-on's fallback.
 
 See [the release guide](RELEASING.md) for the artifact checks.
+
+Disposable servers use Java networking (`use-native-transport=false`). This
+avoids host-specific Netty availability probes during log auditing.
+
+With BOP installed, NeoForge's 26.1.2 development run reports that the allay has
+no registered spawn placement. It also happens in a BOP-only control run. The
+development check records that one message separately and still checks the rest
+of the log. Packaged launches use the ordinary strict log checks.

@@ -48,6 +48,9 @@ public final class NativeBootstrap {
                 return;
             }
             if (NativeNamedForwardChecks.applies(new java.io.File("forward-fixture.json"))) {
+                // Compare the migrated save before fluid and plant ticks can change its terrain.
+                // Chunk and entity loading still run; normal gameplay has separate ticking gates.
+                event.getServer().tickRateManager().setFrozen(true);
                 pendingServer = event.getServer();
                 NativeNamedForwardChecks.prepare(pendingServer.getLevel(net.minecraft.world.level.Level.OVERWORLD));
                 return;
@@ -60,6 +63,12 @@ public final class NativeBootstrap {
     }
 
     private void tick(net.neoforged.neoforge.event.tick.ServerTickEvent.Post event) {
+        if (event.getServer() == biomeAuditServer && --biomeAuditSaveTicks == 0) {
+            biomeAuditServer.tickRateManager().setFrozen(false);
+            biomeAuditServer.halt(false);
+            biomeAuditServer = null;
+            return;
+        }
         if (recipeServer != null && System.nanoTime() >= nextRecipeBatch) {
             finishRecipeBatch();
             return;
@@ -89,12 +98,6 @@ public final class NativeBootstrap {
 
         try {
             RegistrySnapshot.write();
-            if (RetiredContentForwardChecks.active()) {
-                RetiredContentForwardChecks.verify(server.overworld());
-                LOGGER.info("BUILDING_PIECES_BOP_FORWARD_UPGRADE_PASS retired_bop=true");
-                LOGGER.info("BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS materials=33 palettes=66");
-                return;
-            }
             if (Boolean.getBoolean("skysbuildingpieces.bopBiomeFixerOnly")) {
                 NamedRecoveryChecks.nativeBiomeDatafix(server);
                 return;
@@ -128,19 +131,23 @@ public final class NativeBootstrap {
             java.io.File manifest = new java.io.File("forward-fixture.json");
 
             if (manifest.isFile()) {
-                if (!NativeNamedForwardChecks.applies(manifest)) {
-                    NativeSavedBiomeChecks.prepare(server.getLevel(net.minecraft.world.level.Level.OVERWORLD),
-                            new java.util.LinkedHashSet<>());
-                    NativeSavedBiomeChecks.verify(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
-                }
-                if (NativeNamedForwardChecks.applies(manifest)) {
-                    NativeNamedForwardChecks.run(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
-                } else if (Boolean.getBoolean("skysbuildingpieces.bopBiomeOnly")) {
-                    ForwardUpgradeChecks.biomesOnly(server, manifest);
+                if (RetiredContentForwardChecks.active()) {
+                    RetiredContentForwardChecks.verify(server.overworld());
                 } else {
-                    ForwardUpgradeChecks.run(server, manifest);
+                    if (!NativeNamedForwardChecks.applies(manifest)) {
+                        NativeSavedBiomeChecks.prepare(server.getLevel(net.minecraft.world.level.Level.OVERWORLD),
+                                new java.util.LinkedHashSet<>());
+                        NativeSavedBiomeChecks.verify(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
+                    }
+                    if (NativeNamedForwardChecks.applies(manifest)) {
+                        NativeNamedForwardChecks.run(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
+                    } else if (Boolean.getBoolean("skysbuildingpieces.bopBiomeOnly")) {
+                        ForwardUpgradeChecks.biomesOnly(server, manifest);
+                    } else {
+                        ForwardUpgradeChecks.run(server, manifest);
+                    }
+                    NativeNamedForwardChecks.checkNativeBlockRename(server.getLevel(Level.OVERWORLD));
                 }
-                NativeNamedForwardChecks.checkNativeBlockRename(server.getLevel(Level.OVERWORLD));
             } else {
                 if (Boolean.getBoolean("skysbuildingpieces.bopInstalledPolicy")) {
                     zone.moddev.mc.skysbuildingpieces.probe.BopCompatibilityChecks
@@ -179,8 +186,10 @@ public final class NativeBootstrap {
                         net.minecraft.CrashReport.forThrowable(failure, "BOP client verification failed"));
             }
         } finally {
-            if (!client && success && Boolean.getBoolean("skysbuildingpieces.bopBiomeOnly")) {
-                // Bulk biome reads queue chunk work. Let normal server ticks drain it before saving at shutdown.
+            if (!client && success && (Boolean.getBoolean("skysbuildingpieces.bopBiomeOnly")
+                    || new java.io.File("forward-biomes.json").isFile())) {
+                // Let pending chunk work finish without advancing the fixture's plant or fluid ticks.
+                server.tickRateManager().setFrozen(true);
                 biomeAuditServer = server;
                 biomeAuditSaveTicks = 40;
             } else if ((!client || !success) && recipeServer == null) {

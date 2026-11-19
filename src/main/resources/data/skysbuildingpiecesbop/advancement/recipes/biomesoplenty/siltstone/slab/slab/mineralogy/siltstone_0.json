@@ -18,10 +18,15 @@
     }
   },
   "requirements": [
-    ["has_ingredient", "has_the_recipe"]
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
   ],
   "rewards": {
-    "recipes": ["skysbuildingpieces:biomesoplenty/siltstone/slab/slab/mineralogy/siltstone_0"]
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/siltstone/slab/slab/mineralogy/siltstone_0"
+    ]
   },
   "neoforge:conditions": [
     {

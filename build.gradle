@@ -12,6 +12,53 @@ plugins {
     id 'net.neoforged.gradle.userdev' version '7.1.38'
 }
 
+// Give each Minecraft asset index its own name while keeping shared objects intact.
+def clientAssetDownloadType = net.neoforged.gradle.common.runtime.tasks.DownloadAssets
+def clientAssetDownloadMethods = ['downloadAssetIndex', 'downloadAssets'].collect { methodName ->
+    def method = clientAssetDownloadType.getDeclaredMethod(methodName)
+    method.accessible = true
+    method
+}
+def clientAssetMatches = { File assetFile, String expectedHash ->
+    if (!assetFile.isFile()) return false
+    def digest = java.security.MessageDigest.getInstance('SHA-1')
+    assetFile.withInputStream { stream ->
+        byte[] buffer = new byte[8192]
+        for (int bytesRead = stream.read(buffer); bytesRead >= 0; bytesRead = stream.read(buffer)) {
+            if (bytesRead > 0) digest.update(buffer, 0, bytesRead)
+        }
+    }
+    digest.digest().encodeHex().toString().equalsIgnoreCase(expectedHash)
+}
+tasks.withType(clientAssetDownloadType).configureEach { assetTask ->
+    assetIndex.set(versionJson.map { metadata ->
+        "minecraft-${metadata.id}-${metadata.assetIndex.sha1}"
+    })
+    // NeoGradle 7.1.38 snapshots and clears the shared object directory. Its own
+    // verified download workers can fill missing files without clearing that store.
+    actions.clear()
+    doLast {
+        clientAssetDownloadMethods.each { method ->
+            try {
+                method.invoke(assetTask)
+            } catch (java.lang.reflect.InvocationTargetException failure) {
+                throw failure.targetException
+            }
+        }
+    }
+    outputs.cacheIf { false }
+    outputs.upToDateWhen {
+        File index = assetIndexFile.get().asFile
+        if (!clientAssetMatches(index, versionJson.get().assetIndex.sha1)) return false
+        File objects = clientAssetDownloadType.getAssetsDirectory(project).get().dir('objects').asFile
+        def entries = new groovy.json.JsonSlurper().parse(index).objects.values()
+        entries.every { entry ->
+            File asset = new File(objects, entry.hash.substring(0, 2) + '/' + entry.hash)
+            asset.length() == entry.size && clientAssetMatches(asset, entry.hash)
+        }
+    }
+}
+
 def sha256Of = { File inputFile ->
     MessageDigest digest = MessageDigest.getInstance('SHA-256')
     inputFile.withInputStream { input ->
@@ -357,8 +404,12 @@ def releaseFiles = provider {
 tasks.register('verifyReleaseMetadata') {
     group = 'verification'
     doLast {
-        def parts = project.minecraft_version.toString().split('\\.')
-        String target = parts[0] + parts[1].padLeft(2, '0') + parts[2].padLeft(2, '0') + project.loader_code
+        def parts = project.minecraft_version.toString().split('\\.', -1)
+        if (!(parts.length in 2..3) || !parts.every { it ==~ /\d+/ }) {
+            throw new GradleException('Minecraft version must have two or three numeric components')
+        }
+        String patch = parts.length == 3 ? parts[2] : '0'
+        String target = parts[0] + parts[1].padLeft(2, '0') + patch.padLeft(2, '0') + project.loader_code
         if (!(project.version.toString() ==~ /[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/) ||
                 project.version.toString().tokenize('.').last() != target) {
             throw new GradleException('The add-on version must end with the Minecraft and loader target')
@@ -745,4 +796,54 @@ tasks.register('verifyNativeRecipeConflicts', Exec) {
             'tools/test_recipe_conflicts.py'
     environment 'BUILDING_PIECES_CORE_RESOURCES', new File(coreDirectory, 'src/main/resources').path
 }
-tasks.named('check') { dependsOn tasks.named('verifyNativeRecipeConflicts') }
+tasks.register('verifyNativeRecipeConditions', Exec) {
+    group = 'verification'
+    description = 'Checks optional rock unlocks and native NeoForge conditions.'
+    commandLine providers.gradleProperty('pythonExecutable').getOrElse('python'),
+            '-m', 'unittest', 'discover', '-s', 'tools', '-p', 'test_neo_recipe_resources.py'
+}
+tasks.named('check') {
+    dependsOn tasks.named('verifyNativeRecipeConflicts'), tasks.named('verifyNativeRecipeConditions')
+}
+
+// Check the declared ranges against the exact companion jars used for qualification.
+tasks.withType(Test).configureEach {
+    systemProperty 'test.companion.biomesoplenty', bopJar.absolutePath
+    systemProperty 'test.companion.terrablender', terraBlenderJar.absolutePath
+    systemProperty 'test.companion.glitchcore', glitchCoreJar.absolutePath
+}
+
+// Check external model names against the BOP jar this branch actually uses.
+def verifyNativeBopModels = tasks.register('verifyNativeBopModels') {
+    group = 'verification'
+    dependsOn 'verifyNativeBopDependencies'
+    inputs.file(bopJar)
+    inputs.files(fileTree('src/main/resources/assets') { include '**/*.json' })
+    doLast {
+        new ZipFile(bopJar).withCloseable { nativeAssets ->
+            def inspectNode
+            inspectNode = { Object node, String sourceName ->
+                if (node instanceof Map) {
+                    node.each { key, value ->
+                        if (key in ['model', 'parent'] && value instanceof String &&
+                                value.startsWith('biomesoplenty:')) {
+                            String resource = 'assets/biomesoplenty/models/' +
+                                    value.substring('biomesoplenty:'.length()) + '.json'
+                            if (nativeAssets.getEntry(resource) == null) {
+                                throw new GradleException("Missing BOP model ${value} referenced by ${sourceName}")
+                            }
+                        }
+                        inspectNode(value, sourceName)
+                    }
+                } else if (node instanceof List) {
+                    node.each { inspectNode(it, sourceName) }
+                }
+            }
+            fileTree('src/main/resources/assets') { include '**/*.json' }.files.sort().each { sourceFile ->
+                inspectNode(new groovy.json.JsonSlurper().parse(sourceFile),
+                        project.relativePath(sourceFile))
+            }
+        }
+    }
+}
+tasks.named('check') { dependsOn verifyNativeBopModels }
