@@ -28,7 +28,7 @@ import zone.moddev.mc.skysbuildingpiecesbop.basket.BasketPreflight;
 @Mod(SkysBuildingPiecesBop.ID)
 public final class SkysBuildingPiecesBop {
     public static final String ID = "skysbuildingpiecesbop";
-    public static final String VERSION = "0.2.5.2601021";
+    public static final String VERSION = "0.2.7.2601021";
 
     @SuppressWarnings("removal") // The screen must stay off the dedicated server classpath.
     public SkysBuildingPiecesBop(FMLJavaModLoadingContext context) {
@@ -86,7 +86,7 @@ public final class SkysBuildingPiecesBop {
             NamedBopRecovery.begin(event.getServer());
             BasketPreflight.check(event.getServer());
         } catch (IOException failure) {
-            throw new IllegalStateException("Cannot validate saved basket contents; restore the world backup", failure);
+            throw new IllegalStateException("Cannot complete the saved-item safety check: " + failure.getMessage(), failure);
         }
     }
 

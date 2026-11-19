@@ -24,13 +24,15 @@ def compileBootstrap = tasks.register('compileNativeBootstrap', JavaCompile) {
     source file('src/integrationTest/java/zone/moddev/mc/skysbuildingpiecesbop/probe/RetiredItemChecks.java')
     source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/RecipeChecks.java'))
     source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/RecipeBookChecks.java'))
+    source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/RecipeUniquenessChecks.java'))
     source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/RecombinationChecks.java'))
+    source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/FuelChecks.java'))
     source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/PersistenceRegistrationChecks.java'))
     ['NativeRecipeProbe', 'NativeLegacyChecks', 'DirtCoverageChecks', 'CoverageContributor', 'NativeProbeItems'].each { name ->
         source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/' + name + '.java'))
     }
     source fileTree(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/legacy'))
-    ['ClientProbe', 'ClientStatus', 'ConfigScreenChecks', 'ProbeProxy', 'RecipePreviewModels', 'PresentationChecks', 'GlassModelProbe'].each { name ->
+    ['ClientProbe', 'ClientStatus', 'ConfigScreenChecks', 'ProbeProxy', 'RecipePreviewModels', 'RecipeBookGroupChecks', 'SnowCoverClientChecks', 'PresentationChecks', 'GlassModelProbe'].each { name ->
         source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/' + name + '.java'))
     }
     ['BasketGuiClientChecks', 'BasketDisconnectClientChecks', 'BasketClientChecks', 'BopProbeItems'].each { name ->
@@ -71,14 +73,20 @@ tasks.named('check') { dependsOn tasks.named('verifyNativeClientLogPolicy') }
 def nativeCompanions = providers.gradleProperty('bopNativeCompanions').getOrElse('false').toBoolean()
 def companionLock = new Properties()
 file('gradle/optional-runtime.properties').withInputStream { companionLock.load(it) }
+def companionArtifact = { String name, String kind ->
+    File original = file(companionLock.getProperty(name + kind + '.path'))
+    String checksum = companionLock.getProperty(name + kind + '.sha256')
+    File retained = file('.gradle/qualification-dependencies/' + checksum + '/' + original.name)
+    retained.isFile() ? retained : original
+}
 def companionJars = ['grass', 'mineralogy', 'orespawn'].collect { name ->
-    file(companionLock.getProperty(name + '.development.path'))
+    companionArtifact(name, '.development')
 }
 def verifyCompanions = tasks.register('verifyBopNativeCompanions') {
     doLast {
         ['grass', 'mineralogy', 'orespawn'].each { name ->
             ['', '.development'].each { kind ->
-                File artifact = file(companionLock.getProperty(name + kind + '.path'))
+                File artifact = companionArtifact(name, kind)
                 String expected = companionLock.getProperty(name + kind + '.sha256')
                 if (!artifact.isFile() || java.security.MessageDigest.getInstance('SHA-256')
                         .digest(artifact.bytes).encodeHex().toString().toUpperCase(Locale.ROOT) != expected) {
@@ -169,6 +177,7 @@ level-seed=4815162342
 server-ip=127.0.0.1
 server-port=0
 online-mode=false
+use-native-transport=false
 generate-structures=false
 max-tick-time=120000
 '''
@@ -315,6 +324,8 @@ tasks.register('nativeClientTest', JavaExec) {
     dependsOn prepareClient
     workingDir clientDirectory
     systemProperty 'skysbuildingpieces.integrationPhase', clientPhase.get()
+    // This disposable client does not connect to account services.
+    args '--accessToken', '0', '--offlineDeveloperMode'
     project.ext.configureRecipeBookRun(delegate, 'runClient')
     doLast {
         logger.lifecycle(providers.exec {
@@ -378,6 +389,7 @@ def preparePolicy = tasks.register('prepareBopInstalledPolicyTest') {
         new File(target, 'server.properties').text = '''level-name=world
 level-seed=4815162342
 online-mode=false
+use-native-transport=false
 server-ip=127.0.0.1
 server-port=0
 generate-structures=false

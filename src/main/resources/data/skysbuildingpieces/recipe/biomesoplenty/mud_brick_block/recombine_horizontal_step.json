@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/mud_brick_block",
+  "group": "skys/result/minecraft/mud_brick_slab",
   "pattern": ["X", "X"],
   "key": {
     "X": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"

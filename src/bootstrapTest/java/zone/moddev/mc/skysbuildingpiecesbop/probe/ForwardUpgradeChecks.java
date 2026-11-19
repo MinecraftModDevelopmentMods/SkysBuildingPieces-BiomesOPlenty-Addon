@@ -253,8 +253,13 @@ final class ForwardUpgradeChecks {
                 units += expectedUnits;
                 baskets++;
             } else if (row.has("native_item")) {
+                // The old metadata root was one block tall. The later named
+                // mangrove root had two halves and uses a different replacement.
+                String expectedId = original.getStringOr("id", "").equals("biomesoplenty:plant_1")
+                        && original.getShortOr("Damage", (short) 0) == 9
+                        ? "biomesoplenty:dead_grass" : currentItemTarget(row.get("target_item").getAsString());
                 require(net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(actual.getItem()).toString()
-                        .equals(currentItemTarget(row.get("target_item").getAsString())),
+                        .equals(expectedId),
                         "Saved native BOP item changed: " + row + ", actual " + actual);
                 require(original.getCompoundOrEmpty("tag").equals(BopProbeItems.custom(actual)), "Saved native item custom data changed");
             } else {
@@ -477,7 +482,8 @@ final class ForwardUpgradeChecks {
                     : metadata == 8 ? "biomesoplenty:violet" : "minecraft:oxeye_daisy";
         }
         if (id.equals("biomesoplenty:plant_1")) {
-            return metadata == 4 ? "biomesoplenty:cattail" : "minecraft:cactus";
+            return metadata == 9 ? "biomesoplenty:dead_grass"
+                    : metadata == 4 ? "biomesoplenty:cattail" : "minecraft:cactus";
         }
         if (id.equals("biomesoplenty:sapling_0")) {
             return "biomesoplenty:" + (metadata == 0 ? "yellow_autumn" : metadata == 4 ? "umbran" : "fir") + "_sapling";

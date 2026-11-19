@@ -563,7 +563,8 @@
         "meta": 0
       }
     },
-    "legacy_textures": "biomesoplenty:blocks/hellbark_planks"
+    "legacy_textures": "biomesoplenty:blocks/hellbark_planks",
+    "cookingFuel": false
   },
   {
     "name": "Jacaranda Wood Planks",

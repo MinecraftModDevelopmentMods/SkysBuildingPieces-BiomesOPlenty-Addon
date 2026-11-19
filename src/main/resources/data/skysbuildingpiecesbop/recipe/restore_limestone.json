@@ -8,5 +8,6 @@
   "forge:condition": {
     "type": "forge:item_exists",
     "item": "mineralogy:limestone"
-  }
+  },
+  "group": "skys/result/mineralogy/limestone"
 }

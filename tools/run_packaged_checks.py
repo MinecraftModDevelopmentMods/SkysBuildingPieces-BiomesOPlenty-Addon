@@ -147,6 +147,8 @@ def client_command(options, directory):
                       "--gameDir", str(directory), "--assetsDir", str(assets),
                       "--assetIndex", base["assetIndex"]["id"], "--uuid", "1" * 32,
                       "--accessToken", "0", "--userType", "legacy", "--versionType", "release"))
+    # The official client supports an offline mode for this login-free test profile.
+    arguments.append("--offlineDeveloperMode")
     return argument_file(options.java, directory, options.phase, arguments)
 
 
@@ -194,7 +196,7 @@ def prepare(options, directory):
     for name in ("banned-players.json", "banned-ips.json", "ops.json", "whitelist.json"):
         (directory / name).write_text("[]\n", encoding="utf-8")
     (directory / "server.properties").write_text(
-        "level-name=world\nlevel-seed=4815162342\nonline-mode=false\nserver-ip=127.0.0.1\n"
+        "level-name=world\nlevel-seed=4815162342\nonline-mode=false\nuse-native-transport=false\nserver-ip=127.0.0.1\n"
         "server-port=0\ngenerate-structures=false\n"
         "max-tick-time=120000\n", encoding="utf-8")
     (directory / "options.txt").write_text("lang:en_us\nfullscreen:false\nrenderDistance:2\n", encoding="utf-8")

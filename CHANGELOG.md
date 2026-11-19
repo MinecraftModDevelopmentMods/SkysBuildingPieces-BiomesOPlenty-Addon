@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.7.2601021
+
+Updates BOP crafting and fuel behaviour, with tighter recovery of older saved items.
+
 ## 0.2.5.2601021
 
 - BOP building pieces and recovered rocks now have individual block IDs. Existing builds and rock variants carry forward.
