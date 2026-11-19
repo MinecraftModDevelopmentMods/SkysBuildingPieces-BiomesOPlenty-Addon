@@ -1,0 +1,23 @@
+{
+  "source_world_sha256": "DA43C99D1282253DDA7FF8F044358BE4D6FA5E31A8E156B6EE33517A5D9F5342",
+  "inspected_nbt_values": 155589,
+  "inspected_nbt_records": 274,
+  "saved_uses": {
+    "minecraft:grass": 0,
+    "minecraft:scute": 0,
+    "minecraft:empty": 0,
+    "minecraft:sweeping": 0
+  },
+  "snapshot_entries": {
+    "minecraft:enchantment": {
+      "minecraft:sweeping": 18
+    },
+    "minecraft:item": {
+      "minecraft:grass": 89,
+      "minecraft:scute": 571
+    },
+    "minecraft:potion": {
+      "minecraft:empty": 0
+    }
+  }
+}

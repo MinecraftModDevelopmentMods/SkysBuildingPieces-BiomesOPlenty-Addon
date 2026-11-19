@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "metadata=0": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=1": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=2": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=3": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=4": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=5": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=6": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=7": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=8": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=9": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=10": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=11": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=12": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=13": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=14": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    },
+    "metadata=15": {
+      "model": "skysbuildingpiecesbop:block/jelled_poison"
+    }
+  }
+}
