@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "mineralogy:siltstone_smooth",
+      "required": false
+    },
+    {
+      "id": "skysbuildingpiecesbop:retired_siltstone_smooth",
+      "required": false
+    }
+  ]
+}

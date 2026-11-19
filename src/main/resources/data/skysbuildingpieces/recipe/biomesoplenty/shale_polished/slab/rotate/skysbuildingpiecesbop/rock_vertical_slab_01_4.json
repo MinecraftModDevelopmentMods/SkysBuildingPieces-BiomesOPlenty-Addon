@@ -1,0 +1,33 @@
+{
+  "type": "skysbuildingpieces:cutting",
+  "group": "skys/result/skysbuildingpiecesbop/shale_polished_slab",
+  "pattern": [
+    "X"
+  ],
+  "key": {
+    "X": "skysbuildingpiecesbop:shale_polished_vertical_slab"
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:shale_polished_slab",
+    "count": 1
+  },
+  "preserve_tag": true,
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:shale_polished_slab"
+        },
+        {
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:shale_polished_vertical_slab"
+        }
+      ]
+    }
+  ]
+}

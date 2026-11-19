@@ -1,37 +1,75 @@
-# Sky's Building Pieces — Biomes O Plenty
+# Sky's Building Pieces — Biomes O' Plenty
 
-Building pieces for the woods, stones and gem blocks in Biomes O Plenty.
-Requires Minecraft 1.10.2, Forge 12.18.3.2511, Java 8, Sky's Building Pieces
-0.3.0.110021 and Biomes O Plenty 5.0.0. This beta is qualified against BOP
-5.0.0.2236. Install all three mods on both the client and server.
+<img src="artwork/skysbuildingpieces-bop-logo.png" alt="Sky's Building Pieces – Biomes O' Plenty logo" width="256">
 
-Version 0.1.0.110021 adds 66 block IDs for 33 materials, including all 16
-plank woods, bamboo thatching, eight stone materials and eight gem blocks.
-Existing BOP slabs and stairs are reused. New pieces use fixed metadata
-palettes and do not need tile entities. No terrain is generated.
+Bring Biomes O' Plenty materials into your builds with the same range of pieces
+as Sky's Building Pieces. This add-on supplies missing slabs, steps, corners,
+stairs and stone walls, using the textures of the original BOP blocks.
 
-With core 0.3.0.110021, use ordinary crafting patterns for BOP materials;
-no template or tool is needed. Native BOP slab and stair recipes remain intact.
-Regular slab items also place vertically. Vertical slabs drop regular slabs and
-are hidden from creative inventory; no separate vertical slab recipe is needed.
-Matching pieces combine into supported larger pieces or their original full
-block. Wooden walls, terrain smoothing and materials from other biome mods
-are not included.
+## Building with BOP materials
 
-Optional replacement of installed BuildingBricks content uses the core's
-`compat.forceReplaceBuildingBricksPieces=false` setting. Enabling it also
-covers supported BOP pieces, with separate BOP progress and totals.
-Back up worlds before enabling replacement. Adding this mod can process BOP
-pieces in chunks already visited by the vanilla core.
+Build with the woods and stone materials in Biomes O' Plenty for Minecraft
+26.2. Where BOP already has a suitable slab, stair or wall, the add-on uses
+it rather than adding another copy.
 
-Removing an older building mod requires an audit and a tested world backup.
-Unsupported materials, shapes or tools may still need a replacement.
-Unsupported absent-mod recovery stops rather than guessing at a replacement.
+Craft pieces from matching blocks, slabs and steps, following the core mod's
+patterns. Regular slabs also place vertically and drop regular slabs when
+broken. Matching pieces can join into supported larger shapes.
 
-See [crafting](docs/RECIPES.md), [building and testing](docs/BUILDING.md), [existing worlds](docs/WORLD-UPGRADES.md)
-and [trying the beta](docs/TRYING-THE-BETA.md). Publication is not yet enabled.
+Stone walls have lower panels and raised posts, just like the core's
+walls. Use BOP's own fences and gates for wooden builds; this add-on doesn't add
+wooden walls or generate terrain.
 
-[Release preparation](docs/RELEASING.md) covers the CI checks and publication safeguards.
+See [crafting](docs/RECIPES.md) for the patterns and quantities.
 
-Licensed under LGPL-2.1-only. Adapted BuildingBricks definitions and core
-geometry retain their MIT notice. BOP code and textures are not bundled.
+## Flower Basket
+
+The Flower Basket holds 18 slots of plants, saplings, leaves and other suitable
+plant blocks. Right-click with it in either hand to open it. Carry it in your
+main inventory and plant items you pick up go into the basket first, with
+anything that doesn't fit handled normally.
+
+Craft a basket from six wooden sticks. The [basket guide](docs/FLOWER-BASKET.md)
+shows the recipe and explains storage and automatic collection. The basket
+holds suitable plant block items, including crop seeds that place plant blocks.
+It doesn't accept unrelated items.
+
+## Installation
+
+Use the versions for **Minecraft 26.2**, with **NeoForge 26.2.0.45-beta** and
+**Java 25**. You'll need:
+
+- **Sky's Building Pieces 0.3.10.2602002** and this add-on.
+- **Biomes O' Plenty 26.2.0.0.16**, **TerraBlender 26.2.0.0.9** and **GlitchCore 26.2.0.0.5**.
+
+Put those jars in `mods` on both the client and server.
+Downloads are on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/skysbuildingpiecesbop).
+
+For smoother BOP grass and soil, use the separate
+[Terrain Smoother BOP add-on](https://github.com/MinecraftModDevelopmentMods/SkysTerrainSmoother-BiomesOPlenty-Addon)
+with Sky's Terrain Smoother.
+
+## Existing worlds
+
+Before moving an existing world to this version, read
+[existing worlds and modpack notes](docs/WORLD-UPGRADES.md). It covers recovery
+for supported old building pieces, retired BOP rocks, decorations, Flower
+Baskets and other items. BOP has removed some woods, gems and thatching since
+1.12; their saved pieces use similar current woods or coloured terracotta.
+Ethereal wood removed after 1.14 uses birch, with white cherry leaves and saplings.
+Other retired plants and biomes use the replacements listed in the upgrade guide.
+Nether crystals removed in BOP 1.17 become rose quartz, keeping their attachment
+directions and stored item data.
+
+Mineralogy is optional. Retired rocks use its matching blocks when available;
+otherwise the add-on supplies its own full-block replacements using Mineralogy
+textures. Old crag rock becomes gabbro.
+
+Back up your world and test a copy before upgrading.
+See the [changelog](CHANGELOG.md) for release history.
+
+## Licence
+
+[LGPL-2.1-only](LICENSE), with third-party credits in [NOTICE](NOTICE).
+Included Mineralogy assets retain their separate [LGPL-3.0 licence](MINERALOGY-LGPL-3.0.txt).
+BOP textures are read from the installed mod, not bundled here.

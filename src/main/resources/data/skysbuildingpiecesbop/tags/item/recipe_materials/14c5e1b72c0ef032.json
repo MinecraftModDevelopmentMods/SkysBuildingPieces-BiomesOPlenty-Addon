@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "mineralogy:shale",
+      "required": false
+    },
+    {
+      "id": "skysbuildingpiecesbop:retired_shale",
+      "required": false
+    }
+  ]
+}

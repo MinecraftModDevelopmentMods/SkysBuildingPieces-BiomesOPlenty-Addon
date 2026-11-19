@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "mineralogy:limestone_smooth",
+      "required": false
+    },
+    {
+      "id": "skysbuildingpiecesbop:retired_limestone_smooth",
+      "required": false
+    }
+  ]
+}

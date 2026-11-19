@@ -1,0 +1,1588 @@
+{
+  "source_world_sha256": "6A09B1E83F3AE237BC3FA092799C33A28CCD316AC43A8F28BF395A1382C9FA86",
+  "source_minecraft": "1.15.2",
+  "doors": [
+    {
+      "x": 700,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 700,
+      "y": 80,
+      "z": 536,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}"
+    },
+    {
+      "x": 700,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"biomesoplenty:magic_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}"
+    },
+    {
+      "x": 708,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 712,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 716,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 704,
+      "y": 80,
+      "z": 536,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}"
+    },
+    {
+      "x": 708,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}"
+    },
+    {
+      "x": 712,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}"
+    },
+    {
+      "x": 716,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}"
+    },
+    {
+      "x": 704,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"biomesoplenty:magic_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}"
+    },
+    {
+      "x": 712,
+      "y": 80,
+      "z": 540,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}"
+    },
+    {
+      "x": 716,
+      "y": 80,
+      "z": 540,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}"
+    },
+    {
+      "x": 720,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 728,
+      "y": 80,
+      "z": 532,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 732,
+      "y": 80,
+      "z": 532,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 724,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"biomesoplenty:fir_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}"
+    },
+    {
+      "x": 728,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"biomesoplenty:fir_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}"
+    },
+    {
+      "x": 732,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"biomesoplenty:fir_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}"
+    },
+    {
+      "x": 720,
+      "y": 80,
+      "z": 540,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}"
+    },
+    {
+      "x": 724,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 728,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 732,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 736,
+      "y": 80,
+      "z": 532,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 740,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}"
+    },
+    {
+      "x": 744,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}"
+    },
+    {
+      "x": 748,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}"
+    },
+    {
+      "x": 736,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"biomesoplenty:fir_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}"
+    },
+    {
+      "x": 744,
+      "y": 80,
+      "z": 536,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}"
+    },
+    {
+      "x": 748,
+      "y": 80,
+      "z": 536,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}"
+    },
+    {
+      "x": 740,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 744,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 748,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 756,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"biomesoplenty:cherry_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}"
+    },
+    {
+      "x": 760,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"biomesoplenty:cherry_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}"
+    },
+    {
+      "x": 764,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"biomesoplenty:cherry_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}"
+    },
+    {
+      "x": 752,
+      "y": 80,
+      "z": 536,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:fir_door\"}"
+    },
+    {
+      "x": 756,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 760,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 764,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 752,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 760,
+      "y": 80,
+      "z": 540,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 764,
+      "y": 80,
+      "z": 540,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 768,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"biomesoplenty:cherry_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}"
+    },
+    {
+      "x": 776,
+      "y": 80,
+      "z": 532,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}"
+    },
+    {
+      "x": 780,
+      "y": 80,
+      "z": 532,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}"
+    },
+    {
+      "x": 772,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 776,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 780,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 768,
+      "y": 80,
+      "z": 540,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 772,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}"
+    },
+    {
+      "x": 776,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}"
+    },
+    {
+      "x": 780,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}"
+    },
+    {
+      "x": 784,
+      "y": 80,
+      "z": 532,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:cherry_door\"}"
+    },
+    {
+      "x": 788,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}"
+    },
+    {
+      "x": 792,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}"
+    },
+    {
+      "x": 796,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}"
+    },
+    {
+      "x": 784,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 792,
+      "y": 80,
+      "z": 536,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 796,
+      "y": 80,
+      "z": 536,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 788,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"biomesoplenty:palm_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}"
+    },
+    {
+      "x": 792,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"biomesoplenty:palm_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}"
+    },
+    {
+      "x": 796,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"biomesoplenty:palm_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}"
+    },
+    {
+      "x": 804,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"biomesoplenty:umbran_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}"
+    },
+    {
+      "x": 808,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"biomesoplenty:umbran_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}"
+    },
+    {
+      "x": 812,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"biomesoplenty:umbran_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}"
+    },
+    {
+      "x": 800,
+      "y": 80,
+      "z": 536,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:birch_door\"}"
+    },
+    {
+      "x": 804,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}"
+    },
+    {
+      "x": 808,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}"
+    },
+    {
+      "x": 812,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}"
+    },
+    {
+      "x": 800,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"biomesoplenty:palm_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}"
+    },
+    {
+      "x": 808,
+      "y": 80,
+      "z": 540,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}"
+    },
+    {
+      "x": 812,
+      "y": 80,
+      "z": 540,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}"
+    },
+    {
+      "x": 820,
+      "y": 80,
+      "z": 528,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 824,
+      "y": 80,
+      "z": 528,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 816,
+      "y": 80,
+      "z": 532,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"biomesoplenty:umbran_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}"
+    },
+    {
+      "x": 824,
+      "y": 80,
+      "z": 532,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:umbran_door\"}"
+    },
+    {
+      "x": 820,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"biomesoplenty:magic_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}"
+    },
+    {
+      "x": 824,
+      "y": 80,
+      "z": 536,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"biomesoplenty:magic_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:magic_door\"}"
+    },
+    {
+      "x": 816,
+      "y": 80,
+      "z": 540,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:palm_door\"}"
+    },
+    {
+      "x": 820,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}"
+    },
+    {
+      "x": 824,
+      "y": 80,
+      "z": 540,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}"
+    },
+    {
+      "x": 700,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}"
+    },
+    {
+      "x": 700,
+      "y": 80,
+      "z": 548,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"minecraft:jungle_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:jungle_door\"}"
+    },
+    {
+      "x": 700,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"biomesoplenty:mahogany_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}"
+    },
+    {
+      "x": 708,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"biomesoplenty:redwood_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}"
+    },
+    {
+      "x": 712,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"biomesoplenty:redwood_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}"
+    },
+    {
+      "x": 716,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"biomesoplenty:redwood_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}"
+    },
+    {
+      "x": 704,
+      "y": 80,
+      "z": 548,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"minecraft:jungle_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:jungle_door\"}"
+    },
+    {
+      "x": 708,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}"
+    },
+    {
+      "x": 712,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}"
+    },
+    {
+      "x": 716,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}"
+    },
+    {
+      "x": 704,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"biomesoplenty:mahogany_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}"
+    },
+    {
+      "x": 712,
+      "y": 80,
+      "z": 552,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}"
+    },
+    {
+      "x": 716,
+      "y": 80,
+      "z": 552,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}"
+    },
+    {
+      "x": 720,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"biomesoplenty:redwood_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}"
+    },
+    {
+      "x": 728,
+      "y": 80,
+      "z": 544,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}"
+    },
+    {
+      "x": 732,
+      "y": 80,
+      "z": 544,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}"
+    },
+    {
+      "x": 724,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"biomesoplenty:hellbark_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}"
+    },
+    {
+      "x": 728,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"biomesoplenty:hellbark_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}"
+    },
+    {
+      "x": 732,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"biomesoplenty:hellbark_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}"
+    },
+    {
+      "x": 720,
+      "y": 80,
+      "z": 552,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}"
+    },
+    {
+      "x": 724,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}"
+    },
+    {
+      "x": 728,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}"
+    },
+    {
+      "x": 732,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}"
+    },
+    {
+      "x": 736,
+      "y": 80,
+      "z": 544,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:redwood_door\"}"
+    },
+    {
+      "x": 740,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}"
+    },
+    {
+      "x": 744,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}"
+    },
+    {
+      "x": 748,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}"
+    },
+    {
+      "x": 736,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"biomesoplenty:hellbark_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}"
+    },
+    {
+      "x": 744,
+      "y": 80,
+      "z": 548,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}"
+    },
+    {
+      "x": 748,
+      "y": 80,
+      "z": 548,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}"
+    },
+    {
+      "x": 740,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"minecraft:dark_oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}"
+    },
+    {
+      "x": 744,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"minecraft:dark_oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}"
+    },
+    {
+      "x": 748,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"minecraft:dark_oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}"
+    },
+    {
+      "x": 756,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"biomesoplenty:willow_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}"
+    },
+    {
+      "x": 760,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"biomesoplenty:willow_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}"
+    },
+    {
+      "x": 764,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"biomesoplenty:willow_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}"
+    },
+    {
+      "x": 752,
+      "y": 80,
+      "z": 548,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:hellbark_door\"}"
+    },
+    {
+      "x": 756,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}"
+    },
+    {
+      "x": 760,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}"
+    },
+    {
+      "x": 764,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}"
+    },
+    {
+      "x": 752,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"minecraft:dark_oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}"
+    },
+    {
+      "x": 760,
+      "y": 80,
+      "z": 552,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}"
+    },
+    {
+      "x": 764,
+      "y": 80,
+      "z": 552,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}"
+    },
+    {
+      "x": 768,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"biomesoplenty:willow_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}"
+    },
+    {
+      "x": 776,
+      "y": 80,
+      "z": 544,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}"
+    },
+    {
+      "x": 780,
+      "y": 80,
+      "z": 544,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}"
+    },
+    {
+      "x": 772,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"biomesoplenty:jacaranda_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}"
+    },
+    {
+      "x": 776,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"biomesoplenty:jacaranda_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}"
+    },
+    {
+      "x": 780,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"biomesoplenty:jacaranda_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}"
+    },
+    {
+      "x": 768,
+      "y": 80,
+      "z": 552,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:dark_oak_door\"}"
+    },
+    {
+      "x": 772,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 776,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 780,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 784,
+      "y": 80,
+      "z": 544,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:willow_door\"}"
+    },
+    {
+      "x": 788,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"minecraft:jungle_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:jungle_door\"}"
+    },
+    {
+      "x": 792,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"minecraft:jungle_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:jungle_door\"}"
+    },
+    {
+      "x": 796,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"minecraft:jungle_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:jungle_door\"}"
+    },
+    {
+      "x": 784,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"biomesoplenty:jacaranda_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}"
+    },
+    {
+      "x": 792,
+      "y": 80,
+      "z": 548,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}"
+    },
+    {
+      "x": 796,
+      "y": 80,
+      "z": 548,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}"
+    },
+    {
+      "x": 788,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 792,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 796,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 804,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"minecraft:jungle_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:jungle_door\"}"
+    },
+    {
+      "x": 808,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"minecraft:jungle_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:jungle_door\"}"
+    },
+    {
+      "x": 812,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"true\"}, Name: \"minecraft:jungle_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:jungle_door\"}"
+    },
+    {
+      "x": 800,
+      "y": 80,
+      "z": 548,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:jacaranda_door\"}"
+    },
+    {
+      "x": 804,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}"
+    },
+    {
+      "x": 808,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}"
+    },
+    {
+      "x": 812,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"west\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}"
+    },
+    {
+      "x": 800,
+      "y": 80,
+      "z": 552,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 808,
+      "y": 80,
+      "z": 552,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 812,
+      "y": 80,
+      "z": 552,
+      "side": "down",
+      "source": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    },
+    {
+      "x": 816,
+      "y": 80,
+      "z": 544,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"true\"}, Name: \"minecraft:jungle_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:jungle_door\"}"
+    },
+    {
+      "x": 824,
+      "y": 80,
+      "z": 544,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:jungle_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:jungle_door\"}"
+    },
+    {
+      "x": 820,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"east\", open: \"true\"}, Name: \"biomesoplenty:mahogany_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}"
+    },
+    {
+      "x": 824,
+      "y": 80,
+      "z": 548,
+      "side": "up",
+      "source": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"south\", open: \"true\"}, Name: \"biomesoplenty:mahogany_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"upper\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"biomesoplenty:mahogany_door\"}"
+    },
+    {
+      "x": 816,
+      "y": 80,
+      "z": 552,
+      "side": "down",
+      "source": "{Properties: {hinge: \"right\", half: \"upper\", powered: \"true\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}",
+      "neighbour": "{Properties: {hinge: \"left\", half: \"lower\", powered: \"false\", facing: \"north\", open: \"false\"}, Name: \"minecraft:oak_door\"}"
+    }
+  ],
+  "containers": [
+    {
+      "x": 600,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 600,
+      "y": 72,
+      "z": 544,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 600,
+      "y": 72,
+      "z": 546,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 601,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 601,
+      "y": 72,
+      "z": 544,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 602,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 602,
+      "y": 72,
+      "z": 544,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 603,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 603,
+      "y": 72,
+      "z": 544,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 604,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 604,
+      "y": 72,
+      "z": 544,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 605,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 605,
+      "y": 72,
+      "z": 544,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 606,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 606,
+      "y": 72,
+      "z": 544,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 607,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 607,
+      "y": 72,
+      "z": 544,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 608,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 609,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 610,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 611,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 612,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 613,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 614,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 615,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 616,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 617,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 618,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 619,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 620,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 621,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 622,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 623,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 624,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 625,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 626,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 627,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 628,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 629,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 630,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 631,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 632,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 633,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 634,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 635,
+      "y": 72,
+      "z": 540,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 640,
+      "y": 72,
+      "z": 548,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 641,
+      "y": 72,
+      "z": 548,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 642,
+      "y": 72,
+      "z": 548,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 643,
+      "y": 72,
+      "z": 548,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    },
+    {
+      "x": 644,
+      "y": 72,
+      "z": 548,
+      "state": "{Properties: {waterlogged: \"false\", facing: \"north\", type: \"single\"}, Name: \"minecraft:chest\"}"
+    }
+  ]
+}
