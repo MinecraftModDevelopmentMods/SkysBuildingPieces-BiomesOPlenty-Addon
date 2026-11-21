@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skys/result/biomesoplenty/mahogany_planks",
+  "pattern": [
+    "XX"
+  ],
+  "key": {
+    "X": "biomesoplenty:mahogany_slab"
+  },
+  "result": {
+    "id": "biomesoplenty:mahogany_planks",
+    "count": 1
+  },
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:mahogany_planks"
+        },
+        {
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:mahogany_slab"
+        }
+      ]
+    }
+  ]
+}

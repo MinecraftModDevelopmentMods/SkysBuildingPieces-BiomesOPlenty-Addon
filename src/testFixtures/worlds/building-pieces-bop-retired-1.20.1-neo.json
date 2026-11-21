@@ -1,0 +1,271 @@
+{
+  "inputs": [
+    {
+      "name": "SkysBuildingPieces-BiomesOPlenty-Addon-0.2.4.120012.jar",
+      "sha256": "E2E40291FB4BA7BC4B5EA1E1BE6E716AB6D8D930BCEEF0237AB0302EC0C8CB42"
+    },
+    {
+      "name": "SkysBuildingPieces-0.3.8.120012.jar",
+      "sha256": "AF49BDB030A86761D8F1D372161E2E09CC10BC0B0EAB8A58F931AE95341230C7"
+    },
+    {
+      "name": "BiomesOPlenty-1.20.1-18.0.0.598.jar",
+      "sha256": "71EB3DDB35C1C2DB6C15F80F001A6655508435A5F3828C7E2F666EADA616C19D"
+    },
+    {
+      "name": "TerraBlender-forge-1.20.1-3.0.1.10.jar",
+      "sha256": "C77A13E3879F9F991CF592ABAC60AD0C6D2ED17F5FF697EC2DB3872B22902D4A"
+    }
+  ],
+  "blocks": [
+    {
+      "x": 512,
+      "y": 80,
+      "z": 514,
+      "source": "biomesoplenty:maple_leaves",
+      "target": "biomesoplenty:red_maple_leaves",
+      "properties": {
+        "waterlogged": "false",
+        "distance": "7",
+        "persistent": "true"
+      }
+    },
+    {
+      "x": 513,
+      "y": 80,
+      "z": 514,
+      "source": "biomesoplenty:maple_sapling",
+      "target": "biomesoplenty:red_maple_sapling",
+      "properties": {
+        "stage": "0"
+      }
+    },
+    {
+      "x": 514,
+      "y": 80,
+      "z": 514,
+      "source": "biomesoplenty:orange_autumn_leaves",
+      "target": "biomesoplenty:orange_maple_leaves",
+      "properties": {
+        "waterlogged": "false",
+        "distance": "7",
+        "persistent": "true"
+      }
+    },
+    {
+      "x": 515,
+      "y": 80,
+      "z": 514,
+      "source": "biomesoplenty:orange_autumn_sapling",
+      "target": "biomesoplenty:orange_maple_sapling",
+      "properties": {
+        "stage": "0"
+      }
+    },
+    {
+      "x": 516,
+      "y": 80,
+      "z": 514,
+      "source": "biomesoplenty:potted_maple_sapling",
+      "target": "biomesoplenty:potted_red_maple_sapling",
+      "properties": {}
+    },
+    {
+      "x": 517,
+      "y": 80,
+      "z": 514,
+      "source": "biomesoplenty:potted_orange_autumn_sapling",
+      "target": "biomesoplenty:potted_orange_maple_sapling",
+      "properties": {}
+    },
+    {
+      "x": 518,
+      "y": 80,
+      "z": 514,
+      "source": "biomesoplenty:potted_wildflower",
+      "target": "biomesoplenty:potted_lavender",
+      "properties": {}
+    },
+    {
+      "x": 519,
+      "y": 80,
+      "z": 514,
+      "source": "biomesoplenty:potted_yellow_autumn_sapling",
+      "target": "biomesoplenty:potted_yellow_maple_sapling",
+      "properties": {}
+    },
+    {
+      "x": 520,
+      "y": 80,
+      "z": 514,
+      "source": "biomesoplenty:yellow_autumn_leaves",
+      "target": "biomesoplenty:yellow_maple_leaves",
+      "properties": {
+        "waterlogged": "false",
+        "distance": "7",
+        "persistent": "true"
+      }
+    },
+    {
+      "x": 521,
+      "y": 80,
+      "z": 514,
+      "source": "biomesoplenty:yellow_autumn_sapling",
+      "target": "biomesoplenty:yellow_maple_sapling",
+      "properties": {
+        "stage": "0"
+      }
+    },
+    {
+      "x": 1025,
+      "y": 80,
+      "z": 518,
+      "source": "biomesoplenty:potted_wildflower",
+      "target": "biomesoplenty:potted_lavender",
+      "properties": {},
+      "deferred": true
+    }
+  ],
+  "items": [
+    {
+      "slot": 0,
+      "count": 2,
+      "source": "biomesoplenty:maple_leaves",
+      "target": "biomesoplenty:red_maple_leaves",
+      "custom": "Retired BOP sample 0"
+    },
+    {
+      "slot": 1,
+      "count": 3,
+      "source": "biomesoplenty:maple_sapling",
+      "target": "biomesoplenty:red_maple_sapling",
+      "custom": "Retired BOP sample 1"
+    },
+    {
+      "slot": 2,
+      "count": 4,
+      "source": "biomesoplenty:orange_autumn_leaves",
+      "target": "biomesoplenty:orange_maple_leaves",
+      "custom": "Retired BOP sample 2"
+    },
+    {
+      "slot": 3,
+      "count": 5,
+      "source": "biomesoplenty:orange_autumn_sapling",
+      "target": "biomesoplenty:orange_maple_sapling",
+      "custom": "Retired BOP sample 3"
+    },
+    {
+      "slot": 4,
+      "count": 6,
+      "source": "biomesoplenty:potted_maple_sapling",
+      "target": "biomesoplenty:potted_red_maple_sapling",
+      "custom": "Retired BOP sample 4"
+    },
+    {
+      "slot": 5,
+      "count": 7,
+      "source": "biomesoplenty:potted_orange_autumn_sapling",
+      "target": "biomesoplenty:potted_orange_maple_sapling",
+      "custom": "Retired BOP sample 5"
+    },
+    {
+      "slot": 6,
+      "count": 8,
+      "source": "biomesoplenty:potted_yellow_autumn_sapling",
+      "target": "biomesoplenty:potted_yellow_maple_sapling",
+      "custom": "Retired BOP sample 6"
+    },
+    {
+      "slot": 7,
+      "count": 9,
+      "source": "biomesoplenty:yellow_autumn_leaves",
+      "target": "biomesoplenty:yellow_maple_leaves",
+      "custom": "Retired BOP sample 7"
+    },
+    {
+      "slot": 8,
+      "count": 10,
+      "source": "biomesoplenty:yellow_autumn_sapling",
+      "target": "biomesoplenty:yellow_maple_sapling",
+      "custom": "Retired BOP sample 8"
+    },
+    {
+      "slot": 9,
+      "count": 11,
+      "source": "biomesoplenty:potted_wildflower",
+      "target": "biomesoplenty:potted_lavender",
+      "custom": "Retired BOP sample 9"
+    }
+  ],
+  "biomes": [
+    {
+      "x": 514,
+      "y": 82,
+      "z": 522,
+      "source": "biomesoplenty:clover_patch",
+      "target": "biomesoplenty:grassland"
+    },
+    {
+      "x": 518,
+      "y": 82,
+      "z": 522,
+      "source": "biomesoplenty:lavender_forest",
+      "target": "biomesoplenty:lavender_field"
+    },
+    {
+      "x": 522,
+      "y": 82,
+      "z": 522,
+      "source": "biomesoplenty:seasonal_orchard",
+      "target": "biomesoplenty:orchard"
+    },
+    {
+      "x": 1026,
+      "y": 82,
+      "z": 522,
+      "source": "biomesoplenty:lavender_forest",
+      "target": "biomesoplenty:lavender_field",
+      "deferred": true
+    }
+  ],
+  "minecraft": "1.20.1",
+  "loader": "NeoForge 47.1.106",
+  "kind": "retired_bop",
+  "chest": {
+    "x": 513,
+    "y": 80,
+    "z": 516
+  },
+  "world_files": {
+    "data/capabilities.dat": "9DAD459B3F201DF11AAFAB8F80FF8B27EFCBD7332062FDCCB74A9DC734C16B92",
+    "data/chunks.dat": "4F9E967C9C3EFA779B3E027E60DB35020EF3A380E32BE321623495DA2F43D2DD",
+    "data/raids.dat": "A9411B9EEFC26D6BBF562B691A3BC002D7664D3A347658E3174F5649F764D1AD",
+    "DIM-1/data/capabilities.dat": "9DAD459B3F201DF11AAFAB8F80FF8B27EFCBD7332062FDCCB74A9DC734C16B92",
+    "DIM-1/data/raids.dat": "A9411B9EEFC26D6BBF562B691A3BC002D7664D3A347658E3174F5649F764D1AD",
+    "DIM1/data/capabilities.dat": "9DAD459B3F201DF11AAFAB8F80FF8B27EFCBD7332062FDCCB74A9DC734C16B92",
+    "DIM1/data/raids_end.dat": "A9411B9EEFC26D6BBF562B691A3BC002D7664D3A347658E3174F5649F764D1AD",
+    "entities/r.-1.-1.mca": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "entities/r.-1.0.mca": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "entities/r.0.-1.mca": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "entities/r.0.0.mca": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "entities/r.0.1.mca": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "entities/r.1.0.mca": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "entities/r.1.1.mca": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "entities/r.2.0.mca": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "entities/r.2.1.mca": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "level.dat": "1EFB8EDA0BB409C4A6D563FCDBE6E395C830E2D7AD45C0AE29B8D6397842A0A1",
+    "level.dat_old": "40094B74640CCF0EA0C1DADE541BB4DD65500CACFA332517E9E4E1AADF633F13",
+    "region/r.-1.-1.mca": "0CF34E1FCAAA9B542C23CD6CA43CFAE5E47E71EF9B1FACAEA214EB26A47BBC12",
+    "region/r.-1.0.mca": "FF19C6B171BA0AFE2A1E567CB47FF044EEF237205C4A951E91579067828CC7EA",
+    "region/r.0.-1.mca": "5FBA7AA148EC0CF973F5D98660B909EFEF286E0A79AACA5A418DDD2F34FEEFE3",
+    "region/r.0.0.mca": "33636E871C8C3EADAA41F894FDF7BA8783CA8A5B220FC668FC804D72751E9CF4",
+    "region/r.0.1.mca": "CE9B126EC1B1C6F636D342ADB9372795DF5430E1D8C4873B3ABDD4361C43BDE3",
+    "region/r.1.0.mca": "0E6DBCDF92A4A259078466AF4ADD7DA8DFF50429514AB03B263DD716A700933E",
+    "region/r.1.1.mca": "3C0C5C81023AD333EC8B42F9400FDF2E18AFB3B94E4083A40396450309124868",
+    "region/r.2.0.mca": "7410BD18608FF4FAE91CFDC813A1DE8E872203BDE816DFD443361A24DFBFDCB5",
+    "region/r.2.1.mca": "3C21ED0E81A902066315494382BB1A73B3FCA055CA885685A5069574D5B1034C",
+    "serverconfig/forge-server.toml": "5E6E52616DA1B55EBEEBC3E6E7FAAF5936584B23B26A0517D8CE398A98A95764"
+  },
+  "archive_sha256": "854185BEA0BE6ECDC2D7695438734DC61B8C196A9129F6A1532F38885C7E2B1C"
+}

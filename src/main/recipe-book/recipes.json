@@ -1,0 +1,6786 @@
+[
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amber_block/corner/corner/skysbuildingpiecesbop/metal_horizontal_step_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amber_block/corner/corner/skysbuildingpiecesbop/metal_vertical_step_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amber_block/horizontal_step/rotate/skysbuildingpiecesbop/metal_vertical_step_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amber_block/horizontal_step/step/skysbuildingpiecesbop/metal_slab_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amber_block/horizontal_step/step/skysbuildingpiecesbop/metal_vertical_slab_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amber_block/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amber_block/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amber_block/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amber_block/slab/rotate/skysbuildingpiecesbop/metal_vertical_slab_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amber_block/slab/slab/biomesoplenty/gem_block_7",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amber_block/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 1
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amber_block/stairs/stairs/biomesoplenty/gem_block_7",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amber_block/vertical_step/rotate/skysbuildingpiecesbop/metal_horizontal_step_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amber_block/wall/wall/biomesoplenty/gem_block_7",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amethyst_block/corner/corner/skysbuildingpiecesbop/metal_horizontal_step_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amethyst_block/corner/corner/skysbuildingpiecesbop/metal_vertical_step_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amethyst_block/horizontal_step/rotate/skysbuildingpiecesbop/metal_vertical_step_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amethyst_block/horizontal_step/step/skysbuildingpiecesbop/metal_slab_00_2",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 2
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amethyst_block/horizontal_step/step/skysbuildingpiecesbop/metal_vertical_slab_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amethyst_block/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_00",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amethyst_block/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amethyst_block/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amethyst_block/slab/rotate/skysbuildingpiecesbop/metal_vertical_slab_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amethyst_block/slab/slab/biomesoplenty/gem_block_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amethyst_block/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amethyst_block/stairs/stairs/biomesoplenty/gem_block_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amethyst_block/vertical_step/rotate/skysbuildingpiecesbop/metal_horizontal_step_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/amethyst_block/wall/wall/biomesoplenty/gem_block_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/bamboo_thatching/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/bamboo_thatching/corner/corner/skysbuildingpiecesbop/wood_vertical_step_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/bamboo_thatching/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/bamboo_thatching/horizontal_step/step/skysbuildingpiecesbop/wood_slab_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_slab_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/bamboo_thatching/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/bamboo_thatching/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/bamboo_thatching/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/bamboo_thatching/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/bamboo_thatching/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/bamboo_thatching/slab/slab/biomesoplenty/bamboo_thatching_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:bamboo_thatching",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/bamboo_thatching/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_slab_00",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_slab_00",
+        "data": 1
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/bamboo_thatching/stairs/stairs/biomesoplenty/bamboo_thatching_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:bamboo_thatching",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/bamboo_thatching/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/corner/corner/skysbuildingpiecesbop/rock_vertical_step_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/horizontal_step/rotate/skysbuildingpiecesbop/rock_vertical_step_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/horizontal_step/step/skysbuildingpiecesbop/rock_slab_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/horizontal_step/step/skysbuildingpiecesbop/rock_vertical_slab_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/slab/rotate/skysbuildingpiecesbop/rock_vertical_slab_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/slab/slab/skysbuildingpiecesbop/retired_rocks_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/slab/step/mineralogy/gabbro_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "mineralogy:gabbro",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 1
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/stairs/stairs/skysbuildingpiecesbop/retired_rocks_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/stairs/stairs/skysbuildingpiecesbop/rock_slab_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/vertical_step/rotate/skysbuildingpiecesbop/rock_horizontal_step_00_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/wall/wall/mineralogy/gabbro_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "mineralogy:gabbro",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/crag_rock/wall/wall/skysbuildingpiecesbop/retired_rocks_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/corner/corner/skysbuildingpiecesbop/rock_vertical_step_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/horizontal_step/rotate/skysbuildingpiecesbop/rock_vertical_step_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/horizontal_step/step/skysbuildingpiecesbop/rock_slab_00_2",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 2
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/horizontal_step/step/skysbuildingpiecesbop/rock_vertical_slab_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_00",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/slab/rotate/skysbuildingpiecesbop/rock_vertical_slab_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/slab/slab/skysbuildingpiecesbop/retired_rocks_1",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 1
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/slab/step/mineralogy/limestone_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "mineralogy:limestone",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/stairs/stairs/skysbuildingpiecesbop/retired_rocks_1",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 1
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/stairs/stairs/skysbuildingpiecesbop/rock_slab_00_2",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 2
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/vertical_step/rotate/skysbuildingpiecesbop/rock_horizontal_step_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/wall/wall/mineralogy/limestone_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "mineralogy:limestone",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone/wall/wall/skysbuildingpiecesbop/retired_rocks_1",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 1
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/corner/corner/skysbuildingpiecesbop/rock_vertical_step_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/horizontal_step/rotate/skysbuildingpiecesbop/rock_vertical_step_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/horizontal_step/step/skysbuildingpiecesbop/rock_slab_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/horizontal_step/step/skysbuildingpiecesbop/rock_vertical_slab_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 11
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/slab/rotate/skysbuildingpiecesbop/rock_vertical_slab_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/slab/slab/skysbuildingpiecesbop/retired_rocks_2",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 2
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/slab/step/mineralogy/limestone_smooth_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "mineralogy:limestone_smooth",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 5
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/stairs/stairs/skysbuildingpiecesbop/retired_rocks_2",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 2
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/stairs/stairs/skysbuildingpiecesbop/rock_slab_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/vertical_step/rotate/skysbuildingpiecesbop/rock_horizontal_step_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/wall/wall/mineralogy/limestone_smooth_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "mineralogy:limestone_smooth",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/wall/wall/skysbuildingpiecesbop/retired_rocks_2",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 2
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/malachite_block/corner/corner/skysbuildingpiecesbop/metal_horizontal_step_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/malachite_block/corner/corner/skysbuildingpiecesbop/metal_vertical_step_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/malachite_block/horizontal_step/rotate/skysbuildingpiecesbop/metal_vertical_step_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/malachite_block/horizontal_step/step/skysbuildingpiecesbop/metal_slab_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/malachite_block/horizontal_step/step/skysbuildingpiecesbop/metal_vertical_slab_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/malachite_block/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/malachite_block/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/malachite_block/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 11
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/malachite_block/slab/rotate/skysbuildingpiecesbop/metal_vertical_slab_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/malachite_block/slab/slab/biomesoplenty/gem_block_5",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 5
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/malachite_block/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 5
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/malachite_block/stairs/stairs/biomesoplenty/gem_block_5",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 5
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/malachite_block/vertical_step/rotate/skysbuildingpiecesbop/metal_horizontal_step_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/malachite_block/wall/wall/biomesoplenty/gem_block_5",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 5
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/mud_brick_block/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/mud_brick_block/corner/corner/skysbuildingpiecesbop/rock_vertical_step_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/mud_brick_block/horizontal_step/rotate/skysbuildingpiecesbop/rock_vertical_step_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/mud_brick_block/horizontal_step/step/biomesoplenty/other_slab_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:other_slab",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/mud_brick_block/horizontal_step/step/skysbuildingpiecesbop/rock_vertical_slab_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/mud_brick_block/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_01",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/mud_brick_block/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/mud_brick_block/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_00",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/mud_brick_block/slab/rotate/skysbuildingpiecesbop/rock_vertical_slab_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/mud_brick_block/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:other_slab",
+        "data": 0
+      },
+      {
+        "item": "biomesoplenty:other_slab",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/mud_brick_block/vertical_step/rotate/skysbuildingpiecesbop/rock_horizontal_step_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/mud_brick_block/wall/wall/biomesoplenty/mud_brick_block_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:mud_brick_block",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/corner/corner/skysbuildingpiecesbop/metal_horizontal_step_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/corner/corner/skysbuildingpiecesbop/metal_vertical_step_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/horizontal_step/rotate/skysbuildingpiecesbop/metal_vertical_step_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/horizontal_step/step/skysbuildingpiecesbop/metal_slab_00_6",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 6
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/horizontal_step/step/skysbuildingpiecesbop/metal_vertical_slab_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_01",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_00",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/slab/rotate/skysbuildingpiecesbop/metal_vertical_slab_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/slab/slab/biomesoplenty/gem_block_2",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 2
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/stairs/stairs/biomesoplenty/gem_block_2",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 2
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/vertical_step/rotate/skysbuildingpiecesbop/metal_horizontal_step_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/peridot_block/wall/wall/biomesoplenty/gem_block_2",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 2
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_cherry/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_cherry/corner/corner/skysbuildingpiecesbop/wood_vertical_step_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_cherry/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_cherry/horizontal_step/step/biomesoplenty/wood_slab_0_1",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 1
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_cherry/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_cherry/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_00",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_cherry/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_cherry/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_cherry/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_00_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_00",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_cherry/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 1
+      },
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 9
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_cherry/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ebony/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ebony/corner/corner/skysbuildingpiecesbop/wood_vertical_step_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ebony/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ebony/horizontal_step/step/biomesoplenty/wood_slab_1_6",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 6
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ebony/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ebony/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ebony/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ebony/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 11
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ebony/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ebony/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 6
+      },
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 14
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ebony/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ethereal/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ethereal/corner/corner/skysbuildingpiecesbop/wood_vertical_step_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ethereal/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ethereal/horizontal_step/step/biomesoplenty/wood_slab_0_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ethereal/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ethereal/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_01",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ethereal/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ethereal/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_00",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ethereal/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ethereal/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 4
+      },
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_ethereal/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_eucalyptus/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_02_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_eucalyptus/corner/corner/skysbuildingpiecesbop/wood_vertical_step_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_eucalyptus/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_eucalyptus/horizontal_step/step/biomesoplenty/wood_slab_1_7",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_eucalyptus/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_eucalyptus/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_eucalyptus/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_eucalyptus/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_eucalyptus/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_eucalyptus/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 7
+      },
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_eucalyptus/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_02_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_fir/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_02_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_fir/corner/corner/skysbuildingpiecesbop/wood_vertical_step_01_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_fir/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_01_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_fir/horizontal_step/step/biomesoplenty/wood_slab_0_3",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_fir/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_01_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_01",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_fir/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_02",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_fir/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_fir/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_fir/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_01_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_01",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_fir/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 3
+      },
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 11
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_fir/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_02_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_02",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_hellbark/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_03_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_hellbark/corner/corner/skysbuildingpiecesbop/wood_vertical_step_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_hellbark/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_hellbark/horizontal_step/step/biomesoplenty/wood_slab_1_3",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_hellbark/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_hellbark/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_hellbark/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_hellbark/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 11
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_hellbark/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_hellbark/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 3
+      },
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 11
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_hellbark/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_03_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_jacaranda/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_03_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_jacaranda/corner/corner/skysbuildingpiecesbop/wood_vertical_step_01_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_jacaranda/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_01_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_jacaranda/horizontal_step/step/biomesoplenty/wood_slab_1_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_jacaranda/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_01_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_01",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_jacaranda/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_03",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_jacaranda/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_jacaranda/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_01",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_jacaranda/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_01_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_01",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_jacaranda/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 4
+      },
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_jacaranda/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_03_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_03",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_magic/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_04_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_magic/corner/corner/skysbuildingpiecesbop/wood_vertical_step_02_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_magic/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_02_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_magic/horizontal_step/step/biomesoplenty/wood_slab_0_5",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 5
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_magic/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_02_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_02",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_magic/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_magic/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_magic/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_magic/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_02_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_02",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_magic/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 5
+      },
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 13
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_magic/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_04_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mahogany/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_04_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mahogany/corner/corner/skysbuildingpiecesbop/wood_vertical_step_02_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mahogany/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_02_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mahogany/horizontal_step/step/biomesoplenty/wood_slab_1_5",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 5
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mahogany/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_02_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_02",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mahogany/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_04",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mahogany/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mahogany/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mahogany/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_02_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_02",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mahogany/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 5
+      },
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 13
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mahogany/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_04_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_04",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mangrove/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_05_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mangrove/corner/corner/skysbuildingpiecesbop/wood_vertical_step_02_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mangrove/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_02_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mangrove/horizontal_step/step/biomesoplenty/wood_slab_0_6",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 6
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mangrove/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_02_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_02",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mangrove/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mangrove/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mangrove/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 11
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mangrove/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_02_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_02",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mangrove/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 6
+      },
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 14
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_mangrove/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_05_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_palm/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_05_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_palm/corner/corner/skysbuildingpiecesbop/wood_vertical_step_02_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_palm/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_02_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_palm/horizontal_step/step/biomesoplenty/wood_slab_0_7",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_palm/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_02_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_02",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_palm/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_05",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_palm/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_palm/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_02",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_palm/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_02_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_02",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_palm/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 7
+      },
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_palm/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_05_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_05",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_pine/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_06_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_pine/corner/corner/skysbuildingpiecesbop/wood_vertical_step_03_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_pine/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_03_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_pine/horizontal_step/step/biomesoplenty/wood_slab_1_2",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 2
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_pine/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_03_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_03",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_pine/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_pine/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_pine/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_pine/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_03_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_03",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_pine/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 2
+      },
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 10
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_pine/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_06_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_redwood/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_06_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_redwood/corner/corner/skysbuildingpiecesbop/wood_vertical_step_03_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_redwood/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_03_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_redwood/horizontal_step/step/biomesoplenty/wood_slab_1_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_redwood/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_03_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_03",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_redwood/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_06",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_redwood/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_redwood/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_redwood/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_03_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_03",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_redwood/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 0
+      },
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_redwood/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_06_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_06",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_sacred_oak/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_07_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_sacred_oak/corner/corner/skysbuildingpiecesbop/wood_vertical_step_03_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_sacred_oak/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_03_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_sacred_oak/horizontal_step/step/biomesoplenty/wood_slab_0_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_sacred_oak/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_03_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_03",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_sacred_oak/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_sacred_oak/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_sacred_oak/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 11
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_sacred_oak/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_03_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_03",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_sacred_oak/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 0
+      },
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_sacred_oak/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_07_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_umbran/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_07_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_umbran/corner/corner/skysbuildingpiecesbop/wood_vertical_step_03_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_umbran/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_03_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_umbran/horizontal_step/step/biomesoplenty/wood_slab_0_2",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 2
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_umbran/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_03_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_03",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_umbran/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_07",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_umbran/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_umbran/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_03",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_umbran/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_03_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_03",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_umbran/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 2
+      },
+      {
+        "item": "biomesoplenty:wood_slab_0",
+        "data": 10
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_umbran/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_07_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_07",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_willow/corner/corner/skysbuildingpiecesbop/wood_horizontal_step_08_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_08",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_willow/corner/corner/skysbuildingpiecesbop/wood_vertical_step_04_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_04",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_willow/horizontal_step/rotate/skysbuildingpiecesbop/wood_vertical_step_04_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_04",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_willow/horizontal_step/step/biomesoplenty/wood_slab_1_1",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 1
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_willow/horizontal_step/step/skysbuildingpiecesbop/wood_vertical_slab_04_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_04",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_willow/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_08",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_08",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_08",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_08",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_08",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_08",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_08",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_corner_08",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_willow/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_08",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_08",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_08",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_08",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_08",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_08",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_08",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_08",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_willow/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_04",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_04",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_04",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_step_04",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_willow/slab/rotate/skysbuildingpiecesbop/wood_vertical_slab_04_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_vertical_slab_04",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_willow/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 1
+      },
+      {
+        "item": "biomesoplenty:wood_slab_1",
+        "data": 9
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/planks_willow/vertical_step/rotate/skysbuildingpiecesbop/wood_horizontal_step_08_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:wood_horizontal_step_08",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/ruby_block/corner/corner/skysbuildingpiecesbop/metal_horizontal_step_02_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/ruby_block/corner/corner/skysbuildingpiecesbop/metal_vertical_step_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/ruby_block/horizontal_step/rotate/skysbuildingpiecesbop/metal_vertical_step_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/ruby_block/horizontal_step/step/skysbuildingpiecesbop/metal_slab_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/ruby_block/horizontal_step/step/skysbuildingpiecesbop/metal_vertical_slab_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/ruby_block/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/ruby_block/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/ruby_block/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/ruby_block/slab/rotate/skysbuildingpiecesbop/metal_vertical_slab_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/ruby_block/slab/slab/biomesoplenty/gem_block_1",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 1
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/ruby_block/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 9
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/ruby_block/stairs/stairs/biomesoplenty/gem_block_1",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 1
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/ruby_block/vertical_step/rotate/skysbuildingpiecesbop/metal_horizontal_step_02_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/ruby_block/wall/wall/biomesoplenty/gem_block_1",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 1
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/corner/corner/skysbuildingpiecesbop/metal_horizontal_step_02_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/corner/corner/skysbuildingpiecesbop/metal_vertical_step_01_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/horizontal_step/rotate/skysbuildingpiecesbop/metal_vertical_step_01_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/horizontal_step/step/skysbuildingpiecesbop/metal_slab_00_10",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 10
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/horizontal_step/step/skysbuildingpiecesbop/metal_vertical_slab_01_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_01",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_02",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/slab/rotate/skysbuildingpiecesbop/metal_vertical_slab_01_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_01",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/slab/slab/biomesoplenty/gem_block_6",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 6
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 11
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/stairs/stairs/biomesoplenty/gem_block_6",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 6
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/vertical_step/rotate/skysbuildingpiecesbop/metal_horizontal_step_02_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_02",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/sapphire_block/wall/wall/biomesoplenty/gem_block_6",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 6
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_02_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/corner/corner/skysbuildingpiecesbop/rock_vertical_step_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/horizontal_step/rotate/skysbuildingpiecesbop/rock_vertical_step_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/horizontal_step/step/skysbuildingpiecesbop/rock_slab_00_6",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 6
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/horizontal_step/step/skysbuildingpiecesbop/rock_vertical_slab_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/slab/rotate/skysbuildingpiecesbop/rock_vertical_slab_01_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_01",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/slab/slab/skysbuildingpiecesbop/retired_rocks_3",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/slab/step/mineralogy/shale_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "mineralogy:shale",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/stairs/stairs/skysbuildingpiecesbop/retired_rocks_3",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/stairs/stairs/skysbuildingpiecesbop/rock_slab_00_6",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 6
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/vertical_step/rotate/skysbuildingpiecesbop/rock_horizontal_step_02_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/wall/wall/mineralogy/shale_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "mineralogy:shale",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale/wall/wall/skysbuildingpiecesbop/retired_rocks_3",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_02_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/corner/corner/skysbuildingpiecesbop/rock_vertical_step_01_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/horizontal_step/rotate/skysbuildingpiecesbop/rock_vertical_step_01_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/horizontal_step/step/skysbuildingpiecesbop/rock_slab_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/horizontal_step/step/skysbuildingpiecesbop/rock_vertical_slab_01_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_01",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_02",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/slab/rotate/skysbuildingpiecesbop/rock_vertical_slab_01_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_01",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/slab/slab/skysbuildingpiecesbop/retired_rocks_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/slab/step/mineralogy/shale_smooth_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "mineralogy:shale_smooth",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 9
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/stairs/stairs/skysbuildingpiecesbop/retired_rocks_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/stairs/stairs/skysbuildingpiecesbop/rock_slab_00_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/vertical_step/rotate/skysbuildingpiecesbop/rock_horizontal_step_02_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_02",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/wall/wall/mineralogy/shale_smooth_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "mineralogy:shale_smooth",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/shale_polished/wall/wall/skysbuildingpiecesbop/retired_rocks_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_03_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/corner/corner/skysbuildingpiecesbop/rock_vertical_step_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/horizontal_step/rotate/skysbuildingpiecesbop/rock_vertical_step_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/horizontal_step/step/skysbuildingpiecesbop/rock_slab_00_10",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 10
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/horizontal_step/step/skysbuildingpiecesbop/rock_vertical_slab_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 11
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/slab/rotate/skysbuildingpiecesbop/rock_vertical_slab_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/slab/slab/skysbuildingpiecesbop/retired_rocks_5",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 5
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/slab/step/mineralogy/siltstone_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "mineralogy:siltstone",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 11
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/stairs/stairs/skysbuildingpiecesbop/retired_rocks_5",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 5
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/stairs/stairs/skysbuildingpiecesbop/rock_slab_00_10",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 10
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/vertical_step/rotate/skysbuildingpiecesbop/rock_horizontal_step_03_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/wall/wall/mineralogy/siltstone_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "mineralogy:siltstone",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone/wall/wall/skysbuildingpiecesbop/retired_rocks_5",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 5
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/corner/corner/skysbuildingpiecesbop/rock_horizontal_step_03_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/corner/corner/skysbuildingpiecesbop/rock_vertical_step_01_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/horizontal_step/rotate/skysbuildingpiecesbop/rock_vertical_step_01_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/horizontal_step/step/skysbuildingpiecesbop/rock_slab_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/horizontal_step/step/skysbuildingpiecesbop/rock_vertical_slab_01_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_01",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_corner_03",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_step_01",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/slab/rotate/skysbuildingpiecesbop/rock_vertical_slab_01_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_vertical_slab_01",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/slab/slab/skysbuildingpiecesbop/retired_rocks_6",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 6
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/slab/step/mineralogy/siltstone_smooth_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "mineralogy:siltstone_smooth",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 13
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/stairs/stairs/skysbuildingpiecesbop/retired_rocks_6",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 6
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/stairs/stairs/skysbuildingpiecesbop/rock_slab_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_slab_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/vertical_step/rotate/skysbuildingpiecesbop/rock_horizontal_step_03_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:rock_horizontal_step_03",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/wall/wall/mineralogy/siltstone_smooth_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "mineralogy:siltstone_smooth",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/siltstone_polished/wall/wall/skysbuildingpiecesbop/retired_rocks_6",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 6
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/corner/corner/skysbuildingpiecesbop/metal_horizontal_step_03_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/corner/corner/skysbuildingpiecesbop/metal_vertical_step_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/horizontal_step/rotate/skysbuildingpiecesbop/metal_vertical_step_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/horizontal_step/step/skysbuildingpiecesbop/metal_slab_00_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/horizontal_step/step/skysbuildingpiecesbop/metal_vertical_slab_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 0
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 1
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 2
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 3
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 4
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 5
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 6
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 7
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 11
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/slab/rotate/skysbuildingpiecesbop/metal_vertical_slab_01_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_01",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/slab/slab/biomesoplenty/gem_block_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 13
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/stairs/stairs/biomesoplenty/gem_block_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/vertical_step/rotate/skysbuildingpiecesbop/metal_horizontal_step_03_0",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/tanzanite_block/wall/wall/biomesoplenty/gem_block_4",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/topaz_block/corner/corner/skysbuildingpiecesbop/metal_horizontal_step_03_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/topaz_block/corner/corner/skysbuildingpiecesbop/metal_vertical_step_01_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/topaz_block/horizontal_step/rotate/skysbuildingpiecesbop/metal_vertical_step_01_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/topaz_block/horizontal_step/step/skysbuildingpiecesbop/metal_slab_00_14",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 14
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/topaz_block/horizontal_step/step/skysbuildingpiecesbop/metal_vertical_slab_01_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_01",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/topaz_block/recombine_corner",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_corner_03",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/topaz_block/recombine_horizontal_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 8
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 9
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 10
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 11
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/topaz_block/recombine_vertical_step",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 12
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 13
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_step_01",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/topaz_block/slab/rotate/skysbuildingpiecesbop/metal_vertical_slab_01_12",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_vertical_slab_01",
+        "data": 12
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/topaz_block/slab/slab/biomesoplenty/gem_block_3",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/topaz_block/slab_recombination",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 14
+      },
+      {
+        "item": "skysbuildingpiecesbop:metal_slab_00",
+        "data": 15
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/topaz_block/stairs/stairs/biomesoplenty/gem_block_3",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/topaz_block/vertical_step/rotate/skysbuildingpiecesbop/metal_horizontal_step_03_8",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:metal_horizontal_step_03",
+        "data": 8
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpieces:biomesoplenty/topaz_block/wall/wall/biomesoplenty/gem_block_3",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "biomesoplenty:gem_block",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpiecesbop:flower_basket",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "minecraft:stick",
+        "data": 0
+      },
+      {
+        "item": "biomesoplenty:bamboo",
+        "data": 0
+      },
+      {
+        "item": "biomesoplenty:plant_1",
+        "data": 5
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpiecesbop:restore_gabbro",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 0
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpiecesbop:restore_limestone",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 1
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpiecesbop:restore_limestone_smooth",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 2
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpiecesbop:restore_shale",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 3
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpiecesbop:restore_shale_smooth",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 4
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpiecesbop:restore_siltstone",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 5
+      }
+    ]
+  },
+  {
+    "recipe": "skysbuildingpiecesbop:restore_siltstone_smooth",
+    "owner": "skysbuildingpiecesbop",
+    "ingredients": [
+      {
+        "item": "skysbuildingpiecesbop:retired_rocks",
+        "data": 6
+      }
+    ]
+  }
+]

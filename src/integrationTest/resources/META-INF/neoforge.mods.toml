@@ -1,0 +1,11 @@
+modLoader="javafml"
+loaderVersion="[3,)"
+license="LGPL-2.1-only"
+[[mods]]
+modId="buildingpiecesprobe"
+version="1.0"
+displayName="Building Pieces Runtime Checks"
+[[mods]]
+modId="basketsprobe"
+version="1.0"
+displayName="BOP Basket Runtime Checks"

@@ -1,24 +1,51 @@
 # Building from source
 
-Use Java 17 for Gradle and Temurin 8.0.502+7 for production. Set
-`SBP_JAVA8_HOME` to the Java 8 installation. The wrapper uses Gradle 9.6.1
-and ForgeGradle 7.0.34 with stable 29-1.10.2 mappings.
+Use Temurin 25.0.3+9. The wrapper runs Gradle 9.2.1 and NeoGradle 7.1.38
+for Minecraft 26.1.2 and NeoForge 26.1.2.94.
 
-Check out the core repository at the commit in
-`gradle/core-dependency.properties`, then run its `gradlew jar` task. Build
-this project with `gradlew check build javadoc verifyReleaseArtifacts
-writeReleaseChecksums verifyEclipseProductionClasspath
--PbuildingPiecesCoreDir=<core checkout>`.
+Check out the Building Pieces commit in `gradle/core-dependency.properties`
+and run `gradlew assemble` there. Put the core checkout alongside this
+one in the usual version folders, or pass
+`-PbuildingPiecesCoreDir=<core checkout>`. The add-on uses the core's
+ordinary main jar and does not bundle its classes. The build checks the
+core version, source commit and jar hash, and verifies the BOP,
+TerraBlender and GlitchCore jars fetched from Modrinth Maven.
 
-The development dependency is the core's `build/libs-dev` jar, not a shaded
-copy or a published Maven dependency. Packaged games use both normal main
-jars. BOP is fetched as a checksum-verified development dependency, not bundled.
+Build and audit the add-on with:
 
-The pinned core is 0.3.0.110021. A local-only `buildingPiecesCoreVersion`
-override requires an explicit core directory and is rejected in CI.
-The add-on catalogue and API version remain unchanged. CI builds the pinned
-core source before building this add-on.
+```text
+gradlew check build javadoc verifyReleaseArtifacts writeReleaseChecksums
+```
 
-Use `genEclipseRuns eclipse` with the same core-directory property. Ordinary
-client and server launches exclude the build-only probe and unit tests.
-Publication remains disabled until this mod has its own CurseForge project.
+Use `gradlew eclipse verifyEclipseConfiguration` to prepare the IDE. Run it
+with `-Declipse.application=org.eclipse.ui.ide.workbench` from a terminal
+to export the native launch files. Use one Gradle home for this checkout's
+command line and Eclipse launches. The regular client and server use the
+merged production output, without test classes or test mods.
+
+## Runtime checks
+
+The test harnesses use Python 3.11 or later. Build the separate runtime
+probe with `gradlew preparePackagedNativeProbe`. Run
+`python tools/run_packaged_checks.py --help` for native server and client
+checks, or `python tools/run_development_checks.py --help` for development
+runs. Start with a fresh folder under `build` and use the same verified
+jars on reload. The regular game runs do not include the probe.
+
+The packaged checks cover the Flower Basket, placed pieces, recipes and
+world recovery. The client can also test basket packets and closing an open
+basket during a disconnect. Upgrades always use copies of the sealed saves.
+
+Recipe and advancement files under `src/main/resources/data` use
+NeoForge conditions for optional materials. Retired rock recipes keep the
+same IDs whether they use a Mineralogy block or the add-on's fallback.
+
+See [the release guide](RELEASING.md) for the artifact checks.
+
+Disposable servers use Java networking (`use-native-transport=false`). This
+avoids host-specific Netty availability probes during log auditing.
+
+With BOP installed, NeoForge's 26.1.2 development run reports that the allay has
+no registered spawn placement. It also happens in a BOP-only control run. The
+development check records that one message separately and still checks the rest
+of the log. Packaged launches use the ordinary strict log checks.

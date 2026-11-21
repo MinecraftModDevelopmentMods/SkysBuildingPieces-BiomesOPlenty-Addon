@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skys/result/skysbuildingpiecesbop/siltstone_polished_stairs",
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "key": {
+    "X": "skysbuildingpiecesbop:siltstone_polished_slab"
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:siltstone_polished_stairs",
+    "count": 4
+  },
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:siltstone_polished_slab"
+        },
+        {
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:siltstone_polished_stairs"
+        }
+      ]
+    }
+  ]
+}

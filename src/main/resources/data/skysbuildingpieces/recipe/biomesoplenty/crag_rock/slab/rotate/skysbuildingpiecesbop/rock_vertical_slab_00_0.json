@@ -1,0 +1,33 @@
+{
+  "type": "skysbuildingpieces:cutting",
+  "group": "skys/result/skysbuildingpiecesbop/crag_rock_slab",
+  "pattern": [
+    "X"
+  ],
+  "key": {
+    "X": "skysbuildingpiecesbop:crag_rock_vertical_slab"
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:crag_rock_slab",
+    "count": 1
+  },
+  "preserve_tag": true,
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:crag_rock_slab"
+        },
+        {
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:crag_rock_vertical_slab"
+        }
+      ]
+    }
+  ]
+}

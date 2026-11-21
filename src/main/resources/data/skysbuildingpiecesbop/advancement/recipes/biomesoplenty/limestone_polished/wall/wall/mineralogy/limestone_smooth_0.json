@@ -1,0 +1,76 @@
+{
+  "criteria": {
+    "has_ingredient": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#skysbuildingpiecesbop:recipe_materials/abec3201d425cc5f"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "skysbuildingpieces:biomesoplenty/limestone_polished/wall/wall/mineralogy/limestone_smooth_0"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_ingredient",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "skysbuildingpieces:biomesoplenty/limestone_polished/wall/wall/mineralogy/limestone_smooth_0"
+    ]
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:or",
+      "values": [
+        {
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "mineralogy:limestone_smooth"
+            },
+            {
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:limestone_polished_wall"
+            }
+          ]
+        },
+        {
+          "type": "neoforge:and",
+          "values": [
+            {
+              "type": "neoforge:not",
+              "value": {
+                "type": "neoforge:registered",
+                "registry": "minecraft:item",
+                "value": "mineralogy:limestone_smooth"
+              }
+            },
+            {
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:limestone_polished_wall"
+            },
+            {
+              "type": "neoforge:registered",
+              "registry": "minecraft:item",
+              "value": "skysbuildingpiecesbop:retired_limestone_smooth"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

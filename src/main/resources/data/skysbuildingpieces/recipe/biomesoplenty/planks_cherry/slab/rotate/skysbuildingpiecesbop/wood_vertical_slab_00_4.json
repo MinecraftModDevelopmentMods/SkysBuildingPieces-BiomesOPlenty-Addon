@@ -1,0 +1,23 @@
+{
+  "type": "skysbuildingpieces:cutting",
+  "group": "skys/result/minecraft/cherry_slab",
+  "pattern": [
+    "X"
+  ],
+  "key": {
+    "X": "skysbuildingpiecesbop:planks_cherry_vertical_slab"
+  },
+  "result": {
+    "id": "minecraft:cherry_slab",
+    "count": 1
+  },
+  "preserve_tag": true,
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:registered",
+      "registry": "minecraft:item",
+      "value": "skysbuildingpiecesbop:planks_cherry_vertical_slab"
+    }
+  ]
+}

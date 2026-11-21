@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skys/result/biomesoplenty/fir_planks",
+  "pattern": [
+    "XX"
+  ],
+  "key": {
+    "X": "biomesoplenty:fir_slab"
+  },
+  "result": {
+    "id": "biomesoplenty:fir_planks",
+    "count": 1
+  },
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:fir_planks"
+        },
+        {
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "biomesoplenty:fir_slab"
+        }
+      ]
+    }
+  ]
+}

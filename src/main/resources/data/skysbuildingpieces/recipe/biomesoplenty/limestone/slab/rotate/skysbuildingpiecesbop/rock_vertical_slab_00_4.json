@@ -1,0 +1,33 @@
+{
+  "type": "skysbuildingpieces:cutting",
+  "group": "skys/result/skysbuildingpiecesbop/limestone_slab",
+  "pattern": [
+    "X"
+  ],
+  "key": {
+    "X": "skysbuildingpiecesbop:limestone_vertical_slab"
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:limestone_slab",
+    "count": 1
+  },
+  "preserve_tag": true,
+  "category": "building",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:and",
+      "values": [
+        {
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:limestone_slab"
+        },
+        {
+          "type": "neoforge:registered",
+          "registry": "minecraft:item",
+          "value": "skysbuildingpiecesbop:limestone_vertical_slab"
+        }
+      ]
+    }
+  ]
+}
