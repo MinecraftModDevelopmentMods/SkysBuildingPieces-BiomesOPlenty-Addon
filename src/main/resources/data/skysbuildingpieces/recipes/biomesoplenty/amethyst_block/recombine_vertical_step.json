@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/amethyst_block",
+  "group": "skys/result/skysbuildingpieces/stained_hardened_clay_magenta_slab",
   "pattern": ["X", "X"],
   "key": {
     "X": {

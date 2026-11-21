@@ -259,14 +259,14 @@ These item recoveries also apply to chunks not opened during the first upgrade.
 They do not rescue an inventory or entity discarded by another mod. Cabinet
 contents and old MCA villagers still need their separate upgrade paths.
 
-## Block-ID budget for modpacks
+## Blocks and older palettes
 
-The add-on uses 74 block IDs: 66 piece palettes, one retired-rock palette,
-two replacement decorations and five hidden recovery holders. The holders
-are not creative entries or playable blocks.
+On Minecraft 1.20.1, each material and shape has its own block ID. The old
+metadata palettes are retained to read older saves; new pieces do not use
+material tile entities. Saved pieces keep their material and orientation
+when they are converted.
 
-Together with the core's 238 registered blocks, that is 312 additional blocks.
-The optional Mineralogy catalogue adds another 35. Existing native
-BOP blocks are not counted again. New pieces use fixed metadata palettes
-rather than material tile entities; saved material and orientation assignments
-stay unchanged. The Flower Basket adds no block IDs.
+The old 74-ID budget applies to the versions for Minecraft 1.12 and earlier.
+It does not describe this version's flattened blocks. Registry counts here
+also include hidden recovery holders, which stay out of the creative tab.
+The Flower Basket adds no blocks.

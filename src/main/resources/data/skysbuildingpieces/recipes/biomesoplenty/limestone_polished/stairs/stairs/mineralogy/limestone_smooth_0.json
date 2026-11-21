@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/mineralogy",
+  "group": "skys/result/skysbuildingpiecesbop/limestone_polished_stairs",
   "pattern": ["X  ", "XX ", "XXX"],
   "key": {
     "X": {

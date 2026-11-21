@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.7.120011
+
+- Keep different building pieces on separate recipe-book buttons and remove repeated rebuilding recipes.
+- Check saved baskets in world, player, chunk and entity data without trying to read other mods' private files as inventories.
+- Keep the original saved files untouched during those checks, and name any damaged file or invalid basket that needs attention.
+- Use Building Pieces 0.3.10 for corrected snow and wooden fuel behaviour.
+
 ## 0.2.5.120011
 
 - BOP building pieces and recovered rocks now have individual block IDs. Existing builds and saved rock variants carry forward.

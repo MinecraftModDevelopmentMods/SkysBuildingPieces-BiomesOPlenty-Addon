@@ -1,6 +1,6 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "group": "skys/result/minecraft/cherry_slab",
   "pattern": ["X"],
   "key": {
     "X": {
@@ -13,10 +13,6 @@
   },
   "preserve_tag": true,
   "conditions": [
-    {
-      "type": "forge:item_exists",
-      "item": "minecraft:cherry_slab"
-    },
     {
       "type": "forge:item_exists",
       "item": "skysbuildingpiecesbop:planks_cherry_vertical_slab"

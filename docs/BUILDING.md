@@ -8,7 +8,7 @@ Mavenizer also needs Java 25; it is not used to compile or run the mod.
 The runtime log checks use Python 3.11 or later. If `python` is not on your
 path, pass `-PpythonExecutable=<python executable>` to Gradle.
 
-Check out Building Pieces 0.3.9.120011 at the exact source commit in
+Check out Building Pieces 0.3.10.120011 at the exact source commit in
 `gradle/core-dependency.properties`, then run its `gradlew assemble` task.
 Build this add-on with:
 
@@ -20,6 +20,10 @@ The development dependency is the core's `build/libs-dev` jar, not a shaded
 copy or a published Maven dependency. Packaged games use both normal main
 jars. The build fetches BOP, TerraBlender and GlitchCore from Modrinth Maven
 and checks their hashes. The add-on uses these separate jars.
+
+Exact verified core and optional reference jars can also be kept in
+`.gradle/qualification-dependencies`. The same checksum and source-commit
+checks apply to those copies, so a sibling clean need not break Eclipse.
 
 The normal build checks both core jar hashes, its source commit and its clean
 working tree. CI builds that pinned commit before building the add-on. A local-only
@@ -47,7 +51,7 @@ advancements use matching Forge conditions.
 material, basket, decoration and migration checks, then reloads the saved world.
 The accepted 1.12, 1.14, 1.15, 1.16, 1.17 and 1.18 jars produced the sealed worlds in
 `src/testFixtures`; the forward tests copy those worlds before starting the
-native 1.19 server.
+native 1.20.1 server.
 Older synthetic fixture writers are no longer used to create pre-flattening saves.
 
 `nativeClientTest` checks the baked models and basket GUI through real client
