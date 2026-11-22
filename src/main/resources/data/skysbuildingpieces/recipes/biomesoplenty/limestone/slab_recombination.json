@@ -1,0 +1,70 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:limestone"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "mineralogy:limestone"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:limestone_slab"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "group": "skys/result/mineralogy/limestone",
+        "pattern": ["XX"],
+        "key": {
+          "X": {
+            "item": "skysbuildingpiecesbop:limestone_slab"
+          }
+        },
+        "result": {
+          "item": "mineralogy:limestone",
+          "count": 1
+        },
+        "category": "building"
+      }
+    },
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:item_exists",
+            "item": "mineralogy:limestone"
+          }
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:limestone_slab"
+        },
+        {
+          "type": "forge:item_exists",
+          "item": "skysbuildingpiecesbop:retired_limestone"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "group": "skys/result/skysbuildingpiecesbop/retired_limestone",
+        "pattern": ["XX"],
+        "key": {
+          "X": {
+            "item": "skysbuildingpiecesbop:limestone_slab"
+          }
+        },
+        "result": {
+          "item": "skysbuildingpiecesbop:retired_limestone",
+          "count": 1
+        },
+        "category": "building"
+      }
+    }
+  ]
+}

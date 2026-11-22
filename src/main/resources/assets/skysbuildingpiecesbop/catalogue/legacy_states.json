@@ -1,0 +1,5512 @@
+[
+  {
+    "id": "biomesoplenty:bamboo_thatching",
+    "meta": 0,
+    "properties": {},
+    "material": "biomesoplenty:bamboo_thatching",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:cherry_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:cherry_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:cherry_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:cherry_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:cherry_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:cherry_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:cherry_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:cherry_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:double_other_slab",
+    "meta": 0,
+    "properties": {
+      "half": "bottom",
+      "variant": "mud_brick"
+    },
+    "material": "biomesoplenty:mud_brick_block",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_other_slab",
+    "meta": 8,
+    "properties": {
+      "half": "top",
+      "variant": "mud_brick"
+    },
+    "material": "biomesoplenty:mud_brick_block",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_0",
+    "meta": 0,
+    "properties": {
+      "half": "bottom",
+      "variant": "sacred_oak"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_0",
+    "meta": 1,
+    "properties": {
+      "half": "bottom",
+      "variant": "cherry"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_0",
+    "meta": 2,
+    "properties": {
+      "half": "bottom",
+      "variant": "umbran"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_0",
+    "meta": 3,
+    "properties": {
+      "half": "bottom",
+      "variant": "fir"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_0",
+    "meta": 4,
+    "properties": {
+      "half": "bottom",
+      "variant": "ethereal"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_0",
+    "meta": 5,
+    "properties": {
+      "half": "bottom",
+      "variant": "magic"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_0",
+    "meta": 6,
+    "properties": {
+      "half": "bottom",
+      "variant": "mangrove"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_0",
+    "meta": 7,
+    "properties": {
+      "half": "bottom",
+      "variant": "palm"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_1",
+    "meta": 0,
+    "properties": {
+      "half": "bottom",
+      "variant": "redwood"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_1",
+    "meta": 1,
+    "properties": {
+      "half": "bottom",
+      "variant": "willow"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_1",
+    "meta": 2,
+    "properties": {
+      "half": "bottom",
+      "variant": "pine"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_1",
+    "meta": 3,
+    "properties": {
+      "half": "bottom",
+      "variant": "hellbark"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_1",
+    "meta": 4,
+    "properties": {
+      "half": "bottom",
+      "variant": "jacaranda"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_1",
+    "meta": 5,
+    "properties": {
+      "half": "bottom",
+      "variant": "mahogany"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_1",
+    "meta": 6,
+    "properties": {
+      "half": "bottom",
+      "variant": "ebony"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:double_wood_slab_1",
+    "meta": 7,
+    "properties": {
+      "half": "bottom",
+      "variant": "eucalyptus"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ebony_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ebony_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ebony_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ebony_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ebony_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ebony_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ebony_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ebony_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:ethereal_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ethereal_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ethereal_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ethereal_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ethereal_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ethereal_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ethereal_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:ethereal_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:eucalyptus_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:fir_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:fir_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:fir_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:fir_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:fir_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:fir_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:fir_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:fir_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:fir_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:gem_block",
+    "meta": 0,
+    "properties": {
+      "variant": "amethyst"
+    },
+    "material": "biomesoplenty:amethyst_block",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:gem_block",
+    "meta": 1,
+    "properties": {
+      "variant": "ruby"
+    },
+    "material": "biomesoplenty:ruby_block",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:gem_block",
+    "meta": 2,
+    "properties": {
+      "variant": "peridot"
+    },
+    "material": "biomesoplenty:peridot_block",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:gem_block",
+    "meta": 3,
+    "properties": {
+      "variant": "topaz"
+    },
+    "material": "biomesoplenty:topaz_block",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:gem_block",
+    "meta": 4,
+    "properties": {
+      "variant": "tanzanite"
+    },
+    "material": "biomesoplenty:tanzanite_block",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:gem_block",
+    "meta": 5,
+    "properties": {
+      "variant": "malachite"
+    },
+    "material": "biomesoplenty:malachite_block",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:gem_block",
+    "meta": 6,
+    "properties": {
+      "variant": "sapphire"
+    },
+    "material": "biomesoplenty:sapphire_block",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:gem_block",
+    "meta": 7,
+    "properties": {
+      "variant": "amber"
+    },
+    "material": "biomesoplenty:amber_block",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:hellbark_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:hellbark_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:hellbark_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:hellbark_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:hellbark_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:hellbark_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:hellbark_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:hellbark_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:jacaranda_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:magic_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:magic_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:magic_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:magic_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:magic_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:magic_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:magic_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:magic_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:magic_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mahogany_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mahogany_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mahogany_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mahogany_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mahogany_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mahogany_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mahogany_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mahogany_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:mangrove_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mangrove_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mangrove_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mangrove_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mangrove_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mangrove_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mangrove_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mangrove_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mud_brick_block",
+    "meta": 0,
+    "properties": {},
+    "material": "biomesoplenty:mud_brick_block",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:mud_brick_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:mud_brick_block",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mud_brick_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:mud_brick_block",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mud_brick_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:mud_brick_block",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mud_brick_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:mud_brick_block",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mud_brick_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:mud_brick_block",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mud_brick_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:mud_brick_block",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mud_brick_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:mud_brick_block",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:mud_brick_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:mud_brick_block",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:other_slab",
+    "meta": 0,
+    "properties": {
+      "half": "bottom",
+      "variant": "mud_brick"
+    },
+    "material": "biomesoplenty:mud_brick_block",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:other_slab",
+    "meta": 8,
+    "properties": {
+      "half": "top",
+      "variant": "mud_brick"
+    },
+    "material": "biomesoplenty:mud_brick_block",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:palm_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:palm_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:palm_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:palm_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:palm_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:palm_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:palm_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:palm_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:palm_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:pine_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:pine_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:pine_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:pine_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:pine_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:pine_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:pine_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:pine_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:pine_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 0,
+    "properties": {
+      "variant": "sacred_oak"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 1,
+    "properties": {
+      "variant": "cherry"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 2,
+    "properties": {
+      "variant": "umbran"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 3,
+    "properties": {
+      "variant": "fir"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 4,
+    "properties": {
+      "variant": "ethereal"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 5,
+    "properties": {
+      "variant": "magic"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 6,
+    "properties": {
+      "variant": "mangrove"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 7,
+    "properties": {
+      "variant": "palm"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 8,
+    "properties": {
+      "variant": "redwood"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 9,
+    "properties": {
+      "variant": "willow"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 10,
+    "properties": {
+      "variant": "pine"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 11,
+    "properties": {
+      "variant": "hellbark"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 12,
+    "properties": {
+      "variant": "jacaranda"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 13,
+    "properties": {
+      "variant": "mahogany"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 14,
+    "properties": {
+      "variant": "ebony"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:planks_0",
+    "meta": 15,
+    "properties": {
+      "variant": "eucalyptus"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "full"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:redwood_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:redwood_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:redwood_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:redwood_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:redwood_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:redwood_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:redwood_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:redwood_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:sacred_oak_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:umbran_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:umbran_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:umbran_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:umbran_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:umbran_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:umbran_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:umbran_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:umbran_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:willow_fence",
+    "meta": 0,
+    "properties": {
+      "east": "false",
+      "north": "false",
+      "south": "false",
+      "west": "false"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 0,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 2,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 3,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 4,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 6,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 7,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "false"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 8,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 9,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 10,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 11,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "false",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 12,
+    "properties": {
+      "facing": "south",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 13,
+    "properties": {
+      "facing": "west",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 14,
+    "properties": {
+      "facing": "north",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_fence_gate",
+    "meta": 15,
+    "properties": {
+      "facing": "east",
+      "in_wall": "false",
+      "open": "true",
+      "powered": "true"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "fence_gate"
+  },
+  {
+    "id": "biomesoplenty:willow_stairs",
+    "meta": 0,
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:willow_stairs",
+    "meta": 1,
+    "properties": {
+      "facing": "west",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:willow_stairs",
+    "meta": 2,
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:willow_stairs",
+    "meta": 3,
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:willow_stairs",
+    "meta": 4,
+    "properties": {
+      "facing": "east",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:willow_stairs",
+    "meta": 5,
+    "properties": {
+      "facing": "west",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:willow_stairs",
+    "meta": 6,
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:willow_stairs",
+    "meta": 7,
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "stairs"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 0,
+    "properties": {
+      "half": "bottom",
+      "variant": "sacred_oak"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 1,
+    "properties": {
+      "half": "bottom",
+      "variant": "cherry"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 2,
+    "properties": {
+      "half": "bottom",
+      "variant": "umbran"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 3,
+    "properties": {
+      "half": "bottom",
+      "variant": "fir"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 4,
+    "properties": {
+      "half": "bottom",
+      "variant": "ethereal"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 5,
+    "properties": {
+      "half": "bottom",
+      "variant": "magic"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 6,
+    "properties": {
+      "half": "bottom",
+      "variant": "mangrove"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 7,
+    "properties": {
+      "half": "bottom",
+      "variant": "palm"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 8,
+    "properties": {
+      "half": "top",
+      "variant": "sacred_oak"
+    },
+    "material": "biomesoplenty:planks_sacred_oak",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 9,
+    "properties": {
+      "half": "top",
+      "variant": "cherry"
+    },
+    "material": "biomesoplenty:planks_cherry",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 10,
+    "properties": {
+      "half": "top",
+      "variant": "umbran"
+    },
+    "material": "biomesoplenty:planks_umbran",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 11,
+    "properties": {
+      "half": "top",
+      "variant": "fir"
+    },
+    "material": "biomesoplenty:planks_fir",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 12,
+    "properties": {
+      "half": "top",
+      "variant": "ethereal"
+    },
+    "material": "biomesoplenty:planks_ethereal",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 13,
+    "properties": {
+      "half": "top",
+      "variant": "magic"
+    },
+    "material": "biomesoplenty:planks_magic",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 14,
+    "properties": {
+      "half": "top",
+      "variant": "mangrove"
+    },
+    "material": "biomesoplenty:planks_mangrove",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_0",
+    "meta": 15,
+    "properties": {
+      "half": "top",
+      "variant": "palm"
+    },
+    "material": "biomesoplenty:planks_palm",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 0,
+    "properties": {
+      "half": "bottom",
+      "variant": "redwood"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 1,
+    "properties": {
+      "half": "bottom",
+      "variant": "willow"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 2,
+    "properties": {
+      "half": "bottom",
+      "variant": "pine"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 3,
+    "properties": {
+      "half": "bottom",
+      "variant": "hellbark"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 4,
+    "properties": {
+      "half": "bottom",
+      "variant": "jacaranda"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 5,
+    "properties": {
+      "half": "bottom",
+      "variant": "mahogany"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 6,
+    "properties": {
+      "half": "bottom",
+      "variant": "ebony"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 7,
+    "properties": {
+      "half": "bottom",
+      "variant": "eucalyptus"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 8,
+    "properties": {
+      "half": "top",
+      "variant": "redwood"
+    },
+    "material": "biomesoplenty:planks_redwood",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 9,
+    "properties": {
+      "half": "top",
+      "variant": "willow"
+    },
+    "material": "biomesoplenty:planks_willow",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 10,
+    "properties": {
+      "half": "top",
+      "variant": "pine"
+    },
+    "material": "biomesoplenty:planks_pine",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 11,
+    "properties": {
+      "half": "top",
+      "variant": "hellbark"
+    },
+    "material": "biomesoplenty:planks_hellbark",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 12,
+    "properties": {
+      "half": "top",
+      "variant": "jacaranda"
+    },
+    "material": "biomesoplenty:planks_jacaranda",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 13,
+    "properties": {
+      "half": "top",
+      "variant": "mahogany"
+    },
+    "material": "biomesoplenty:planks_mahogany",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 14,
+    "properties": {
+      "half": "top",
+      "variant": "ebony"
+    },
+    "material": "biomesoplenty:planks_ebony",
+    "role": "slab"
+  },
+  {
+    "id": "biomesoplenty:wood_slab_1",
+    "meta": 15,
+    "properties": {
+      "half": "top",
+      "variant": "eucalyptus"
+    },
+    "material": "biomesoplenty:planks_eucalyptus",
+    "role": "slab"
+  }
+]

@@ -1,5 +1,112 @@
 # Changelog
 
+## 0.2.7.120011
+
+- Keep different building pieces on separate recipe-book buttons and remove repeated rebuilding recipes.
+- Check saved baskets in world, player, chunk and entity data without trying to read other mods' private files as inventories.
+- Keep the original saved files untouched during those checks, and name any damaged file or invalid basket that needs attention.
+- Use Building Pieces 0.3.10 for corrected snow and wooden fuel behaviour.
+
+## 0.2.5.120011
+
+- BOP building pieces and recovered rocks now have individual block IDs. Existing builds and saved rock variants carry forward.
+
+## 0.2.4.120011
+
+- Ported to Minecraft 1.20.1 and Forge 47.4.10.
+- Kept existing pieces and baskets. Added replacements for removed BOP wood,
+  plants and biomes when opening older worlds.
+
+## 0.2.4.119041
+
+- Added the Minecraft 1.19.4 version for Forge 45.4.0.
+- Kept the building catalogue, Flower Basket and saved pieces compatible with earlier versions.
+- Added replacements for BOP's removed mud pieces, rooted sand and four biomes.
+- Updated crafting-book categories and the vanilla mud-brick textures.
+
+## 0.2.4.118021 - Minecraft 1.18.2 (unreleased)
+
+- Bring the BOP pieces and Flower Basket to Minecraft 1.18.2.
+- Use BOP with TerraBlender and the matching core.
+- Replace removed roots with similar plants, keeping water and growth states.
+- Retain saved biome identities through the new chunk format.
+
+## 0.2.4.117011 - Minecraft 1.17.1 (unreleased)
+
+- Bring the existing BOP pieces, decorations and Flower Basket to Minecraft 1.17.1.
+- Keep saved material palettes, orientations, waterlogging and basket contents.
+- Replace removed nether crystals with rose quartz, keeping their attachment directions.
+- Keep recipe-book unlocks and translated material names working with the matching core.
+
+## 0.2.4.116051
+
+- Added the Minecraft 1.16.5 port for Forge 36.2.34 and BOP 13.1.0.488.
+- Kept existing piece IDs, material slots, Flower Baskets and saved contents.
+- Added replacements for BOP plants and biomes removed on this upgrade route.
+
+
+## 0.2.4.115021 - Minecraft 1.15.2 (unreleased)
+
+- Bring BOP building pieces, restored decorations and the Flower Basket to 1.15.2.
+- Use the matching core pieces and BOP 10 materials.
+- Recover retired ethereal wood as birch, with white cherry leaves and saplings.
+- Replace dried sand with dried salt and barley with tall wheat.
+- Preserve saved biome identities when upgrading, including chunks opened later.
+
+## 0.2.4.114041
+
+- Ported to Minecraft 1.14.4 and native waterlogging.
+- Reused BOP's current slabs, stairs and walls where equivalent pieces exist.
+- Added replacements for retired woods, gems and thatching when loading old pieces.
+- Kept Flower Basket inventories, with old plant names converted before loading.
+- Preserved existing migration totals and supported saved, unpopulated chunks.
+- Added recipe-book unlocks for converting fallback rocks to Mineralogy blocks.
+
+## 0.2.4.112021
+
+- Updated for Building Pieces 0.3.8.112021.
+- Added the missing recipe-book unlocks for crafting and rebuilding pieces.
+- Made the next recipes appear while the crafting table is still open.
+
+## 0.2.3.112021
+
+- Updated for Building Pieces 0.3.7.112021. Matching corners can be crafted back
+  into steps, and matching steps back into regular slabs.
+- Kept the BOP materials, saved pieces and Flower Basket contents unchanged.
+- Fixed the Minecraft version warning when refreshing the project in Eclipse.
+
+## 0.2.2.112021
+
+- Shortened names for gem and wood pieces across all 18 languages.
+- Kept names independent of the full blocks used to craft each piece.
+- Requires Building Pieces 0.3.6 for the updated names; update both jars together.
+
+## 0.2.1.112021
+
+- Gave BOP stone and gem walls lower panels and raised posts.
+- Kept posts at ends, corners, junctions and beneath blocks or torches above.
+- Matched selection and collision shapes to the wall profile and removed internal faces.
+- Kept existing materials, registry IDs, recipes and saved palette assignments unchanged.
+- Update together with Building Pieces 0.3.5 for the matching wall shapes.
+
+## 0.2.0.112021
+
+- Recovered old turnip seeds as HarvestCraft turnip seeds, pinecones as brown
+  dye, and dull flower bands as clover, retaining their crafting quantities.
+- Kept custom item data and checked inventory space before expanding old stacks.
+- Brought back the Flower Basket, with 18 storage slots and automatic plant pickup.
+- Preserved old BOP baskets and their contents when upgrading from 1.10.
+- Added new basket artwork and names in all supported languages.
+
+## 0.1.0.112021
+
+- Preserved removed BOP stone formations and jelled poison, and replaced old
+  tree moss with willow vines while keeping its attachment faces.
+- Added Minecraft 1.12.2 support without changing existing piece IDs or palettes.
+- Preserved retired rock pieces, full blocks and items using Mineralogy rocks,
+  with matching full blocks when Mineralogy is not installed.
+- Kept native recipes intact and recovered stored pieces before containers load.
+
 ## 0.1.0.110021
 
 - Added building pieces for all BOP plank woods, bamboo thatching, stones and gem blocks.

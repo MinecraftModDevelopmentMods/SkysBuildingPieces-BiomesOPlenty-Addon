@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skys/result/biomesoplenty/mahogany_planks",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "biomesoplenty:mahogany_slab"
+    }
+  },
+  "result": {
+    "item": "biomesoplenty:mahogany_planks",
+    "count": 1
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:mahogany_planks"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "biomesoplenty:mahogany_slab"
+    }
+  ],
+  "category": "building"
+}

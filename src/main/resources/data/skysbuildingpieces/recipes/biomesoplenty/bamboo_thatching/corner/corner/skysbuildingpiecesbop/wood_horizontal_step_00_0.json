@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skys/result/skysbuildingpiecesbop/planks_willow_corner",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:planks_willow_horizontal_step"
+    }
+  },
+  "result": {
+    "item": "skysbuildingpiecesbop:planks_willow_corner",
+    "count": 4
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_willow_corner"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_willow_horizontal_step"
+    }
+  ],
+  "category": "building"
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skys/result/skysbuildingpiecesbop/planks_cherry_horizontal_step",
+  "pattern": ["X", "X"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:planks_cherry_corner"
+    }
+  },
+  "result": {
+    "item": "skysbuildingpiecesbop:planks_cherry_horizontal_step",
+    "count": 1
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_cherry_corner"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:planks_cherry_horizontal_step"
+    }
+  ],
+  "category": "building"
+}

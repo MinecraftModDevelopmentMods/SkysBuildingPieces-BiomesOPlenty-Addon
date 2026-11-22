@@ -1,0 +1,18 @@
+// Check the exact scripts independently of Forge's incidental discovery order.
+def orderClasses = layout.buildDirectory.dir('coremod-order-checks/classes')
+def compileOrders = tasks.register('compileHardnessOrderChecks', JavaCompile) {
+    source fileTree('src/coremodTest/java')
+    classpath = sourceSets.main.runtimeClasspath
+    destinationDirectory = orderClasses
+}
+tasks.register('verifyHardnessCoremodOrder', JavaExec) {
+    group = 'verification'
+    dependsOn compileOrders, tasks.named('verifyCoreDependency')
+    classpath = files(orderClasses, sourceSets.main.runtimeClasspath)
+    mainClass = 'zone.moddev.mc.skysbuildingpiecesbop.probe.HardnessOrderChecks'
+    doFirst {
+        args file('src/main/resources/coremods/skysbuildingpiecesbop.js').absolutePath,
+                project.ext.coreDevelopmentJar.absolutePath
+    }
+}
+tasks.named('check') { dependsOn tasks.named('verifyHardnessCoremodOrder') }

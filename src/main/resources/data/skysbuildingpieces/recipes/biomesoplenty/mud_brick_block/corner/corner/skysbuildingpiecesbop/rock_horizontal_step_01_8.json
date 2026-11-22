@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skys/result/skysbuildingpiecesbop/mud_brick_block_corner",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
+    }
+  },
+  "result": {
+    "item": "skysbuildingpiecesbop:mud_brick_block_corner",
+    "count": 4
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:mud_brick_block_corner"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "skysbuildingpiecesbop:mud_brick_block_horizontal_step"
+    }
+  ],
+  "category": "building"
+}

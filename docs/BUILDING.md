@@ -1,24 +1,80 @@
 # Building from source
 
-Use Java 17 for Gradle and Temurin 8.0.502+7 for production. Set
-`SBP_JAVA8_HOME` to the Java 8 installation. The wrapper uses Gradle 9.6.1
-and ForgeGradle 7.0.34 with stable 29-1.10.2 mappings.
+Use Temurin 17.0.1+12 for Gradle and Temurin 17.0.1+12 for production. Set
+`SBP_JAVA17_HOME` to the Java 17 installation. The wrapper uses Gradle 9.6.1
+and ForgeGradle 7.0.34 for Minecraft 1.20.1 and Forge 47.4.10. ForgeGradle's
+Mavenizer also needs Java 25; it is not used to compile or run the mod.
 
-Check out the core repository at the commit in
-`gradle/core-dependency.properties`, then run its `gradlew jar` task. Build
-this project with `gradlew check build javadoc verifyReleaseArtifacts
-writeReleaseChecksums verifyEclipseProductionClasspath
--PbuildingPiecesCoreDir=<core checkout>`.
+The runtime log checks use Python 3.11 or later. If `python` is not on your
+path, pass `-PpythonExecutable=<python executable>` to Gradle.
+
+Check out Building Pieces 0.3.10.120011 at the exact source commit in
+`gradle/core-dependency.properties`, then run its `gradlew assemble` task.
+Build this add-on with:
+
+```text
+gradlew check build javadoc verifyReleaseArtifacts writeReleaseChecksums verifyEclipseProductionClasspath -PbuildingPiecesCoreDir=<core checkout>
+```
 
 The development dependency is the core's `build/libs-dev` jar, not a shaded
 copy or a published Maven dependency. Packaged games use both normal main
-jars. BOP is fetched as a checksum-verified development dependency, not bundled.
+jars. The build fetches BOP, TerraBlender and GlitchCore from Modrinth Maven
+and checks their hashes. The add-on uses these separate jars.
 
-The pinned core is 0.3.0.110021. A local-only `buildingPiecesCoreVersion`
-override requires an explicit core directory and is rejected in CI.
-The add-on catalogue and API version remain unchanged. CI builds the pinned
-core source before building this add-on.
+Exact verified core and optional reference jars can also be kept in
+`.gradle/qualification-dependencies`. The same checksum and source-commit
+checks apply to those copies, so a sibling clean need not break Eclipse.
 
-Use `genEclipseRuns eclipse` with the same core-directory property. Ordinary
-client and server launches exclude the build-only probe and unit tests.
-Publication remains disabled until this mod has its own CurseForge project.
+The normal build checks both core jar hashes, its source commit and its clean
+working tree. CI builds that pinned commit before building the add-on. A local-only
+`buildingPiecesCoreVersion` override is available for testing another core
+candidate; it requires an explicit core directory and is rejected in CI.
+
+Use `genEclipseRuns eclipse` with the same core-directory property to prepare
+the IDE. Ordinary client and server launches exclude unit tests and the
+build-only runtime probe. Release preparation is covered in [the release guide](RELEASING.md).
+
+## Recipe-book resources
+
+Recipes and unlock advancements live under `src/main/resources/data`. The
+runtime checks compare those entries with the registered recipes and exercise
+inventory discovery, crafting-table discovery and recipe-book persistence.
+Optional catalogue entries load only when their recipe exists.
+
+Recipe unlocks have no shared advancement parent. This keeps a large catalogue
+from creating a deeply nested visibility tree. Optional recipes and their
+advancements use matching Forge conditions.
+
+## Runtime checks
+
+`integrationTest` runs the shared core placement checks together with the BOP
+material, basket, decoration and migration checks, then reloads the saved world.
+The accepted 1.12, 1.14, 1.15, 1.16, 1.17 and 1.18 jars produced the sealed worlds in
+`src/testFixtures`; the forward tests copy those worlds before starting the
+native 1.20.1 server.
+Older synthetic fixture writers are no longer used to create pre-flattening saves.
+
+`nativeClientTest` checks the baked models and basket GUI through real client
+packets. Its `bopClientPhase` property also accepts `client-basket-disconnect`
+and `client-basket-disconnect-reload`; run those in that order to check a player
+disconnecting with the basket open. All these runs use disposable build folders.
+
+The development integration harness uses one mod-loading thread. Packaged checks
+retain Forge's normal loading settings. Unexpected errors or crashes fail either
+profile; native Forge 47 controls complete without severe log messages.
+
+`nativeInstalledBopPolicyTest` checks all 33 materials with replacement off and
+on, including placed pieces and inventories. It uses a labelled test fixture,
+which is excluded from ordinary launches and release jars. `check` includes it.
+
+For combined native checks, `-PbopNativeCompanions=true` adds the exact Grass
+Slabs, Mineralogy and OreSpawn jars listed in `gradle/optional-runtime.properties`.
+Their main and development hashes are checked before copying. These profiles
+remain separate from ordinary client and server runs.
+Run `nativeClientTest` once, then repeat with `-PbopClientReload=true` to check
+the same saved client world. The second run refuses changed test or dependency
+jars. Disconnect tests use their separate `bopClientPhase` values instead.
+
+Hosted checks build the pinned Grass Slabs and Building Pieces sources before
+the add-on. They run compilation, unit tests and artifact checks. Gameplay,
+packaged launches and world upgrades are qualified locally.
