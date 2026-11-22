@@ -39,10 +39,10 @@ It doesn't accept unrelated items.
 Use the versions for **Minecraft 1.20.1**, with **NeoForge 47.1.106** and
 **Java 17**. You'll need:
 
-- **Sky's Building Pieces 0.3.9.120012** and this add-on.
+- **Sky's Building Pieces 0.3.10.120012** and this add-on.
 - **Biomes O' Plenty 18.0.0.598** and **TerraBlender 3.0.1.10**.
 
-Put all five main jars in `mods` on both the client and server.
+Put these main jars in `mods` on both the client and server.
 Downloads are on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/skysbuildingpiecesbop).
 
 For smoother BOP grass and soil, use the separate
@@ -61,9 +61,9 @@ Other retired plants and biomes use the replacements listed in the upgrade guide
 Nether crystals removed in BOP 1.17 become rose quartz, keeping their attachment
 directions and stored item data.
 
-Mineralogy is optional. Retired rocks use its matching blocks when available;
-otherwise the add-on supplies its own full-block replacements using Mineralogy
-textures. Old crag rock becomes gabbro.
+This early NeoForge version uses the add-on's full-block replacements
+for retired rocks, with Mineralogy textures. Old crag rock becomes gabbro.
+Worlds using Mineralogy or BOP 19 should stay on the supported Forge route.
 
 Back up your world and test a copy before upgrading.
 See the [changelog](CHANGELOG.md) for release history.

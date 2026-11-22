@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/planks_fir",
+  "group": "skys/result/biomesoplenty/fir_slab",
   "pattern": ["X", "X"],
   "key": {
     "X": {

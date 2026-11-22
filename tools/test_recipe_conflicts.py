@@ -43,7 +43,7 @@ class MineralogyRecipeChecks(unittest.TestCase):
 
     def test_standalone_and_mineralogy_keep_the_same_recipe_ids(self):
         resources = ROOT / 'src/main/resources'
-        default_core = ROOT.parent.parent / 'SkysBuildingPieces119/SkysBuildingPieces/src/main/resources'
+        default_core = ROOT.parent.parent / 'SkysBuildingPieces1201/SkysBuildingPieces/src/main/resources'
         core = Path(os.environ.get('BUILDING_PIECES_CORE_RESOURCES', str(default_core)))
         normal, _ = prepare(resources, core, self.recipes, self.tags)
         fallback, _ = prepare(resources, core, self.recipes, self.tags, True)
@@ -66,6 +66,27 @@ class MineralogyRecipeChecks(unittest.TestCase):
                                                 self.recipes, self.tags))
             checked += 1
         self.assertGreaterEqual(checked, 7)
+
+    def test_distinct_results_keep_separate_recipe_book_buttons(self):
+        groups = {}
+        checked = 0
+        for path in (ROOT / 'src/main/resources/data/skysbuildingpieces/recipes/biomesoplenty').rglob('*.json'):
+            value = json.loads(path.read_text())
+            recipes = [entry['recipe'] for entry in value['recipes']] if value.get('type') == 'forge:conditional' else [value]
+            for recipe in recipes:
+                result = recipe['result']['item']
+                group = recipe['group']
+                self.assertEqual('skys/result/' + result.replace(':', '/'), group, str(path))
+                self.assertEqual(result, groups.setdefault(group, result), str(path))
+                checked += 1
+        self.assertGreater(checked, 400)
+
+    def test_unified_steps_do_not_get_two_identical_rebuilding_recipes(self):
+        folder = ROOT / 'src/main/resources/data/skysbuildingpieces/recipes/biomesoplenty'
+        for vertical in folder.rglob('recombine_vertical_step.json'):
+            horizontal = vertical.with_name('recombine_horizontal_step.json')
+            self.assertTrue(horizontal.is_file())
+            self.assertNotEqual(json.loads(horizontal.read_text()), json.loads(vertical.read_text()), str(vertical))
 
 
 if __name__ == '__main__':

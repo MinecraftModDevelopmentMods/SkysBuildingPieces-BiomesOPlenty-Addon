@@ -231,6 +231,9 @@ tasks.withType(JavaExec).configureEach { JavaExec runTask ->
 // use the same mappings and Java 17 runtime without exposing probe code to the
 // ordinary client or server classpath.
 def configureFromForgeRun = { JavaExec process, String runTaskName, boolean includeMain = true ->
+    if (!process.systemProperties.containsKey('log4j.configurationFile')) {
+        process.systemProperty 'log4j.configurationFile', file('src/bootstrapTest/native-log4j2.xml').toURI().toString()
+    }
     process.actions.clear()
     process.dependsOn {
         JavaExec run = tasks.getByName(runTaskName) as JavaExec
@@ -324,7 +327,14 @@ def localCoreVersion = providers.gradleProperty('buildingPiecesCoreVersion')
 if (localCoreVersion.isPresent() && (System.getenv('CI') == 'true' || !providers.gradleProperty('buildingPiecesCoreDir').isPresent()))
     throw new GradleException('The core-version override is local only and requires an explicit core directory; it is not permitted in CI.')
 def effectiveCoreVersion = localCoreVersion.getOrElse(coreLock.version)
-def coreDevelopmentJar = new File(coreDirectory, "build/libs-dev/SkysBuildingPieces-${effectiveCoreVersion}-deobf.jar")
+def pinnedCoreArtifact = { String folder, String suffix ->
+    String name = "SkysBuildingPieces-${effectiveCoreVersion}${suffix}.jar"
+    File source = new File(coreDirectory, "build/${folder}/${name}")
+    File retained = file('.gradle/qualification-dependencies/' + name)
+    !localCoreVersion.isPresent() && retained.isFile() ? retained : source
+}
+def coreDevelopmentJar = pinnedCoreArtifact('libs-dev', '-deobf')
+def coreMainJar = pinnedCoreArtifact('libs', '')
 configurations {
     bopRelease
     terraBlenderRelease
@@ -366,7 +376,7 @@ tasks.register('verifyCoreDependency') {
             }
             [
                 (coreDevelopmentJar): coreLock.getProperty('development.sha256'),
-                (new File(coreDirectory, "build/libs/SkysBuildingPieces-${effectiveCoreVersion}.jar")): coreLock.sha256
+                (coreMainJar): coreLock.sha256
             ].each { artifact, expected ->
                 if (!artifact.isFile() || !expected || MessageDigest.getInstance('SHA-256')
                         .digest(artifact.bytes).encodeHex().toString().toUpperCase() != expected) {
@@ -1128,3 +1138,4 @@ ext.coreDirectory = coreDirectory
 ext.coreDevelopmentJar = coreDevelopmentJar
 apply from: 'gradle/native-bootstrap.gradle'
 apply from: 'gradle/native-coremod-checks.gradle'
+apply from: 'gradle/resource-outputs.gradle'

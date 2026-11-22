@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.7.120012 (unreleased)
+
+- Keep crafting results distinct and use the updated Building Pieces fuel rules.
+- Recover flower baskets safely without inspecting other mods’ private storage files.
+
 ## 0.2.5.120012
 
 - BOP building pieces and recovered rocks now have individual block IDs. Existing builds and saved rock variants carry forward.
