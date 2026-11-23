@@ -160,7 +160,7 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
                 if not identity.startswith('minecraft:'):
                     conditions.append(exists(identity))
             body = {'type': 'skysbuildingpieces:cutting' if preserve else 'minecraft:crafting_shaped',
-                    'group': 'skysbuildingpieces/' + path.split('/')[-2],
+                    'group': 'skys/result/' + output.replace(':', '/'),
                     'pattern': rows, 'key': {'X': {'item': ingredient}},
                     'result': {'item': output, 'count': count}}
             if preserve:
@@ -192,6 +192,8 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
                 add(base + '/recombine_corner', ['X', 'X'], piece(material, 'corner'),
                     piece(material, 'horizontal_step'), 1)
                 for shape in ('horizontal_step', 'vertical_step'):
+                    if shape == 'vertical_step' and piece(material, shape) == piece(material, 'horizontal_step'):
+                        continue
                     add(base + '/recombine_' + shape, ['X', 'X'], piece(material, shape),
                         piece(material, 'slab'), 1)
                 continue
@@ -277,6 +279,8 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
             if corner is not None and step is not None:
                 add(base + '/recombine_corner', ['X', 'X'], corner, step, 1)
             for shape, source in [('horizontal_step', step), ('vertical_step', upright_step)]:
+                if shape == 'vertical_step' and source == step:
+                    continue
                 output = slab if slab is not None else vertical
                 add(base + '/recombine_' + shape, ['X', 'X'], source, output, 1)
                 # Ordinary dirt still has its vertical slab when Grass Slabs is absent.

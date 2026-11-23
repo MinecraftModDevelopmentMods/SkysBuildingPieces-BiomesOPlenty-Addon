@@ -118,7 +118,9 @@ public final class NativeSavedBiomeChecks {
                     String expected = oldName.startsWith("biomesoplenty:") && !numericBlocks
                             ? ForwardUpgradeChecks.currentTarget(expandedHeight ? "section_biomes" : "biomes", oldName)
                             : priorTarget;
-                    if (numericBlocks || expected.equals(oldName)) {
+                    // The older fixture's target names came from a different
+                    // BOP version. Keep a surviving named biome on this one.
+                    if (numericBlocks) {
                         expected = ForwardUpgradeChecks.currentTarget("section_biomes", priorTarget);
                     }
                     String actual = unopened ? convertedBiome(converted, cell, minimumQuartY)

@@ -11,6 +11,7 @@ import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.level.storage.LevelStorageSource.LevelDirectory;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 
 /** Exercises real capture/write callbacks; native transformer orders are checked separately. */
@@ -29,21 +30,24 @@ final class BopPersistenceOrderChecks {
         }
         try {
             List<Class<?>> selected = new ArrayList<>();
-            for (String name : new String[] {"zone.moddev.mc.skysbuildingpieces.legacy.LegacyBridge",
-                    "zone.moddev.mc.skysgrassslabs.compat.LegacyWorldDataHook",
-                    "zone.moddev.mc.mineralogy.patching.LegacyWorldDataHook"}) {
+            List<String> owners = new ArrayList<>(List.of(
+                    "zone.moddev.mc.skysbuildingpieces.legacy.LegacyBridge",
+                    "zone.moddev.mc.skysgrassslabs.compat.LegacyWorldDataHook"));
+            if (ModList.get().isLoaded("mineralogy")) {
+                owners.add("zone.moddev.mc.mineralogy.patching.LegacyWorldDataHook");
+            }
+            for (String name : owners) {
                 Class<?> owner = Class.forName(name);
                 owner.getMethod("captureLegacyLevelData", CompoundTag.class, LevelDirectory.class);
                 selected.add(owner);
             }
-            require(selected.size() == 3, "All three actual persistence hooks must be installed");
             selected.sort(Comparator.comparing(Class::getName));
             if (order.equals("reverse")) {
                 java.util.Collections.reverse(selected);
             }
             callbacks = List.copyOf(selected);
             org.apache.logging.log4j.LogManager.getLogger().info("BOP_PERSISTENCE_ORDER_SET "
-                    + order + " actual_hooks=3 mechanism=forge_level_hooks callback_order_only=true");
+                    + order + " actual_hooks=" + callbacks.size() + " mechanism=forge_level_hooks callback_order_only=true");
         } catch (ReflectiveOperationException failure) {
             throw new IllegalStateException("Cannot arrange the native persistence callbacks", failure);
         }
@@ -82,14 +86,19 @@ final class BopPersistenceOrderChecks {
         require(saved.equals(expected), "The complete uppercase registry snapshot changed");
         CompoundTag blocks = expected.getCompound("Registries").getCompound("minecraft:blocks");
         require(!blocks.isEmpty(), "The source must contain a real numeric registry");
-        for (String name : new String[] { "mineralogy", "skysgrassslabs" }) {
+        List<String> legacySidecars = new ArrayList<>(List.of("skysgrassslabs"));
+        if (ModList.get().isLoaded("mineralogy")) {
+            legacySidecars.add("mineralogy");
+        }
+        for (String name : legacySidecars) {
             CompoundTag sidecar = read(new File(directory, "data/" + name + "_legacy_registry.dat"));
             require(sidecar.getCompound("Blocks").equals(blocks), name + " lost its independent sidecar");
         }
         CompoundTag core = read(new File(directory, "data/skysbuildingpieces_legacy_registry.dat"));
         require(core.getCompound("FML").equals(expected), "Building Pieces lost its complete sidecar");
         org.apache.logging.log4j.LogManager.getLogger().info("BOP_PERSISTENCE_ORDER_PASS "
-                + System.getProperty("skysbuildingpieces.persistenceOrder") + " actual_hooks=3 sidecars=3 ids="
+                + System.getProperty("skysbuildingpieces.persistenceOrder") + " actual_hooks=" + callbacks.size()
+                + " sidecars=" + (legacySidecars.size() + 1) + " ids="
                 + blocks.getList("ids", 10).size() + " complete_uppercase_snapshot=true");
     }
 

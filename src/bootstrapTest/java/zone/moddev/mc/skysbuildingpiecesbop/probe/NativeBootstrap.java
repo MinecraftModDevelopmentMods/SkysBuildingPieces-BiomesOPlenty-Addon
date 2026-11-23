@@ -78,6 +78,7 @@ public final class NativeBootstrap {
                 LOGGER.info("BUILDING_PIECES_BOP_REGISTRY_ONLY_PASS");
                 return;
             }
+            zone.moddev.mc.skysbuildingpieces.probe.FuelChecks.run();
             WallRecoveryChecks.run(server);
             NamedRecoveryChecks.run();
             NativeBopBiomeChecks.run(server);

@@ -110,7 +110,7 @@
         "rainfall": 0.5,
         "depth": -0.05882353,
         "scale": 0.043750003,
-        "target_biome": "biomesoplenty:gravel_beach"
+        "target_biome": "minecraft:stony_shore"
       },
       {
         "x": 1532,
@@ -122,7 +122,7 @@
         "rainfall": 0.95,
         "depth": -0.05882353,
         "scale": 0.112500004,
-        "target_biome": "biomesoplenty:white_beach"
+        "target_biome": "biomesoplenty:tropics"
       },
       {
         "x": 1564,
@@ -134,7 +134,7 @@
         "rainfall": 0.6,
         "depth": -0.05882353,
         "scale": 0.112500004,
-        "target_biome": "biomesoplenty:origin_beach"
+        "target_biome": "biomesoplenty:tropics"
       },
       {
         "x": 1596,
@@ -146,7 +146,7 @@
         "rainfall": 0.3,
         "depth": 7.8235292,
         "scale": 0.23125,
-        "target_biome": "biomesoplenty:alps"
+        "target_biome": "minecraft:frozen_peaks"
       },
       {
         "x": 1628,
@@ -194,7 +194,7 @@
         "rainfall": 0.6,
         "depth": 0.29411766,
         "scale": 0.41875,
-        "target_biome": "biomesoplenty:boreal_forest"
+        "target_biome": "biomesoplenty:coniferous_forest"
       },
       {
         "x": 1756,
@@ -206,7 +206,7 @@
         "rainfall": 0.1,
         "depth": 0.05882353,
         "scale": 0.05625,
-        "target_biome": "biomesoplenty:brushland"
+        "target_biome": "biomesoplenty:scrubland"
       },
       {
         "x": 1788,
@@ -218,7 +218,7 @@
         "rainfall": 0.4,
         "depth": 0.88235295,
         "scale": 0.23125,
-        "target_biome": "biomesoplenty:chaparral"
+        "target_biome": "biomesoplenty:scrubland"
       },
       {
         "x": 1820,
@@ -230,7 +230,7 @@
         "rainfall": 0.8,
         "depth": -0.11764706,
         "scale": 0.1375,
-        "target_biome": "biomesoplenty:cherry_blossom_grove"
+        "target_biome": "minecraft:cherry_grove"
       },
       {
         "x": 1852,
@@ -290,7 +290,7 @@
         "rainfall": 0.9,
         "depth": -0.11764706,
         "scale": 0.025,
-        "target_biome": "biomesoplenty:bog"
+        "target_biome": "biomesoplenty:wetland"
       },
       {
         "x": 1628,
@@ -302,7 +302,7 @@
         "rainfall": 0.9,
         "depth": -0.05882353,
         "scale": 0.23125,
-        "target_biome": "biomesoplenty:tropical_rainforest"
+        "target_biome": "biomesoplenty:rainforest"
       },
       {
         "x": 1660,
@@ -326,7 +326,7 @@
         "rainfall": 0.7,
         "depth": -0.05882353,
         "scale": 0.0125,
-        "target_biome": "biomesoplenty:flower_meadow"
+        "target_biome": "biomesoplenty:field"
       },
       {
         "x": 1724,
@@ -350,7 +350,7 @@
         "rainfall": 0.8,
         "depth": 0.05882353,
         "scale": 0.18125,
-        "target_biome": "biomesoplenty:grove"
+        "target_biome": "biomesoplenty:mediterranean_forest"
       },
       {
         "x": 1788,
@@ -398,7 +398,7 @@
         "rainfall": 0.4,
         "depth": -0.11764706,
         "scale": 0.30625,
-        "target_biome": "biomesoplenty:oasis"
+        "target_biome": "biomesoplenty:lush_desert"
       },
       {
         "x": 1532,
@@ -410,7 +410,7 @@
         "rainfall": 1.0,
         "depth": -0.11764706,
         "scale": 0.043750003,
-        "target_biome": "biomesoplenty:lush_swamp"
+        "target_biome": "biomesoplenty:bayou"
       },
       {
         "x": 1564,
@@ -422,7 +422,7 @@
         "rainfall": 0.3,
         "depth": -0.1764706,
         "scale": 0.06875,
-        "target_biome": "biomesoplenty:mangrove"
+        "target_biome": "biomesoplenty:bayou"
       },
       {
         "x": 1596,
@@ -458,7 +458,7 @@
         "rainfall": 0.7,
         "depth": -0.05882353,
         "scale": 0.0125,
-        "target_biome": "biomesoplenty:meadow"
+        "target_biome": "biomesoplenty:field"
       },
       {
         "x": 1692,
@@ -470,7 +470,7 @@
         "rainfall": 1.0,
         "depth": 1.3529412,
         "scale": 0.118750006,
-        "target_biome": "biomesoplenty:highland_moor"
+        "target_biome": "biomesoplenty:moor"
       },
       {
         "x": 1724,
@@ -530,7 +530,7 @@
         "rainfall": 0.05,
         "depth": 0.4117647,
         "scale": 0.118750006,
-        "target_biome": "biomesoplenty:outback"
+        "target_biome": "biomesoplenty:dryland"
       },
       {
         "x": 1500,
@@ -542,7 +542,7 @@
         "rainfall": 0.75,
         "depth": 0.29411766,
         "scale": 0.60625,
-        "target_biome": "biomesoplenty:overgrown_cliffs"
+        "target_biome": "biomesoplenty:rocky_rainforest"
       },
       {
         "x": 1532,
@@ -566,7 +566,7 @@
         "rainfall": 0.9,
         "depth": -0.11764706,
         "scale": 0.043750003,
-        "target_biome": "biomesoplenty:mire"
+        "target_biome": "biomesoplenty:ominous_woods"
       },
       {
         "x": 1596,
@@ -626,7 +626,7 @@
         "rainfall": 0.8,
         "depth": -0.11764706,
         "scale": 0.16875,
-        "target_biome": "biomesoplenty:shield"
+        "target_biome": "biomesoplenty:highland"
       },
       {
         "x": 1756,
@@ -662,7 +662,7 @@
         "rainfall": 0.5,
         "depth": 0.05882353,
         "scale": 0.1375,
-        "target_biome": "biomesoplenty:snowy_forest"
+        "target_biome": "biomesoplenty:snowy_maple_woods"
       },
       {
         "x": 1852,
@@ -674,7 +674,7 @@
         "rainfall": 0.1,
         "depth": 1.4705882,
         "scale": 0.10625,
-        "target_biome": "biomesoplenty:steppe"
+        "target_biome": "biomesoplenty:grassland"
       },
       {
         "x": 1500,
@@ -686,7 +686,7 @@
         "rainfall": 1.2,
         "depth": 0.11764706,
         "scale": 0.825,
-        "target_biome": "biomesoplenty:temperate_rainforest"
+        "target_biome": "biomesoplenty:redwood_forest"
       },
       {
         "x": 1532,
@@ -698,7 +698,7 @@
         "rainfall": 1.0,
         "depth": 0.11764706,
         "scale": 0.2625,
-        "target_biome": "biomesoplenty:tropical_rainforest"
+        "target_biome": "biomesoplenty:rainforest"
       },
       {
         "x": 1564,
@@ -758,7 +758,7 @@
         "rainfall": 0.1,
         "depth": -0.05882353,
         "scale": 0.087500006,
-        "target_biome": "biomesoplenty:xeric_shrubland"
+        "target_biome": "biomesoplenty:dryland"
       },
       {
         "x": 1724,
@@ -770,7 +770,7 @@
         "rainfall": 0.3,
         "depth": 3.235294,
         "scale": 1.45625,
-        "target_biome": "biomesoplenty:alps_foothills"
+        "target_biome": "minecraft:snowy_slopes"
       },
       {
         "x": 1756,
@@ -794,7 +794,7 @@
         "rainfall": 0.7,
         "depth": 0.29411766,
         "scale": 0.01875,
-        "target_biome": "biomesoplenty:redwood_forest_edge"
+        "target_biome": "biomesoplenty:redwood_forest"
       },
       {
         "x": 1820,
@@ -830,7 +830,7 @@
         "rainfall": 0.5,
         "depth": -0.1764706,
         "scale": 0.025,
-        "target_biome": "biomesoplenty:oasis"
+        "target_biome": "biomesoplenty:lush_desert"
       },
       {
         "x": 1532,
@@ -842,7 +842,7 @@
         "rainfall": 0.5,
         "depth": -0.05882353,
         "scale": 0.043750003,
-        "target_biome": "minecraft:snowy_tundra"
+        "target_biome": "minecraft:snowy_plains"
       },
       {
         "x": 1564,
@@ -878,7 +878,7 @@
         "rainfall": 0.6,
         "depth": -0.05882353,
         "scale": 0.1625,
-        "target_biome": "biomesoplenty:origin_hills"
+        "target_biome": "biomesoplenty:origin_valley"
       },
       {
         "x": 1660,
@@ -914,7 +914,7 @@
         "rainfall": 0.8,
         "depth": 0.29411766,
         "scale": 0.2,
-        "target_biome": "biomesoplenty:flower_meadow"
+        "target_biome": "biomesoplenty:field"
       },
       {
         "x": 1756,
@@ -926,7 +926,7 @@
         "rainfall": 0.0,
         "depth": 0.1,
         "scale": 0.2,
-        "target_biome": "minecraft:nether"
+        "target_biome": "minecraft:nether_wastes"
       },
       {
         "x": 1788,
@@ -938,7 +938,7 @@
         "rainfall": 0.0,
         "depth": 0.1,
         "scale": 0.2,
-        "target_biome": "biomesoplenty:fungi_forest"
+        "target_biome": "biomesoplenty:undergrowth"
       },
       {
         "x": 1820,
@@ -950,7 +950,7 @@
         "rainfall": 0.0,
         "depth": 0.1,
         "scale": 0.2,
-        "target_biome": "biomesoplenty:ashen_inferno"
+        "target_biome": "minecraft:basalt_deltas"
       },
       {
         "x": 1852,
@@ -962,7 +962,7 @@
         "rainfall": 0.0,
         "depth": 0.1,
         "scale": 0.2,
-        "target_biome": "biomesoplenty:undergarden"
+        "target_biome": "biomesoplenty:undergrowth"
       },
       {
         "x": 1500,

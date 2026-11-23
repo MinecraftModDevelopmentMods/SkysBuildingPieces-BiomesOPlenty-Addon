@@ -71,6 +71,36 @@ final class NamedRecoveryChecks {
         }
     }
 
+    private static void legacyRootItem() {
+        CompoundTag inventory = new CompoundTag();
+        CompoundTag oldStack = new CompoundTag();
+        oldStack.putString("id", "biomesoplenty:plant_1");
+        oldStack.putShort("Damage", (short) 9);
+        oldStack.putByte("Count", (byte) 7);
+        oldStack.putByte("Slot", (byte) 4);
+        oldStack.put("tag", new CompoundTag());
+        oldStack.getCompound("tag").putString("custom_data", "From the old root");
+        ListTag entries = new ListTag();
+        entries.add(oldStack);
+        inventory.put("Items", entries);
+
+        LegacyItemRecovery fixer = new LegacyItemRecovery();
+        fixer.fixTagCompound(inventory);
+        CompoundTag stored = inventory.getList("Items", Tag.TAG_COMPOUND).getCompound(0);
+        net.minecraft.world.item.ItemStack stack = net.minecraft.world.item.ItemStack.of(stored);
+        require(!stack.isEmpty() && stack.getCount() == 7 && stored.getByte("Slot") == 4
+                        && !stored.contains("Damage")
+                        && new net.minecraft.resources.ResourceLocation("biomesoplenty:dead_grass")
+                                .equals(net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(stack.getItem()))
+                        && stack.hasTag() && "From the old root".equals(stack.getTag().getString("custom_data")),
+                "Legacy root item lost its identity, quantity, slot or saved data: " + stored);
+
+        CompoundTag firstLoad = inventory.copy();
+        fixer.fixTagCompound(inventory);
+        require(firstLoad.equals(inventory), "Legacy root item changed again on reload");
+        LOGGER.info("BOP_LEGACY_ROOT_ITEM_PASS");
+    }
+
     static void run() throws Exception {
         JsonObject source = read("/fixtures/bop-1.14.4-native-catalogue.json");
         JsonObject mappings = read("/assets/skysbuildingpiecesbop/catalogue/named_legacy.json");
@@ -192,7 +222,8 @@ final class NamedRecoveryChecks {
             require(malformed.equals(before), "Failed named conversion changed its source");
         }
 
-        require(items == 58 && states > 300 && rejected > 0, "Named coverage is incomplete: items=" + items + " states=" + states + " rejected=" + rejected);
+        require(items == 48 && states > 300 && rejected > 0, "Named coverage is incomplete: items=" + items + " states=" + states + " rejected=" + rejected);
+        legacyRootItem();
         biomeSnapshotControls();
         nativeBiomeDatafix(net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer());
         removedRoots();

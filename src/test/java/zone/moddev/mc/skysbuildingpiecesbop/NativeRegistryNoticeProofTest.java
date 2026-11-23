@@ -208,26 +208,27 @@ class NativeRegistryNoticeProofTest {
                 assertEquals(-16, contract.get("min_quart_y").getAsInt());
                 assertEquals(96, contract.get("quart_height").getAsInt());
             }
-            // These receipts describe the 1.19.4 transition. Keep its mapping
-            // separate from the new destinations tested on the 1.20.1 server.
-            boolean forge47 = profile.has("forge47_unused_registry_contract")
-                    || profile.has("target_forge") && profile.get("target_forge").getAsString().equals("47.4.10");
-            byte[] aliases = Files.readAllBytes(Paths.get(forge47
+            // Older receipts use their own target catalogue. Keep those
+            // expectations separate from the biome names available here.
+            String targetForge = profile.has("target_forge") ? profile.get("target_forge").getAsString() : "45.4.0";
+            boolean neo1201 = targetForge.equals("47.1.106");
+            boolean target1201 = neo1201 || targetForge.equals("47.4.10");
+            byte[] aliases = Files.readAllBytes(Paths.get(target1201
                     ? "src/main/resources/assets/skysbuildingpiecesbop/catalogue/named_legacy.json"
                     : "src/testFixtures/bop-1.19.4-named-recovery.json"));
-            if (!forge47) {
+            if (!target1201) {
                 assertEquals("B665129A6A455FD9E7815D2D4E0FE7D358386752541034A991FF4372B56D7CF0", checksum(aliases));
             }
             bopReplacements = JsonParser.parseString(new String(aliases, StandardCharsets.UTF_8))
                     .getAsJsonObject().getAsJsonObject(nativeHeight ? "section_biomes" : "biomes");
             if (profile.has("live_biome_contract")) {
                 JsonObject live = boundJson(profile.getAsJsonObject("live_biome_contract"));
-                assertEquals(forge47 ? "1.20.1" : "1.19.4", live.get("minecraft").getAsString());
-                assertEquals(forge47 ? "47.4.10" : "45.4.0", live.get("forge").getAsString());
+                assertEquals(target1201 ? "1.20.1" : "1.19.4", live.get("minecraft").getAsString());
+                assertEquals(targetForge, live.get("forge").getAsString());
                 for (var row : live.getAsJsonArray("entries")) {
                     assertTrue(liveBiomes.add(row.getAsJsonObject().get("id").getAsString()));
                 }
-                assertEquals(forge47 ? 134 : 128, liveBiomes.size());
+                assertEquals(targetForge.equals("47.4.10") ? 134 : 128, liveBiomes.size());
                 JsonObject snapshot = profile.getAsJsonObject("mappings");
                 if (snapshot.has("minecraft:worldgen/biome")) {
                     noticedBiomes.addAll(snapshot.getAsJsonObject("minecraft:worldgen/biome").keySet());

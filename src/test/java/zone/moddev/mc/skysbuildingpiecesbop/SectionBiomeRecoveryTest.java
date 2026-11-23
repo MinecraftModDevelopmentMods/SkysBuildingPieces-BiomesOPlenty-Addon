@@ -39,7 +39,7 @@ class SectionBiomeRecoveryTest {
         assertEquals("biomesoplenty:scrubland", current.getString(1));
         assertEquals("biomesoplenty:wasteland", current.getString(2));
         assertEquals("biomesoplenty:coniferous_forest", current.getString(3));
-        assertEquals("biomesoplenty:orchard", current.getString(4));
+        assertEquals("biomesoplenty:seasonal_orchard", current.getString(4));
         assertArrayEquals(original.getCompound("biomes").getLongArray("data"),
                 section.getCompound("biomes").getLongArray("data"));
         assertEquals(original.getByte("Y"), section.getByte("Y"));

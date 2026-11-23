@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/planks_pine",
+  "group": "skys/result/minecraft/jungle_planks",
   "pattern": ["XX"],
   "key": {
     "X": {

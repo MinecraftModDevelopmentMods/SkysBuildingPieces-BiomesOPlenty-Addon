@@ -1,8 +1,17 @@
 # Changelog
 
-## 0.2.4.120011
+## 0.2.7.120012
 
-- Ported to Minecraft 1.20.1 and Forge 47.4.10.
+- Keep crafting results distinct and use the updated Building Pieces fuel rules.
+- Recover flower baskets safely without inspecting other mods’ private storage files.
+
+## 0.2.5.120012
+
+- BOP building pieces and recovered rocks now have individual block IDs. Existing builds and saved rock variants carry forward.
+
+## 0.2.4.120012
+
+- Ported to Minecraft 1.20.1 and NeoForge 47.1.106.
 - Kept existing pieces and baskets. Added replacements for removed BOP wood,
   plants and biomes when opening older worlds.
 
