@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.7.120012 (unreleased)
+## 0.2.7.120012
 
 - Keep crafting results distinct and use the updated Building Pieces fuel rules.
 - Recover flower baskets safely without inspecting other mods’ private storage files.
