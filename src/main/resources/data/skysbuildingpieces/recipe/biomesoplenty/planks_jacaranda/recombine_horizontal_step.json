@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/planks_jacaranda",
+  "group": "skys/result/biomesoplenty/jacaranda_slab",
   "pattern": ["X", "X"],
   "key": {
     "X": {

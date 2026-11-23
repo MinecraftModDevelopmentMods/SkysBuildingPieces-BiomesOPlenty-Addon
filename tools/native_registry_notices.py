@@ -15,21 +15,29 @@ def expected_mappings(profile):
     return expected
 
 
-def validate_registry_proofs(root, profile):
+def validate_registry_proofs(root, profile, native_mappings=None):
     """Keep static snapshot notices separate from the world's live biome data."""
     block_proof = profile.get("native_block_rename_contract")
     if block_proof is not None:
         path = Path(root) / block_proof["path"]
         data = json.loads(path.read_text(encoding="utf-8"))
         positions = data["positions"]
+        block_names = set(expected_mappings(profile).get("minecraft:block", {}))
+        block_names.update((native_mappings or {}).get("minecraft:block", {}))
         if (hashlib.sha256(path.read_bytes()).hexdigest().upper() != block_proof["sha256"]
                 or data["source_world_sha256"] != profile["sha256"]
                 or data["source"] != block_proof["source"]
                 or data["target"] != block_proof["target"]
-                or data["source"] not in expected_mappings(profile)["minecraft:block"]
+                or data["source"] not in block_names
                 or data["checked_positions"] != block_proof["checked_positions"]
                 or len({tuple(position) for position in positions}) != data["checked_positions"]):
             raise ValueError("The saved block rename does not match the fixture")
+        if "checked_items" in block_proof:
+            items = data.get("items", [])
+            keys = {(tuple(item["position"]), item["slot"]) for item in items}
+            if (len(items) != block_proof["checked_items"] or len(keys) != len(items)
+                    or sum(item["count"] for item in items) != block_proof["item_units"]):
+                raise ValueError("The native item rename controls are incomplete")
     receipts = {}
     for key in ("static_biome_contract", "retired_poi_contract", "live_biome_contract",
                 "forge47_unused_registry_contract", "forge50_unused_registry_contract"):
@@ -136,7 +144,7 @@ def profile_for(directory):
                 or profile["saved_uses"] != proof["renamed_cells"]
                 + profile.get("dynamic_biome_saved_uses", 0)):
             raise ValueError("The native biome contract does not match this source fixture")
-    validate_registry_proofs(root, profile)
+    validate_registry_proofs(root, profile, current["mappings"] if current is not None else None)
     if current is not None:
         if (current["sha256"] != fixture_id or current["fixture"] != profile["fixture"]
                 or current["source_jar_sha256"] not in sources or not current["mappings"]
@@ -156,6 +164,11 @@ def audit_biome_proof(text, profile):
                   + str(block_proof["checked_positions"]))
         if not any(line.endswith(marker) for line in text.splitlines()):
             raise ValueError("The complete native block rename was not verified")
+        if "checked_items" in block_proof:
+            marker = ("BOP_NATIVE_ITEM_RENAME_PASS stacks=" + str(block_proof["checked_items"])
+                      + " units=" + str(block_proof["item_units"]) + " count_slot_data=true")
+            if not any(line.endswith(marker) for line in text.splitlines()):
+                raise ValueError("The native item identities, counts and data were not verified")
     proof = profile.get("native_biome_contract") if profile else None
     if proof is None:
         return

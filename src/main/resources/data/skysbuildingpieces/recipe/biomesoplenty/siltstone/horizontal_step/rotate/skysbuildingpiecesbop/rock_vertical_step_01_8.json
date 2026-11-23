@@ -1,6 +1,6 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "group": "skys/result/skysbuildingpiecesbop/siltstone_horizontal_step",
   "pattern": ["X"],
   "key": {
     "X": {

@@ -2533,6 +2533,99 @@
           "after": 6484
         }
       }
+    },
+    "E54C47131969B7B13384E18792F5496A999427259B98AC6D6AD2A07C3D1C4230": {
+      "fixture": "src/testFixtures/worlds/building-pieces-bop-biomes-1.14.4.zip",
+      "sha256": "E54C47131969B7B13384E18792F5496A999427259B98AC6D6AD2A07C3D1C4230",
+      "source_jar_sha256": "CF0BA460D641A4723CEB4E069D5B995C2F3357531DD86CA73CD9157F687D5702",
+      "inspected_nbt_records": 686,
+      "mappings": {
+        "minecraft:block": {
+          "minecraft:grass": 94
+        },
+        "minecraft:entity_type": {
+          "biomesoplenty:boat_bop": 102,
+          "minecraft:zombie_pigman": 56
+        },
+        "minecraft:item": {
+          "minecraft:grass": 76,
+          "minecraft:scute": 519,
+          "minecraft:zombie_pigman_spawn_egg": 753
+        },
+        "minecraft:memory_module_type": {
+          "minecraft:golem_last_seen_time": 24,
+          "minecraft:opened_doors": 16
+        },
+        "minecraft:point_of_interest_type": {
+          "minecraft:nitwit": 11,
+          "minecraft:unemployed": 0
+        },
+        "minecraft:potion": {
+          "minecraft:empty": 0
+        },
+        "minecraft:sound_event": {
+          "minecraft:entity.parrot.imitate.enderman": 446,
+          "minecraft:entity.parrot.imitate.panda": 454,
+          "minecraft:entity.parrot.imitate.polar_bear": 457,
+          "minecraft:entity.parrot.imitate.wolf": 470,
+          "minecraft:entity.parrot.imitate.zombie_pigman": 472,
+          "minecraft:entity.zombie_pigman.ambient": 784,
+          "minecraft:entity.zombie_pigman.angry": 785,
+          "minecraft:entity.zombie_pigman.death": 786,
+          "minecraft:entity.zombie_pigman.hurt": 787,
+          "minecraft:music.nether": 400
+        }
+      },
+      "typed_uses": {
+        "minecraft:grass": {
+          "kind": "vanilla_block_rename",
+          "positions": 4
+        }
+      }
+    },
+    "6A09B1E83F3AE237BC3FA092799C33A28CCD316AC43A8F28BF395A1382C9FA86": {
+      "fixture": "src/testFixtures/worlds/building-pieces-bop-biomes-1.15.2.zip",
+      "sha256": "6A09B1E83F3AE237BC3FA092799C33A28CCD316AC43A8F28BF395A1382C9FA86",
+      "source_jar_sha256": "CF73DA4A5688D79F5FFBC76FEF83941472A5FBEFF9D84581B57F1B67CAA399EB",
+      "inspected_nbt_records": 687,
+      "mappings": {
+        "minecraft:block": {
+          "minecraft:grass": 94
+        },
+        "minecraft:entity_type": {
+          "biomesoplenty:boat_bop": 102,
+          "minecraft:zombie_pigman": 56
+        },
+        "minecraft:item": {
+          "minecraft:grass": 76,
+          "minecraft:scute": 519,
+          "minecraft:zombie_pigman_spawn_egg": 753
+        },
+        "minecraft:memory_module_type": {
+          "minecraft:golem_last_seen_time": 24,
+          "minecraft:opened_doors": 16
+        },
+        "minecraft:point_of_interest_type": {
+          "minecraft:nitwit": 11,
+          "minecraft:unemployed": 0
+        },
+        "minecraft:potion": {
+          "minecraft:empty": 0
+        },
+        "minecraft:sound_event": {
+          "minecraft:entity.zombie_pigman.ambient": 784,
+          "minecraft:entity.zombie_pigman.angry": 785,
+          "minecraft:entity.zombie_pigman.death": 786,
+          "minecraft:entity.zombie_pigman.hurt": 787,
+          "minecraft:music.nether": 400
+        }
+      },
+      "typed_uses": {
+        "minecraft:grass": {
+          "kind": "vanilla_block_rename",
+          "positions": 4
+        }
+      }
     }
   }
 }

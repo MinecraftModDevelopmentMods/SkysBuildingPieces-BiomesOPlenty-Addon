@@ -352,6 +352,35 @@ final class NativeNamedForwardChecks {
             }
         }
         require(seen.size() == proof.get("checked_positions").getAsInt(), "Incomplete vanilla grass rename check");
+        if (proof.has("items")) {
+            // Vanilla joins the source's adjacent single chests and swaps their contents.
+            // Follow the validated pair rather than treating that move as lost item data.
+            SourceNeighbourChecks.prepareContainers(new JsonObject());
+            int units = 0;
+            var checkedItems = new java.util.HashSet<String>();
+            for (var value : proof.getAsJsonArray("items")) {
+                JsonObject expected = value.getAsJsonObject();
+                var xyz = expected.getAsJsonArray("position");
+                var position = new BlockPos(xyz.get(0).getAsInt(), xyz.get(1).getAsInt(), xyz.get(2).getAsInt());
+                int slot = expected.get("slot").getAsInt();
+                require(checkedItems.add(position + "/" + slot), "Duplicate native item control");
+                require(world.getBlockEntity(position) instanceof net.minecraft.world.Container,
+                        "Native item control lost its container at " + position);
+                BlockPos storagePosition = SourceNeighbourChecks.containerPosition(world, position);
+                var container = (net.minecraft.world.Container) world.getBlockEntity(storagePosition);
+                var stack = container.getItem(slot);
+                require(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).toString()
+                        .equals(expected.get("target").getAsString()), "Native item identity changed at " + position + "/" + slot);
+                require(stack.getCount() == expected.get("count").getAsInt(), "Native item count changed at " + position + "/" + slot);
+                var custom = stack.getOrDefault(net.minecraft.core.component.DataComponents.CUSTOM_DATA,
+                        net.minecraft.world.item.component.CustomData.EMPTY).copyTag();
+                require(custom.equals(net.minecraft.nbt.TagParser.parseTag(expected.get("custom_data").getAsString())),
+                        "Native item data changed at " + position + "/" + slot);
+                units += stack.getCount();
+            }
+            org.apache.logging.log4j.LogManager.getLogger().info(
+                    "BOP_NATIVE_ITEM_RENAME_PASS stacks={} units={} count_slot_data=true", checkedItems.size(), units);
+        }
         org.apache.logging.log4j.LogManager.getLogger().info(
                 "BUILDING_PIECES_NATIVE_BLOCK_RENAME_PASS source=minecraft:grass target=minecraft:short_grass positions={}",
                 seen.size());

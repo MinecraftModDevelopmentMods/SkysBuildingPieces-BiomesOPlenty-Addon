@@ -160,7 +160,7 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
                 if not identity.startswith('minecraft:'):
                     conditions.append(exists(identity))
             body = {'type': 'skysbuildingpieces:cutting' if preserve else 'minecraft:crafting_shaped',
-                    'group': 'skysbuildingpieces/' + path.split('/')[-2],
+                    'group': 'skys/result/' + output.replace(':', '/'),
                     'pattern': rows, 'key': {'X': {'item': ingredient}},
                     'result': {'item': output, 'count': count}}
             if preserve:
@@ -192,6 +192,8 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
                 add(base + '/recombine_corner', ['X', 'X'], piece(material, 'corner'),
                     piece(material, 'horizontal_step'), 1)
                 for shape in ('horizontal_step', 'vertical_step'):
+                    if shape == 'vertical_step' and piece(material, shape) == piece(material, 'horizontal_step'):
+                        continue
                     add(base + '/recombine_' + shape, ['X', 'X'], piece(material, shape),
                         piece(material, 'slab'), 1)
                 continue
@@ -277,6 +279,8 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
             if corner is not None and step is not None:
                 add(base + '/recombine_corner', ['X', 'X'], corner, step, 1)
             for shape, source in [('horizontal_step', step), ('vertical_step', upright_step)]:
+                if shape == 'vertical_step' and source == step:
+                    continue
                 output = slab if slab is not None else vertical
                 add(base + '/recombine_' + shape, ['X', 'X'], source, output, 1)
                 # Ordinary dirt still has its vertical slab when Grass Slabs is absent.
@@ -343,10 +347,10 @@ def main():
                 if name.startswith('data/') and name.count('/') >= 3 and name.split('/')[2] in ('recipe', 'recipes') and name.endswith('.json'):
                     native.append(json.loads(archive.read(name)))
                 if name.startswith('data/') and name.endswith('.json') and name.count('/') >= 4:
-                    _, namespace, tags, kind, path = name.split('/', 4)
-                    if tags != 'tags' or kind not in ('item', 'items'):
+                    _, namespace, tag_directory, kind, tag_path = name.split('/', 4)
+                    if tag_directory != 'tags' or kind not in ('item', 'items'):
                         continue
-                    identifier = namespace + ':' + path[:-5]
+                    identifier = namespace + ':' + tag_path[:-5]
                     data = json.loads(archive.read(name))
                     if data.get('replace', False):
                         tags[identifier] = data['values']

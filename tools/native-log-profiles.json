@@ -137,6 +137,15 @@
       "retired_poi_contract": {
         "path": "src/testFixtures/worlds/building-pieces-bop-biomes-1.14.4.registry-poi.json",
         "sha256": "DE27A0DB65B58CE36C1E4F54899966AFE9233962A8CFB9639841FEC4788A6FE4"
+      },
+      "native_block_rename_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-biomes-1.14.4.forge50-grass-rename.json",
+        "sha256": "AE12A4330EE5FCAF5EB5D7DBBC5B257E31C80175D891D9F22E5829BAD72E9328",
+        "source": "minecraft:grass",
+        "target": "minecraft:short_grass",
+        "checked_positions": 4,
+        "checked_items": 2,
+        "item_units": 74
       }
     },
     "634FA10DA5BA9FD5D2C95EF01142F91F4B85EC2A1EEB2F2292A70663CAC8C1A7": {
@@ -269,6 +278,15 @@
       "retired_poi_contract": {
         "path": "src/testFixtures/worlds/building-pieces-bop-biomes-1.15.2.registry-poi.json",
         "sha256": "E5A0D20C81E990C2238BB744050AF008949B1BED37A8DA08BE53929DE55FA21F"
+      },
+      "native_block_rename_contract": {
+        "path": "src/testFixtures/worlds/building-pieces-bop-biomes-1.15.2.forge50-grass-rename.json",
+        "sha256": "A632B18B32D71568EEBA5894B2A302F8F34CC3E1E20A363701208641AE13DDB5",
+        "source": "minecraft:grass",
+        "target": "minecraft:short_grass",
+        "checked_positions": 4,
+        "checked_items": 2,
+        "item_units": 74
       }
     },
     "FBF62E044298691AFA51F53FB5AD47EC87BB9DA9702D564EC85D445EF5E254DE": {

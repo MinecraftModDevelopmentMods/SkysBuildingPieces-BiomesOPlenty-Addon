@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/planks_eucalyptus",
+  "group": "skys/result/minecraft/oak_planks",
   "pattern": ["XX"],
   "key": {
     "X": {

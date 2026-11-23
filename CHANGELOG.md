@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.7.121011 (unreleased)
+
+- Saved-world checks leave unrelated mod data files alone.
+- Crafting keeps one recipe for each distinct result, with clear recipe-book buttons.
+- BOP pieces use the core mod's updated fuel, snow and grass behaviour.
+- Eclipse keeps the exact dependency jars used by its run profiles.
+
 ## 0.2.5.121011
 
 - BOP building pieces and recovered rocks now have individual block IDs. Existing builds and saved rock variants carry forward.

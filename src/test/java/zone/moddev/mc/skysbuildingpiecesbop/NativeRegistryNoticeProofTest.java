@@ -154,6 +154,61 @@ class NativeRegistryNoticeProofTest {
         }
     }
 
+    @Test
+    void biomeFixtureNoticesAreUnusedOrHaveAnExactBlockRenameContract() throws Exception {
+        JsonObject current = JsonParser.parseString(Files.readString(Paths.get("tools/native-log-forge52-profiles.json")))
+                .getAsJsonObject().getAsJsonObject("profiles");
+        JsonObject historical = JsonParser.parseString(Files.readString(Paths.get("tools/native-log-profiles.json")))
+                .getAsJsonObject().getAsJsonObject("profiles");
+        int checked = 0;
+
+        for (var entry : current.entrySet()) {
+            JsonObject nativeProfile = entry.getValue().getAsJsonObject();
+            if (!nativeProfile.get("fixture").getAsString().contains("bop-biomes-")) {
+                continue;
+            }
+            JsonObject profile = historical.getAsJsonObject(entry.getKey());
+            Set<String> names = new HashSet<>();
+            nativeProfile.getAsJsonObject("mappings").entrySet().forEach(registry ->
+                    names.addAll(registry.getValue().getAsJsonObject().keySet()));
+            BiomeProof biomes = new BiomeProof(profile);
+            assertTrue(biomes.grassRename);
+            int records = 0;
+
+            try (ZipFile archive = new ZipFile(nativeProfile.get("fixture").getAsString())) {
+                var members = archive.entries();
+                while (members.hasMoreElements()) {
+                    ZipEntry member = members.nextElement();
+                    String label = member.getName();
+                    try (InputStream input = archive.getInputStream(member)) {
+                        if (label.endsWith(".dat") || label.endsWith(".dat_old")) {
+                            CompoundTag root = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
+                            root.remove("FML");
+                            root.remove("fml");
+                            if (label.equals("data/skysbuildingpieces_legacy_registry.dat")) {
+                                for (Tag staged : root.getList("staging", 10)) {
+                                    CompoundTag state = ((CompoundTag) staged).getCompound("state");
+                                    if (state.getString("Name").equals("minecraft:grass")) {
+                                        state.putString("Name", "minecraft:short_grass");
+                                    }
+                                }
+                            }
+                            inspect(root, names, label);
+                            biomes.inspect(root);
+                            records++;
+                        } else if (label.endsWith(".mca")) {
+                            records += region(readAll(input), names, label, biomes);
+                        }
+                    }
+                }
+            }
+            assertEquals(nativeProfile.get("inspected_nbt_records").getAsInt(), records);
+            biomes.complete(profile);
+            checked++;
+        }
+        assertEquals(2, checked);
+    }
+
     private static void verifyRegistryNumbers(CompoundTag root, JsonObject profile) {
         CompoundTag registries = root.getCompound(root.contains("fml", 10) ? "fml" : "FML").getCompound("Registries");
         JsonObject expected = profile.getAsJsonObject("mappings").deepCopy();
@@ -227,6 +282,7 @@ class NativeRegistryNoticeProofTest {
                             }
                         }
                     }
+                    biomes.inspectNativeItemRenames(level);
                     inspect(copy, names, label + ":" + slot);
                 } else {
                     inspect(root, names, label + ":" + slot);
@@ -256,6 +312,8 @@ class NativeRegistryNoticeProofTest {
         private final String version;
         private final boolean nativeHeight;
         private final boolean grassRename;
+        private final Map<String, JsonObject> nativeItems = new HashMap<>();
+        private final Set<String> checkedNativeItems = new HashSet<>();
         private final JsonObject bopReplacements;
         private final Set<String> noticedBiomes = new HashSet<>();
         private final Set<String> liveBiomes = new HashSet<>();
@@ -276,6 +334,13 @@ class NativeRegistryNoticeProofTest {
                 assertEquals("minecraft:grass", rename.get("source").getAsString());
                 assertEquals("minecraft:short_grass", rename.get("target").getAsString());
                 assertEquals(rename.get("checked_positions").getAsInt(), rename.getAsJsonArray("positions").size());
+                if (rename.has("items")) {
+                    for (var value : rename.getAsJsonArray("items")) {
+                        JsonObject item = value.getAsJsonObject();
+                        String key = item.get("position").toString() + "/" + item.get("slot").getAsInt();
+                        assertNull(nativeItems.put(key, item), "Repeated native item control");
+                    }
+                }
             }
             JsonObject proof = profile.getAsJsonObject("native_biome_contract");
             byte[] bytes = Files.readAllBytes(Paths.get(proof.get("path").getAsString()));
@@ -435,7 +500,31 @@ class NativeRegistryNoticeProofTest {
             cells++;
         }
 
+        void inspectNativeItemRenames(CompoundTag level) throws Exception {
+            ListTag containers = level.contains("TileEntities", 9)
+                    ? level.getList("TileEntities", 10) : level.getList("block_entities", 10);
+            for (Tag value : containers) {
+                CompoundTag container = (CompoundTag) value;
+                String position = "[" + container.getInt("x") + "," + container.getInt("y") + "," + container.getInt("z") + "]";
+                for (Tag entry : container.getList("Items", 10)) {
+                    CompoundTag stack = (CompoundTag) entry;
+                    String key = position + "/" + (stack.getByte("Slot") & 255);
+                    JsonObject expected = nativeItems.get(key);
+                    if (expected == null) {
+                        continue;
+                    }
+                    assertTrue(checkedNativeItems.add(key), "Native item control was visited twice");
+                    assertEquals(expected.get("source").getAsString(), stack.getString("id"));
+                    assertEquals(expected.get("count").getAsInt(), stack.getByte("Count") & 255);
+                    assertEquals(net.minecraft.nbt.TagParser.parseTag(expected.get("custom_data").getAsString()),
+                            stack.getCompound("tag"));
+                    stack.putString("id", expected.get("target").getAsString());
+                }
+            }
+        }
+
         void complete(JsonObject profile) {
+            assertEquals(nativeItems.keySet(), checkedNativeItems);
             JsonObject proof = profile.getAsJsonObject("native_biome_contract");
             assertEquals(volumes.keySet(), visited);
             assertEquals(proof.get("checked_cells").getAsLong(), cells);

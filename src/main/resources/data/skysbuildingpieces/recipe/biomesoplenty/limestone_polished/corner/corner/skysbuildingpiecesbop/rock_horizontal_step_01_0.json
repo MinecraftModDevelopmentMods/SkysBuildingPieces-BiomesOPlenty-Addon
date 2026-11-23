@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "group": "skys/result/skysbuildingpiecesbop/limestone_polished_corner",
   "pattern": ["XX"],
   "key": {
     "X": {

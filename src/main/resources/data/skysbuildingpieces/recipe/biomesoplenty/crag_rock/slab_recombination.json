@@ -4,7 +4,7 @@
     {
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/crag_rock",
+        "group": "skys/result/mineralogy/gabbro",
         "pattern": ["XX"],
         "key": {
           "X": {
@@ -34,7 +34,7 @@
     {
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/crag_rock",
+        "group": "skys/result/skysbuildingpiecesbop/retired_gabbro",
         "pattern": ["XX"],
         "key": {
           "X": {

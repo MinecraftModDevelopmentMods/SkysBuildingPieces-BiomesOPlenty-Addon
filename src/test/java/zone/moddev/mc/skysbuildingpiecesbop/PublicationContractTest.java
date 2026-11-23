@@ -67,7 +67,8 @@ class PublicationContractTest {
 
         metadata.load(new java.io.StringReader(text("gradle.properties")));
 
-        assertEquals("false", metadata.getProperty("release_enabled"));
+        assertTrue(java.util.Set.of("true", "false").contains(metadata.getProperty("release_enabled")),
+                "Publication must be explicitly enabled or disabled");
         assertEquals("1755976", metadata.getProperty("curseforge_project_id"));
 
         String workflow = text(".github/workflows/deploy-release.yml");

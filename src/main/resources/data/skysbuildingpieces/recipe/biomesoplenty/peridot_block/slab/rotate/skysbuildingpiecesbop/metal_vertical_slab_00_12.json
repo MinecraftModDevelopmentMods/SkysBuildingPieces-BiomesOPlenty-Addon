@@ -1,6 +1,6 @@
 {
   "type": "skysbuildingpieces:cutting",
-  "group": "skysbuildingpieces/skysbuildingpiecesbop",
+  "group": "skys/result/skysbuildingpieces/stained_hardened_clay_lime_slab",
   "pattern": ["X"],
   "key": {
     "X": {

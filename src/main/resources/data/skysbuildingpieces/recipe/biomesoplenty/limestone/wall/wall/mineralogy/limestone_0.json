@@ -4,7 +4,7 @@
     {
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/mineralogy",
+        "group": "skys/result/skysbuildingpiecesbop/limestone_wall",
         "pattern": ["XX", "XX", "XX"],
         "key": {
           "X": {
@@ -34,7 +34,7 @@
     {
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "skysbuildingpieces/mineralogy",
+        "group": "skys/result/skysbuildingpiecesbop/limestone_wall",
         "pattern": ["XX", "XX", "XX"],
         "key": {
           "X": {

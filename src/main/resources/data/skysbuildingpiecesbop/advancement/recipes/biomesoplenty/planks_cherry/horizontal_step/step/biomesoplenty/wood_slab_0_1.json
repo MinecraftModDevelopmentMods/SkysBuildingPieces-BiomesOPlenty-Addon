@@ -24,16 +24,7 @@
     "recipes": ["skysbuildingpieces:biomesoplenty/planks_cherry/horizontal_step/step/biomesoplenty/wood_slab_0_1"]
   },
   "forge:condition": {
-    "type": "forge:and",
-    "values": [
-      {
-        "type": "forge:item_exists",
-        "item": "minecraft:cherry_slab"
-      },
-      {
-        "type": "forge:item_exists",
-        "item": "skysbuildingpiecesbop:planks_cherry_horizontal_step"
-      }
-    ]
+    "type": "forge:item_exists",
+    "item": "skysbuildingpiecesbop:planks_cherry_horizontal_step"
   }
 }
