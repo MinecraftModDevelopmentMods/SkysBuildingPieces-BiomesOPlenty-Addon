@@ -7,7 +7,7 @@ and ForgeGradle 7.0.34 for Minecraft 1.12.2.
 The legacy Forge setup verifies its pinned SpecialSource tool from Maven Central.
 Run once online before using an empty build cache offline.
 
-Check out Building Pieces 0.3.10.112021 at the exact commit in
+Check out Building Pieces 0.3.11.112021 at the exact commit in
 `gradle/core-dependency.properties`, then run its `gradlew jar` task.
 Build this add-on with:
 
