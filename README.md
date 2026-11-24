@@ -39,7 +39,7 @@ It doesn't accept unrelated items.
 Use the versions for **Minecraft 26.3**, with **NeoForge 26.3.0.99** and
 **Java 25**. You'll need:
 
-- **Sky's Building Pieces 0.3.10.2603002** and this add-on.
+- **Sky's Building Pieces 0.3.11.2603002** and this add-on.
 - **Biomes O' Plenty 26.3.0.0.16**, **TerraBlender 26.3.0.0.9** and **GlitchCore 26.3.0.0.5**.
 
 Put those jars in `mods` on both the client and server.
