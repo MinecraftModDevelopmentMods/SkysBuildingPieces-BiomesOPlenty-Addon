@@ -7,6 +7,7 @@ from pathlib import Path
 import subprocess
 
 from run_packaged_checks import audit, digest, prepare
+from bop_development_notice import has_controlled_bop_inputs
 
 
 def main():
@@ -43,7 +44,9 @@ def main():
     console = directory / (options.phase + "-console.log")
     with console.open("x", encoding="utf-8") as output:
         subprocess.run(command, check=True, stdout=output, stderr=subprocess.STDOUT, timeout=600)
-    audit(directory, options.phase, options.mode)
+    vendor_inputs = {row["sha256"] for row in expected}
+    audit(directory, options.phase, options.mode,
+          bop_development=has_controlled_bop_inputs(vendor_inputs))
     print("NEOFORGE_BUILDING_PIECES_BOP_DEVELOPMENT_PASS", options.mode, options.phase)
 
 

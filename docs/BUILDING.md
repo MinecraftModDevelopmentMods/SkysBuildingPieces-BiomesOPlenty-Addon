@@ -23,6 +23,11 @@ to export the native launch files. Use one Gradle home for this checkout's
 command line and Eclipse launches. The regular client and server use the
 merged production output, without test classes or test mods.
 
+The pinned BOP development jars report one allay spawn-registration error,
+including in the vendor-only control. Development checks recognise that exact
+startup message only with the three verified vendor jar checksums. Raw logs
+are kept, and other errors still fail.
+
 ## Runtime checks
 
 The test harnesses use Python 3.11 or later. Build the separate runtime

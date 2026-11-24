@@ -287,25 +287,25 @@ def verify_deferred_source_chunks(directory, fixture):
         output.write("\n")
 
 
-def audit_console(directory, phase):
+def audit_console(directory, phase, *, bop_development=False):
     """Include loader diagnostics that can happen before Minecraft opens its logs."""
     path = directory / (phase + "-console.log")
     console = path.read_text(encoding="utf-8")
     status_error = re.search(r"(?m)^(?:ERROR|FATAL) Status(?:Console)?Listener\b.*", console)
     if status_error:
         raise ValueError("Unexpected loader logging failure: " + status_error[0])
-    audit_text(console, profile_for(directory))
+    audit_text(console, profile_for(directory), bop_development=bop_development)
 
 
-def audit(directory, phase, mode, biomes_only=False):
-    audit_console(directory, phase)
+def audit(directory, phase, mode, biomes_only=False, *, bop_development=False):
+    audit_console(directory, phase, bop_development=bop_development)
     if mode == "client":
-        audit_client(directory, phase)
+        audit_client(directory, phase, bop_development=bop_development)
         shutil.copyfile(directory / "logs/latest.log", directory / (phase + "-complete.log"))
         shutil.copyfile(directory / "logs/debug.log", directory / (phase + "-debug.log"))
         return
     log = (directory / "logs/latest.log").read_text(encoding="utf-8")
-    audit_server(directory, phase)
+    audit_server(directory, phase, bop_development=bop_development)
     required = ("Done (", "BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS")
     if (directory / 'forward-fixture.json').is_file():
         required += ('BOP_NATIVE_BIOMES_PASS biomes=73 loaded_chunks=true',) if biomes_only else (
