@@ -28,7 +28,7 @@ def compileBootstrap = tasks.register('compileNativeBootstrap', JavaCompile) {
     source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/RecombinationChecks.java'))
     source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/FuelChecks.java'))
     source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/PersistenceRegistrationChecks.java'))
-    ['NativeRecipeProbe', 'NativeLegacyChecks', 'DirtCoverageChecks', 'CoverageContributor', 'NativeProbeItems'].each { name ->
+    ['NativeRecipeProbe', 'NativeLegacyChecks', 'LiveInventoryRecoveryChecks', 'DirtCoverageChecks', 'CoverageContributor', 'NativeProbeItems'].each { name ->
         source file(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/' + name + '.java'))
     }
     source fileTree(new File(coreDirectory, 'src/integrationTest/java/zone/moddev/mc/skysbuildingpieces/probe/legacy'))
