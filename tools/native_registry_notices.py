@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+from bop_development_notice import checked_bop_development_text
 
 
 def validate_registry_proofs(root, profile):
@@ -112,8 +113,10 @@ def audit_biome_proof(text, profile):
         raise ValueError("The complete native biome conversion was not verified")
 
 
-def audit_text(text, profile=None):
+def audit_text(text, profile=None, *, bop_development=False):
     text = text.replace("\r\n", "\n")
+    if bop_development:
+        text = checked_bop_development_text(text)
     observed = {}
     pattern = r"Unidentified mapping from registry (minecraft:[a-z_/]+)\n(.*?)(?:\n\n)"
     for registry, body in re.findall(pattern, text, re.S):

@@ -7,10 +7,11 @@ from pathlib import Path
 import re
 import tomllib
 from native_registry_notices import audit_text, profile_for, audit_biome_proof
+from bop_development_notice import checked_bop_development_text
 
 
 
-def audit_complete_logs(directory):
+def audit_complete_logs(directory, *, bop_development=False):
     """Include rolled first-load logs, so a clean reload cannot hide a failure."""
     paths = sorted(path for path in (Path(directory) / "logs").rglob("*")
                    if path.is_file() and (path.name.endswith(".log") or path.name.endswith(".log.gz")))
@@ -23,14 +24,16 @@ def audit_complete_logs(directory):
         else:
             text = path.read_text(encoding="utf-8")
         try:
-            audit_text(text, profile_for(directory))
+            audit_text(text, profile_for(directory), bop_development=bop_development)
         except ValueError as failure:
             raise ValueError(str(path) + ": " + str(failure)) from failure
     return len(paths)
 
 
-def classify(log, unchanged_defaults):
+def classify(log, unchanged_defaults, *, bop_development=False):
     """Require a complete client login without severe notices."""
+    if bop_development:
+        log = checked_bop_development_text(log)
     lines = log.splitlines()
     severe = [line for line in lines if re.search(r"/(?:ERROR|FATAL)\]", line)]
     startup = next((index for index, line in enumerate(lines)
@@ -64,14 +67,14 @@ def unchanged_native_settings(directory, names):
     return True
 
 
-def audit(directory, phase, control=False):
+def audit(directory, phase, control=False, *, bop_development=False):
     directory = Path(directory)
     log = (directory / "logs/latest.log").read_text(encoding="utf-8")
     unchanged = unchanged_native_settings(directory, (
         "fml.toml", "neoforge-client.toml", "neoforge-common.toml", "neoforge-server.toml"))
     if not unchanged:
         raise ValueError("NeoForge settings differ from the controlled defaults")
-    receipt = classify(log, unchanged)
+    receipt = classify(log, unchanged, bop_development=bop_development)
     required = (("NEOFORGE_CLIENT_CONTROL_PASS joined=true sky_mods=false",) if control else
                 ("BUILDING_PIECES_CLIENT_WORLD_ACCEPTED", "SKY_RECIPE_PREVIEW_MODELS_PASS",
                  "BUILDING_PIECES_CONTINUOUS_GLASS_PASS", "BUILDING_PIECES_COLOURS_PASS"))
@@ -88,7 +91,7 @@ def audit(directory, phase, control=False):
         raise ValueError("The NeoForge-only control must complete without handshake errors")
     if list((directory / "crash-reports").glob("*")):
         raise ValueError("Native client produced a crash report")
-    receipt["complete_log_files"] = audit_complete_logs(directory)
+    receipt["complete_log_files"] = audit_complete_logs(directory, bop_development=bop_development)
     receipt["phase"] = phase
     receipt["control_without_sky_mods"] = control
     (directory / (phase + "-log-audit.json")).write_text(
@@ -96,7 +99,7 @@ def audit(directory, phase, control=False):
     return receipt
 
 
-def classify_server(log, debug, unchanged_defaults, profile=None):
+def classify_server(log, debug, unchanged_defaults, profile=None, *, bop_development=False):
     """Require unchanged defaults and a complete native server start."""
     lines = log.splitlines()
     severe = [line for line in lines if re.search(r"/(?:ERROR|FATAL)\]", line)]
@@ -104,21 +107,22 @@ def classify_server(log, debug, unchanged_defaults, profile=None):
                   for line in lines)
     if not unchanged_defaults or not startup or 'Done (' not in log:
         raise ValueError('Native server defaults or startup sequence changed')
-    notices = audit_text(log, profile)
+    notices = audit_text(log, profile, bop_development=bop_development)
     audit_biome_proof(log, profile)
     if not debug.strip():
         raise ValueError('Native server debug evidence is missing')
     return {'native_server_config_notices': 0, 'notices': notices,
             'unchanged_native_defaults': True, 'debug_identity_verified': True}
 
-def audit_server(directory, phase):
+def audit_server(directory, phase, *, bop_development=False):
     directory = Path(directory)
     unchanged = unchanged_native_settings(directory, ("fml.toml", "neoforge-common.toml", "neoforge-server.toml"))
     receipt = classify_server((directory / 'logs/latest.log').read_text(encoding='utf-8'),
-                              (directory / 'logs/debug.log').read_text(encoding='utf-8'), unchanged, profile_for(directory))
+                              (directory / 'logs/debug.log').read_text(encoding='utf-8'), unchanged, profile_for(directory),
+                              bop_development=bop_development)
     if list((directory / 'crash-reports').glob('*')):
         raise ValueError('Native server produced a crash report')
-    receipt['complete_log_files'] = audit_complete_logs(directory)
+    receipt['complete_log_files'] = audit_complete_logs(directory, bop_development=bop_development)
     receipt['phase'] = phase
     (directory / (phase + '-server-log-audit.json')).write_text(
         json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
