@@ -8,7 +8,7 @@ Mavenizer also needs Java 25; it is not used to compile or run the mod.
 The runtime log checks use Python 3.11 or later. If `python` is not on your
 path, pass `-PpythonExecutable=<python executable>` to Gradle.
 
-Check out Building Pieces 0.3.10.120012 at the exact source commit in
+Check out Building Pieces 0.3.11.120012 at the exact source commit in
 `gradle/core-dependency.properties`, then run its `gradlew assemble` task.
 Build this add-on with:
 
