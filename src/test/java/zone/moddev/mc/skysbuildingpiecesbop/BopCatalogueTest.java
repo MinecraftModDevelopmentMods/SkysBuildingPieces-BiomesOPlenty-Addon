@@ -30,8 +30,8 @@ class BopCatalogueTest {
 
         int pathPalettes = core.materials.containsKey("minecraft:grass_path") ? 2 : 0;
 
-        assertEquals(235 + pathPalettes, core.palettes.size());
-        assertEquals(303 + pathPalettes, core.palettes.size() + 2 + catalogueModule.palettes.size());
+        assertEquals(236 + pathPalettes, core.palettes.size());
+        assertEquals(304 + pathPalettes, core.palettes.size() + 2 + catalogueModule.palettes.size());
 
         if (pathPalettes != 0) {
             assertEquals("path_step_00", core.palettes.get(235).id);
