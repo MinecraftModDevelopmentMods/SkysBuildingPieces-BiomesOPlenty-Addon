@@ -361,7 +361,7 @@ jobs:
           bash "$dependency/gradlew" -p "$dependency" assemble --no-daemon --stacktrace
           version="$(sed -n 's/^version=//p' dependencies/pieces/gradle/grass-slabs-release.properties)"
           echo "ORG_GRADLE_PROJECT_grassSlabsMainJar=$dependency/build/libs/SkysGrassSlabs-$version.jar" >> "$GITHUB_ENV"
-          echo "ORG_GRADLE_PROJECT_grassSlabsDeobfJar=$dependency/build/libs-dev/SkysGrassSlabs-$version-deobf.jar" >> "$GITHUB_ENV"
+          echo "ORG_GRADLE_PROJECT_grassSlabsDeobfJar=$dependency/build/libs/SkysGrassSlabs-$version.jar" >> "$GITHUB_ENV"
 
       - name: Build development dependencies
         run: |
@@ -608,7 +608,7 @@ jobs:
           bash "$dependency/gradlew" -p "$dependency" assemble --no-daemon --stacktrace
           version="$(sed -n 's/^version=//p' dependencies/pieces/gradle/grass-slabs-release.properties)"
           echo "ORG_GRADLE_PROJECT_grassSlabsMainJar=$dependency/build/libs/SkysGrassSlabs-$version.jar" >> "$GITHUB_ENV"
-          echo "ORG_GRADLE_PROJECT_grassSlabsDeobfJar=$dependency/build/libs-dev/SkysGrassSlabs-$version-deobf.jar" >> "$GITHUB_ENV"
+          echo "ORG_GRADLE_PROJECT_grassSlabsDeobfJar=$dependency/build/libs/SkysGrassSlabs-$version.jar" >> "$GITHUB_ENV"
 
       - name: Build development dependencies
         run: |
