@@ -51,5 +51,9 @@
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone": "siltite",
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone_polished": "siltite polie",
   "material.skysbuildingpiecesbop.biomesoplenty.tanzanite_block": "tanzanite",
-  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "topaze"
+  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "topaze",
+  "material.skysbuildingpiecesbop.biomesoplenty.origin_grass_block": "Bloc d'herbe retro",
+  "material.skysbuildingpiecesbop.biomesoplenty.white_sandstone": "Grès blanc",
+  "material.skysbuildingpiecesbop.biomesoplenty.orange_sandstone": "Grès orange",
+  "material.skysbuildingpiecesbop.biomesoplenty.black_sandstone": "Grès noir"
 }

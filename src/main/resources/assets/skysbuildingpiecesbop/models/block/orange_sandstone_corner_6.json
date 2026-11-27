@@ -1,0 +1,23 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "top": "biomesoplenty:block/orange_sandstone_top",
+    "side": "biomesoplenty:block/orange_sandstone",
+    "bottom": "biomesoplenty:block/orange_sandstone_bottom",
+    "particle": "biomesoplenty:block/orange_sandstone"
+  },
+  "elements": [
+    {
+      "from": [8, 0, 8],
+      "to": [16, 8, 16],
+      "faces": {
+        "down": {"uv": [8, 8, 16, 16], "texture": "#bottom"},
+        "up": {"uv": [8, 8, 16, 16], "texture": "#top"},
+        "north": {"uv": [8, 8, 16, 16], "texture": "#side"},
+        "south": {"uv": [8, 8, 16, 16], "texture": "#side"},
+        "west": {"uv": [8, 8, 16, 16], "texture": "#side"},
+        "east": {"uv": [8, 8, 16, 16], "texture": "#side"}
+      }
+    }
+  ]
+}

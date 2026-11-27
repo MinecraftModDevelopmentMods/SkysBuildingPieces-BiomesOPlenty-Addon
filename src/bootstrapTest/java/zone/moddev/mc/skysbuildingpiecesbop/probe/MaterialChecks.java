@@ -118,7 +118,7 @@ final class MaterialChecks {
             long registered = ForgeRegistries.BLOCKS.getValues().stream()
                     .filter(block -> net.minecraftforge.registries.ForgeRegistries.BLOCKS.getKey(block).getNamespace().equals(SkysBuildingPiecesBop.ID)).count();
 
-            require(registered == 74 + 180 + 7, "Complete add-on block catalogue: " + registered);
+            require(registered == 81 + 189 + 7, "Complete add-on block catalogue: " + registered);
             LOGGER.info("BOP_NATIVE_MATERIALS_PASS states=" + checked + " blocks=" + registered);
         } finally {
             world.setBlock(position, previous, 2);

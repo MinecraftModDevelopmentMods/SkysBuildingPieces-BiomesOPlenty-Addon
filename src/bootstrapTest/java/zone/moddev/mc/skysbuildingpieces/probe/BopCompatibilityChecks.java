@@ -68,6 +68,9 @@ public final class BopCompatibilityChecks {
                 for (zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue.MaterialDef definition
                         : zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue.INSTANCE.modules
                                 .get("biomesoplenty").materials.values()) {
+                    if (definition.legacyBlock("full") == null) {
+                        continue;
+                    }
                     material = definition.id;
                     liveInventories(world, convert);
                     newlyPlaced(world, convert);

@@ -23,15 +23,15 @@ class BopCatalogueTest {
     void fixedCatalogueBudgetAndAllMetadata() throws Exception {
         Catalogue.Module catalogueModule = module();
 
-        assertEquals(33, catalogueModule.materials.size());
-        assertEquals(66, catalogueModule.palettes.size());
+        assertEquals(37, catalogueModule.materials.size());
+        assertEquals(73, catalogueModule.palettes.size());
 
         Catalogue core = new Catalogue();
 
         int pathPalettes = core.materials.containsKey("minecraft:grass_path") ? 2 : 0;
 
-        assertEquals(236 + pathPalettes, core.palettes.size());
-        assertEquals(304 + pathPalettes, core.palettes.size() + 2 + catalogueModule.palettes.size());
+        assertEquals(249 + pathPalettes, core.palettes.size());
+        assertEquals(324 + pathPalettes, core.palettes.size() + 2 + catalogueModule.palettes.size());
 
         if (pathPalettes != 0) {
             assertEquals("path_step_00", core.palettes.get(235).id);
@@ -112,9 +112,10 @@ class BopCatalogueTest {
             boolean singleConnectionBlock = palette.materials.size() == 1
                     && (palette.shape == Shape.WALL || palette.shape == Shape.PANE);
             int assigned = palette.materials.size() * palette.shape.states;
+            int appearances = palette.group.equals("dirt") ? 2 : 1;
 
-            assertTrue(variants.entrySet().size() >= (singleConnectionBlock ? 1 : assigned) * perMeta * 2, palette.id);
-            assertTrue(variants.entrySet().size() <= (singleConnectionBlock ? 1 : 16) * perMeta * 2, palette.id);
+            assertTrue(variants.entrySet().size() >= (singleConnectionBlock ? 1 : assigned) * perMeta * 2 * appearances, palette.id);
+            assertTrue(variants.entrySet().size() <= (singleConnectionBlock ? 1 : 16) * perMeta * 2 * appearances, palette.id);
 
             for (int meta = 0; meta < 16; meta++) {
                 int covered = 0;
@@ -130,9 +131,9 @@ class BopCatalogueTest {
                 if (singleConnectionBlock) {
                     assertEquals(0, covered, palette.id);
                 } else if (meta < assigned) {
-                    assertEquals(perMeta * 2, covered, palette.id + " / " + meta);
+                    assertEquals(perMeta * 2 * appearances, covered, palette.id + " / " + meta);
                 } else {
-                    assertTrue(covered == 0 || covered == perMeta * 2, palette.id + " / reserved " + meta);
+                    assertTrue(covered == 0 || covered == perMeta * 2 * appearances, palette.id + " / reserved " + meta);
                 }
             }
             for (Map.Entry<String, JsonElement> entry : state.getAsJsonObject("variants").entrySet()) {

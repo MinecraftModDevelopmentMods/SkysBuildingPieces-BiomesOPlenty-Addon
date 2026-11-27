@@ -51,5 +51,9 @@
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone": "siltito",
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone_polished": "siltito polido",
   "material.skysbuildingpiecesbop.biomesoplenty.tanzanite_block": "tanzanita",
-  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "topázio"
+  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "topázio",
+  "material.skysbuildingpiecesbop.biomesoplenty.origin_grass_block": "Bloco de grama primordial",
+  "material.skysbuildingpiecesbop.biomesoplenty.white_sandstone": "Arenito branco",
+  "material.skysbuildingpiecesbop.biomesoplenty.orange_sandstone": "Arenito laranja",
+  "material.skysbuildingpiecesbop.biomesoplenty.black_sandstone": "Arenito preto"
 }

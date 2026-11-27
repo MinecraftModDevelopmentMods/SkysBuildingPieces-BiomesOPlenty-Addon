@@ -16,7 +16,7 @@ class RepositoryTest {
 
         String pin = text("gradle/core-dependency.properties");
 
-        assertTrue(pin.contains("version=0.3.12.121011"));
+        assertTrue(pin.contains("version=0.3.13.121011"));
         assertTrue(pin.contains("api=1"));
     }
 

@@ -1,0 +1,100 @@
+{
+  "variants": {
+    "meta=0,snowy=false,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_0_dry"
+    },
+    "meta=0,snowy=false,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_0_dry"
+    },
+    "meta=0,snowy=true,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_0_snow"
+    },
+    "meta=0,snowy=true,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_0_snow"
+    },
+    "meta=1,snowy=false,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_1_dry"
+    },
+    "meta=1,snowy=false,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_1_dry"
+    },
+    "meta=1,snowy=true,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_1_snow"
+    },
+    "meta=1,snowy=true,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_1_snow"
+    },
+    "meta=2,snowy=false,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_2_dry"
+    },
+    "meta=2,snowy=false,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_2_dry"
+    },
+    "meta=2,snowy=true,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_2_snow"
+    },
+    "meta=2,snowy=true,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_2_snow"
+    },
+    "meta=3,snowy=false,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_3_dry"
+    },
+    "meta=3,snowy=false,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_3_dry"
+    },
+    "meta=3,snowy=true,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_3_snow"
+    },
+    "meta=3,snowy=true,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_3_snow"
+    },
+    "meta=4,snowy=false,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_4_dry"
+    },
+    "meta=4,snowy=false,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_4_dry"
+    },
+    "meta=4,snowy=true,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_4_snow"
+    },
+    "meta=4,snowy=true,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_4_snow"
+    },
+    "meta=5,snowy=false,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_5_dry"
+    },
+    "meta=5,snowy=false,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_5_dry"
+    },
+    "meta=5,snowy=true,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_5_snow"
+    },
+    "meta=5,snowy=true,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_5_snow"
+    },
+    "meta=6,snowy=false,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_6_dry"
+    },
+    "meta=6,snowy=false,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_6_dry"
+    },
+    "meta=6,snowy=true,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_6_snow"
+    },
+    "meta=6,snowy=true,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_6_snow"
+    },
+    "meta=7,snowy=false,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_7_dry"
+    },
+    "meta=7,snowy=false,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_7_dry"
+    },
+    "meta=7,snowy=true,waterlogged=false": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_7_snow"
+    },
+    "meta=7,snowy=true,waterlogged=true": {
+      "model": "skysbuildingpiecesbop:block/origin_grass_block_corner_7_snow"
+    }
+  }
+}

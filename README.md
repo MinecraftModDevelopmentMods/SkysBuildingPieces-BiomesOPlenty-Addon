@@ -12,6 +12,9 @@ Build with the woods and stone materials in Biomes O' Plenty for Minecraft
 1.21.1. Where BOP already has a suitable slab, stair or wall, the add-on uses
 it rather than adding another copy.
 
+Origin grass has matching slabs, steps and corners. The white, orange and
+black sandstones get steps and corners that work with BOP's own slabs.
+
 Craft pieces from matching blocks, slabs and steps, following the core mod's
 patterns. Regular slabs also place vertically and drop regular slabs when
 broken. Matching pieces can join into supported larger shapes.
@@ -39,7 +42,7 @@ It doesn't accept unrelated items.
 Use the versions for **Minecraft 1.21.1**, with **Forge 52.1.0** and
 **Java 21**. You'll need:
 
-- **Sky's Building Pieces 0.3.12.121011** and this add-on.
+- **Sky's Building Pieces 0.3.13.121011** and this add-on.
 - **Biomes O' Plenty 21.1.0.14**, **TerraBlender 4.1.0.8** and **GlitchCore 2.1.0.2**.
 
 Put all five main jars in `mods` on both the client and server.

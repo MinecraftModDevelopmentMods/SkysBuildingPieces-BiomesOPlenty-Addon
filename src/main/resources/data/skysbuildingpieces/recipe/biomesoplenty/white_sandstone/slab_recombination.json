@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skys/result/biomesoplenty/white_sandstone",
+  "pattern": ["XX"],
+  "key": {
+    "X": {
+      "item": "biomesoplenty:white_sandstone_slab"
+    }
+  },
+  "result": {
+    "id": "biomesoplenty:white_sandstone",
+    "count": 1
+  },
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:white_sandstone"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:white_sandstone_slab"
+      }
+    ]
+  }
+}

@@ -30,6 +30,9 @@ public final class BopMigrationChecks {
             SkysBuildingPieces.forceReplace = true;
 
             for (Catalogue.MaterialDef material : Catalogue.INSTANCE.modules.get("biomesoplenty").materials.values()) {
+                if (material.legacyBlock("full") == null) {
+                    continue;
+                }
                 for (int code = 0; code < 16; code++) {
                     CompoundTag raw = NativeLegacyChecks.chunk(LegacyTestScope.STEP_ID, code, material.id);
 

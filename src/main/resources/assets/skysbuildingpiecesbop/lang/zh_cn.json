@@ -51,5 +51,9 @@
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone": "粉砂岩",
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone_polished": "磨制粉砂岩",
   "material.skysbuildingpiecesbop.biomesoplenty.tanzanite_block": "坦桑石",
-  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "黄宝石"
+  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "黄宝石",
+  "material.skysbuildingpiecesbop.biomesoplenty.origin_grass_block": "原始草块",
+  "material.skysbuildingpiecesbop.biomesoplenty.white_sandstone": "白砂岩",
+  "material.skysbuildingpiecesbop.biomesoplenty.orange_sandstone": "橙砂岩",
+  "material.skysbuildingpiecesbop.biomesoplenty.black_sandstone": "黑砂岩"
 }

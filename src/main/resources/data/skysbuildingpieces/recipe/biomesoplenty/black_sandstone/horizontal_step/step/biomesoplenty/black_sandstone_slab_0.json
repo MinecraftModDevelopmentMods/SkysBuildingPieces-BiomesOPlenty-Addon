@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skys/result/skysbuildingpiecesbop/black_sandstone_horizontal_step",
+  "pattern": ["X ", " X"],
+  "key": {
+    "X": {
+      "item": "biomesoplenty:black_sandstone_slab"
+    }
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:black_sandstone_horizontal_step",
+    "count": 4
+  },
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:black_sandstone_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:black_sandstone_horizontal_step"
+      }
+    ]
+  }
+}

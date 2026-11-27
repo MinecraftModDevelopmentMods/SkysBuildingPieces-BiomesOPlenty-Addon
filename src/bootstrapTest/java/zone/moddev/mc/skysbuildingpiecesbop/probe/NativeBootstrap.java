@@ -101,7 +101,7 @@ public final class NativeBootstrap {
 
             Catalogue.Module module = Catalogue.INSTANCE.modules.get("biomesoplenty");
 
-            require(module != null && module.materials.size() == 33 && module.palettes.size() == 66,
+            require(module != null && module.materials.size() == 37 && module.palettes.size() == 73,
                     "Fixed BOP catalogue changed");
 
             for (Catalogue.MaterialDef material : module.materials.values()) {
@@ -152,7 +152,7 @@ public final class NativeBootstrap {
             }
 
             BopPersistenceOrderChecks.verify(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
-            LOGGER.info("BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS materials=33 palettes=66 retired_items=7");
+            LOGGER.info("BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS materials=37 palettes=73 retired_items=7");
             success = true;
 
             if (client) {
@@ -185,7 +185,7 @@ public final class NativeBootstrap {
             // Resource reload can interrupt an integrated client's login.
             zone.moddev.mc.skysbuildingpieces.probe.RecipeBookChecks.run(server.getLevel(Level.OVERWORLD));
             BopPersistenceOrderChecks.verify(server.getLevel(Level.OVERWORLD));
-            LOGGER.info("BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS materials=33 palettes=66 retired_items=7");
+            LOGGER.info("BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS materials=37 palettes=73 retired_items=7");
         } catch (Throwable failure) {
             LOGGER.error("Native BOP recipe verification failed", failure);
         }
