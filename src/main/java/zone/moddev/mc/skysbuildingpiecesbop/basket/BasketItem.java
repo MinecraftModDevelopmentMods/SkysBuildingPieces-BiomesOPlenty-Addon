@@ -6,15 +6,13 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
+import net.minecraft.core.component.DataComponents;
 
 /** The container binds to the held stack, rather than a global open-basket flag. */
 public final class BasketItem extends Item {
@@ -33,11 +31,12 @@ public final class BasketItem extends Item {
         ItemStack held = player.getItemInHand(hand);
 
         if (!world.isClientSide) {
-            NetworkHooks.openScreen((ServerPlayer) player, new MenuProvider() {
+            ((ServerPlayer) player).openMenu( new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    if (!held.hasCustomHoverName() && held.hasTag() && held.getTag().contains("CustomName", 8)) {
-                        return Component.literal(held.getTag().getString("CustomName"));
+                    var data = BasketData.customData(held);
+                    if (!held.has(DataComponents.CUSTOM_NAME) && data.contains("CustomName", 8)) {
+                        return Component.literal(data.getString("CustomName"));
                     }
 
                     return held.getHoverName();

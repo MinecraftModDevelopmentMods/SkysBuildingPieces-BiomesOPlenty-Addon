@@ -67,7 +67,7 @@ def native_conflict(rows, ingredient, output, native_recipes, tags):
             if len(inputs) == len(pattern) and all(accepts(value) for value in inputs):
                 result = recipe['result']
                 result = {'item': result} if isinstance(result, str) else result
-                if (result['item'], result.get('count', 1)) != output:
+                if (result.get('id', result.get('item')), result.get('count', 1)) != output:
                     return True
             continue
         if recipe.get('type') != 'minecraft:crafting_shaped':
@@ -79,7 +79,7 @@ def native_conflict(rows, ingredient, output, native_recipes, tags):
         if all(accepts(value) for value in inputs):
             result = recipe['result']
             result = {'item': result} if isinstance(result, str) else result
-            if (result['item'], result.get('count', 1)) != output:
+            if (result.get('id', result.get('item')), result.get('count', 1)) != output:
                 return True
     return False
 
@@ -160,7 +160,7 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
                 if not identity.startswith('minecraft:'):
                     conditions.append(exists(identity))
             body = {'type': 'skysbuildingpieces:cutting' if preserve else 'minecraft:crafting_shaped',
-                    'group': 'skysbuildingpieces/' + path.split('/')[-2],
+                    'group': 'skys/result/' + output.replace(':', '/'),
                     'pattern': rows, 'key': {'X': {'item': ingredient}},
                     'result': {'item': output, 'count': count}}
             if preserve:
@@ -192,6 +192,8 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
                 add(base + '/recombine_corner', ['X', 'X'], piece(material, 'corner'),
                     piece(material, 'horizontal_step'), 1)
                 for shape in ('horizontal_step', 'vertical_step'):
+                    if shape == 'vertical_step' and piece(material, shape) == piece(material, 'horizontal_step'):
+                        continue
                     add(base + '/recombine_' + shape, ['X', 'X'], piece(material, shape),
                         piece(material, 'slab'), 1)
                 continue
@@ -277,6 +279,8 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
             if corner is not None and step is not None:
                 add(base + '/recombine_corner', ['X', 'X'], corner, step, 1)
             for shape, source in [('horizontal_step', step), ('vertical_step', upright_step)]:
+                if shape == 'vertical_step' and source == step:
+                    continue
                 output = slab if slab is not None else vertical
                 add(base + '/recombine_' + shape, ['X', 'X'], source, output, 1)
                 # Ordinary dirt still has its vertical slab when Grass Slabs is absent.
@@ -288,6 +292,39 @@ def prepare(resources, core_resources, native_recipes=(), tags=None, fallback=Fa
         recipe['category'] = 'building'
     return recipes, advancements
 
+
+
+
+def all_conditions(conditions):
+    unique = list({json.dumps(condition, sort_keys=True): condition for condition in conditions}.values())
+    return unique[0] if len(unique) == 1 else {'type': 'forge:and', 'values': unique}
+
+
+def native_recipe(recipe):
+    if recipe.get('type') == 'forge:conditional':
+        for choice in recipe['recipes']:
+            choice['forge:condition'] = all_conditions(choice.pop('conditions'))
+            native_recipe(choice['recipe'])
+    if 'conditions' in recipe:
+        recipe['forge:condition'] = all_conditions(recipe.pop('conditions'))
+    if 'result' in recipe and 'item' in recipe['result']:
+        recipe['result'] = {'id' if key == 'item' else key: value for key, value in recipe['result'].items()}
+    return recipe
+
+
+def native_advancement(advancement):
+    if 'advancements' in advancement:
+        return {'advancements': [
+            {'forge:condition': all_conditions(choice['conditions']), **native_advancement(choice['advancement'])}
+            for choice in advancement['advancements']
+        ]}
+    if 'conditions' in advancement:
+        advancement['forge:condition'] = all_conditions(advancement.pop('conditions'))
+    for criterion in advancement['criteria'].values():
+        for item in criterion.get('conditions', {}).get('items', []):
+            if 'tag' in item:
+                item['items'] = '#' + item.pop('tag')
+    return advancement
 
 
 def main():
@@ -307,10 +344,13 @@ def main():
     for path in args.native_jar:
         with ZipFile(path) as archive:
             for name in archive.namelist():
-                if name.startswith('data/') and '/recipes/' in name and name.endswith('.json'):
+                if name.startswith('data/') and name.count('/') >= 3 and name.split('/')[2] in ('recipe', 'recipes') and name.endswith('.json'):
                     native.append(json.loads(archive.read(name)))
-                if name.startswith('data/') and '/tags/items/' in name and name.endswith('.json'):
-                    identifier = name.split('/')[1] + ':' + name.split('/tags/items/', 1)[1][:-5]
+                if name.startswith('data/') and name.endswith('.json') and name.count('/') >= 4:
+                    _, namespace, tag_directory, kind, tag_path = name.split('/', 4)
+                    if tag_directory != 'tags' or kind not in ('item', 'items'):
+                        continue
+                    identifier = namespace + ':' + tag_path[:-5]
                     data = json.loads(archive.read(name))
                     if data.get('replace', False):
                         tags[identifier] = data['values']
@@ -345,14 +385,14 @@ def main():
     # their resources. Advancement identities keep the add-on namespace.
     outputs = {}
     for identity, recipe in recipes.items():
-        outputs['data/skysbuildingpieces/recipes/' + identity + '.json'] = recipe
+        outputs['data/skysbuildingpieces/recipe/' + identity + '.json'] = recipe
     for identity, advancement in advancements.items():
-        outputs['data/skysbuildingpiecesbop/advancements/' + identity + '.json'] = advancement
-    outputs['data/skysbuildingpiecesbop/recipes/flower_basket.json'] = {
+        outputs['data/skysbuildingpiecesbop/advancement/' + identity + '.json'] = advancement
+    outputs['data/skysbuildingpiecesbop/recipe/flower_basket.json'] = {
         'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': [' S ', 'S S', 'SSS'],
         'key': {'S': {'tag': 'forge:rods/wooden'}},
         'result': {'item': 'skysbuildingpiecesbop:flower_basket'}}
-    outputs['data/skysbuildingpiecesbop/advancements/recipes/flower_basket.json'] = {
+    outputs['data/skysbuildingpiecesbop/advancement/recipes/flower_basket.json'] = {
         'criteria': {
             'has_sticks': {'trigger': 'minecraft:inventory_changed',
                            'conditions': {'items': [{'tag': 'forge:rods/wooden'}]}},
@@ -361,13 +401,13 @@ def main():
         'requirements': [['has_sticks', 'has_the_recipe']],
         'rewards': {'recipes': ['skysbuildingpiecesbop:flower_basket']}}
     for name in ('gabbro', 'limestone', 'limestone_smooth', 'shale', 'shale_smooth', 'siltstone', 'siltstone_smooth'):
-        outputs['data/skysbuildingpiecesbop/recipes/restore_' + name + '.json'] = {
+        outputs['data/skysbuildingpiecesbop/recipe/restore_' + name + '.json'] = {
             'type': 'minecraft:crafting_shapeless', 'category': 'building', 'conditions': [exists('mineralogy:' + name)],
             'ingredients': [{'item': 'skysbuildingpiecesbop:retired_' + name}],
             'result': {'item': 'mineralogy:' + name}}
         identity = 'skysbuildingpiecesbop:restore_' + name
         ingredient = 'skysbuildingpiecesbop:retired_' + name
-        outputs['data/skysbuildingpiecesbop/advancements/recipes/restore_' + name + '.json'] = {
+        outputs['data/skysbuildingpiecesbop/advancement/recipes/restore_' + name + '.json'] = {
             'conditions': [exists('mineralogy:' + name)],
             'criteria': {
                 'has_ingredient': {'trigger': 'minecraft:inventory_changed',
@@ -387,7 +427,8 @@ def main():
                 target.unlink()
     for relative, data in outputs.items():
         target = args.resources / relative
-        text = format_json(data) + '\n'
+        native = native_advancement(data) if relative.split('/')[2] == 'advancement' else native_recipe(data)
+        text = format_json(native) + '\n'
         if not target.is_file() or target.read_text(encoding='utf-8') != text:
             changed += 1
             if args.write:

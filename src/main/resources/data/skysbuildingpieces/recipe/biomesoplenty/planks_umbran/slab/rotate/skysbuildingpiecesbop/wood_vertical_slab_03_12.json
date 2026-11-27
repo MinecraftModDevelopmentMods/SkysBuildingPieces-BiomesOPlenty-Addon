@@ -1,0 +1,29 @@
+{
+  "type": "skysbuildingpieces:cutting",
+  "group": "skys/result/biomesoplenty/umbran_slab",
+  "pattern": ["X"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:planks_umbran_vertical_slab"
+    }
+  },
+  "result": {
+    "id": "biomesoplenty:umbran_slab",
+    "count": 1
+  },
+  "preserve_tag": true,
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "biomesoplenty:umbran_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_umbran_vertical_slab"
+      }
+    ]
+  }
+}

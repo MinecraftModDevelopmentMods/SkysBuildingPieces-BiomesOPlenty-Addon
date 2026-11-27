@@ -47,7 +47,7 @@ public final class NativeBopBiomeChecks {
             invoke("finish", root);
             Registry<net.minecraft.world.level.biome.Biome> current = server.registryAccess()
                     .registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
-            int expected = current.getId(current.get(new ResourceLocation("biomesoplenty:wetland")));
+            int expected = current.getId(current.get(ResourceLocation.parse("biomesoplenty:wetland")));
             if (expected < 0 || root.getCompound("Level").getIntArray("Biomes")[0] != expected) {
                 throw new AssertionError("Pre-flattening BOP biome was not resolved in the active registry");
             }

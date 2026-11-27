@@ -17,7 +17,7 @@ final class PlantRecoveryChecks {
 
     static void run() {
         for (String source : new String[] { "biomesoplenty:sapling_0", "minecraft:sapling" }) {
-            CompoundTag basket = new ItemStack(Baskets.ITEM).save(new CompoundTag());
+            CompoundTag basket = BopProbeItems.legacy(new ItemStack(Baskets.ITEM));
             CompoundTag tag = new CompoundTag();
             CompoundTag plant = new CompoundTag();
 
@@ -45,11 +45,11 @@ final class PlantRecoveryChecks {
             recovery.fixTagCompound(basket);
 
             CompoundTag converted = basket.getCompound("tag").getList("Items", 10).getCompound(0);
-            ItemStack decoded = ItemStack.of(converted);
+            ItemStack decoded = BopProbeItems.read(converted);
 
             require(decoded.getHoverName().getString().equals("Saved tree"), "Legacy plant name is readable");
             require(decoded.getCount() == 23 && converted.getByte("Slot") == 4, "Legacy slot and count");
-            require(decoded.getTag().getString("unrelated").equals("Keep this data"), "Unrelated plant NBT");
+            require(BopProbeItems.custom(decoded).getString("unrelated").equals("Keep this data"), "Unrelated plant NBT");
 
             CompoundTag once = basket.copy();
 
@@ -60,6 +60,9 @@ final class PlantRecoveryChecks {
             CompoundTag child = invalid.getCompound("tag").getList("Items", 10).getCompound(0);
 
             child.putString("id", "biomesoplenty:sapling_0");
+            child.remove("count");
+            child.remove("components");
+            child.putByte("Count", (byte) 23);
             child.putShort("Damage", (short) 16);
 
             CompoundTag before = invalid.copy();

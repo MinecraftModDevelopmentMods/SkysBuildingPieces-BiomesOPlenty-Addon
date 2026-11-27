@@ -41,7 +41,7 @@ final class SourceFluidChecks {
                         "Water controls belong to a different Minecraft version");
                 Path temporary = Files.createTempDirectory(Path.of("."), "source-water-fixer-");
                 int cells = 0;
-                try (ChunkStorage storage = new ChunkStorage(temporary, world.getServer().getFixerUpper(), false)) {
+                try (ChunkStorage storage = new ChunkStorage(new net.minecraft.world.level.chunk.storage.RegionStorageInfo("test", net.minecraft.world.level.Level.OVERWORLD, "chunk"), temporary, world.getServer().getFixerUpper(), false)) {
                     for (JsonElement chunkEntry : receipt.getAsJsonArray("chunks")) {
                         JsonObject chunk = chunkEntry.getAsJsonObject();
                         byte[] bytes;
@@ -51,7 +51,7 @@ final class SourceFluidChecks {
                         }
                         require(HexFormat.of().withUpperCase().formatHex(MessageDigest.getInstance("SHA-256")
                                 .digest(bytes)).equals(chunk.get("sha256").getAsString()), "Saved water chunk changed");
-                        CompoundTag source = NbtIo.readCompressed(new ByteArrayInputStream(bytes));
+                        CompoundTag source = NbtIo.readCompressed(new ByteArrayInputStream(bytes), net.minecraft.nbt.NbtAccounter.unlimitedHeap());
                         CompoundTag before = source.copy();
                         CompoundTag fixed = storage.upgradeChunkTag(Level.OVERWORLD, () -> null,
                                 source.copy(), java.util.Optional.empty());

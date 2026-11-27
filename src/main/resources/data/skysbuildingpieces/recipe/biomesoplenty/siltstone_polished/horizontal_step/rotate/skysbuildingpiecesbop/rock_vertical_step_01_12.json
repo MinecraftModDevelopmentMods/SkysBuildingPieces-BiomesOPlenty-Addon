@@ -1,0 +1,29 @@
+{
+  "type": "skysbuildingpieces:cutting",
+  "group": "skys/result/skysbuildingpiecesbop/siltstone_polished_horizontal_step",
+  "pattern": ["X"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:siltstone_polished_vertical_step"
+    }
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:siltstone_polished_horizontal_step",
+    "count": 1
+  },
+  "preserve_tag": true,
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:siltstone_polished_horizontal_step"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:siltstone_polished_vertical_step"
+      }
+    ]
+  }
+}

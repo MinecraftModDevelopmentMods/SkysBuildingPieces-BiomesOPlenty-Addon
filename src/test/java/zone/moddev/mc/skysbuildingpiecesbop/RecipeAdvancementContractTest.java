@@ -18,7 +18,7 @@ class RecipeAdvancementContractTest {
         for (JsonElement element : entries) {
             String relative = element.getAsString();
 
-            if (!relative.contains("/advancements/")) {
+            if (!relative.contains("/advancement/")) {
                 continue;
             }
 
@@ -31,8 +31,8 @@ class RecipeAdvancementContractTest {
                 for (JsonElement alternative : advancement.getAsJsonArray("advancements")) {
                     JsonObject conditional = alternative.getAsJsonObject();
 
-                    assertTrue(conditional.getAsJsonArray("conditions").size() > 0);
-                    check(conditional.getAsJsonObject("advancement"));
+                    assertTrue(conditional.has("forge:condition"));
+                    check(conditional);
                 }
             } else {
                 check(advancement);
@@ -41,7 +41,7 @@ class RecipeAdvancementContractTest {
             count++;
         }
 
-        assertEquals(416, count);
+        assertEquals(438, count);
     }
 
     private void check(JsonObject advancement) {
@@ -54,7 +54,7 @@ class RecipeAdvancementContractTest {
 
         assertTrue(
                 Files.isRegularFile(
-                        Paths.get("src/main/resources/data/" + identity[0] + "/recipes/" + identity[1] + ".json")),
+                        Paths.get("src/main/resources/data/" + identity[0] + "/recipe/" + identity[1] + ".json")),
                 recipe);
         assertFalse(advancement.has("parent"),
                 "Large recipe catalogues must not share a recursive visibility parent: " + recipe);

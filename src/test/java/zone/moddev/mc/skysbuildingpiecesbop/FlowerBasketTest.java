@@ -13,12 +13,12 @@ class FlowerBasketTest {
     void recipeUsesSixReusableWoodenSticks() throws Exception {
         JsonObject json = new JsonParser().parse(new String(
                 Files.readAllBytes(
-                        Paths.get("src/main/resources/data/skysbuildingpiecesbop/recipes/flower_basket.json")),
+                        Paths.get("src/main/resources/data/skysbuildingpiecesbop/recipe/flower_basket.json")),
                 StandardCharsets.UTF_8)).getAsJsonObject();
 
         assertEquals("minecraft:crafting_shaped", json.get("type").getAsString());
         assertEquals("forge:rods/wooden", json.getAsJsonObject("key").getAsJsonObject("S").get("tag").getAsString());
-        assertEquals("skysbuildingpiecesbop:flower_basket", json.getAsJsonObject("result").get("item").getAsString());
+        assertEquals("skysbuildingpiecesbop:flower_basket", json.getAsJsonObject("result").get("id").getAsString());
 
         StringBuilder pattern = new StringBuilder();
 

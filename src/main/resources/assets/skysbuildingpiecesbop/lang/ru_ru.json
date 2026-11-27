@@ -51,5 +51,9 @@
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone": "алевролита",
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone_polished": "полированного алевролита",
   "material.skysbuildingpiecesbop.biomesoplenty.tanzanite_block": "танзанита",
-  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "топаза"
+  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "топаза",
+  "material.skysbuildingpiecesbop.biomesoplenty.origin_grass_block": "Блок травы зарождения",
+  "material.skysbuildingpiecesbop.biomesoplenty.white_sandstone": "Белоснежный песчаник",
+  "material.skysbuildingpiecesbop.biomesoplenty.orange_sandstone": "Оранжевый песчаник",
+  "material.skysbuildingpiecesbop.biomesoplenty.black_sandstone": "Чёрный песчаник"
 }

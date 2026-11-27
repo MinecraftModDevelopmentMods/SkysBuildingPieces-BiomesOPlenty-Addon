@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "skys/result/skysbuildingpiecesbop/shale_stairs",
+  "pattern": ["X  ", "XX ", "XXX"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:shale_slab"
+    }
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:shale_stairs",
+    "count": 4
+  },
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:shale_slab"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:shale_stairs"
+      }
+    ]
+  }
+}

@@ -5,6 +5,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.level.Level;
+import zone.moddev.mc.skysbuildingpieces.probe.BopRecipeAudit;
 import zone.moddev.mc.skysbuildingpieces.catalogue.Catalogue;
 import zone.moddev.mc.skysbuildingpieces.content.Pieces;
 import zone.moddev.mc.skysbuildingpiecesbop.RetiredRocks;
@@ -17,6 +20,9 @@ public final class NativeBootstrap {
 
     private net.minecraft.server.MinecraftServer pendingServer;
     private int startupTicks;
+    private BopRecipeAudit recipes;
+    private MinecraftServer recipeServer;
+    private long nextRecipeBatch;
 
     public NativeBootstrap() {
         zone.moddev.mc.skysbuildingpieces.probe.PersistenceRegistrationChecks.register(
@@ -48,7 +54,14 @@ public final class NativeBootstrap {
     }
 
     private void tick(net.minecraftforge.event.TickEvent.ServerTickEvent event) {
-        if (event.phase != net.minecraftforge.event.TickEvent.Phase.END || pendingServer == null || ++startupTicks < 20) {
+        if (event.phase != net.minecraftforge.event.TickEvent.Phase.END) {
+            return;
+        }
+        if (recipeServer != null && System.nanoTime() >= nextRecipeBatch) {
+            finishRecipeBatch();
+            return;
+        }
+        if (pendingServer == null || ++startupTicks < 20) {
             return;
         }
         if (!NativeNamedForwardChecks.ready(pendingServer.getLevel(net.minecraft.world.level.Level.OVERWORLD))) {
@@ -78,6 +91,7 @@ public final class NativeBootstrap {
                 LOGGER.info("BUILDING_PIECES_BOP_REGISTRY_ONLY_PASS");
                 return;
             }
+            zone.moddev.mc.skysbuildingpieces.probe.FuelChecks.run();
             WallRecoveryChecks.run(server);
             NamedRecoveryChecks.run();
             NativeBopBiomeChecks.run(server);
@@ -87,7 +101,7 @@ public final class NativeBootstrap {
 
             Catalogue.Module module = Catalogue.INSTANCE.modules.get("biomesoplenty");
 
-            require(module != null && module.materials.size() == 33 && module.palettes.size() == 66,
+            require(module != null && module.materials.size() == 37 && module.palettes.size() == 73,
                     "Fixed BOP catalogue changed");
 
             for (Catalogue.MaterialDef material : module.materials.values()) {
@@ -115,6 +129,7 @@ public final class NativeBootstrap {
                 } else {
                     ForwardUpgradeChecks.run(server, manifest);
                 }
+                NativeNamedForwardChecks.checkNativeBlockRename(server.getLevel(Level.OVERWORLD));
             } else {
                 if (Boolean.getBoolean("skysbuildingpieces.bopInstalledPolicy")) {
                     zone.moddev.mc.skysbuildingpieces.probe.BopCompatibilityChecks
@@ -128,17 +143,16 @@ public final class NativeBootstrap {
                 MaterialChecks.run(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
                 zone.moddev.mc.skysbuildingpieces.probe.BopMigrationChecks
                         .run(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
-                zone.moddev.mc.skysbuildingpieces.probe.RecipeChecks
-                        .run(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
                 if (!client) {
-                    // A deliberate reload here can interrupt an integrated client's login.
-                    zone.moddev.mc.skysbuildingpieces.probe.RecipeBookChecks
-                            .run(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
+                    recipes = new BopRecipeAudit(server.getLevel(Level.OVERWORLD));
+                    recipeServer = server;
+                    nextRecipeBatch = System.nanoTime();
+                    return;
                 }
             }
 
             BopPersistenceOrderChecks.verify(server.getLevel(net.minecraft.world.level.Level.OVERWORLD));
-            LOGGER.info("BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS materials=33 palettes=66 retired_items=7");
+            LOGGER.info("BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS materials=37 palettes=73 retired_items=7");
             success = true;
 
             if (client) {
@@ -155,10 +169,29 @@ public final class NativeBootstrap {
                                 net.minecraft.CrashReport.forThrowable(failure, "BOP client verification failed")));
             }
         } finally {
-            if (!client || !success) {
+            if ((!client || !success) && recipeServer == null) {
                 server.halt(false);
             }
         }
+    }
+
+    private void finishRecipeBatch() {
+        MinecraftServer server = recipeServer;
+        try {
+            if (!recipes.advance()) {
+                nextRecipeBatch = System.nanoTime() + 75_000_000L;
+                return;
+            }
+            // Resource reload can interrupt an integrated client's login.
+            zone.moddev.mc.skysbuildingpieces.probe.RecipeBookChecks.run(server.getLevel(Level.OVERWORLD));
+            BopPersistenceOrderChecks.verify(server.getLevel(Level.OVERWORLD));
+            LOGGER.info("BUILDING_PIECES_BOP_NATIVE_BOOTSTRAP_PASS materials=37 palettes=73 retired_items=7");
+        } catch (Throwable failure) {
+            LOGGER.error("Native BOP recipe verification failed", failure);
+        }
+        recipes = null;
+        recipeServer = null;
+        server.halt(false);
     }
 
     private static void require(boolean condition, String message) {

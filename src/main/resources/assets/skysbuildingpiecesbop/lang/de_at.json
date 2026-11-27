@@ -51,5 +51,9 @@
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone": "Schluffstein",
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone_polished": "poliertem Schluffstein",
   "material.skysbuildingpiecesbop.biomesoplenty.tanzanite_block": "Tansanit",
-  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "Topas"
+  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "Topas",
+  "material.skysbuildingpiecesbop.biomesoplenty.origin_grass_block": "Ursprungsgrasblock",
+  "material.skysbuildingpiecesbop.biomesoplenty.white_sandstone": "Weißer Sandstein",
+  "material.skysbuildingpiecesbop.biomesoplenty.orange_sandstone": "Oranger Sandstein",
+  "material.skysbuildingpiecesbop.biomesoplenty.black_sandstone": "Schwarzer Sandstein"
 }

@@ -97,10 +97,7 @@
       "full": {
         "id": "mineralogy:gabbro",
         "fallback": {
-          "id": "skysbuildingpiecesbop:retired_rocks",
-          "properties": {
-            "variant": "0"
-          }
+          "id": "skysbuildingpiecesbop:retired_gabbro"
         }
       }
     },
@@ -130,10 +127,7 @@
       "full": {
         "id": "mineralogy:limestone",
         "fallback": {
-          "id": "skysbuildingpiecesbop:retired_rocks",
-          "properties": {
-            "variant": "1"
-          }
+          "id": "skysbuildingpiecesbop:retired_limestone"
         }
       }
     },
@@ -164,10 +158,7 @@
       "full": {
         "id": "mineralogy:limestone_smooth",
         "fallback": {
-          "id": "skysbuildingpiecesbop:retired_rocks",
-          "properties": {
-            "variant": "2"
-          }
+          "id": "skysbuildingpiecesbop:retired_limestone_smooth"
         }
       }
     },
@@ -1156,10 +1147,7 @@
       "full": {
         "id": "mineralogy:shale",
         "fallback": {
-          "id": "skysbuildingpiecesbop:retired_rocks",
-          "properties": {
-            "variant": "3"
-          }
+          "id": "skysbuildingpiecesbop:retired_shale"
         }
       }
     },
@@ -1190,10 +1178,7 @@
       "full": {
         "id": "mineralogy:shale_smooth",
         "fallback": {
-          "id": "skysbuildingpiecesbop:retired_rocks",
-          "properties": {
-            "variant": "4"
-          }
+          "id": "skysbuildingpiecesbop:retired_shale_smooth"
         }
       }
     },
@@ -1224,10 +1209,7 @@
       "full": {
         "id": "mineralogy:siltstone",
         "fallback": {
-          "id": "skysbuildingpiecesbop:retired_rocks",
-          "properties": {
-            "variant": "5"
-          }
+          "id": "skysbuildingpiecesbop:retired_siltstone"
         }
       }
     },
@@ -1258,10 +1240,7 @@
       "full": {
         "id": "mineralogy:siltstone_smooth",
         "fallback": {
-          "id": "skysbuildingpiecesbop:retired_rocks",
-          "properties": {
-            "variant": "6"
-          }
+          "id": "skysbuildingpiecesbop:retired_siltstone_smooth"
         }
       }
     },
@@ -1332,5 +1311,94 @@
     },
     "legacy_textures": "biomesoplenty:blocks/topaz_block",
     "replacement": "minecraft:stained_hardened_clay_orange"
+  },
+  {
+    "name": "Origin Grass Block",
+    "id": "biomesoplenty:origin_grass_block",
+    "type": "dirt",
+    "textures": {
+      "top": "biomesoplenty:block/origin_grass_block_top",
+      "side": "biomesoplenty:block/origin_grass_block_side",
+      "bottom": "minecraft:block/dirt"
+    },
+    "blocks": {
+      "full": {
+        "id": "biomesoplenty:origin_grass_block"
+      }
+    },
+    "group": "dirt",
+    "nativeProperties": true,
+    "flammability": 0,
+    "fireSpread": 0,
+    "legacy_blocks": {}
+  },
+  {
+    "name": "White Sandstone",
+    "id": "biomesoplenty:white_sandstone",
+    "type": "rock",
+    "textures": {
+      "top": "biomesoplenty:block/white_sandstone_top",
+      "side": "biomesoplenty:block/white_sandstone",
+      "bottom": "biomesoplenty:block/white_sandstone_bottom"
+    },
+    "blocks": {
+      "full": {
+        "id": "biomesoplenty:white_sandstone"
+      },
+      "slab": {
+        "id": "biomesoplenty:white_sandstone_slab"
+      }
+    },
+    "group": "rock",
+    "nativeProperties": true,
+    "flammability": 0,
+    "fireSpread": 0,
+    "legacy_blocks": {}
+  },
+  {
+    "name": "Orange Sandstone",
+    "id": "biomesoplenty:orange_sandstone",
+    "type": "rock",
+    "textures": {
+      "top": "biomesoplenty:block/orange_sandstone_top",
+      "side": "biomesoplenty:block/orange_sandstone",
+      "bottom": "biomesoplenty:block/orange_sandstone_bottom"
+    },
+    "blocks": {
+      "full": {
+        "id": "biomesoplenty:orange_sandstone"
+      },
+      "slab": {
+        "id": "biomesoplenty:orange_sandstone_slab"
+      }
+    },
+    "group": "rock",
+    "nativeProperties": true,
+    "flammability": 0,
+    "fireSpread": 0,
+    "legacy_blocks": {}
+  },
+  {
+    "name": "Black Sandstone",
+    "id": "biomesoplenty:black_sandstone",
+    "type": "rock",
+    "textures": {
+      "top": "biomesoplenty:block/black_sandstone_top",
+      "side": "biomesoplenty:block/black_sandstone",
+      "bottom": "biomesoplenty:block/black_sandstone_bottom"
+    },
+    "blocks": {
+      "full": {
+        "id": "biomesoplenty:black_sandstone"
+      },
+      "slab": {
+        "id": "biomesoplenty:black_sandstone_slab"
+      }
+    },
+    "group": "rock",
+    "nativeProperties": true,
+    "flammability": 0,
+    "fireSpread": 0,
+    "legacy_blocks": {}
   }
 ]

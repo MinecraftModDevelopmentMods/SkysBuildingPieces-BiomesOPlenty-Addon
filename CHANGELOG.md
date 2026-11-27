@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.2.7.121011 (unreleased)
+
+- Saved-world checks leave unrelated mod data files alone.
+- Crafting keeps one recipe for each distinct result, with clear recipe-book buttons.
+- BOP pieces use the core mod's updated fuel, snow and grass behaviour.
+- Eclipse keeps the exact dependency jars used by its run profiles.
+
+## 0.2.5.121011
+
+- BOP building pieces and recovered rocks now have individual block IDs. Existing builds and saved rock variants carry forward.
+
+## 0.2.4.121011
+
+- Updated the add-on to Minecraft 1.21.1 and Forge 52.1.0.
+- Updated crafting and recipe-book data for this version.
+
+## 0.2.4.120061
+
+- Ported to Minecraft 1.20.6 and Forge 50.2.0.
+- Kept existing building pieces and Flower Basket contents when upgrading.
+- Updated the crafting recipes and recipe book for this version.
+
 ## 0.2.4.120011
 
 - Ported to Minecraft 1.20.1 and Forge 47.4.10.

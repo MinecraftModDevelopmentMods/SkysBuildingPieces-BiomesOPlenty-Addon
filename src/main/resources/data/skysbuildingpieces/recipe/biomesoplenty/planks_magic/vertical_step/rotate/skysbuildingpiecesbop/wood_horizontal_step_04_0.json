@@ -1,0 +1,29 @@
+{
+  "type": "skysbuildingpieces:cutting",
+  "group": "skys/result/skysbuildingpiecesbop/planks_magic_vertical_step",
+  "pattern": ["X"],
+  "key": {
+    "X": {
+      "item": "skysbuildingpiecesbop:planks_magic_horizontal_step"
+    }
+  },
+  "result": {
+    "id": "skysbuildingpiecesbop:planks_magic_vertical_step",
+    "count": 1
+  },
+  "preserve_tag": true,
+  "category": "building",
+  "forge:condition": {
+    "type": "forge:and",
+    "values": [
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_magic_horizontal_step"
+      },
+      {
+        "type": "forge:item_exists",
+        "item": "skysbuildingpiecesbop:planks_magic_vertical_step"
+      }
+    ]
+  }
+}

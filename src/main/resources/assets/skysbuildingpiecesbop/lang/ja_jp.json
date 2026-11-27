@@ -51,5 +51,9 @@
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone": "シルト岩",
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone_polished": "磨かれたシルト岩",
   "material.skysbuildingpiecesbop.biomesoplenty.tanzanite_block": "タンザナイト",
-  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "トパーズ"
+  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "トパーズ",
+  "material.skysbuildingpiecesbop.biomesoplenty.origin_grass_block": "原初の草ブロック",
+  "material.skysbuildingpiecesbop.biomesoplenty.white_sandstone": "白い砂岩",
+  "material.skysbuildingpiecesbop.biomesoplenty.orange_sandstone": "橙色の砂岩",
+  "material.skysbuildingpiecesbop.biomesoplenty.black_sandstone": "黒い砂岩"
 }

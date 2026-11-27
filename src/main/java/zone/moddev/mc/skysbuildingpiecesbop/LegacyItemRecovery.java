@@ -36,7 +36,7 @@ public final class LegacyItemRecovery {
             HOLDERS[holderIndex] = new Item(new Item.Properties()) {
                 @Override
                 public net.minecraft.network.chat.Component getName(ItemStack stack) {
-                    Item target = ForgeRegistries.ITEMS.getValue(new ResourceLocation(TARGET[targetIndex]));
+                    Item target = ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(TARGET[targetIndex]));
 
                     return target == null || target == net.minecraft.world.item.Items.AIR
                             ? net.minecraft.network.chat.Component.translatable(
@@ -48,6 +48,11 @@ public final class LegacyItemRecovery {
     }
 
     public CompoundTag fixTagCompound(CompoundTag root) {
+        // The core wraps saved staging states alone before vanilla can run a data fix.
+        if (isOldStagingGrass(root)) {
+            root.getCompound("BlockState").putString("Name", "minecraft:short_grass");
+            return root;
+        }
         if (!isRelevant(root)) {
             return root;
         }
@@ -83,7 +88,11 @@ public final class LegacyItemRecovery {
     }
 
     public boolean isRelevant(CompoundTag root) {
-        return related(root, 0) || NamedBopRecovery.relevant(root);
+        return isOldStagingGrass(root) || related(root, 0) || NamedBopRecovery.relevant(root);
+    }
+
+    private static boolean isOldStagingGrass(CompoundTag root) {
+        return root.size() == 1 && root.getCompound("BlockState").getString("Name").equals("minecraft:grass");
     }
 
     private static boolean related(Tag value, int depth) {
@@ -137,10 +146,13 @@ public final class LegacyItemRecovery {
                     && index(compoundTag.getCompound("Item").getString("id")) >= 0) {
                 int legacyItemIndex = index(compoundTag.getCompound("Item").getString("id"));
 
-                if (compoundTag.getCompound("Item").getInt("Count") * MULTIPLIER[legacyItemIndex] > 1) {
+                if (BasketData.count(compoundTag.getCompound("Item")) * MULTIPLIER[legacyItemIndex] > 1) {
                     throw invalid(
                             "remove the retired item from its item frame in the original world first; a frame cannot retain multiple replacement items");
                 }
+            }
+            if (BasketData.isBasket(registryId) && compoundTag.contains("components", 10)) {
+                rewrite(BasketData.savedCustomData(compoundTag), BasketData.SIZE, depth + 1);
             }
             for (String key : compoundTag.getAllKeys()) {
                 Tag child = compoundTag.get(key);
@@ -245,7 +257,8 @@ public final class LegacyItemRecovery {
     private static List<CompoundTag> convert(CompoundTag old) {
         int legacyItemIndex = index(old.getString("id"));
 
-        if (!integer(old, "Count") || old.getInt("Count") <= 0 || old.getInt("Count") > 64
+        int savedCount = BasketData.count(old);
+        if (savedCount <= 0 || savedCount > 99
                 || old.contains("Damage") && !integer(old, "Damage")) {
             throw invalid("invalid saved stack for " + old.getString("id"));
         }
@@ -254,26 +267,29 @@ public final class LegacyItemRecovery {
             throw invalid("malformed saved item data for " + old.getString("id"));
         }
 
-        Item target = ForgeRegistries.ITEMS.getValue(new ResourceLocation(TARGET[legacyItemIndex]));
+        Item target = ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(TARGET[legacyItemIndex]));
 
         if (target == null || target == net.minecraft.world.item.Items.AIR) {
             throw invalid("replacement " + TARGET[legacyItemIndex] + " is unavailable for " + OLD[legacyItemIndex]
                     + "; install its original supported mod before upgrading");
         }
 
-        int remaining = old.getInt("Count") * MULTIPLIER[legacyItemIndex];
+        boolean legacy = old.contains("Count");
+        int remaining = savedCount * MULTIPLIER[legacyItemIndex];
         List<CompoundTag> output = new ArrayList<CompoundTag>();
 
         while (remaining > 0) {
             CompoundTag part = old.copy();
 
             part.putString("id", TARGET[legacyItemIndex]);
-            part.putShort("Damage", (short) 0);
+            if (legacy) {
+                part.remove("Damage");
+            }
 
             // A different item may not implement the old capabilities. Keep an exact archive rather than rely on its
             // serializer retaining them.
             if (old.contains("ForgeCaps", 10)) {
-                CompoundTag tag = part.getCompound("tag");
+                CompoundTag tag = BasketData.savedCustomData(part);
                 String archive = SkysBuildingPiecesBop.ID + ":legacy_capabilities";
 
                 if (tag.contains(archive)) {
@@ -281,22 +297,26 @@ public final class LegacyItemRecovery {
                 }
 
                 tag.put(archive, old.getCompound("ForgeCaps").copy());
-                part.put("tag", tag);
+                if (legacy) {
+                    part.put("tag", tag);
+                } else {
+                    CompoundTag components = part.getCompound("components");
+                    components.put("minecraft:custom_data", tag);
+                    part.put("components", components);
+                }
             }
 
-            ItemStack decoded = new ItemStack(target, 1);
-
-            if (part.contains("tag", 10)) {
-                decoded.setTag(part.getCompound("tag").copy());
-            }
-
-            int count = Math.min(remaining, Math.min(64, decoded.getMaxStackSize()));
+            int count = Math.min(remaining, BasketData.stackLimit(part, target));
 
             if (count <= 0) {
                 throw invalid("replacement has no usable stack capacity: " + TARGET[legacyItemIndex]);
             }
 
-            part.putByte("Count", (byte) count);
+            if (legacy) {
+                part.putByte("Count", (byte) count);
+            } else {
+                part.putInt("count", count);
+            }
             output.add(part);
             remaining -= count;
         }
@@ -330,8 +350,7 @@ public final class LegacyItemRecovery {
         if (!event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) return;
         createHolders();
         for (int index = 0; index < HOLDERS.length; index++) {
-            ForgeRegistries.ITEMS.register(new ResourceLocation(SkysBuildingPiecesBop.ID,
-                    "legacy_" + OLD[index].substring(14)), HOLDERS[index]);
+            ForgeRegistries.ITEMS.register(ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "legacy_" + OLD[index].substring(14)), HOLDERS[index]);
         }
     }
 

@@ -1,4 +1,4 @@
-"""Negative controls for Forge 45 server completion and native settings."""
+"""Negative controls for Forge 50 server completion and native settings."""
 
 from pathlib import Path
 import shutil
@@ -49,6 +49,14 @@ class NativeServerLogTest(unittest.TestCase):
             with self.subTest(extra=extra), self.assertRaises(ValueError):
                 classify_server(LOG + '\n' + extra, DETAILS, True)
 
+    def test_assertion_class_loading_is_not_an_assertion_failure(self):
+        trace = "[main/DEBUG] [cpw.mods.modlauncher.LaunchPluginHandler/LAUNCHPLUGIN]: " \
+                "Final flags state for java.lang.AssertionError is 0"
+        classify_server(LOG + "\n" + trace, DETAILS, True)
+        for error in ("java.lang.AssertionError", "Caused by: java.lang.AssertionError: missing piece"):
+            with self.subTest(error=error), self.assertRaises(ValueError):
+                classify_server(LOG + "\n" + error, DETAILS, True)
+
     def test_invalid_saved_property_warning_is_rejected(self):
         warning = '[Server thread/WARN] [minecraft/NBTUtil]: Unable to read property: north with value: true'
         with self.assertRaises(ValueError):
@@ -62,7 +70,7 @@ class NativeServerLogTest(unittest.TestCase):
 class NativeRegistryNoticeTest(unittest.TestCase):
     def setUp(self):
         import json
-        from native_registry_notices import audit_text
+        from native_registry_notices import audit_text, expected_mappings
         root = Path(__file__).resolve().parent.parent
         self.profile = json.loads((root / "tools/native-log-profiles.json").read_text(encoding="utf-8"))["profiles"][
             "634FA10DA5BA9FD5D2C95EF01142F91F4B85EC2A1EEB2F2292A70663CAC8C1A7"]
@@ -70,13 +78,13 @@ class NativeRegistryNoticeTest(unittest.TestCase):
         prefix = "[time] [main/ERROR] [net.minecraftforge.registries.GameData/REGISTRIES]: "
         self.valid = "".join(prefix + "Unidentified mapping from registry " + registry + "\n" +
                              "\n".join("\t" + name + ": " + str(number) for name, number in entries.items()) + "\n\n"
-                             for registry, entries in self.profile["mappings"].items())
+                             for registry, entries in expected_mappings(self.profile).items())
         self.valid += prefix + "There are unidentified mappings in this world - we are going to attempt to process anyway\n"
 
     def test_exact_native_notices_and_a_clean_reload_pass(self):
-        self.assertEqual(len(self.check(self.valid, self.profile)), 6)
+        self.assertEqual(len(self.check(self.valid, self.profile)), 9)
         short = self.valid.replace(" [net.minecraftforge.registries.GameData/REGISTRIES]", "")
-        self.assertEqual(len(self.check(short, self.profile)), 6)
+        self.assertEqual(len(self.check(short, self.profile)), 9)
         self.assertEqual(self.check("A clean native reload", None), [])
 
     def test_used_biomes_require_the_complete_volume_check(self):
@@ -85,7 +93,10 @@ class NativeRegistryNoticeTest(unittest.TestCase):
         marker = ('BOP_SAVED_BIOME_VOLUME_PASS source=' + proof['source']
                   + ' cells=' + str(proof['checked_cells'])
                   + ' renamed=' + str(proof['renamed_cells']))
-        audit_biome_proof(self.valid + '\n[server/INFO]: ' + marker, self.profile)
+        block = self.profile['native_block_rename_contract']
+        prefix = ('\n[server/INFO]: BUILDING_PIECES_NATIVE_BLOCK_RENAME_PASS source=' + block['source']
+                  + ' target=' + block['target'] + ' positions=' + str(block['checked_positions']))
+        audit_biome_proof(self.valid + prefix + '\n[server/INFO]: ' + marker, self.profile)
         for incomplete in (self.valid, marker.replace('cells=' + str(proof['checked_cells']), 'cells=1'),
                            marker.replace('source=' + proof['source'], 'source=unknown')):
             with self.subTest(log=incomplete[-100:]), self.assertRaises(ValueError):
@@ -192,7 +203,8 @@ class DynamicBiomeProofTest(unittest.TestCase):
             with self.subTest(proof=key), tempfile.TemporaryDirectory() as temporary:
                 directory = Path(temporary)
                 profile = copy.deepcopy(self.profile)
-                for binding in ('static_biome_contract', 'retired_poi_contract', 'live_biome_contract'):
+                for binding in ('static_biome_contract', 'retired_poi_contract', 'live_biome_contract',
+                                'native_block_rename_contract', 'forge50_unused_registry_contract'):
                     path = directory / profile[binding]['path']
                     path.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copy2(self.root / profile[binding]['path'], path)

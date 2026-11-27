@@ -47,7 +47,7 @@ class SourceNeighbourFixturesTest {
                     assertEquals(chunk.get("sha256").getAsString(), HexFormat.of().withUpperCase().formatHex(
                             MessageDigest.getInstance("SHA-256").digest(bytes)));
                     assertEquals(rawChunk(archive, chunk.get("x").getAsInt(), chunk.get("z").getAsInt()),
-                            NbtIo.readCompressed(new ByteArrayInputStream(bytes)));
+                            NbtIo.readCompressed(new ByteArrayInputStream(bytes), net.minecraft.nbt.NbtAccounter.unlimitedHeap()));
                     for (JsonElement positionEntry : chunk.getAsJsonArray("positions")) {
                         JsonObject row = positionEntry.getAsJsonObject();
                         CompoundTag expected = TagParser.parseTag(row.get("state").getAsString());

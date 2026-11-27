@@ -93,7 +93,7 @@ public final class NativeSavedBiomeChecks {
         long renamed = 0;
         Path temporary = deferred.isEmpty() ? null : Files.createTempDirectory(Path.of("."), "deferred-biome-fixer-");
         try (ChunkStorage storage = temporary == null ? null
-                : new ChunkStorage(temporary, world.getServer().getFixerUpper(), false)) {
+                : new ChunkStorage(new net.minecraft.world.level.chunk.storage.RegionStorageInfo("test", net.minecraft.world.level.Level.OVERWORLD, "chunk"), temporary, world.getServer().getFixerUpper(), false)) {
             for (JsonElement entry : data.getAsJsonArray("chunks")) {
                 JsonObject row = entry.getAsJsonObject();
                 int chunkX = row.get("x").getAsInt();

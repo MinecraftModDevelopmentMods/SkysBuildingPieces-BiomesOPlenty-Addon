@@ -6,11 +6,41 @@ from pathlib import Path
 import re
 
 
-def validate_registry_proofs(root, profile):
+def expected_mappings(profile):
+    if "forge52_mappings" in profile:
+        return profile["forge52_mappings"]
+    expected = {kind: entries.copy() for kind, entries in profile["mappings"].items()}
+    for kind, entries in profile.get("forge50_additional_mappings", {}).items():
+        expected.setdefault(kind, {}).update(entries)
+    return expected
+
+
+def validate_registry_proofs(root, profile, native_mappings=None):
     """Keep static snapshot notices separate from the world's live biome data."""
+    block_proof = profile.get("native_block_rename_contract")
+    if block_proof is not None:
+        path = Path(root) / block_proof["path"]
+        data = json.loads(path.read_text(encoding="utf-8"))
+        positions = data["positions"]
+        block_names = set(expected_mappings(profile).get("minecraft:block", {}))
+        block_names.update((native_mappings or {}).get("minecraft:block", {}))
+        if (hashlib.sha256(path.read_bytes()).hexdigest().upper() != block_proof["sha256"]
+                or data["source_world_sha256"] != profile["sha256"]
+                or data["source"] != block_proof["source"]
+                or data["target"] != block_proof["target"]
+                or data["source"] not in block_names
+                or data["checked_positions"] != block_proof["checked_positions"]
+                or len({tuple(position) for position in positions}) != data["checked_positions"]):
+            raise ValueError("The saved block rename does not match the fixture")
+        if "checked_items" in block_proof:
+            items = data.get("items", [])
+            keys = {(tuple(item["position"]), item["slot"]) for item in items}
+            if (len(items) != block_proof["checked_items"] or len(keys) != len(items)
+                    or sum(item["count"] for item in items) != block_proof["item_units"]):
+                raise ValueError("The native item rename controls are incomplete")
     receipts = {}
     for key in ("static_biome_contract", "retired_poi_contract", "live_biome_contract",
-                "forge47_unused_registry_contract"):
+                "forge47_unused_registry_contract", "forge50_unused_registry_contract"):
         binding = profile.get(key)
         if binding is None:
             continue
@@ -46,6 +76,16 @@ def validate_registry_proofs(root, profile):
                 or any(profile["mappings"].get(registry, {}).get(name) != numeric_id
                        for registry, values in entries.items() for name, numeric_id in values.items())):
             raise ValueError("The Forge 47 entries are not proven unused")
+    if "forge50_unused_registry_contract" in receipts:
+        proof = receipts["forge50_unused_registry_contract"]
+        entries = proof["snapshot_entries"]
+        names = {name for registry in entries.values() for name in registry}
+        if (not names or proof["inspected_nbt_values"] <= 0
+                or "minecraft:worldgen/biome" in entries
+                or proof["saved_uses"] != dict.fromkeys(names, 0)
+                or any(expected_mappings(profile).get(registry, {}).get(name) != numeric_id
+                       for registry, values in entries.items() for name, numeric_id in values.items())):
+            raise ValueError("The additional Forge registry entries are not proven unused")
     dynamic = profile.get("dynamic_biome_saved_uses", 0)
     if dynamic:
         live = receipts.get("live_biome_contract")
@@ -73,12 +113,18 @@ def profile_for(directory):
     source = json.loads(manifest.read_text(encoding="utf-8"))
     root = Path(__file__).resolve().parent.parent
     profiles = json.loads((root / "tools/native-log-profiles.json").read_text(encoding="utf-8"))["profiles"]
-    profile = profiles.get(source.get("archive_sha256"))
+    current_path = root / "tools/native-log-forge52-profiles.json"
+    current_profiles = json.loads(current_path.read_text(encoding="utf-8"))["profiles"] if current_path.is_file() else {}
+    fixture_id = source.get("archive_sha256")
+    current = current_profiles.get(fixture_id)
+    profile = profiles.get(fixture_id, current)
     if profile is None:
         return None
     fixture = root / profile["fixture"]
     sources = {source.get("source_jar_sha256")}
-    sources.update(entry.get("sha256") for entry in source.get("source_artifacts", []))
+    artifacts = source.get("source_artifacts")
+    if isinstance(artifacts, list):
+        sources.update(entry.get("sha256") for entry in artifacts)
     if (hashlib.sha256(fixture.read_bytes()).hexdigest().upper() != profile["sha256"]
             or profile["source_jar_sha256"] not in sources
             or profile.get("non_biome_saved_uses", profile["saved_uses"]) != 0
@@ -98,11 +144,31 @@ def profile_for(directory):
                 or profile["saved_uses"] != proof["renamed_cells"]
                 + profile.get("dynamic_biome_saved_uses", 0)):
             raise ValueError("The native biome contract does not match this source fixture")
-    validate_registry_proofs(root, profile)
+    validate_registry_proofs(root, profile, current["mappings"] if current is not None else None)
+    if current is not None:
+        if (current["sha256"] != fixture_id or current["fixture"] != profile["fixture"]
+                or current["source_jar_sha256"] not in sources or not current["mappings"]
+                or current["inspected_nbt_records"] <= 0):
+            raise ValueError("The Forge 52 registry proof does not match this fixture")
+        # Keep the historical proofs for data conversion. Only the exact set
+        # of registry notices changes with this Forge version.
+        profile = {**profile, "forge52_mappings": current["mappings"]}
     return profile
 
 
 def audit_biome_proof(text, profile):
+    block_proof = profile.get("native_block_rename_contract") if profile else None
+    if block_proof is not None:
+        marker = ("BUILDING_PIECES_NATIVE_BLOCK_RENAME_PASS source=" + block_proof["source"]
+                  + " target=" + block_proof["target"] + " positions="
+                  + str(block_proof["checked_positions"]))
+        if not any(line.endswith(marker) for line in text.splitlines()):
+            raise ValueError("The complete native block rename was not verified")
+        if "checked_items" in block_proof:
+            marker = ("BOP_NATIVE_ITEM_RENAME_PASS stacks=" + str(block_proof["checked_items"])
+                      + " units=" + str(block_proof["item_units"]) + " count_slot_data=true")
+            if not any(line.endswith(marker) for line in text.splitlines()):
+                raise ValueError("The native item identities, counts and data were not verified")
     proof = profile.get("native_biome_contract") if profile else None
     if proof is None:
         return
@@ -130,7 +196,7 @@ def audit_text(text, profile=None):
         if registry in observed:
             raise ValueError("Repeated native registry notice: " + registry)
         observed[registry] = entries
-    if observed and (profile is None or observed != profile["mappings"]):
+    if observed and (profile is None or observed != expected_mappings(profile)):
         raise ValueError("Unexpected missing registry entries: " + repr(observed))
     headers = {"Unidentified mapping from registry " + registry for registry in observed}
     if observed:
@@ -147,11 +213,14 @@ def audit_text(text, profile=None):
             raise ValueError("Unexpected native failure: " + line)
     if seen != headers:
         raise ValueError("The native registry notice is incomplete")
+    # A class-loading trace can name AssertionError without throwing one.
+    if re.search(r"(?m)^\s*(?:Caused by: )?java\.lang\.AssertionError(?::|$)", text):
+        raise ValueError("Unexpected native failure: java.lang.AssertionError")
     for problem in ("Encountered an unexpected exception", "Exception stopping the server",
                     "MissingModsException", "NoSuchMethodError", "NoClassDefFoundError",
                     "ExceptionInInitializerError", "cascading worldgen lag", "Unable to load model",
                     "Unable to load blockstate", "Unable to read property", "outside of the generating region",
-                    "java.lang.AssertionError", "java.lang.IllegalStateException:"):
+                    "java.lang.IllegalStateException:"):
         if problem in text:
             raise ValueError("Unexpected native failure: " + problem)
     return sorted(headers)

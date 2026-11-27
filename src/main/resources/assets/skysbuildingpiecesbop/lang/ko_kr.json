@@ -51,5 +51,9 @@
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone": "미사암",
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone_polished": "윤나는 미사암",
   "material.skysbuildingpiecesbop.biomesoplenty.tanzanite_block": "탄자나이트",
-  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "토파즈"
+  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "토파즈",
+  "material.skysbuildingpiecesbop.biomesoplenty.origin_grass_block": "원조 잔디 블록",
+  "material.skysbuildingpiecesbop.biomesoplenty.white_sandstone": "하얀 사암",
+  "material.skysbuildingpiecesbop.biomesoplenty.orange_sandstone": "주황 사암",
+  "material.skysbuildingpiecesbop.biomesoplenty.black_sandstone": "검은 사암"
 }

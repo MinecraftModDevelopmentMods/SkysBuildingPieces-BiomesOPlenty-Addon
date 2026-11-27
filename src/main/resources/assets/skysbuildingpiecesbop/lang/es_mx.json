@@ -51,5 +51,9 @@
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone": "limolita",
   "material.skysbuildingpiecesbop.biomesoplenty.siltstone_polished": "limolita pulida",
   "material.skysbuildingpiecesbop.biomesoplenty.tanzanite_block": "tanzanita",
-  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "topacio"
+  "material.skysbuildingpiecesbop.biomesoplenty.topaz_block": "topacio",
+  "material.skysbuildingpiecesbop.biomesoplenty.origin_grass_block": "Bloque de pasto nostálgico",
+  "material.skysbuildingpiecesbop.biomesoplenty.white_sandstone": "Arenisca blanca",
+  "material.skysbuildingpiecesbop.biomesoplenty.orange_sandstone": "Arenisca naranja",
+  "material.skysbuildingpiecesbop.biomesoplenty.black_sandstone": "Arenisca negra"
 }

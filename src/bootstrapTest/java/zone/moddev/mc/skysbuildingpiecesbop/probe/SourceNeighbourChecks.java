@@ -24,23 +24,9 @@ final class SourceNeighbourChecks {
     }
 
     static Map<BlockPos, java.util.List<BlockState>> expectedDoors(ServerLevel world, JsonObject aliases) throws Exception {
-        SOURCE_CONTAINERS.clear();
-        CONTAINER_POSITIONS.clear();
         Map<BlockPos, java.util.List<BlockState>> result = new LinkedHashMap<>();
-        Path path = Path.of("forward-neighbours.json");
-        if (!Files.isRegularFile(path)) return result;
-        JsonObject controls = new JsonParser().parse(Files.readString(path)).getAsJsonObject();
-        JsonObject fixture = new JsonParser().parse(Files.readString(Path.of("forward-fixture.json"))).getAsJsonObject();
-        require(controls.get("source_world_sha256").equals(fixture.get("archive_sha256")),
-                "The source door controls belong to a different fixture");
-        require(controls.get("source_minecraft").equals(fixture.get("source_minecraft")),
-                "The source door controls belong to a different Minecraft version");
-        for (JsonElement entry : controls.getAsJsonArray("containers")) {
-            JsonObject row = entry.getAsJsonObject();
-            BlockPos position = new BlockPos(row.get("x").getAsInt(), row.get("y").getAsInt(), row.get("z").getAsInt());
-            require(SOURCE_CONTAINERS.put(position, state(row.get("state").getAsString(), aliases)) == null,
-                    "Repeated source container position");
-        }
+        JsonObject controls = prepareContainers(aliases);
+        if (!controls.has("doors")) return result;
         for (JsonElement entry : controls.getAsJsonArray("doors")) {
             JsonObject row = entry.getAsJsonObject();
             BlockPos position = new BlockPos(row.get("x").getAsInt(), row.get("y").getAsInt(), row.get("z").getAsInt());
@@ -69,6 +55,27 @@ final class SourceNeighbourChecks {
             require(result.put(position, expected) == null, "Repeated source door position");
         }
         return result;
+    }
+
+    /** Bind chest checks to the source fixture without requiring unrelated door mappings. */
+    static JsonObject prepareContainers(JsonObject aliases) throws Exception {
+        SOURCE_CONTAINERS.clear();
+        CONTAINER_POSITIONS.clear();
+        Path path = Path.of("forward-neighbours.json");
+        if (!Files.isRegularFile(path)) return new JsonObject();
+        JsonObject controls = new JsonParser().parse(Files.readString(path)).getAsJsonObject();
+        JsonObject fixture = new JsonParser().parse(Files.readString(Path.of("forward-fixture.json"))).getAsJsonObject();
+        require(controls.get("source_world_sha256").equals(fixture.get("archive_sha256")),
+                "The source door controls belong to a different fixture");
+        require(controls.get("source_minecraft").equals(fixture.get("source_minecraft")),
+                "The source door controls belong to a different Minecraft version");
+        for (JsonElement entry : controls.getAsJsonArray("containers")) {
+            JsonObject row = entry.getAsJsonObject();
+            BlockPos position = new BlockPos(row.get("x").getAsInt(), row.get("y").getAsInt(), row.get("z").getAsInt());
+            require(SOURCE_CONTAINERS.put(position, state(row.get("state").getAsString(), aliases)) == null,
+                    "Repeated source container position");
+        }
+        return controls;
     }
 
     static BlockPos containerPosition(ServerLevel world, BlockPos position) {

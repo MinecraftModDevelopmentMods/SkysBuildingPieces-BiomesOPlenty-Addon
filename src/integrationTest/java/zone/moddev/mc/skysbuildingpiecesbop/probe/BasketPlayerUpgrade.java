@@ -13,7 +13,6 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.nbt.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import net.minecraftforge.eventbus.api.*;
 import net.minecraftforge.event.TickEvent;
@@ -47,14 +46,14 @@ public final class BasketPlayerUpgrade {
                 CompoundTag raw;
 
                 try (InputStream input = new FileInputStream(file)) {
-                    raw = NbtIo.readCompressed(input);
+                    raw = NbtIo.readCompressed(input, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
                 }
                 if (!hasBasket(raw)) {
                     continue;
                 }
 
                 UUID uuid = UUID.fromString(file.getName().substring(0, file.getName().length() - 4));
-                ServerPlayer player = FakePlayerFactory.get(world, new GameProfile(uuid, "MigrationTest"));
+                ServerPlayer player = BopProbeItems.player(world, new GameProfile(uuid, "MigrationTest"));
 
                 world.getServer().getPlayerList().load(player);
                 savePlayer(player);

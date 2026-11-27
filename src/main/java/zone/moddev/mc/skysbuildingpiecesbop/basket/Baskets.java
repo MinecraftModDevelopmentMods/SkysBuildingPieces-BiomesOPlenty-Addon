@@ -36,19 +36,19 @@ public final class Baskets {
     public static void items(RegisterEvent event) {
         ITEM = new BasketItem(false);
         HOLDER = new BasketItem(true);
-        ForgeRegistries.ITEMS.register(new ResourceLocation(BasketData.ID), ITEM);
-        ForgeRegistries.ITEMS.register(new ResourceLocation(BasketData.HOLDER), HOLDER);
+        ForgeRegistries.ITEMS.register(ResourceLocation.parse(BasketData.ID), ITEM);
+        ForgeRegistries.ITEMS.register(ResourceLocation.parse(BasketData.HOLDER), HOLDER);
     }
 
     public static void containers(RegisterEvent event) {
         TYPE = IForgeMenuType.create(BasketContainer::new);
-        ForgeRegistries.MENU_TYPES.register(new ResourceLocation(SkysBuildingPiecesBop.ID, "flower_basket"), TYPE);
+        ForgeRegistries.MENU_TYPES.register(ResourceLocation.fromNamespaceAndPath(SkysBuildingPiecesBop.ID, "flower_basket"), TYPE);
     }
 
     @SubscribeEvent
     public static void missing(MissingMappingsEvent event) {
         for (MissingMappingsEvent.Mapping<Item> mapping : event.getAllMappings(ForgeRegistries.Keys.ITEMS)) {
-            if (mapping.getKey().equals(new ResourceLocation(BasketData.OLD))) {
+            if (mapping.getKey().equals(ResourceLocation.parse(BasketData.OLD))) {
                 mapping.remap(HOLDER);
             }
         }
@@ -97,7 +97,7 @@ public final class Baskets {
         BasketInventory inventory = player.containerMenu instanceof BasketContainer
                 && ((BasketContainer) player.containerMenu).basket.owner() == first
                         ? ((BasketContainer) player.containerMenu).basket
-                        : new BasketInventory(first);
+                        : new BasketInventory(first, player.level().registryAccess());
         ItemStack remainder = inventory.insert(incoming);
         int accepted = incoming.getCount() - remainder.getCount();
 
